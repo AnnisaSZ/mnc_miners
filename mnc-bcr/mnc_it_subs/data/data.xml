@@ -1,8 +1,0 @@
-<data noupdate="1">
-    <record id="master_status_itsubs_duedate" model="master.status.itsubs">
-        <field name="name">Due Date</field>
-    </record>
-    <record id="master_status_itsubs_expired" model="master.status.itsubs">
-        <field name="name">Expired</field>
-    </record>
-</data>

@@ -1,5 +1,0 @@
-<data noupdate="1">
-    <record id="master_tnc" model="wbs.tnc">
-        <field name="name">Terms &amp; Conditions</field>
-    </record>
-</data>

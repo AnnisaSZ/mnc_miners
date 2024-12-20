@@ -1,7 +1,0 @@
-<odoo>
-    <template id="assets_frontend" name="mnc_wbs assets" inherit_id="web.assets_frontend">
-        <xpath expr="." position="inside">
-            <script src="/mnc_wbs/static/src/js/form_create.js"></script>
-        </xpath>
-    </template>
-</odoo>

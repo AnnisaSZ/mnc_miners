@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_payment_contractor,access_payment_contractor,model_payment_contractor,mnc_maintenance.group_fleet_center_accounting,1,1,1,1
-access_payment_contractor_line,access_payment_contractor_line,model_payment_contractor_line,mnc_maintenance.group_fleet_center_accounting,1,1,1,1
-access_rate_contractor,access_rate_contractor,model_rate_contractor,mnc_maintenance.group_fleet_center_accounting,1,1,1,1

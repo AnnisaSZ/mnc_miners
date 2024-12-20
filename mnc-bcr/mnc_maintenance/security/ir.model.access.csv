@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_repair_maintenance,access_repair_maintenance,model_repair_maintenance,mnc_fleet.group_fleet_center,1,1,1,1
-access_request_part,access_request_part,model_request_part,mnc_fleet.group_fleet_center,1,1,1,1
-access_workshop_station,access_workshop_station,model_workshop_station,mnc_fleet.group_fleet_center,1,1,1,1
-access_request_repair_wizard,access_request_repair_wizard,model_request_repair_wizard,mnc_fleet.group_fleet_center,1,1,1,1
