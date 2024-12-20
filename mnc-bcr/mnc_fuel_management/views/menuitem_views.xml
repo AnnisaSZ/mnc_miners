@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="fuel_root" name="Fuel Management" 
+            web_icon="mnc_fuel_management,static/description/icon.png" groups="mnc_fuel_management.fuel_admin_group"
+        />
+        <menuitem id="fuel_distribution" name="Distribution" action="action_fuel_distribution" parent="fuel_root" sequence="1"/>
+        <menuitem id="fuel_distribution_line" name="Unit Consumption" action="action_fuel_distribution_line" parent="fuel_root" sequence="2"/>
+        <menuitem id="fuel_report" name="DO" action="action_fuel_reporting" parent="fuel_root" sequence="10"/>
+        <menuitem id="fuel_report_ratio" name="Report" action="fuel_report_action" parent="fuel_root" sequence="50"/>
+        <menuitem id="master_fuel" name="Configuration" parent="fuel_root" sequence="100"/>
+        <!-- Configuration -->
+        <menuitem id="location_work" name="Lokasi Kerja" action="action_location_work" parent="master_fuel" sequence="1"/>
+        <menuitem id="master_unit" name="Units" parent="master_fuel" sequence="10"/>
+        <menuitem id="fuel_type_unit" name="Type Unit" action="action_fuel_type_unit" parent="master_unit" sequence="1"/>
+        <menuitem id="fuel_merk_unit" name="Merk Unit" action="action_merk_unit" parent="master_unit" sequence="10"/>
+        <menuitem id="jenis_unit" name="Jenis Unit" action="action_jenis_unit" parent="master_unit" sequence="20"/>
+        <menuitem id="fuel_unit" name="Master Unit" action="action_fuel_unit" parent="master_unit" sequence="22"/>
+        <!--  -->
+        <menuitem id="fuel_company" name="Kontraktor" action="action_fuel_company" parent="master_fuel" sequence="20"/>
+        <menuitem id="fuel_driver" name="Driver/Operator" action="action_fuel_driver" parent="master_fuel" sequence="30"/>
+        <menuitem id="fuel_maintank" name="Maintank" action="action_fuel_maintank" parent="master_fuel" sequence="40"/>
+
+        <!-- Report -->
+<!--         <menuitem
+            id="crm_activity_report_menu"
+            name="Activities"
+            groups="sales_team.group_sale_manager"
+            parent="crm_menu_report"
+            action="crm_activity_report_action"
+            sequence="3"/> -->
+    </data>
+</odoo>

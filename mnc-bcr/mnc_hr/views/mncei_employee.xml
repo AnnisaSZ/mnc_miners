@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<odoo>
+    <!-- Form Views -->
+    <record id="mncei_emp_form" model="ir.ui.view">
+        <field name="name">mncei.employee.form</field>
+        <field name="model">mncei.employee</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_review" string="Submit" class="oe_highlight" type="object" attrs="{'invisible': ['|', ('active', '=', False), ('state', '!=', 'draft')]}" groups="mnc_hr.group_hr_user" confirm="Apakah anda sudah yakin dengan datanya?"/>
+                    <button name="action_approve" string="Verify" class="oe_highlight" type="object" attrs="{'invisible': ['|', ('active', '=', False), ('state', '!=', 'review')]}" groups="mnc_hr.group_hr_mgr" confirm="Apakah anda sudah yakin dengan datanya?"/>
+                    <!--  -->
+                    <button name="action_revise" string="Revise" type="object" attrs="{'invisible': ['|', ('active', '=', False), ('state', 'in', ['draft', 'verified'])]}" groups="mnc_hr.group_hr_mgr"/>
+                    <!-- Resign -->
+                    <button name="action_resign" string="Resign" class="oe_highlight" type="object" attrs="{'invisible': ['|', ('active', '=', False), ('state', '!=', 'verified')]}"/>
+                    <button name="action_active" string="Active" class="oe_highlight" type="object" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="state" readonly="True" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Verified" attrs="{'invisible': [('state', '!=', 'verified')]}"/>
+                    <widget name="web_ribbon" title="Resign" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="foto_pegawai" widget="image" class="oe_avatar" options="{'preview_image': 'foto_pegawai'}"/>
+                    <div class="oe_title">
+                        <h1><field name="nama_lengkap" placeholder="Nama Pegawai" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/></h1>
+                        <group>
+                            <!-- NIP -->
+                            <label for="nip" string="NIP"/>
+                            <div>
+                                <field name="nip" invisible="1" class="oe_read_only oe_inline"/>
+                                <field name="nip_char" class="oe_inline" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                            </div>
+                            <!-- NIP Baru -->
+                            <label for="nip_baru" string="NIP Baru"/>
+                            <div>
+                                <field name="nip_baru" invisible="1" class="oe_read_only oe_inline"/>
+                                <field name="nip_baru_char" class="oe_inline" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                            </div>
+                            <field name="email" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                            <field name="company" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                            <field name="active" invisible="1"/>
+                            <field name="is_revise" invisible="1" readonly="1"/>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page string="Reason Rejected" name="revisi_notes" attrs="{'invisible': [('is_revise', '=', False)]}">
+                            <field name="revisi_notes" readonly="1"/>
+                        </page>
+                        <page string="Data Diri" name="data_diri">
+                            <group>
+                                <group string="">
+                                    <!-- KTP -->
+                                    <!-- <label for="no_ktp" string="No KTP"/>
+                                    <div> -->
+                                    <field name="no_ktp" invisible="1"/>
+                                    <field name="no_ktp_char" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <!-- </div> -->
+                                    <!-- KK -->
+                                    <!-- <label for="no_kk" string="No KK"/>
+                                    <div> -->
+                                    <field name="no_kk" invisible="1"/>
+                                    <field name="no_kk_char" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <!-- </div> -->
+                                    <label for="tempat_lahir" string="Tempat/Tgl Lahir"/>
+                                    <div>
+                                        <field name="tempat_lahir" class="oe_inline" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                        <span>, </span>
+                                        <field name="tgl_lahir" class="oe_inline" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    </div>
+                                    <label for="age_year" string="Usia"/>
+                                    <div>
+                                        <field name="age_year" class="oe_inline" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                        <span> Years  </span>
+                                        <field name="age_month" class="oe_inline" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                        <span>  Month</span>
+                                    </div>
+                                    <field name="alamat" placeholder="Alamat..." attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="agama" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="jenis_kelamin" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="status_perkwn" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="weight" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="height" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                                <group string=" ">
+                                    <field name="gol_darah" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="status_penddk" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="education" string="Nama Universitas" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="no_tlp" widget="phone" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="no_telp2" widget="phone" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="no_wa" widget="phone" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="bbm" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="status_pajak" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <!-- NPWP -->
+                                    <label for="npwp" string="NPWP"/>
+                                    <div>
+                                        <field name="npwp" invisible="1" class="oe_read_only oe_inline"/>
+                                        <field name="npwp_char" class="oe_inline" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    </div>
+                                    <field name="pengalaman_kerja" required="0" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                                <group string="Keluarga">
+                                    <field name="parent_name" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="nama_pasangan" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="no_hp_pasangan" widget="phone" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Informasi" name="informasi">
+                            <group>
+                                <group>
+                                    <field name="department" string="Department" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="golongan" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="jabatan" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                                <group>
+                                    <field name="grade" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="kategori" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <!-- <field name="kualf_id"/> -->
+                                    <field name="lokasi_kerja" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                                <group string="Informasi Karyawan">
+                                    <field name="status_karyawan" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="is_kontrak" invisible="1"/>
+                                    <field name="tgl_masuk" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="kontrak_berakhir" attrs="{'required': [('is_kontrak', '=', True)], 'invisible': [('is_kontrak', '=', False)], 'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="tgl_tetap" attrs="{'required': [('is_kontrak', '=', False)], 'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="sk_pengangkatan_no" string="No. SK" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="sk_pengangkatan_filename" invisible="1" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="sk_pengangkatan_file" widget="binary" filename="sk_pengangkatan_filename" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                                <group string="Lama Bekerja">
+                                    <label for="work_exp_year" string="Lama Bekerja"/>
+                                    <div>
+                                        <field name="work_exp_year" class="oe_inline" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                        <span> Years  </span>
+                                        <field name="work_exp_month" class="oe_inline" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                        <span>  Month</span>
+                                    </div>
+                                    <field name="year_of_pension" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="remaks_1" placeholder="Catatan Saat Pensiun" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="pension_one_year" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}" string="1 Tahun Sebelum Pensiun"/>
+                                    <field name="remaks_2" placeholder="Catatan 1 Tahun sebelum pensiun" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                                <group string="Direct User">
+                                    <field name='head_user1' attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name='head_user2' attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name='head_user3' attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name='director_1' attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name='director_2' attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name='director_3' attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                                <group string="BPJS">
+                                    <field name='jamsostek' attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name='kjp' attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name='bpjs_kes' attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Ikatan Dinas" name="dinas_information">
+                            <group>
+                                <group>
+                                    <field name='is_ikatan_dinas' attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name='certificate_filename' invisible="1" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name='certificate' filename="certificate_filename" widget='binary' attrs="{'invisible': [('is_ikatan_dinas', '=', False)], 'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                                <group>
+                                    <field name="dinas_start" attrs="{'invisible': [('is_ikatan_dinas', '=', False)], 'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                    <field name="dinas_end" attrs="{'invisible': [('is_ikatan_dinas', '=', False)], 'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Training" name="training_information">
+                            <field name="emp_training_ids" options="{'no_open': True}" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}">
+                                <tree editable="bottom">
+                                    <field name="employee_id" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="start_date" string="Mulai"/>
+                                    <field name="exp_date" string="Selesai"/>
+                                    <field name="total" string="Total in (Days)"/>
+                                    <field name="location"/>
+                                    <field name="conducted_by"/>
+                                    <field name="certificate" filename="certificate_filename" widget="binary"/>
+                                    <field name="certificate_filename" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="License" name="license_information">
+                            <field name="license_ids" options="{'no_open': True}" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}">
+                                <tree editable="bottom">
+                                    <field name="employee_id" invisible="1"/>
+                                    <field name="license_no"/>
+                                    <field name="license_name"/>
+                                    <field name="kualf_id"/>
+                                    <field name="flying_hours" required="1" sum="Total Hours"/>
+                                    <field name="start_date" required="1"/>
+                                    <field name="end_date" required="1"/>
+                                    <!-- <field name="total"/> -->
+                                    <field name="pic" required="1"/>
+                                    <field name="certificate_filename" invisible="1"/>
+                                    <field name="certificate" filename="certificate_filename" widget="binary"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Resign" name="resign_information" attrs="{'invisible': [('active', '=', True)]}">
+                            <group>
+                                <group>
+                                    <field name='tgl_resign'/>
+                                    <field name='reason_resign'/>
+                                </group>
+                                <group>
+                                    <field name="clearin_sheet_filename" invisible="1"/>
+                                    <field name='clearin_sheet_file' widget="binary" filename="clearin_sheet_filename"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree Views -->
+    <record id="mncei_emp_tree" model="ir.ui.view">
+        <field name="name">mncei.employee.tree</field>
+        <field name="model">mncei.employee</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="foto_pegawai" widget="image" class="oe_avatar" options="{'tooltip_image': 'image'}"/>
+                <field name="nama_lengkap"/>
+                <field name="department"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_mncei_employee_search" model="ir.ui.view">
+        <field name="name">mncei.employee.search</field>
+        <field name="model">mncei.employee</field>
+        <field name="arch" type="xml">
+            <search string="Employees">
+                <field name="nama_lengkap"/>
+                <field name="nip_char"/>
+                <field name="email"/>
+                <field name="company"/>
+                <field name="company"/>
+                <field name="no_ktp"/>
+                <field name="status_karyawan"/>
+                <filter string="Resign" name="resign" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <!-- Input -->
+    <record id="mncei_emp_actions" model="ir.actions.act_window">
+        <field name="name">Employee Draft</field>
+        <field name="res_model">mncei.employee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('mncei_emp_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('mncei_emp_form')})]"/>
+        <field name="domain">[('state', '=', 'draft')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your data employee
+            </p>
+        </field>
+    </record>
+
+    <!-- Review -->
+    <record id="mncei_emp_review" model="ir.actions.act_window">
+        <field name="name">Waiting Review</field>
+        <field name="res_model">mncei.employee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('mncei_emp_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('mncei_emp_form')})]"/>
+        <field name="context">{'delete': 0, 'create': 0, 'edit': 0}</field>
+        <field name="domain">[('state', '=', 'review')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your data employee
+            </p>
+        </field>
+    </record>
+
+    <!-- Verified -->
+    <record id="mncei_emp_verified" model="ir.actions.act_window">
+        <field name="name">Employee Verified</field>
+        <field name="res_model">mncei.employee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('mncei_emp_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('mncei_emp_form')})]"/>
+        <field name="context">{'delete': 0, 'create': 0, 'edit': 1}</field>
+        <field name="domain">[('state', '=', 'verified')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                employee list verified
+            </p>
+        </field>
+    </record>
+
+</odoo>

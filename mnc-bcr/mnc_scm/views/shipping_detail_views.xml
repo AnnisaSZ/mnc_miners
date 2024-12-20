@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ship_detail_view_form" model="ir.ui.view">
+        <field name="name">Delivery Detail Form</field>
+        <field name="model">shipping.detail</field>
+        <field name="arch" type="xml">
+            <form duplicate="0">
+                <header>
+                    <field name="is_qa" invisible="1"/>
+                    <button name="to_confirm" string="Delivery Confirm" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'to_deliv')]}"/>
+                    <button name="to_delivery" string="Delivery Notes" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="to_receipt" string="Receive" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'confirm')]}"  groups="mnc_scm.group_staff_store"/>
+                    <button name="action_distribute" string="Distribute Part" type="object" class="oe_highlight" groups="mnc_scm.group_scm_qa" attrs="{'invisible': ['|', ('state', '!=', 'receive'), ('is_qa','=', False)]}"/>
+                    <button name="return_product" string="Warranty Claim" type="object" attrs="{'invisible': ['|', ('state', '!=', 'receive'), ('is_qa','=', False)]}" groups="mnc_scm.group_scm_qa"/>
+                    <button name="action_claim" string="Return To Vendor" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'cancel')]}" groups="mnc_scm.group_staff_store"/>
+                    <button name="reset_to_draft" string="Reset To Draft" type="object" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="state" widget="statusbar" readonly="1" statusbar_visible="draft,to_deliv,confirm,receive,done"/>
+                </header>
+                <sheet>
+                    <!-- <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_agreement" class="oe_stat_button" icon="fa-list-ul" attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <field name="agreement_count" widget="statinfo" string="Comparation Vendor"/>
+                            <field name="requisition_ids" invisible="1"/>
+                        </button>
+                    </div> -->
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" required="True"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="po_id"/>
+                            <field name="orf_ids"  widget="many2many_tags" invisible="1"/>
+                            <field name="orf_id" invisible="1" force_save="1"/>
+                            <field name="partner_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="location" attrs="{'required': [('state', '=', 'draft')]}"/>
+                            <field name='status_shipment_id' attrs="{'required': [('state', '=', 'draft')]}"/>
+                            <field name='qa_id' attrs="{'required': [('state', '=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="etd" attrs="{'required': [('state', '=', 'draft')]}"/>
+                            <field name="eta"  attrs="{'required': [('state', '=', 'draft')]}"/>
+                            <!-- <field name="receive_date" attrs="{'invisible': [('state','in',('draft','confirm','to_deliv'))]}"/> -->
+                            <field name="notes"/>
+                            <field name="part_dokumen"/>
+                            <field name='checking_result' attrs="{'invisible': [('state','not in',('receive','checking','done', 'cancel', 'claim'))], 'required': [('state', '=', 'receive')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Delivery Detail" name="order_line">
+                            <field name="order_line_ids" options="{'no_open': True, 'no_create_edit': 1}" >
+                                <tree editable="bottom">
+                                    <field name="orf_id"/>
+                                    <field name="airplane_reg" required="1"/>
+                                    <field name="ac_reg" attrs="{'required': [('parent.state', '!=', 'draft')]}"/>
+                                    <field name="qty"/>
+                                    <field name="qty_delivered"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="delivery_detail_view_tree" model="ir.ui.view">
+        <field name="name">Delivery Detail List</field>
+        <field name="model">shipping.detail</field>
+        <field name="arch" type="xml">
+            <tree decoration-warning="state in ('to_deliv', 'confirm', 'receive', 'checking')" decoration-success="state in ('done')" decoration-danger="state in ('cancel','claim')" duplicate="0" delete="0">
+                <field name="name"/>
+                <field name="po_id"/>
+                <field name="partner_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                <field name="orf_ids" widget="many2many_tags"/>
+                <field name="state" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="delivery_detail_view" model="ir.actions.act_window">
+        <field name="name">Delivery Detail</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shipping.detail</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'edit': 1, 'create': 0, 'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Part Request
+            </p>
+        </field>
+    </record>
+
+    <record id="status_shipment_view_form" model="ir.ui.view">
+        <field name="name">Status Shipment List</field>
+        <field name="model">status.shipment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <!-- <field name="name" style="text-transform: uppercase;"/> -->
+                        </group>
+                        <group>
+                            <field name="active"  widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="status_shipment_view_tree" model="ir.ui.view">
+        <field name="name">Status Shipment List</field>
+        <field name="model">status.shipment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="status_shipment_view" model="ir.actions.act_window">
+        <field name="name">Status Shipment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">status.shipment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Status Shipment
+            </p>
+        </field>
+    </record>
+</odoo>

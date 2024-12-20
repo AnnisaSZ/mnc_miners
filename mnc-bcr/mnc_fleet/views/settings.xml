@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Brand -->
+        <record id="fleet_brand_form" model="ir.ui.view">
+            <field name="name">fleet.brand.form</field>
+            <field name="model">fleet.brand</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_brand_tree" model="ir.ui.view">
+            <field name="name">fleet.brand.tree</field>
+            <field name="model">fleet.brand</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_brand" model="ir.actions.act_window">
+            <field name="name">Fleet Brand</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.brand</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+        <!-- Equipment Class -->
+        <record id="equipment_class_form" model="ir.ui.view">
+            <field name="name">fleet.equipment.class.form</field>
+            <field name="model">fleet.equipment.class</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="equipment_class_tree" model="ir.ui.view">
+            <field name="name">fleet.equipment.class.tree</field>
+            <field name="model">fleet.equipment.class</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_equipment_class" model="ir.actions.act_window">
+            <field name="name">Equipment Class</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.equipment.class</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+        <!-- Equipment Group -->
+        <record id="equipment_group_form" model="ir.ui.view">
+            <field name="name">fleet.equipment.group.form</field>
+            <field name="model">fleet.equipment.group</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="brand_id"/>
+                            </group>
+                            <group>
+                                <field name="equipment_class_id"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="capacity" string="Capacity">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="fleet_material_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                        <field name="capacity_unit"/>
+                                        <field name="plan_product"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="equipment_group_tree" model="ir.ui.view">
+            <field name="name">fleet.equipment.group.tree</field>
+            <field name="model">fleet.equipment.group</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="brand_id"/>
+                    <field name="equipment_class_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_equipment_group" model="ir.actions.act_window">
+            <field name="name">Equipment Group</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.equipment.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+        <!-- Interface Ops -->
+        <record id="inter_ops_form" model="ir.ui.view">
+            <field name="name">inter.ops.form</field>
+            <field name="model">inter.ops</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="remarks"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="inter_ops_tree" model="ir.ui.view">
+            <field name="name">inter.ops.tree</field>
+            <field name="model">inter.ops</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="remarks"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_inter_ops" model="ir.actions.act_window">
+            <field name="name">Interface Operational</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">inter.ops</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+        <!-- Fleet Unit -->
+        <record id="fleet_unit_form" model="ir.ui.view">
+            <field name="name">fleet.unit.form</field>
+            <field name="model">fleet.unit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_unit_tree" model="ir.ui.view">
+            <field name="name">fleet.unit.tree</field>
+            <field name="model">fleet.unit</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_unit" model="ir.actions.act_window">
+            <field name="name">Status Units</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.unit</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Activity -->
+        <record id="fleet_activity_form" model="ir.ui.view">
+            <field name="name">fleet.activity.form</field>
+            <field name="model">fleet.activity</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_activity_tree" model="ir.ui.view">
+            <field name="name">fleet.activity.tree</field>
+            <field name="model">fleet.activity</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_activity" model="ir.actions.act_window">
+            <field name="name">Activity</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.activity</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+        <!-- Process -->
+        <record id="fleet_process_form" model="ir.ui.view">
+            <field name="name">fleet.process.form</field>
+            <field name="model">fleet.process</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_process_tree" model="ir.ui.view">
+            <field name="name">fleet.process.tree</field>
+            <field name="model">fleet.process</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_process" model="ir.actions.act_window">
+            <field name="name">Process</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.process</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+        <!-- Map Activity -->
+        <record id="fleet_map_activity_form" model="ir.ui.view">
+            <field name="name">fleet.map.activity.form</field>
+            <field name="model">fleet.map.activity</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_map_activity_tree" model="ir.ui.view">
+            <field name="name">fleet.map.activity.tree</field>
+            <field name="model">fleet.map.activity</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_map_activity" model="ir.actions.act_window">
+            <field name="name">Mapping Activity</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.map.activity</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Map Process -->
+        <record id="fleet_map_process_form" model="ir.ui.view">
+            <field name="name">fleet.map.process.form</field>
+            <field name="model">fleet.map.process</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_map_process_tree" model="ir.ui.view">
+            <field name="name">fleet.map.process.tree</field>
+            <field name="model">fleet.map.process</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_map_process" model="ir.actions.act_window">
+            <field name="name">Mapping Process</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.map.process</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Sub Kontraktor -->
+        <record id="fleet_sub_kontraktor_form" model="ir.ui.view">
+            <field name="name">fleet.sub.kontraktor.form</field>
+            <field name="model">fleet.sub.kontraktor</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="kontraktor_id"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_sub_kontraktor_tree" model="ir.ui.view">
+            <field name="name">fleet.sub.kontraktor.tree</field>
+            <field name="model">fleet.sub.kontraktor</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="kontraktor_id"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_sub_kontraktor" model="ir.actions.act_window">
+            <field name="name">Sub Kontraktor</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.sub.kontraktor</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Department -->
+        <record id="fleet_department_form" model="ir.ui.view">
+            <field name="name">fleet.department.form</field>
+            <field name="model">fleet.department</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_department_tree" model="ir.ui.view">
+            <field name="name">fleet.department.tree</field>
+            <field name="model">fleet.department</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_department" model="ir.actions.act_window">
+            <field name="name">Department</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.department</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Categ Problem Prodty -->
+        <record id="fleet_categ_problem_form" model="ir.ui.view">
+            <field name="name">fleet.categ.problem.form</field>
+            <field name="model">fleet.categ.problem</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_categ_problem_tree" model="ir.ui.view">
+            <field name="name">fleet.categ.problem.tree</field>
+            <field name="model">fleet.categ.problem</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_categ_problem" model="ir.actions.act_window">
+            <field name="name">Category Problem Prodty</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.categ.problem</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Problem Prodty -->
+        <record id="fleet_problem_prodty_form" model="ir.ui.view">
+            <field name="name">fleet.problem.prodty.form</field>
+            <field name="model">fleet.problem.prodty</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="categ_id"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_problem_prodty_tree" model="ir.ui.view">
+            <field name="name">fleet.problem.prodty.tree</field>
+            <field name="model">fleet.problem.prodty</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="categ_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_problem_prodty" model="ir.actions.act_window">
+            <field name="name">Problem Prodty</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.problem.prodty</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Material Group -->
+        <record id="fleet_material_group_form" model="ir.ui.view">
+            <field name="name">fleet.material.group.form</field>
+            <field name="model">fleet.material.group</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_material_group_tree" model="ir.ui.view">
+            <field name="name">fleet.material.group.tree</field>
+            <field name="model">fleet.material.group</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_material_group" model="ir.actions.act_window">
+            <field name="name">Material Group</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.material.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Material -->
+        <record id="fleet_material_form" model="ir.ui.view">
+            <field name="name">fleet.material.form</field>
+            <field name="model">fleet.material</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="group_id"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_material_tree" model="ir.ui.view">
+            <field name="name">fleet.material.tree</field>
+            <field name="model">fleet.material</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="group_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_material" model="ir.actions.act_window">
+            <field name="name">Material</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.material</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Lost Time -->
+        <record id="fleet_losttime_form" model="ir.ui.view">
+            <field name="name">fleet.losttime.form</field>
+            <field name="model">fleet.losttime</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="bcr_activity_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="sub_activity_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="product_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="code"/>
+                                <field name="uom_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                            </group>
+                            <group>
+                                <field name="engine" widget="boolean_toggle"/>
+                                <field name="is_remarks"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="RCA" name="rca">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="is_remarks" invisible="1"/>
+                                        <field name="code" force_save="1" readonly="1"/>
+                                        <field name="name" attrs="{'required': [('is_remarks', '=', True)]}"/>
+                                        <field name="department_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_losttime_tree" model="ir.ui.view">
+            <field name="name">fleet.losttime.tree</field>
+            <field name="model">fleet.losttime</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code"/>
+                    <field name="product_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_losttime" model="ir.actions.act_window">
+            <field name="name">Lost Time</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.losttime</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

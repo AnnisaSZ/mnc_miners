@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mncei_ticket,access_mncei_ticket,model_mncei_ticket,base.group_user,1,1,1,1
+access_mncei_ticket_type,access_mncei_ticket_type,model_mncei_ticket_type,base.group_user,1,1,1,1
+access_mncei_ticket_category,access_mncei_ticket_category,model_mncei_ticket_category,base.group_user,1,1,1,1
+access_mncei_ticket_state,access_mncei_ticket_state,model_mncei_ticket_state,base.group_user,1,1,1,1

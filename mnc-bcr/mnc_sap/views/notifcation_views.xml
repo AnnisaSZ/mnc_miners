@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="hazard_notification_form" model="ir.ui.view">
+        <field name="name">Notif Form</field>
+        <field name="model">hazard.notification</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>                    
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="notification_text"/>
+                        </group>
+                       	<group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hazard_notification_tree" model="ir.ui.view">
+        <field name="name">Notif Tree</field>
+        <field name="model">hazard.notification</field>
+        <field name="arch" type="xml">
+            <tree editable="top" multi_edit="1">
+                <field name="code"/>
+                <field name="to_user"/>
+                <field name="notification_text"/>
+                <field name="state" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_hazard_notification" model="ir.actions.act_window">
+        <field name="name">Hazard Notification</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hazard.notification</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Notif
+            </p>
+        </field>
+    </record>
+</odoo>

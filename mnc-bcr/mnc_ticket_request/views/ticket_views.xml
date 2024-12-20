@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ticket_view_form" model="ir.ui.view">
+        <field name="name">Ticket</field>
+        <field name="model">mncei.ticket</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state_id" widget="statusbar" options="{'clickable': '1'}" domain="[('status', '=', 'aktif')]"/>
+                    <field name="is_request" invisible="1"/>
+                    <field name="is_process" invisible="1"/>
+                    <field name="is_finish" invisible="1"/>
+                    <field name="is_revice" invisible="1"/>
+                    <field name="is_cc_user" invisible="1"/>
+                </header>
+                <sheet>
+                    <label for="no_ticket"/>
+                    <h1>
+                        <field name="no_ticket" placeholder="Title" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="Title" attrs="{'readonly': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', True)]}"/>
+                            <field name="is_responsible" invisible="1"/>
+                            <field name="request_id" attrs="{'readonly': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', True)]}" options="{'no_create': True, 'no_open': 1}"/>
+                            <field name="email_request" readonly="1"/>
+                            <field name="company_id" string="Bisnis Unit" attrs="{'readonly': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', True)]}"/>
+                            <field name="request_type" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': 1}" attrs="{'readonly': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', True)]}"/>
+                            <field name="dept_id" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': 1}" attrs="{'readonly': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', True)]}"/>
+                            <field name="categ_id" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': 1}" domain="[('dept_id', '=', dept_id), ('type_id', '=', request_type)]" attrs="{'readonly': [('is_cc_user', '=', True)]}"/>
+                            <field name="description" attrs="{'readonly': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', True)]}"/>  
+                            <field name="atth_file" filename="name_file" widget="binary" attrs="{'readonly': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', True)]}"/>
+                            <field name="name_file" invisible="1" attrs="{'readonly': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', True)]}"/>
+                        </group>
+                        <group>
+                            <field name="responsible_ids" attrs="{'readonly': [('is_cc_user', '=', True)]}" options="{'no_open': 1, 'no_create_edit': 1, 'no_create': 1}" widget="many2many_tags"/>
+                            <field name="requestor_announce_ids" options="{'no_open': 1, 'no_create_edit': 1, 'no_create': 1}" widget="many2many_tags" attrs="{'readonly': [('is_cc_user', '=', True)]}"/>
+                            <field name="urgency" widget="radio" options="{'horizontal': true}" attrs="{'readonly': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', True)]}"/>
+                            <field name="expected_date" attrs="{'readonly': [('is_cc_user', '=', True)]}"/>
+                            <field name="is_followup" readonly="1" attrs="{'invisible': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', True)]}"/>
+                            <field name="is_followup" attrs="{'invisible': ['|', ('is_cc_user', '=', True), ('is_responsible', '=', False)]}"/>
+                            <field name="update_stage" invisible="1"/>
+                            <field name="last_stage" invisible="1"/>
+                        </group>
+                    </group>              
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="ticket_view_tree" model="ir.ui.view">
+        <field name="name">Ticket List</field>
+        <field name="model">mncei.ticket</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="no_ticket"/>
+                <field name="name"/>
+                <field name="request_id"/>
+                <field name="responsible_ids"/>
+                <field name="urgency" widget="badge" decoration-warning="urgency in ('low', 'medium')" decoration-danger="urgency == 'high'"/>
+                <field name="expected_date" widget="remaining_days"/>
+                <field name="state_id" widget="badge" decoration-success="state_id in (3, 4)"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_ticket_view_kanban" model="ir.ui.view">
+        <field name="name">mncei.ticket.kanban</field>
+        <field name="model">mncei.ticket</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state_id" group_create="0" group_edit="0" group_delete="0">
+                <field name="state_id"/>
+                <progressbar field="urgency" colors='{"high": "danger", "medium": "warning", "low": "muted"}'/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_title">
+                                    <strong><field name="name"/> [<field name="no_ticket"/>]</strong>
+                                    <span invisible="context.get('default_request_type', False) or context.get('fsm_mode', False)"><br/><field name="request_type" required="1"/></span>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <div class="oe_kanban_bottom_left">
+                                    <t t-if="record.categ_id.value">
+                                        <strong>Category: </strong><field name="categ_id"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <div class="oe_kanban_bottom_left">
+                                    <t t-if="record.request_id.value">
+                                        <strong>Requestor: </strong><field name="request_id"/>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="urgency" widget="badge" decoration-warning="urgency in ('medium')" decoration-danger="urgency == 'high'"/>
+                                </div>
+                            </div>
+                            <!-- <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="responsible_ids"/>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="responsible_ids" widget="many2one_avatar_user"/>
+                                </div>
+                            </div> -->
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_mncei_ticket" model="ir.actions.act_window">
+        <field name="name">Task</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.ticket</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Ticket
+            </p>
+        </field>
+    </record>
+
+    <!-- Menuitems -->
+
+    <menuitem id="ticket_menu_root" name="Task Management" web_icon="mnc_ticket_request,static/description/icon.png"/>
+    <menuitem id="ticket_menu" name="My Task" action="action_mncei_ticket" parent="ticket_menu_root"/>
+
+</odoo>

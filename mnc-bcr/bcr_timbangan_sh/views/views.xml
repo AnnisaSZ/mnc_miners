@@ -1,0 +1,92 @@
+<odoo>
+  <data>
+      <record id="bcr_timbangan_sh_tree" model="ir.ui.view">
+            <field name="name">timbangan.vdata.tree</field>
+            <field name="model">timbangan.vdata</field>
+            <field name="arch" type="xml">
+                <tree create="1" edit="0">
+                    <field name="bisnis_unit"/>
+                    <field name="tanggal"/>
+                    <field name="val_timbangan"/>
+                    <field name="val_ton"/>
+                    <field name="tipe_input"/>
+<!--                    <field name="val_ton2"/>-->
+                </tree>
+            </field>
+      </record>
+      <record model="ir.ui.view" id="filter_tibangan_vdata">
+        <field name="name">Timbangan vdata filter</field>
+        <field name="model">timbangan.vdata</field>
+        <field name="arch" type="xml">
+          <search>
+             <group expand="1" string="Group By">
+                <filter name="group_by_bisnis_unit" domain="[]" string="Bisnis Unit" context="{'group_by':'bisnis_unit'}" />
+                <filter name="group_by_tanggal" domain="[]" string="Tanggal" context="{'group_by':'tanggal'}" />
+                <filter name="group_by_bu_company_id" domain="[]" string="Bisnis Unit(Company)" context="{'group_by':'bu_company_id'}" />
+            </group>
+          </search>
+        </field>
+      </record>
+      <record id="bcr_view_timbangan_sh_action" model="ir.actions.act_window">
+            <field name="name">View Timbangan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">timbangan.vdata</field>
+            <field name="view_mode">tree,kanban</field>
+            <field name="context">{'search_default_group_by_bu_company_id': True, 'search_default_group_by_tanggal':True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Empty Data, Get Data Timbangan!
+                </p>
+            </field>
+      </record>
+
+      <record id="form_get_timbangan_wiz_form" model="ir.ui.view">
+            <field name="name">timbangan.vdata.wiz.form</field>
+            <field name="model">timbangan.vdata.wiz</field>
+            <field name="arch" type="xml">
+                <form>
+                     <group>
+                         <separator string="Click Button Process to Get Data!!" />
+                     </group>
+                    <footer>
+                        <!-- Current Month -->
+                        <button type="object" name="get_data_bspc_current_month" string="Get Data BSPC Current Month" class="btn-primary"/>
+                        <button type="object" name="get_data_pmc_current_month" string="Get Data PMC Current Month" class="btn-primary"/>
+                        <button type="object" name="get_data_ibpe_current_month" string="Get Data IBPE Current Month" class="btn-primary"/>
+                        <!-- Before Current Month -->
+                        <button type="object" name="get_data_bspc_before_current_month" string="Get Data BSPC Before Current Month" class="btn-primary"/>
+                        <button type="object" name="get_data_pmc_before_current_month" string="Get Data PMC Before Current Month" class="btn-primary"/>
+                        <button type="object" name="get_data_ibpe_before_current_month" string="Get Data IBPE Before Current Month" class="btn-primary"/>
+                        <!--  -->
+                        <button type="object" name="get_data_scheduler_days" string="Get Data Days"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+      <record id="action_get_timbangan_wiz" model="ir.actions.act_window">
+            <field name="name">Get Timbangan</field>
+            <field name="res_model">timbangan.vdata.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+<!--            <field name="view_id" ref="form_get_timbangan_wiz_form"/>-->
+      </record>
+     <!-- Top menu item -->
+
+        <menuitem id='bcr_timbangan_root_sh' name='Timbangan' parent='bcr_master.root_menu_bcr' sequence='15'/>
+
+        <menuitem id="bcr_view_timbangan_sh"
+                name="View Timbangan"
+                parent="bcr_timbangan_root_sh"
+                action="bcr_view_timbangan_sh_action"
+                sequence="1"/>
+
+        <menuitem id="bcr_get_timbangan_sh"
+                name="Get Timbangan"
+                parent="bcr_timbangan_root_sh"
+                action="action_get_timbangan_wiz"
+                sequence="2"/>
+
+  </data>
+</odoo>

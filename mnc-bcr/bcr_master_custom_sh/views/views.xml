@@ -1,0 +1,336 @@
+<odoo>
+  <data>
+    <!--      master shift-->
+        <record id="inherit_listview_master_shift_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_master_shift_sh</field>
+        <field name="model">master.shift</field>
+        <field name="inherit_id" ref="bcr_master.listview_master_shift"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_name']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='area_code']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='code']" position="after">
+              <field name="bu_company_id"/>
+              <field name="kontraktor_id" domain="[('is_kontraktor', '=', True), ('company_id', '=', bu_company_id)]"/>
+              <field name="shiftmode_id"/>
+              <field name="time_start" widget="float_time"/>
+              <field name="time_end" widget="float_time"/>
+              <field name="durasi" widget="float_time"/>
+          </xpath>
+        </field>
+      </record>
+        <record id="inherit_formview_master_shift_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_master_shift_sh</field>
+        <field name="model">master.shift</field>
+        <field name="inherit_id" ref="bcr_master.formview_master_shift"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_name']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='area_code']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='code']" position="after">
+              <field name="bu_company_id" domain="[('id', 'in', allowed_company_ids)]"/>
+              <field name="kontraktor_id" domain="[('is_kontraktor', '=', True), ('company_id', '=', bu_company_id)]"/>
+              <field name="shiftmode_id"/>
+              <field name="time_start" widget="float_time"/>
+              <field name="time_end" widget="float_time"/>
+              <field name="durasi" widget="float_time"/>
+          </xpath>
+        </field>
+     </record>
+<!--      master shif mode-->
+        <record id="action_master_shiftmode" model="ir.actions.act_window">
+        <field name="name">Shift Mode</field>
+        <field name="res_model">master.shiftmode</field>
+        <field name="view_mode">tree,form</field>
+      </record>
+        <menuitem id='menu_master_shiftmode' name='Shift Mode' parent='bcr_master.menu_group_master_01' sequence='4' action='action_master_shiftmode'/>
+<!--      master source group-->
+        <record id="action_master_sourcegroup" model="ir.actions.act_window">
+        <field name="name">Source Group</field>
+        <field name="res_model">master.sourcegroup</field>
+        <field name="view_mode">tree,form</field>
+      </record>
+        <menuitem id='menu_master_sourcegroup' name='Source Group' parent='bcr_master.menu_group_master_01' sequence='21' action='action_master_sourcegroup'/>
+<!--      master unit-->
+        <record id="inherit_listview_master_unit_kendaraan_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_master_unit_kendaraan_sh</field>
+        <field name="model">master.unit.kendaraan</field>
+        <field name="inherit_id" ref="bcr_master.listview_master_unit_kendaraan"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='merek_unit_kendaraan']" position="after">
+              <field name="tahun"/>
+              <field name="fc_standar"/>
+              <field name="bu_company_id"/>
+              <field name="kontraktor_id"/>
+          </xpath>
+        </field>
+      </record>
+        <record id="inherit_formview_master_unit_kendaraan_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_master_unit_kendaraan_sh</field>
+        <field name="model">master.unit.kendaraan</field>
+        <field name="inherit_id" ref="bcr_master.formview_master_unit_kendaraan"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='merek_unit_kendaraan']" position="after">
+              <field name="tahun"/>
+              <field name="fc_standar"/>
+              <field name="bu_company_id" domain="[('id', 'in', allowed_company_ids)]"/>
+              <field name="kontraktor_id" domain="[('is_kontraktor', '=', True), ('company_id', '=', bu_company_id)]"/>
+          </xpath>
+        </field>
+      </record>
+
+  <!--      master kontraktor-->
+<!--      <record id="inherit_view_partner_tree_sh" model="ir.ui.view">-->
+<!--        <field name="name">inherit_view_partner_tree_sh</field>-->
+<!--        <field name="model">res.partner</field>-->
+<!--        <field name="inherit_id" ref="base.view_partner_tree"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--          <xpath expr="//field[@name='tipe_kontraktor']" position="after">-->
+<!--              <field name="company_id" string="Bisnis Unit"/>-->
+<!--          </xpath>-->
+<!--          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">-->
+<!--              <attribute name="invisible">1</attribute>-->
+<!--          </xpath>-->
+<!--        </field>-->
+<!--      </record>-->
+
+        <record id="inherit_view_partner_form_sh" model="ir.ui.view">
+        <field name="name">inherit_view_partner_form_sh</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='kode_buyer']" position="after">
+              <field name="company_id" string="Bisnis Unit" attrs="{'invisible': [('is_kontraktor','=',True)]}"/>
+          </xpath>
+          <xpath expr="//field[@name='tipe_kontraktor']" position="after">
+              <field name="company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+        </field>
+      </record>
+<!--  master PIT/Area-->
+        <record id="inherit_listview_master_area_sh2" model="ir.ui.view">
+        <field name="name">inherit_listview_master_area_sh2</field>
+        <field name="model">master.area</field>
+        <field name="inherit_id" ref="bcr_master.listview_master_area"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='code']" position="after">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+        </field>
+      </record>
+        <record id="inherit_formview_master_area_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_master_area_sh</field>
+        <field name="model">master.area</field>
+        <field name="inherit_id" ref="bcr_master.formview_master_area"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='code']" position="after">
+              <field name="bu_company_id" string="Bisnis Unit" domain="[('id', 'in', allowed_company_ids)]"/>
+          </xpath>
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+        </field>
+      </record>
+
+
+<!-- master seam-->
+        <record id="formview_master_seam" model="ir.ui.view">
+            <field name="name">formview_master_seam</field>
+            <field name="model">master.seam</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code" string="Seam"/>
+                                <field name="bu_company_id" domain="[('id', 'in', allowed_company_ids)]"/>
+                                <field name="area_id"/>
+                                <field name="activity_id"/>
+                                <field name="sub_activity_id"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="listview_master_seam" model="ir.ui.view">
+            <field name="name">listview_master_seam</field>
+            <field name="model">master.seam</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="code" string="Seam"/>
+                    <field name="bu_company_id"/>
+                    <field name="area_id"/>
+                    <field name="activity_id"/>
+                    <field name="sub_activity_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_master_seam" model="ir.actions.act_window">
+            <field name="name">Seam</field>
+            <field name="res_model">master.seam</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id='menu_master_seam' name='Seam' parent='bcr_master.menu_group_master_01' sequence='22' action='action_master_seam'/>
+
+<!--      master source-->
+        <record id="inherit_listview_master_source_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_master_source_sh</field>
+        <field name="model">master.source</field>
+        <field name="inherit_id" ref="bcr_master.listview_master_source"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='seam_coal_id']" position="after">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+              <field name="source_group_id"/>
+          </xpath>
+          <xpath expr="//field[@name='bisnis_unit_name']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='seam_coal_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='area_code']" position="attributes">
+              <attribute name="string">Area</attribute>
+          </xpath>
+        </field>
+      </record>
+        <record id="inherit_formview_master_source_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_master_source_sh</field>
+        <field name="model">master.source</field>
+        <field name="inherit_id" ref="bcr_master.formview_master_source"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='seam_coal_id']" position="after">
+              <field name="bu_company_id" string="Bisnis Unit" domain="[('id', 'in', allowed_company_ids)]"/>
+              <field name="source_group_id"/>
+          </xpath>
+          <xpath expr="//field[@name='bisnis_unit_name']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='seam_coal_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+        </field>
+      </record>
+        <menuitem id='bcr_master.menu_master_source' parent='bcr_master.menu_group_master_01' name='Source' sequence='20'/>
+
+<!--master validation-->
+      <record id="inherit_listview_validation_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_validation_sh</field>
+        <field name="model">validation.validation</field>
+        <field name="inherit_id" ref="bcr_master.listview_validation"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='model_id']" position="after">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+        </field>
+      </record>
+      <record id="inherit_formview_validation_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_validation_sh</field>
+        <field name="model">validation.validation</field>
+        <field name="inherit_id" ref="bcr_master.formview_validation"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='model_id']" position="after">
+              <field name="bu_company_id" string="Bisnis Unit" domain="[('id', 'in', allowed_company_ids)]"/>
+          </xpath>
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+        </field>
+      </record>
+<!--      master Jetty-->
+      <record id="inherit_listview_master_jetty_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_master_jetty_sh</field>
+        <field name="model">master.jetty</field>
+        <field name="inherit_id" ref="bcr_master.listview_master_jetty"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='name']" position="after">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+              <field name="jenis"/>
+          </xpath>
+        </field>
+      </record>
+      <record id="inherit_formview_master_jetty_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_master_jetty_sh</field>
+        <field name="model">master.jetty</field>
+        <field name="inherit_id" ref="bcr_master.formview_master_jetty"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='name']" position="after">
+              <field name="bu_company_id" string="Bisnis Unit" domain="[('id', 'in', allowed_company_ids)]"/>
+              <field name="jenis" widget="radio"/>
+          </xpath>
+        </field>
+      </record>
+<!--      master iup/bisnis unit-->
+      <record id="inherit_listview_master_bisnis_unit_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_master_bisnis_unit_sh</field>
+        <field name="model">master.bisnis.unit</field>
+        <field name="inherit_id" ref="bcr_master.listview_master_bisnis_unit"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='name']" position="after">
+              <field name="bu_company_id" string="Company"/>
+          </xpath>
+        </field>
+      </record>
+      <record id="inherit_formview_master_bisnis_unit_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_master_bisnis_unit_sh</field>
+        <field name="model">master.bisnis.unit</field>
+        <field name="inherit_id" ref="bcr_master.formview_master_bisnis_unit"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='name']" position="after">
+              <field name="bu_company_id" string="Company"/>
+          </xpath>
+        </field>
+      </record>
+<!--      company-->
+      <record id="inherit_form_res_company_sh" model="ir.ui.view">
+        <field name="name">inherit_form_res_company_sh</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/div" position="before">
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              <field name="active" invisible="1"/>
+            </xpath>
+        </field>
+      </record>
+      <record model="ir.ui.view" id="filter_res_company">
+        <field name="name">Res Company Filter</field>
+        <field name="model">res.company</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+<!--      master kontraktor-->
+    <record id="action_to_change_name_kontraktor" model="ir.actions.server">
+        <field name="name">Change Name</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.name_get()
+        </field>
+    </record>
+  </data>
+</odoo>

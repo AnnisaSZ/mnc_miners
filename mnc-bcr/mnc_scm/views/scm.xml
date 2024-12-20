@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="part_request_view_form" model="ir.ui.view">
+        <field name="name">Part Request Form</field>
+        <field name="model">part.request</field>
+        <field name="arch" type="xml">
+            <form duplicate="0">
+                <header>
+                    <field name="is_create_orf" invisible="1"/>
+                    <button name="action_sign_approve" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': [('state', 'in', ('store', 'orf'))]}"/>
+                    <button name="action_to_orf" string="To ORF" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('state', 'in', ('draft', 'orf')), ('is_staffstore', '=', False)]}"/>
+                    <button name="action_create_orf" string="Create ORF" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('is_create_orf', '=', False), ('state', '!=', 'orf')]}"/>
+                    <button name="button_cancel" string="Cancel" type="object" />
+                    <field name="state" readonly="True" widget="statusbar" statusbar_visible="draft,store,orf"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_orf" class="oe_stat_button" icon="fa-list-ul" attrs="{'invisible': [('state', '!=', 'orf')]}">
+                            <field name="orf_count" widget="statinfo" string="ORF"/>
+                            <field name="orf_ids" invisible="1"/>
+                        </button>
+                    </div>
+                    <field name="is_staffstore" invisible="1"/>
+                    <field name="next_approver_id" invisible="1"/>
+                    <field name="approval_id" invisible="1"/>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" required="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="maintenanceplanner" string="Material Planner" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="company_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="request_date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="required_before_date_string" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="priority" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Part Request Detail" name="order_line">
+                            <field name="part_request_ids" options="{'no_open': True}" attrs="{'readonly': [('state', 'in', ('store', 'orf')), ('is_staffstore', '=', False)]}">
+                                <tree editable="bottom">
+                                    <field name="check_by_store" attrs="{'column_invisible': [('parent.state', '=', 'draft')], 'readonly': [('parent.is_staffstore', '=', False)]}"/>
+                                    <field name="part_number" attrs="{'readonly': [('parent.state', '!=', 'draft')]}"/>
+                                    <field name="decription" attrs="{'readonly': [('parent.state', '!=', 'draft')]}"/>
+                                    <field name="request_quantity" attrs="{'readonly': [('parent.state', '!=', 'draft')]}"/>
+                                    <field name="qty_stock" attrs="{'readonly': [('parent.is_staffstore', '=', False)]}"/>
+                                    <field name="qty_to_order" readonly="1"/>
+                                    <field name="ac_reg" attrs="{'readonly': [('parent.state', '!=', 'draft')]}" string="A/C Reg"/>
+                                    <field name="ipc_reference" attrs="{'readonly': [('parent.state', '!=', 'draft')]}" string="IPC Ref."/>
+                                    <field name="reason_for_request" required="1"/>
+                                    <field name="part_filename" invisible="1"/>
+                                    <field name="part_dokumen" filename="part_filename" widget="binary"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="User Approval" name="approval">
+                            <group>
+                                <group>
+                                    <field name="chiefmaintenance" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True}"/>
+                                </group>
+                                <group>
+                                    <field name="staffstore" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': 1, 'no_create_edit': 1, 'no_create': 1}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <!-- <page string="Approval List" name="appr_line">
+                            <field name="approval_ids" readonly="1" options="{'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="user_id"/>
+                                    <field name="email"/>
+                                    <field name="is_email_sent"/>
+                                    <field name="action_type" invisible="1"/>
+                                    <field name="is_current_user"/>
+                                    <field name="approve_date"/>
+                                    <field name="reject_notes" invisible="1"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page> -->
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="part_request_view_tree" model="ir.ui.view">
+        <field name="name">Part Request List</field>
+        <field name="model">part.request</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'orf'" decoration-warning="state in ('store')" decoration-danger="state in ('reject')" duplicate="0">
+                <field name="name"/>
+                <field name="request_date"/>
+                <field name="required_before_date_string"/>
+                <field name="priority"/>
+                <field name="chiefmaintenance"/>
+                <field name="maintenanceplanner"/>
+                <field name="staffstore"/>
+                <field name="state"  readonly="1" widget="badge" decoration-success="state == 'orf'" decoration-warning="state in ('store')" decoration-danger="state in ('reject')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="filter_part_request">
+            <field name="name">part.request.filter</field>
+            <field name="model">part.request</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+              </search>
+            </field>
+        </record>
+
+    <record id="part_request_view" model="ir.actions.act_window">
+        <field name="name">Part Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">part.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Part Request
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<odoo>
+
+	<record id="mncei_lap_wajib_form" model="ir.ui.view">
+        <field name="name">mncei.lap.wajib.form</field>
+        <field name="model">mncei.lap.wajib</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="Document">
+                            <field name="doc_name"/>
+                            <field name="doc_number"/>
+                            <field name="doc_date"/>
+                            <field name="company" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="description"/>
+                        </group>
+                        <group string="Penyimpanan">
+                            <field name="location_doc_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="rak"/>
+                            <field name="url_penyimpanan" placeholder="e.g https://.." widget="url" style="white-space: pre-wrap; word-break: break-all;"/>
+                        </group>
+                        <group string="Status">
+                            <field name="document_status" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>  
+                            <field name="instansi"/>
+                            <field name="upload_doc"/>
+                            <field name="periods_times_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="email_remind_ids" widget="many2many_tags" invisible="1"/>
+                        </group>
+                        <group string="Reminder">
+                            <field name="reminder_date"/>
+                            <field name="reminder_finish"/>
+                            <field name="periode_reminder" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="email_reminder" required="0" style="white-space: pre-wrap; word-break: break-all;" widget="text" force_save="1"/>
+                            <label for="email_reminder" string="Add Emails"/>
+                            <div>
+                                <field name="email_reminder" invisible="1" required="0" class="oe_inline" force_save="1"/>
+                                <button name="add_email" type="object" icon="fa-plus" context="{'legal_id':'id'}"/>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_lap_wajib_tree" model="ir.ui.view">
+        <field name="name">mncei.lap.wajib.tree</field>
+        <field name="model">mncei.lap.wajib</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="doc_name"/>
+                <field name="doc_number"/>
+                <field name="doc_date"/>
+                <field name="company"/>
+                <field name="description"/>
+                <field name="location_doc_id"/>
+                <field name="rak"/>
+                <field name="url_penyimpanan"/>
+                <field name="document_status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="views_mncei_lap_wajib_search" model="ir.ui.view">
+        <field name="name">mncei.lap.wajib.search</field>
+        <field name="model">mncei.lap.wajib</field>
+        <field name="arch" type="xml">
+            <search string="Laporan Wajib">
+                <field name="doc_number"/>
+                <field name="doc_name"/>
+                <field name="company"/>
+            </search>
+        </field>
+    </record>
+
+
+    <!-- Actions Laporan Wajib -->
+    <record id="mncei_lap_wajib_actions" model="ir.actions.act_window">
+        <field name="name">Laporan Wajib</field>
+        <field name="res_model">mncei.lap.wajib</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your Laporan Wajib
+            </p>
+        </field>
+    </record>
+
+</odoo>

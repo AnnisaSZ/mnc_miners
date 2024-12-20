@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_rule_legal_document" model="ir.rule">
+        <field name="name">Document Rules Company
+        </field>
+        <field name="model_id" ref="model_mncei_doc"/>
+        <field name="domain_force">
+            [('company','in', company_ids)]</field>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+    </record>
+
+</odoo>
+

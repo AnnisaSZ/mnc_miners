@@ -1,0 +1,232 @@
+<odoo>
+  <data>
+<!--    planning hauling-->
+    <record id="inherit_listview_planning_hauling_review_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_planning_hauling_review_sh</field>
+        <field name="model">planning.hauling</field>
+        <field name="inherit_id" ref="bcr_planning.listview_planning_hauling_review"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+<!--          <xpath expr="//field[@name='kontraktor_id']" position="replace">-->
+<!--              <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_hauling')]" />-->
+<!--          </xpath>-->
+        </field>
+    </record>
+<!--    planning barging-->
+    <record id="inherit_listview_planning_barging_review_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_planning_barging_review_sh</field>
+        <field name="model">planning.barging</field>
+        <field name="inherit_id" ref="bcr_planning.listview_planning_barging_review"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='gar']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+        </field>
+    </record>
+<!--    planning production-->
+    <record id="inherit_listview_planning_production_review_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_planning_production_review_sh</field>
+        <field name="model">planning.production</field>
+        <field name="inherit_id" ref="bcr_planning.listview_planning_production_review"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='plan_mine_exposed']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="replace">
+              <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('company_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+          </xpath>
+        </field>
+    </record>
+<!--    actual barging-->
+    <record id="inherit_listview_act_barging_review_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_act_barging_review_sh</field>
+        <field name="model">act.barging</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_barging_review"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+                <attribute name="domain">[('is_kontraktor', '=', True),('company_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_barging')]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="domain">[('kontraktor_id', '=', kontraktor_id)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="after">
+              <field name="kontraktor_produksi_id"  required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('company_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+          </xpath>
+          <xpath expr="//field[@name='state']" position="before">
+              <field name="source_group"/>
+              <field name="seam_id"/>
+              <field name="barge_id"/>
+              <field name="tugboat_id"/>
+              <field name="market"/>
+              <field name="mv_boat_id"/>
+              <field name="jetty_id"/>
+              <field name="jetty_id"/>
+              <field name="buyer_id"/>
+              <field name="basis"/>
+              <field name="status_shipper"/>
+              <field name="remarks"/>
+          </xpath>
+           <xpath expr="//field[@name='volume']" position="after">
+               <field name="item_uom"/>
+           </xpath>
+        </field>
+    </record>
+<!--    actual hauling-->
+    <record id="inherit_listview_act_hauling_review_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_act_hauling_review_sh</field>
+        <field name="model">act.hauling</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_hauling_review"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+              <attribute name="domain">[('is_kontraktor', '=', True),('company_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_hauling')]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="domain">[('kontraktor_id', '=', kontraktor_id)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+<!--          <xpath expr="//field[@name='shift_id']" position="before">-->
+<!--              <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_hauling')]" />-->
+<!--          </xpath>-->
+          <xpath expr="//field[@name='total_unit']" position="after">
+              <field name="seam_id" domain="[('bu_company_id', '=', bu_company_id), ('area_id', '=', area_id)]"/>
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="attributes">
+              <attribute name="domain">[('bu_company_id', '=', bu_company_id)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="after">
+              <field name="seam_id"/>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="after">
+               <field name="item_uom"/>
+          </xpath>
+        </field>
+    </record>
+<!--    actual production-->
+    <record id="inherit_listview_act_production_review_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_act_production_review_sh</field>
+        <field name="model">act.production</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_production_review"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+              <attribute name="domain">[('is_kontraktor', '=', True),('company_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="domain">[('kontraktor_id', '=', kontraktor_id)]</attribute>
+          </xpath>
+<!--          <xpath expr="//field[@name='shift_id']" position="before">-->
+<!--              <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />-->
+<!--          </xpath>-->
+          <xpath expr="//field[@name='shift_id']" position="after">
+              <field name="seam_id"/>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="after">
+               <field name="item_uom"/>
+          </xpath>
+        </field>
+    </record>
+<!--    actual inventory/stockroom-->
+    <record id="inherit_listview_act_stockroom_review_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_act_stockroom_review_sh</field>
+        <field name="model">act.stockroom</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_stockroom_review"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="after">
+              <field name="seam_id" domain="[('bu_company_id', '=', bu_company_id), ('area_id', '=', area_id)]"/>
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="attributes">
+              <attribute name="domain">[('bu_company_id', '=', bu_company_id)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="after">
+              <field name="seam_id"/>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="after">
+               <field name="item_uom"/>
+          </xpath>
+        </field>
+    </record>
+<!--    actual longtime/delay-->
+    <record id="inherit_listview_act_delay_review_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_act_delay_review_sh</field>
+        <field name="model">act.delay</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_delay_review"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+                <attribute name="domain">[('is_kontraktor', '=', True),('company_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="domain">[('kontraktor_id', '=', kontraktor_id)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="before">
+              <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="attributes">
+              <attribute name="domain">[('bu_company_id', '=', bu_company_id)]</attribute>
+          </xpath>
+           <xpath expr="//field[@name='volume']" position="after">
+               <field name="item_uom"/>
+           </xpath>
+        </field>
+    </record>
+  </data>
+</odoo>

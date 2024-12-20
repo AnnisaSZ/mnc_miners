@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_task_form2_inherited_ext" model="ir.ui.view">
+        <field name="name">project.task.form.inherited.ext</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='timesheet_ids']/tree/field[@name='employee_id']" position="replace">
+                <field name="mncei_employee_id" required="1" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/kanban/field[@name='employee_id']" position="replace">
+                <field name="mncei_employee_id" required="1" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+            </xpath>
+            <xpath expr="//field[@name='timesheet_ids']/kanban/templates/t/div/div[1]/div[1]" position="replace">
+                <div class="col-6">
+                    <strong><span><t t-esc="record.mncei_employee_id.value"/></span></strong>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

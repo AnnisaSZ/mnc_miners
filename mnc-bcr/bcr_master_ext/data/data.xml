@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.actions.server" id="action_submit_planning_opr">
+            <field name="name">Submit</field>
+            <field name="model_id" ref="bcr_operational.model_planning_opr"/>
+            <field name="state">code</field>
+            <field name="code">
+if records:
+    for planning in records:
+        planning.action_submit()
+            </field>
+        </record>
+    </data>
+</odoo>

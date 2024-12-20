@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Menuitems -->
+        <menuitem id="mncei_fleet"
+            name="Fleet"
+            active="True"
+            web_icon="mnc_fleet,static/description/icon.png"
+            sequence="10" groups="mnc_fleet.group_fleet_center"/>
+
+        <menuitem id="menu_breakdown" name="Breakdown" sequence="1" action="action_fleet_breakdown" parent="mncei_fleet"/>
+        <menuitem id="menu_hourly_production" name="Hourly Production" sequence="10" action="action_hourly_production" parent="mncei_fleet"/>
+        <menuitem id="menu_shiftly_production" name="Shiftly Production" sequence="20" action="action_shiftly_production" parent="mncei_fleet"/>
+        <menuitem id="configuration" name="Configuration" sequence="100" parent="mncei_fleet"/>
+        <menuitem id="master_fleet" name="Master" sequence="90" parent="mncei_fleet"/>
+        <!-- Config -->
+        <menuitem id="equipment" name="Equipment" sequence="1" parent="configuration"/>
+        <menuitem id="equipment_brand" name="Brand" action="action_fleet_brand" sequence="1" parent="equipment"/>
+        <menuitem id="equipment_class" name="Class" action="action_equipment_class" sequence="2" parent="equipment"/>
+        <menuitem id="equipment_groups" name="Groups" action="action_equipment_group" sequence="3" parent="equipment"/>
+        <menuitem id="internal_ops" name="Interface Operational" action="action_inter_ops" sequence="2" parent="configuration"/>
+        <menuitem id="status_unit" name="Status Unit" action="action_fleet_unit" sequence="3" parent="configuration"/>
+        <menuitem id="fleet_activity" name="Activity" action="action_fleet_activity" sequence="4" parent="configuration"/>
+        <menuitem id="fleet_process" name="Process" action="action_fleet_process" sequence="5" parent="configuration"/>
+        <!--  -->
+        <menuitem id="mapping" name="Mapping" sequence="6" parent="configuration"/>
+        <menuitem id="fleet_map_activity" name="Activity" action="action_fleet_map_activity" sequence="1" parent="mapping"/>
+        <menuitem id="fleet_map_Process" name="Process" action="action_fleet_map_process" sequence="2" parent="mapping"/>
+        <!--  -->
+        <menuitem id="sub_kontraktor" name="Sub Kontraktor" action="action_fleet_sub_kontraktor" sequence="7" parent="configuration"/>
+        <menuitem id="department" name="Department" action="action_fleet_department" sequence="8" parent="configuration"/>
+        <!--  -->
+        <menuitem id="parent_problem_prodty" name="Problem Prodty" sequence="9" parent="configuration"/>
+        <menuitem id="fleet_category_problem" name="Category" action="action_fleet_categ_problem" sequence="1" parent="parent_problem_prodty"/>
+        <menuitem id="problem_prodty" name="Problem Prodty" action="action_fleet_problem_prodty" sequence="2" parent="parent_problem_prodty"/>
+        <!--  -->
+        <menuitem id="material_group" name="Material Group" action="action_fleet_material_group" sequence="10" parent="configuration"/>
+        <menuitem id="material" name="Material" action="action_fleet_material" sequence="11" parent="configuration"/>
+        <menuitem id="losttime" name="Lost Time" action="action_fleet_losttime" sequence="12" parent="configuration"/>
+        <!--  -->
+        <!-- Master -->
+        <menuitem id="master_location" name="Location" sequence="1" parent="master_fleet"/>
+        <menuitem id="location_group" name="Location Groups" action="action_fleet_location_groups" sequence="1" parent="master_location"/>
+        <menuitem id="location" name="Location" action="action_fleet_location" sequence="2" parent="master_location"/>
+        <!--  -->
+        <menuitem id="operator" name="Operator" action="action_fleet_operator" sequence="2" parent="master_fleet"/>
+        <!-- <menuitem id="shift_mode" name="Shift Mode" action="bcr_master_custom_sh.action_master_shiftmode" sequence="3" parent="master_fleet"/> -->
+        <!--  -->
+        <menuitem id="master_equipment" name="Equipment" sequence="4" parent="master_fleet"/>
+        <menuitem id="equip_act" name="Mapping Activity" action="action_fleet_equp_act" sequence="1" parent="master_equipment"/>
+        <menuitem id="equip_unit" name="Unit" action="action_fleet_equp_units" sequence="2" parent="master_equipment"/>
+        <!--  -->
+        <menuitem id="master_breakdown_code" name="Breakdown Code" action="action_fleet_product_template" sequence="5" parent="master_fleet"/>
+    </data>
+</odoo>

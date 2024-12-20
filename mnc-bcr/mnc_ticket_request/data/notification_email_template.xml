@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="notification_request_ticket" model="mail.template">
+            <field name="name">Ticket Request Notification</field>
+            <field name="model_id" ref="model_mncei_ticket"/>
+            <field name="subject">Please Check Your Ticket [${object.no_ticket}]</field>
+            <field name="email_from">"${object.request_id.company_id.name | safe}" &lt;${(object.request_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set respon_user = ctx['invited_users']
+                        Yth Bapak/Ibu ${respon_user.name or ''}, <br/>
+                        Dengan ini diberitahukan bahwa Bapak/Ibu untuk melakukan follow up terhadap ticket [${object.no_ticket}], terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Title</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Category</strong></td>
+                                    <td>:</td>
+                                    <td>${object.categ_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.request_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.urgency}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Silahkan untuk melakukan Follow Up dengan klik link dibawah ini :
+                        <br/>
+                        <a href="https://mncminers.com/web#id=${object.id}&amp;menu_id=&amp;model=mncei.ticket&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Ticket<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- FollowUp -->
+        <record id="notification_followup" model="mail.template">
+            <field name="name">Ticket Request Notification - Follow Up</field>
+            <field name="model_id" ref="model_mncei_ticket"/>
+            <field name="subject">Your ticket [${object.no_ticket}] has been followed up</field>
+            <field name="email_from">"${object.request_id.company_id.name | safe}" &lt;${(object.request_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Yth Bapak/Ibu ${object.request_id.name}, <br/>
+                        Dengan ini diberitahukan bahwa Ticket [${object.no_ticket}] Bapak/Ibu sudah dalam <strong>follow up</strong>, terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Title</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.request_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.urgency}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Silahkan untuk melihat progress dengan klik link dibawah ini :
+                        <br/>
+                        <a href="https://mncminers.com/web#id=${object.id}&amp;menu_id=&amp;model=mncei.ticket&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Ticket<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Update Progress -->
+        <record id="notification_progress" model="mail.template">
+            <field name="name">Ticket Request Notification - Progress</field>
+            <field name="model_id" ref="model_mncei_ticket"/>
+            <field name="subject">Your ticket [${object.no_ticket}] is ${object.state_id.name}</field>
+            <field name="email_from">"${object.request_id.company_id.name | safe}" &lt;${(object.request_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Yth Bapak/Ibu ${object.request_id.name}, <br/>
+                        Dengan ini diberitahukan bahwa Ticket [${object.no_ticket}] Bapak/Ibu sedang proses <strong>${object.state_id.name}</strong>, terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Title</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>No. Ticket</strong></td>
+                                    <td>:</td>
+                                    <td>${object.no_ticket}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Silahkan untuk melihat progress dengan klik link dibawah ini :
+                        <br/>
+                        <a href="https://mncminers.com/web#id=${object.id}&amp;menu_id=&amp;model=mncei.ticket&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Ticket<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <record id="email_reminder_ticket" model="mail.template">
+            <field name="name">Ticket Request Notification - Reminder</field>
+            <field name="model_id" ref="model_mncei_ticket"/>
+            <field name="subject">Please your check Ticket [${object.no_ticket}]</field>
+            <field name="email_from">"${object.request_id.company_id.name | safe}" &lt;${(object.request_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set respon_user = ctx['invited_users']
+                        Yth Bapak/Ibu ${respon_user.name or ''}, <br/>
+                        Mohon untuk melakukan respon terhadap Ticket [${object.no_ticket}], terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Title</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}[${object.no_ticket}]</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.request_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.urgency}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Silahkan untuk melihat progress dengan klik link dibawah ini :
+                        <br/>
+                        <a href="https://mncminers.com/web#id=${object.id}&amp;menu_id=&amp;model=mncei.ticket&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Ticket<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

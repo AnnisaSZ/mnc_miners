@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Contract -->
+        <record id="buyer_contract_view_form" model="ir.ui.view">
+            <field name="name">buyer.contract.form</field>
+            <field name="model">buyer.contract</field>
+            <field name="arch" type="xml">
+                <form duplicate="0">
+                    <header>
+                        <button name="action_to_done" string="Finish Contract" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('state', '!=', 'release'), ('contract_state', 'in', ('done', 'cancel'))]}"/>
+                        <button name="action_to_open" string="Open Contract" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('state', '!=', 'release'), ('contract_state', '=', 'open')]}"/>
+                        <button name="action_to_cancel" string="Cancel Contract" type="object" attrs="{'invisible': ['|', ('state', '!=', 'release'), ('contract_state', '=', 'cancel')]}"/>
+                        <!--  -->
+                        <button name="action_submit" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_revise" string="Revise" type="object" attrs="{'invisible': [('state', '!=', 'release')]}" groups="bcr_barging_sales.module_barge_sale_groups"/>
+                        <field name="state" readonly="True" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="draft,release"/>
+                        <field name="approve_uid" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="active" invisible="1"/>
+                        <field name="total_barge" invisible="1"/>
+                        <field name="is_qty_fully" invisible="1"/>
+                        <field name="total_outstanding" invisible="1"/>
+                        <field name="to_be_expire" invisible="1"/>
+                        <!-- Alert o Be Exp -->
+                        <div class="alert alert-info text-center o_form_header" role="alert" attrs="{'invisible': ['|', '|', ('state', '!=', 'release'), ('to_be_expire', '=', False), ('contract_state', '!=', 'open')]}">
+                            <a class="close" data-dismiss="alert" href="#"></a>
+                            <div>
+                                <strong>Contract Will be Expired !!</strong>
+                            </div>
+                        </div>
+                        <!-- Alert Info Qty Almost full -->
+                        <div class="alert alert-info text-center o_form_header" role="alert" attrs="{'invisible': ['|', '|', ('state', '!=', 'release'), ('is_qty_fully', '=', False), ('contract_state', '!=', 'open')]}">
+                            <a class="close" data-dismiss="alert" href="#"></a>
+                            <div>
+                                <strong>Qty almost full !!</strong>
+                            </div>
+                            <div>
+                                Outstanding : <field name="total_outstanding" readonly="1"/> Ton
+                            </div>
+                        </div>
+                        <!--  -->
+                        <label for="no_contract"/>
+                        <h1>
+                            <div class="d-flex justify-content-start">
+                                <div>
+                                    <field name="no_contract" attrs="{'readonly': [('state', '=', 'release')]}" force_save="1"/>
+                                </div>
+                                <div class="pl-3">
+                                    <field name="contract_state" widget="badge" decoration-success="contract_state == 'done'" decoration-warning="contract_state == 'open'" decoration-danger="contract_state == 'cancel'"/>
+                                </div>
+                            </div>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="create_uid" options="{'no_open': True}"/>
+                                <field name="company_id" string="Bisnis Unit" options="{'no_open': True}" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <field name="buyer_id" options="{'no_create': True}" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <field name="contract_type" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <field name="market_type" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <field name="product_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <label for="quantity"/>
+                                <div class="o_row">
+                                    <field name="quantity" attrs="{'readonly': [('state', '=', 'release')]}"/>Ton
+                                </div>
+                                <label for="percentage" string="Qty Limit"/>
+                                <div class="o_row">
+                                    <field name="percentage" readonly="1"/> %
+                                    -+ <field name="qty_percentage"/> Ton
+                                </div>
+                            </group>
+                            <group>
+                                <field name="term_payment_id" options="{'no_open': True}" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <field name="incoterms_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <field name="details" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <!-- Laycane Date -->
+                                <label for="laycan_start" string="Laycan Date"/>
+                                <div class="o_row">
+                                    <field name="laycan_start" attrs="{'readonly': [('state', '=', 'release')]}"/> -
+                                    <field name="laycan_end" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                </div>
+                                <!-- Contract Date -->
+                                <label for="contract_start" string="Contract Date"/>
+                                <div class="o_row">
+                                    <field name="contract_start" attrs="{'readonly': [('state', '=', 'release')]}"/> To
+                                    <field name="contract_end" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                </div>
+                                <field name="price_type" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <label for="price_notes" string="Price Notes" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <div class="o_row">
+                                    <field name="price_notes" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                    <field name="currency_id" attrs="{'invisible': [('price_type', '=', 'formula')]}" options="{'no_open': True}" readonly="1" force_save="1"/>
+                                </div>
+                                <field name="filename_attachment" invisible="1"/>
+                                <label for="attachment" string="Attachment" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                <div class="o_row">
+                                    <field name="attachment" widget="binary" filename="filename_attachment" attrs="{'readonly': [('state', '=', 'release')]}"/>
+                                    ** File must be format PDF (Max 5MB)
+                                </div>
+                                <!-- <field name="attachment" widget="binary" filename="filename_attachment" attrs="{'readonly': [('state', '=', 'release')]}"/> -->
+                                <!--  -->
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="buyer_contract_view_tree" model="ir.ui.view">
+            <field name="name">buyer.contract.tree</field>
+            <field name="model">buyer.contract</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="state == 'release'">
+                    <field name="state" invisible="1"/>
+                    <field name="no_contract"/>
+                    <field name="company_id" string="Bisnis Unit"/>
+                    <field name="buyer_id"/>
+                    <field name="quantity"/>
+                    <field name="laycan_start"/>
+                    <field name="laycan_end"/>
+                    <field name="term_payment_id"/>
+                    <field name="contract_start"/>
+                    <field name="contract_end"/>
+                    <field name="contract_state" widget="badge" decoration-success="contract_state in ('done')" decoration-warning="contract_state in ('open')" decoration-danger="contract_state in ('cancel')"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_buyer_contract">
+            <field name="name">buyer.contract.filter</field>
+            <field name="model">buyer.contract</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+                <filter string="To Be Expired" name="inactive" domain="[('to_be_expire', '=', True)]"/>
+                <filter string="Qty Almost Full" name="inactive" domain="[('is_qty_fully', '=', True)]"/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_buyer_contract" model="ir.actions.act_window">
+            <field name="name">Buyer Contract</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">buyer.contract</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Contract
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

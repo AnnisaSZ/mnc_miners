@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+	<record id="mobile_res_users_inherit" model="ir.ui.view">
+         <field name="name">res.users.inherit</field>
+         <field name="model">res.users</field>
+         <field name="inherit_id" ref="bcr_master.bcr_res_users_inherit01"/>
+         <field name="arch" type="xml">
+             <xpath expr="//field[@name='tipe_user']" position="after">
+             	<field name="is_login_mobile"/>
+             </xpath>
+         </field>
+    </record>
+</odoo>

@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sapform,access_sapform,model_sapform,base.group_user,1,1,1,1
+access_risk_level,access_risk_level,model_risk_level,base.group_user,1,1,1,1
+access_penalty_point,access_penalty_point,model_penalty_point,base.group_user,1,1,1,1
+access_location_point,access_location_point,model_location_point,base.group_user,1,1,1,1
+access_activity_hazard,access_activity_hazard,model_activity_hazard,base.group_user,1,1,1,1
+access_category_hazard,access_category_hazard,model_category_hazard,base.group_user,1,1,1,1
+access_category_danger,access_category_danger,model_category_danger,base.group_user,1,1,1,1
+access_department_hse,access_department_hse,model_department_hse,base.group_user,1,1,1,1
+access_department_pic,access_department_pic,model_department_pic,base.group_user,1,1,1,1
+access_child_pic,access_child_pic,model_child_pic,base.group_user,1,1,1,1
+access_risk_control,access_risk_control,model_risk_control,base.group_user,1,1,1,1
+access_hazard_notification,access_hazard_notification,model_hazard_notification,base.group_user,1,1,1,1

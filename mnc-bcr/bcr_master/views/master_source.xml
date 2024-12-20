@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+
+        <record id="formview_master_source" model="ir.ui.view">
+            <field name="name">formview_master_source</field>
+            <field name="model">master.source</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form delete="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="seam_coal_id"/>
+                                <field name="area_code"/>
+                                <field name="bisnis_unit_name"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="listview_master_source" model="ir.ui.view">
+            <field name="name">listview_master_source</field>
+            <field name="model">master.source</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree delete="0">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="seam_coal_id"/>
+                    <field name="area_code"/>
+                    <field name="bisnis_unit_name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="searchview_master_source" model="ir.ui.view">
+            <field name="name">master.source.search</field>
+            <field name="model">master.source</field>
+            <field name="arch" type="xml">
+                <search string="Master Source">
+                    <field name="name" />
+                    <field name="bisnis_unit_name"/>
+                    <field name="area_code"/>
+                    <separator />
+
+                    <group expand="1" string="Group By">
+                        <filter name="group_by_bisnis_unit_name" domain="[]" string="Bisnis Unit" context="{'group_by':'bisnis_unit_name'}" />
+                        <filter name="group_by_area_code" domain="[]" string="Area Code" context="{'group_by':'area_code'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_master_source" model="ir.actions.act_window">
+            <field name="name">Source</field>
+            <field name="res_model">master.source</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id='menu_master_source' name='Source' parent='bcr_master.menu_group_master_03' sequence='3' action='action_master_source'/>
+<!--                  groups="group_bcr_master_admin,group_bcr_master_admin_site"/>-->
+
+    </data>
+</odoo>

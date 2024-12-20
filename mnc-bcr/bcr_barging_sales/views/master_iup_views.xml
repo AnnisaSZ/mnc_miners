@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="formview_bcr_master_bisnis_unit_inherit" model="ir.ui.view">
+            <field name="name">formview_bcr_master_bisnis_unit_inherit</field>
+            <field name="model">master.bisnis.unit</field>
+            <field name="inherit_id" ref="bcr_master_ext.formview_master_bisnis_unit_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='port']" position="after">
+                    <field name="jetty_code"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

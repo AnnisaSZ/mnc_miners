@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Menuitems -->
+        <menuitem id="mncei_wa_miners"
+            name="Whatsapp Settings"
+            active="True"
+            web_icon="mnc_wa_api,static/description/icon.png"
+            sequence="10" groups="mnc_wa_api.group_wa_user"/>
+
+        <menuitem id="recipient" name="User Recipient" action="action_recipient" groups="mnc_wa_api.group_wa_administrator" sequence="1" parent="mncei_wa_miners"/>
+        <menuitem id="qontak_logging" name="Logging" action="action_logging_sender" sequence="50" parent="mncei_wa_miners"/>
+        <menuitem id="configuration" name="Configuration" sequence="100" parent="mncei_wa_miners"/>
+        <menuitem id="auth_user" name="Auth Users" action="action_qontak_auth" sequence="1" parent="configuration"/>
+    </data>
+</odoo>

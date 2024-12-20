@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="arsip_dokumen_view_form" model="ir.ui.view">
+        <field name="name">Document Archive Form</field>
+        <field name="model">arsipdokumenform</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <label for="title"/>
+                    <h1>
+                        <field name="title"/>
+                    </h1>
+                    <group>
+                        <group>                            
+                            <field name="document_owner"/>
+                            <field name="company"/>
+                            <field name="pic"/>
+                            <field name="file_dokumen"/>
+                            <field name="description"/>
+                            <field name="release_date"/>                            
+                        </group>
+                    </group>                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="arsip_dokumen_view_tree" model="ir.ui.view">
+        <field name="name">Document_Archive.Tree</field>
+        <field name="model">arsipdokumenform</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="title"/>
+                <field name="document_owner"/>
+                <field name="company"/>
+                <field name="pic"/>
+                <field name="file_dokumen"/>
+                <field name="description"/>       
+                <field name="release_date"/>              
+            </tree>
+        </field>
+    </record>
+
+    <record id="arsip_dokumen_view" model="ir.actions.act_window">
+        <field name="name">Document Archive</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">arsipdokumenform</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Document Archive
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="arsipdokumen_menu_root" name="Document Archive"/>
+    <menuitem id="arsip_dokumen_menu" name="Document Archive" action="arsip_dokumen_view" parent="arsipdokumen_menu_root"/>
+
+</odoo>

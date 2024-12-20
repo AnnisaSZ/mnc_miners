@@ -1,0 +1,38 @@
+{
+    "name": "BCR - Barging & Sales",
+    "version": "1.0",
+    "author": "IT MNC Energy",
+    "category": "bcr",
+    "summary": "Barging & Sales",
+    "description": """
+
+    """,
+    "depends": [
+        'bcr_operational',
+        'mnc_user_signature',
+    ],
+    "data": [
+        'data/email_templates.xml',
+        'data/sequence.xml',
+        'security/security.xml',
+        'security/ir.model.access.csv',
+        'views/assets.xml',
+        'views/res_partner_views.xml',
+        'views/buyer_contract_views.xml',
+        'views/sales_plan_views.xml',
+        'views/shipping_views.xml',
+        'views/barge_detail_views.xml',
+        'views/quality_barge_views.xml',
+        'views/product_detail_views.xml',
+        'views/master_conf_views.xml',
+        'views/product_views.xml',
+        'views/master_iup_views.xml',
+        'views/menuitem.xml',
+        'wizard/barging_approval_wizard.xml',
+        'wizard/report_shipping_wizard_view.xml',
+        'reports/reports_shipping.xml',
+        'reports/reports_spk.xml',
+        'reports/reports_skab.xml',
+        'reports/reports_spb.xml',
+    ],
+}

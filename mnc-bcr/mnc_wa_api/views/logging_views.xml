@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="qontak_logging_form" model="ir.ui.view">
+            <field name="name">qontak.logging.form</field>
+            <field name="model">qontak.logging</field>
+            <field name="arch" type="xml">
+                <form create="0" edit="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="recipient"/>
+                            </group>
+                            <group>
+                                <field name="create_date"/>
+                                <field name="message"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="qontak_logging_tree" model="ir.ui.view">
+            <field name="name">qontak.logging.tree</field>
+            <field name="model">qontak.logging</field>
+            <field name="arch" type="xml">
+                <tree create="0">
+                    <field name="code"/>
+                    <field name="recipient"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_logging_sender" model="ir.actions.act_window">
+            <field name="name">Logging Sender</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">qontak.logging</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,110 @@
+<odoo>
+    <data>
+        <record id="room_meeting_view_form" model="ir.ui.view">
+            <field name="name">Room Form</field>
+            <field name="model">mncei.room.meeting</field>
+            <field name="arch" type="xml">
+                <form delete="0">
+                    <sheet>
+                        <h1>
+                            <field name="name" placeholder="Rm . 21/1..." string="Room Name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="status"/>
+                                <field name="capacity"/>
+                                <field name="floor_id" placeholder="Lantai 21.." options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="location" placeholder="MNC Tower.."/>
+                            </group>
+                            <group>
+                                <field name="is_merge"/>
+                                <field name="room_ids" domain="[('floor_id', '=', floor_id), ('is_merge', '=', False)]" options="{'no_create': True, 'no_create_edit': True}" widget="many2many_tags" attrs="{'invisible': [('is_merge', '=', False)], 'required': [('is_merge', '=', True)]}"/>
+                                <field name="ga_uid" widget="many2many_tags" options="{'no_create_edit': True, 'no_open': True, 'no_create': True}"/>
+                                <field name="secretay_uid" options="{'no_create_edit': True, 'no_open': True, 'no_create': True}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Facility" name="facilty_ids">
+                                <field name="facilty_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="unit"/>
+                                        <field name="room_id" invisible="1" string="Email"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="room_meeting_view_tree" model="ir.ui.view">
+            <field name="name">Meeting Tree</field>
+            <field name="model">mncei.room.meeting</field>
+            <field name="arch" type="xml">
+                <tree delete="0">
+                    <field name="status"/>
+                    <field name="name"/>
+                    <field name="capacity"/>
+                    <field name="floor_id"/>
+                    <field name="location"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="room_meeting_action" model="ir.actions.act_window">
+            <field name="name">Room</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mncei.room.meeting</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Please Create Meeting Room
+                </p>
+            </field>
+        </record>
+
+        <record id="floor_meeting_view_form" model="ir.ui.view">
+            <field name="name">Meeting Form</field>
+            <field name="model">mncei.floor.meeting</field>
+            <field name="arch" type="xml">
+                <form delete='0'>
+                    <group>
+                        <group>
+                            <field name="status"/>
+                        </group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="floor_meeting_view_tree" model="ir.ui.view">
+            <field name="name">Meeting Tree</field>
+            <field name="model">mncei.floor.meeting</field>
+            <field name="arch" type="xml">
+                <tree delete='0'>
+                    <field name="status"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="floor_meeting_action" model="ir.actions.act_window">
+            <field name="name">Floor</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mncei.floor.meeting</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Please Create Meeting Room
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

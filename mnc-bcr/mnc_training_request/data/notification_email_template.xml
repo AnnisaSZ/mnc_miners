@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="notification_training_request_mail_template_approved" model="mail.template">
+            <field name="name">MNCEI Training Request Notification</field>
+            <field name="subject">Waiting Your Approval</field> 
+            <field name="model_id" ref="model_mncei_training_req_approval" />
+            <field name="email_from">"${object.tr_id.company_id.name | safe}" &lt;${(object.tr_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Yth Bapak/Ibu  ${object.user_id.name}, <br/>
+                        Dengan ini diberitahukan bahwa Bapak/Ibu untuk melakukan Check/Review/Approve atas dokumen training request, terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Title</strong></td>
+                                    <td>:</td>
+                                    <td>${object.tr_id.title_tr}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Company</strong></td>
+                                    <td>:</td>
+                                    <td>${object.tr_id.company_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Start Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.tr_id.start_date}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Silahkan untuk melakukan Check/Review/Approve dengan klik link dibawah ini :
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.tr_id.company_id.id}&amp;id=${object.tr_id.id}&amp;menu_id=&amp;model=mncei.training.requesition&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        MNCEI Training Request<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Notification to GA -->
+        <record id="notification_training_request_ga" model="mail.template">
+            <field name="name">MNCEI Training Request Notification - GA</field>
+            <field name="subject">Please Check Training</field> 
+            <field name="model_id" ref="model_mncei_training_req_approval" />
+            <field name="email_from">"${object.tr_id.company_id.name | safe}" &lt;${(object.tr_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Yth Bapak/Ibu  ${object.user_id.name}, <br/>
+                        Dengan ini diberitahukan bahwa Bapak/Ibu untuk melakukan Review atas dokumen training request, terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Title</strong></td>
+                                    <td>:</td>
+                                    <td>${object.tr_id.title_tr}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Company</strong></td>
+                                    <td>:</td>
+                                    <td>${object.tr_id.company_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Start Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.tr_id.start_date}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Silahkan untuk melakukan Check/Review/Approve dengan klik link dibawah ini :
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.tr_id.company_id.id}&amp;id=${object.tr_id.id}&amp;menu_id=&amp;model=mncei.training.requesition&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        MNCEI Training Request<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

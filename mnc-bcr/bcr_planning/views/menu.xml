@@ -1,0 +1,95 @@
+<odoo>
+    <data>
+        
+        <menuitem id='menu_planning_bcr' name='Planning' parent='bcr_master.root_menu_bcr' sequence='7'/>
+<!--                  groups="group_bcr_process_actor_user,group_bcr_process_actor_spv_data_cont,group_bcr_process_actor_admin_site,group_bcr_process_actor_kon_produksi,group_bcr_process_actor_kon_hauling,group_bcr_process_actor_kon_barging,group_bcr_process_actor_mark_mncsite,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_op_timb_mnc"/>-->
+
+<!--        <menuitem id='menu_planning_production' name='Planning Production' parent='bcr_planning.menu_planning_bcr' sequence='1'/>-->
+
+<!--        create / input-->
+        <menuitem id='menu_bcr_input' name='Input' parent='bcr_master.root_menu_bcr' sequence='8'/>
+<!--                groups="group_bcr_process_actor_user,group_bcr_process_actor_spv_data_cont,group_bcr_process_actor_admin_site,group_bcr_process_actor_kon_produksi,group_bcr_process_actor_kon_hauling,group_bcr_process_actor_kon_barging,group_bcr_process_actor_mark_mncsite,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_op_timb_mnc"/>-->
+        <!--        <menuitem id='menu_bcr_input_planning_production' name='Planning Production' parent='bcr_planning.menu_bcr_input' sequence='1'/>-->
+
+<!--        review-->
+        <menuitem id='menu_bcr_review' name='Review' parent='bcr_master.root_menu_bcr' sequence='9'/>
+<!--                groups="group_bcr_process_actor_user,group_bcr_process_actor_spv_data_cont,group_bcr_process_actor_admin_site,group_bcr_process_actor_kon_produksi,group_bcr_process_actor_kon_hauling,group_bcr_process_actor_kon_barging,group_bcr_process_actor_mark_mncsite,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_op_timb_mnc"/>-->
+<!--        <menuitem id='menu_bcr_review_planning_production' name='Planning Production' parent='bcr_planning.menu_bcr_review' sequence='1'/>-->
+
+<!--        approve-->
+        <menuitem id='menu_bcr_approve' name='Approve' parent='bcr_master.root_menu_bcr' sequence='10'/>
+<!--        <menuitem id='menu_bcr_approve_planning_production' name='Planning Production' parent='bcr_planning.menu_bcr_approve' sequence='1'/>-->
+
+
+<!--        group di input-->
+        <menuitem
+                id="menu_group_input_planning"
+                name="Planning"
+                parent="menu_bcr_input"
+                sequence="1"/>
+<!--                groups="group_bcr_planning_input,group_bcr_planning_admin,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_admin_site"-->
+
+
+        <menuitem
+                id="menu_group_input_actual"
+                name="Actual"
+                parent="menu_bcr_input"
+                groups="group_bcr_planning_input,group_bcr_planning_admin,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_admin_site"
+                sequence="2"/>
+
+        <menuitem
+                id="menu_group_input_fuel_management"
+                name="Fuel Management"
+                parent="menu_bcr_input"
+                sequence="4"/>
+<!--                groups="group_bcr_planning_input,group_bcr_planning_admin,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_admin_site"-->
+
+
+<!--        group di review-->
+        <menuitem
+                id="menu_group_review_planning"
+                name="Planning"
+                parent="menu_bcr_review"
+                sequence="1"/>
+<!--                groups="group_bcr_planning_review,group_bcr_planning_admin,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_admin_site"-->
+
+        <menuitem
+                id="menu_group_review_actual"
+                name="Actual"
+                parent="menu_bcr_review"
+                sequence="2"/>
+<!--                groups="group_bcr_planning_review,group_bcr_planning_admin,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_admin_site"-->
+
+        <menuitem
+                id="menu_group_review_fuel_management"
+                name="Fuel Management"
+                parent="menu_bcr_review"
+                sequence="4"/>
+<!--                groups="group_bcr_planning_review,group_bcr_planning_admin,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_admin_site"-->
+
+
+<!--        group di approve-->
+        <menuitem
+                id="menu_group_approve_planning"
+                name="Planning"
+                parent="menu_bcr_approve"
+                sequence="1"/>
+<!--                groups="group_bcr_planning_approve,group_bcr_planning_admin,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_admin_site"-->
+
+        <menuitem
+                id="menu_group_approve_actual"
+                name="Actual"
+                parent="menu_bcr_approve"
+                sequence="2"/>
+<!--                groups="group_bcr_planning_approve,group_bcr_planning_admin,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_admin_site"-->
+
+        <menuitem
+                id="menu_group_approve_fuel_management"
+                name="Fuel Management"
+                parent="menu_bcr_approve"
+                sequence="4"/>
+<!--                groups="group_bcr_planning_approve,group_bcr_planning_admin,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_admin_site"-->
+
+
+    </data>
+</odoo>

@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ############################################# -->
+    <!-- Fuel Unit -->
+    <!-- Form Views -->
+    <record id="master_fuel_unit_views" model="ir.ui.view">
+        <field name="name">master.fuel.unit.form</field>
+        <field name="model">master.fuel.unit</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True, 'no_open':True, 'no_create_edit': True}"/>
+                            <field name="kode_unit"/>
+                            <field name="jenis_unit_id" domain="[('state', '=', 'active')]" options="{'no_create': 1, 'no_create_edit': 1}"/>
+                            <field name="tipe_unit_id" domain="[('jenis_unit_id', '=', jenis_unit_id), ('state', '=', 'active'), ('company_id', '=', company_id)]" options="{'no_create': 1, 'no_create_edit': 1}" context="{'default_jenis_unit_id': jenis_unit_id}"/>
+                            <field name="merk_unit_id" domain="[('state', '=', 'active')]"/>
+                            <field name="fuel_truck"/>
+                        </group>
+                        <group>
+                            <field name="tahun"/>
+                            <field name="tank_capacity"/>
+                            <field name="company_fuel_id"/>
+                            <field name="standard_high"/>
+                            <field name="standard_low"/>
+                            <field name="state"/>
+                            <field name="is_hm"/>
+                            <field name="is_km"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="master_fuel_unit_view_tree">
+        <field name="name">master.fuel.unit.tree</field>
+        <field name="model">master.fuel.unit</field>
+        <field name="arch" type="xml">
+            <tree delete="0" duplicate="0">
+                <field name="kode_unit"/>
+                <field name="company_id" options="{'no_create': True, 'no_open':True, 'no_create_edit': True}"/>
+                <field name="jenis_unit_id"/>
+                <field name="tipe_unit_id"/>
+                <field name="merk_unit_id"/>
+                <field name="company_fuel_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+     <!-- ############################################# -->
+    <!-- Form Views -->
+    <record id="fuel_lokasi_kerja_views" model="ir.ui.view">
+        <field name="name">fuel.lokasi.kerja.form</field>
+        <field name="model">fuel.lokasi.kerja</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="fuel_lokasi_kerja_tree">
+        <field name="name">fuel.lokasi.kerja.tree</field>
+        <field name="model">fuel.lokasi.kerja</field>
+        <field name="arch" type="xml">
+            <tree delete="0" duplicate="0">
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <!-- ############################################# -->
+    <!-- Form Views -->
+    <record id="master_jenis_unit_views" model="ir.ui.view">
+        <field name="name">master.jenis.unit.form</field>
+        <field name="model">master.jenis.unit</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="master_jenis_unit_view_tree">
+        <field name="name">master.jenis.unit.tree</field>
+        <field name="model">master.jenis.unit</field>
+        <field name="arch" type="xml">
+            <tree delete="0" duplicate="0">
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <!-- ############################################# -->
+    <!-- Form Views -->
+    <record id="master_merk_unit_views" model="ir.ui.view">
+        <field name="name">master.merk.unit.form</field>
+        <field name="model">master.merk.unit</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="master_merk_unit_view_tree">
+        <field name="name">master.merk.unit.tree</field>
+        <field name="model">master.merk.unit</field>
+        <field name="arch" type="xml">
+            <tree delete="0" duplicate="0">
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <!-- ############################################# -->
+    <!-- Fuel Type Unit -->
+    <!-- Form Views -->
+    <record id="master_fuel_type_unit_views" model="ir.ui.view">
+        <field name="name">master.fuel.type.unit.form</field>
+        <field name="model">master.fuel.type.unit</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tipe_unit"/>
+                            <field name="jenis_unit_id" domain="[('state', '=', 'active')]"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True, 'no_open':True, 'no_create_edit': True}"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="master_fuel_type_unit_view_tree">
+        <field name="name">master.fuel.type.unit.tree</field>
+        <field name="model">master.fuel.type.unit</field>
+        <field name="arch" type="xml">
+            <tree delete="0" duplicate="0">
+                <field name="company_id" options="{'no_create': True, 'no_open':True, 'no_create_edit': True}"/>
+                <field name="tipe_unit"/>
+                <field name="jenis_unit_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <!-- ############################################# -->
+    <!-- Fuel Contractor -->
+    <!-- Form Views -->
+    <record id="master_fuel_company_views" model="ir.ui.view">
+        <field name="name">master.fuel.company.form</field>
+        <field name="model">master.fuel.company</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <sheet>
+                    <label for="name_company_fuel"/>
+                    <h1>
+                        <field name="name_company_fuel"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="code_comp_fuel"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="company_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="master_fuel_contractor_tree">
+        <field name="name">master.fuel.company.tree</field>
+        <field name="model">master.fuel.company</field>
+        <field name="arch" type="xml">
+            <tree delete="0" duplicate="0">
+                <field name="name_company_fuel"/>
+                <field name="code_comp_fuel"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <!-- ############################################# -->
+    <!-- Fuel Driver -->
+    <!-- Form Views -->
+    <record id="master_fuel_driver_views" model="ir.ui.view">
+        <field name="name">master.fuel.driver.form</field>
+        <field name="model">master.fuel.driver</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <sheet>
+                    <label for="kode_driver" string="ID Driver"/>
+                    <h1>
+                        <field name="kode_driver"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="nama_driver" string="Driver/Operator"/>
+                            <field name="company_fuel_id" string="Kontraktor" domain="[('state', '=', 'active')]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="phone"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True, 'no_open':True, 'no_create_edit': True}"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="master_fuel_driver_tree">
+        <field name="name">master.fuel.driver.tree</field>
+        <field name="model">master.fuel.driver</field>
+        <field name="arch" type="xml">
+            <tree delete="0" duplicate="0">
+                <field name="kode_driver"/>
+                <field name="nama_driver"/>
+                <field name="company_id" options="{'no_create': True, 'no_open':True, 'no_create_edit': True}"/>
+                <field name="company_fuel_id"/>
+                <field name="phone"/>
+            </tree>
+        </field>
+    </record>
+    <!-- ############################################# -->
+    <!-- Fuel Fuelman -->
+    <!-- Form Views -->
+    <record id="master_fuel_fuelman_views" model="ir.ui.view">
+        <field name="name">master.fuel.fuelman.form</field>
+        <field name="model">master.fuel.fuelman</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <sheet>
+                    <label for="kode_fuelman"/>
+                    <h1>
+                        <field name="kode_fuelman"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="nama_fuelman"/>
+                            <field name="phone"/>
+                        </group>
+                        <group>
+                            <field name="company_fuel_id" domain="[('state', '=', 'active')]"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="master_fuel_fuelman_tree">
+        <field name="name">master.fuel.fuelman.tree</field>
+        <field name="model">master.fuel.fuelman</field>
+        <field name="arch" type="xml">
+            <tree delete="0" duplicate="0">
+                <field name="kode_fuelman"/>
+                <field name="nama_fuelman"/>
+                <field name="company_fuel_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <!-- ############################################# -->
+    <!-- Fuel foreman -->
+    <!-- Form Views -->
+    <record id="master_fuel_foreman_views" model="ir.ui.view">
+        <field name="name">master.fuel.foreman.form</field>
+        <field name="model">master.fuel.foreman</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <sheet>
+                    <label for="kode_foreman"/>
+                    <h1>
+                        <field name="kode_foreman"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="nama_foreman"/>
+                            <field name="phone"/>
+                        </group>
+                        <group>
+                            <field name="company_fuel_id" domain="[('state', '=', 'active')]"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="master_fuel_foreman_tree">
+        <field name="name">master.fuel.foreman.tree</field>
+        <field name="model">master.fuel.foreman</field>
+        <field name="arch" type="xml">
+            <tree delete="0" duplicate="0">
+                <field name="kode_foreman"/>
+                <field name="nama_foreman"/>
+                <field name="company_fuel_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ############################################# -->
+    <!-- Fuel foreman -->
+    <!-- Form Views -->
+    <record id="master_fuel_user_views" model="ir.ui.view">
+        <field name="name">master.fuel.user.form</field>
+        <field name="model">master.fuel.user</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="company_fuel_id" domain="[('state', '=', 'active')]"/>
+                            <field name="phone"/>
+                        </group>
+                        <group>
+                            <field name="ttype"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="master_fuel_user_tree">
+        <field name="name">master.fuel.user.tree</field>
+        <field name="model">master.fuel.user</field>
+        <field name="arch" type="xml">
+            <tree delete="0" duplicate="0">
+                <field name="name"/>
+                <field name="ttype"/>
+                <field name="company_fuel_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ############################################### -->
+    <!-- Action -->
+    <!-- Fuel Unit -->
+    <record id="action_fuel_unit" model="ir.actions.act_window">
+        <field name="name">Unit</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.fuel.unit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+    <!-- Jenis Unit -->
+    <record id="action_jenis_unit" model="ir.actions.act_window">
+        <field name="name">Jenis Unit</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.jenis.unit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+    <!-- Merk Unit -->
+    <record id="action_merk_unit" model="ir.actions.act_window">
+        <field name="name">Merk Unit</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.merk.unit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+    <!-- Fuel Type Unit -->
+    <record id="action_fuel_type_unit" model="ir.actions.act_window">
+        <field name="name">Type Unit</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.fuel.type.unit</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+    <!-- Fuel Location Work -->
+    <record id="action_location_work" model="ir.actions.act_window">
+        <field name="name">Lokasi Kerja</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fuel.lokasi.kerja</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+    <!-- Fuel Type Unit -->
+    <record id="action_fuel_company" model="ir.actions.act_window">
+        <field name="name">Company</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.fuel.company</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+    <!-- Fuel Driver -->
+    <record id="action_fuel_driver" model="ir.actions.act_window">
+        <field name="name">Driver</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.fuel.driver</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+    <!-- Fuel Fuelman -->
+    <record id="action_fuel_fuelman" model="ir.actions.act_window">
+        <field name="name">Fuelman</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.fuel.fuelman</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+    <!-- Fuel Foreman -->
+    <record id="action_fuel_foreman" model="ir.actions.act_window">
+        <field name="name">Foreman</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.fuel.foreman</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+    <!-- User Approval -->
+    <record id="action_fuel_users" model="ir.actions.act_window">
+        <field name="name">Users</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.fuel.user</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+</odoo>

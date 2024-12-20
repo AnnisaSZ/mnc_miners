@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- Tracking Resume -->
+        <record id="resume_type_tracking_document" model="hr.resume.line.type">
+            <field name="name">Tracking Document</field>
+            <field name="sequence">1</field>
+        </record>
+    </data>
+
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xml:space="preserve">
+    <t t-extend="ListView.buttons" t-name="AttendanceListView.buttons">
+        <t t-jquery="button.o_list_button_add" t-operation="after">
+            <!-- <button type="button" name="export_to_excel" class="btn btn-primary"> -->
+            <button type="button" name="export_to_excel" class="btn btn-primary o_generate_attendance_xls">
+                Export Data
+            </button>
+        </t>
+    </t>
+</template>

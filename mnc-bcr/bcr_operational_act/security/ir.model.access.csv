@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_act_operational,act.operational,model_act_operational,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_act_delay_line,act.delay.line,model_act_delay_line,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_act_survey,access_act_survey,model_act_survey,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_act_survey_line,access_act_survey_line,model_act_survey_line,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_act_stock_opname,access_act_stock_opname,model_act_stock_opname,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_act_stock_opname_line,access_act_stock_opname_line,model_act_stock_opname_line,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1

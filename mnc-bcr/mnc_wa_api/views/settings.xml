@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Config -->
+        <record id="qontak_auth_form" model="ir.ui.view">
+            <field name="name">qontak.auth.form</field>
+            <field name="model">qontak.auth</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_send_direct" string="Send WA" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="username"/>
+                                <field name="password"/>
+                                <label for="token" string="Token"/>
+	                            <div>
+	                                <field name="token"/>
+	                                <button name="action_refresh_token" class="fa fa-lg fa fa-refresh" type="object"/>
+	                            </div>
+                                <field name="refresh_token"/>
+                            </group>
+                            <group>
+                                <field name="client_id" widget="password"/>
+                                <field name="client_secret" widget="password"/>
+                            </group>
+                        </group>
+                        <group name="channel" string="Channel">
+                            <label for="channel_ids" string="Get Channel"/>
+                            <div>
+                                <button name="action_get_channel" class="fa fa-lg fa fa-refresh" type="object"/>
+                            </div>
+                            <field name="channel_ids" readonly="1">
+                                <tree>
+                                    <field name="qontak_id"/>
+                                    <field name="target_channel"/>
+                                    <field name="account_name"/>
+                                    <field name="account_number"/>
+                                    <field name="is_active"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group name="template" string="Templates">
+                            <label for="template_ids" string="Get Templates"/>
+                            <div>
+                                <button name="action_get_template" class="fa fa-lg fa fa-refresh" type="object"/>
+                            </div>
+                            <field name="template_ids" readonly="1">
+                                <tree decoration-success="status == 'APPROVED'" decoration-danger="status == 'REJECTED'">
+                                    <field name="qontak_id"/>
+                                    <field name="organization_id"/>
+                                    <field name="name"/>
+                                    <field name="status"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="qontak_auth_tree" model="ir.ui.view">
+            <field name="name">qontak.auth.tree</field>
+            <field name="model">qontak.auth</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="username"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_qontak_auth" model="ir.actions.act_window">
+            <field name="name">User Qontak</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">qontak.auth</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="announce_category_group" model="ir.module.category">
+            <field name="name">CMS</field>
+        </record>
+
+        <record id="group_ann_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="announce_category_group"/>
+        </record>
+
+        <record id="group_ann_admin" model="res.groups">
+            <field name="name">Approval</field>
+            <field name="implied_ids" eval="[(4, ref('mnc_energy_information.group_ann_user'))]"/>
+            <field name="category_id" ref="announce_category_group"/>
+        </record>
+    </data>
+</odoo>

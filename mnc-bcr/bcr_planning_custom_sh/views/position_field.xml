@@ -1,0 +1,242 @@
+<odoo>
+  <data>
+      <!--    planning hauling-->
+      <record id="inherit_formview_planning_hauling_sh9" model="ir.ui.view">
+        <field name="name">inherit_formview_planning_hauling_sh9</field>
+        <field name="model">planning.hauling</field>
+        <field name="inherit_id" ref="bcr_planning.formview_planning_hauling"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sub_activity_id']" position="after">
+                <xpath expr="//group/group/label[@for='date_start']" position="move"/>
+                <xpath expr="//group/group/div[1]" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <!--    planning barging-->
+      <record id="inherit_formview_planning_barging_sh9" model="ir.ui.view">
+        <field name="name">inherit_formview_planning_barging_sh9</field>
+        <field name="model">planning.barging</field>
+        <field name="inherit_id" ref="bcr_planning.formview_planning_barging"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sub_activity_id']" position="after">
+                <xpath expr="//group/group/label[@for='date_start']" position="move"/>
+                <xpath expr="//group/group/div[1]" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <!--    planning production-->
+      <record id="inherit_formview_planning_production_sh9" model="ir.ui.view">
+        <field name="name">inherit_formview_planning_production_sh9</field>
+        <field name="model">planning.production</field>
+        <field name="inherit_id" ref="bcr_planning.formview_planning_production"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sub_activity_id']" position="after">
+                <xpath expr="//group/group/label[@for='date_start']" position="move"/>
+                <xpath expr="//group/group/div[1]" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <!--    act production-->
+      <record id="inherit_formview_act_production_sh9" model="ir.ui.view">
+        <field name="name">inherit_formview_act_production_sh9</field>
+        <field name="model">act.production</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_production"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='sub_activity_id']" position="after">
+                <xpath expr="//field[@name='date_act']" position="move"/>
+                <xpath expr="//field[@name='shift_id']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='area_id']" position="after">
+                <xpath expr="//field[@name='source_id']" position="move"/>
+                <xpath expr="//field[@name='seam_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <!--    act stockroom/inventory-->
+      <record id="inherit_formview_act_stockroom_sh9" model="ir.ui.view">
+        <field name="name">inherit_formview_act_stockroom_sh9</field>
+        <field name="model">act.stockroom</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_stockroom"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='sub_activity_id']" position="after">
+                <xpath expr="//field[@name='date_act']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='area_id']" position="after">
+                <xpath expr="//field[@name='seam_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <!--    act delay/lost time-->
+      <record id="inherit_formview_act_delay_sh9" model="ir.ui.view">
+        <field name="name">inherit_formview_act_delay_sh9</field>
+        <field name="model">act.delay</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_delay"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='activity_id']" position="after">
+                <xpath expr="//field[@name='date_act']" position="move"/>
+                <xpath expr="//field[@name='shift_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <!--    act hauling-->
+      <record id="inherit_formview_act_hauling_sh9" model="ir.ui.view">
+        <field name="name">inherit_formview_act_hauling_sh9</field>
+        <field name="model">act.hauling</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_hauling"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='sub_activity_id']" position="after">
+                <xpath expr="//field[@name='date_act']" position="move"/>
+                <xpath expr="//field[@name='shift_id']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='area_id']" position="after">
+                <xpath expr="//field[@name='seam_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <!--    act barging-->
+      <record id="inherit_formview_act_barging_sh9" model="ir.ui.view">
+        <field name="name">inherit_formview_act_barging_sh9</field>
+        <field name="model">act.barging</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_barging"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+                <xpath expr="//field[@name='kontraktor_produksi_id']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='sub_activity_id']" position="after">
+                <xpath expr="//field[@name='date_act']" position="move"/>
+                <xpath expr="//field[@name='shift_id']" position="move"/>
+                <xpath expr="//field[@name='seq_barge']" position="move"/>
+                <xpath expr="//field[@name='lot']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='area_id']" position="after">
+                <xpath expr="//field[@name='seam_id']" position="move"/>
+            </xpath>
+            <xpath expr="//field[@name='total_unit']" position="after">
+                <xpath expr="//field[@name='source_group']" position="move"/>
+                <xpath expr="//field[@name='basis']" position="move"/>
+            </xpath>
+             <xpath expr="//field[@name='barge_id']" position="before">
+                 <xpath expr="//field[@name='sizing']" position="move"/>
+             </xpath>
+            <xpath expr="//field[@name='buyer_id']" position="after">
+                <xpath expr="//field[@name='market']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+
+<!--      review-->
+      <record id="inherit_listview_planning_production_review_sh9" model="ir.ui.view">
+        <field name="name">inherit_listview_planning_production_review_sh9</field>
+        <field name="model">planning.production</field>
+        <field name="inherit_id" ref="bcr_planning.listview_planning_production_review"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <record id="inherit_listview_act_barging_review_sh9" model="ir.ui.view">
+        <field name="name">inherit_listview_act_barging_review_sh9</field>
+        <field name="model">act.barging</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_barging_review"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+                <xpath expr="//field[@name='kontraktor_produksi_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <record id="inherit_listview_act_hauling_review_sh9" model="ir.ui.view">
+        <field name="name">inherit_listview_act_hauling_review_sh9</field>
+        <field name="model">act.hauling</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_hauling_review"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <record id="inherit_listview_act_production_review_sh9" model="ir.ui.view">
+        <field name="name">inherit_listview_act_production_review_sh9</field>
+        <field name="model">act.production</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_production_review"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <record id="inherit_listview_act_delay_review_sh9" model="ir.ui.view">
+        <field name="name">inherit_listview_act_delay_review_sh9</field>
+        <field name="model">act.delay</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_delay_review"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+<!--      approve-->
+      <record id="inherit_listview_planning_production_approve_sh9" model="ir.ui.view">
+        <field name="name">inherit_listview_planning_production_approve_sh9</field>
+        <field name="model">planning.production</field>
+        <field name="inherit_id" ref="bcr_planning.listview_planning_production_approve"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <record id="inherit_listview_act_barging_approve_sh9" model="ir.ui.view">
+        <field name="name">inherit_listview_act_barging_approve_sh9</field>
+        <field name="model">act.barging</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_barging_approve"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+                <xpath expr="//field[@name='kontraktor_produksi_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <record id="inherit_listview_act_hauling_approve_sh9" model="ir.ui.view">
+        <field name="name">inherit_listview_act_hauling_approve_sh9</field>
+        <field name="model">act.hauling</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_hauling_approve"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <record id="inherit_listview_act_production_approve_sh9" model="ir.ui.view">
+        <field name="name">inherit_listview_act_production_approve_sh9</field>
+        <field name="model">act.production</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_production_approve"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+      <record id="inherit_listview_act_delay_approve_sh9" model="ir.ui.view">
+        <field name="name">inherit_listview_act_delay_approve_sh9</field>
+        <field name="model">act.delay</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_delay_approve"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bu_company_id']" position="after">
+                <xpath expr="//field[@name='kontraktor_id']" position="move"/>
+            </xpath>
+        </field>
+      </record>
+  </data>
+</odoo>

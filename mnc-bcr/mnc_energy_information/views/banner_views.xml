@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="banner_view_form" model="ir.ui.view">
+        <field name="name">Banner Form</field>
+        <field name="model">mncei.banner</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" class="oe_highlight" type="object" attrs="{'invisible': [('state', '!=', 'draft')]}" confirm="Are You Sure ?"/>
+                    <button name="action_approve" string="Approve" class="oe_highlight" type="object" attrs="{'invisible': [('state', '!=', 'waiting')]}" confirm="Are You Sure ?" groups="mnc_energy_information.group_ann_admin"/>
+                    <button name="action_reject" string="Reject" type="object" attrs="{'invisible': [('state', '!=', 'waiting')]}" confirm="Are You Sure ?" groups="mnc_energy_information.group_ann_admin"/>
+                    <button name="action_revise" string="Approve" type="object" attrs="{'invisible': [('state', '!=', 'reject')]}" confirm="Are You Sure ?"/>
+                    <button name="action_extend" string="Extend" type="object" attrs="{'invisible': [('state', '!=', 'expired')]}"/>
+                    <field name="state" readonly="True" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="draft,waiting,release"/>
+                </header>
+                <sheet>
+                    <label for="title"/>
+                    <h1>
+                        <field name="title" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </h1>
+                    <group>
+                        <group string='Banner Information'>
+                            <field name="description" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="banner_img" widget="image" options='{"size": [80, 80]}' attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="detail_img" widget="image" options='{"size": [120, 120]}' attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group string='Periode'>
+                            <field name="link" widget="url" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="date_start" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="date_end" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                    </group>                                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="banner_view_tree" model="ir.ui.view">
+        <field name="name">Banner Tree</field>
+        <field name="model">mncei.banner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="title"/>
+                <field name="banner_img" widget="image" class="oe_avatar" options="{'tooltip_image': 'image'}"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state" widget="badge" decoration-success="state == 'release'" decoration-warning="state in ('waiting')" decoration-danger="state in ('reject', 'expired')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_banner" model="ir.actions.act_window">
+        <field name="name">Banner</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.banner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Banner Information
+            </p>
+        </field>
+    </record>
+
+</odoo>

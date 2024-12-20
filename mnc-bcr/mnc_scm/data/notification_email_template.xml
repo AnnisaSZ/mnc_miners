@@ -1,0 +1,914 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="notification_prf_mail_template" model="mail.template">
+            <field name="name">PRF Notification</field>
+            <field name="model_id" ref="model_part_request"/>
+            <field name="subject">New Part Request Form (PRF)</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set invited_users = ctx['invited_users']
+                        Dear ${invited_users.name}, <br/>
+                        Hereby notified that there is a <strong>New Part Request Form (PRF)</strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>PRF No</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.priority}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Required Before Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.required_before_date_string}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.create_uid.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.request_date}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please access the Part Request Form (PRF) to see the details through the following link:
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=part.request&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Please be willing to take the time to review and give consent to the reporting.<br/><br/>
+                        Regards, <br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- ORF -->
+        <record id="notification_orf_mail_template" model="mail.template">
+            <field name="name">ORF Notification</field>
+            <field name="model_id" ref="model_prf_approval"/>
+            <field name="subject">New Order Request Form (ORF)</field>
+            <field name="email_from">"${object.orf_id.company_id.name | safe}" &lt;${(object.orf_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${object.user_id.name}, <br/>
+                        Hereby notified that there is a <strong>New Order Request Form (ORF)</strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>ORF No.</strong></td>
+                                    <td>:</td>
+                                    <td>${object.orf_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.orf_id.priority}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Required Before Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.orf_id.required_before_date_string}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.orf_id.requestor_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.orf_id.request_date}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please access the Order Request Form (ORF) to see the details through the following link:
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.orf_id.company_id.id}&amp;id=${object.orf_id.id}&amp;menu_id=&amp;model=order.request&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Please be willing to take the time to review and give consent to the reporting. <br/><br/>
+                        Regards, <br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Price Comparison -->
+        <record id="notification_pc_mail_template" model="mail.template">
+            <field name="name">Price Comparison Notification</field>
+            <field name="model_id" ref="model_price_comparation"/>
+            <field name="subject">New Price Comparison Form</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${object.approval_id.user_id.name}, <br/>
+                        Hereby notified that there is a <strong>New Price Comparison Form </strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Price Comp No.</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.priority}</td>
+                                </tr>
+                                <!-- <tr>
+                                    <td><strong>Required Before Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.required_before_date_string}</td>
+                                </tr> -->
+                                <tr>
+                                    <td><strong>Created By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.create_uid.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Created Date</strong></td>
+                                    <td>:</td>
+                                    <td>
+                                        ${object.create_date.strftime('%d-%m-%Y')}
+                                    </td>                                   
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please access the Price Comparison Form to see the details through the following link:
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=price.comparation&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Please be willing to take the time to review and give consent to the reporting. <br/><br/>
+                        Regards, <br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!--  Purchase Order -->
+        <record id="notification_po_mail_template" model="mail.template">
+            <field name="name">PO SCM</field>
+            <field name="model_id" ref="model_purchase_order"/>
+            <field name="subject">New Purchase Order Form</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${object.user_id.name}, <br/>
+                        Hereby notified that there is a <strong>New Purchase Order (PO) Form</strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>PO No</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.priority}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Created By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.create_uid.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.create_date.strftime('%d-%m-%Y')}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        Please access the Purchase Order (PO) Form to see the details through the following link:
+                        <br/>
+                        <a href="${object.url}/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=purchase.order&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/>
+                        <br/>
+                        Please be willing to take the time to review and give consent to the reporting. 
+                        <br/>
+                        <br/>
+                        Regards<br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- SLP -->    
+        <record id="notification_slp_mail_template" model="mail.template">
+            <field name="name">Notification SLP</field>
+            <field name="model_id" ref="model_submission_letter_payment"/>
+            <field name="subject">New Submission Letter for Payment Form</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${object.approve_uid.name}, <br/>
+                        Hereby notified that there is a <strong>new Submission Letter For Payment (SLP) Form </strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>SLP Number</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>
+                                        % for line in object.po_ids:
+                                            ${line.priority}
+                                        % endfor
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Created By</strong></td>
+                                    <td>:</td>
+                                    <td>
+                                        ${object.create_uid.name}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Created Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.create_date.strftime('%d-%m-%Y')}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please access the Submission Letter For Payment (SLP) Form to see the details through the following link:
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=submission.letter.payment&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Please be willing to take the time to review and give consent to the reporting. 
+                        <br/><br/>
+                        Regards<br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!--  Shipping -->
+        <record id="notification_shipping_mail_template" model="mail.template">
+            <field name="name">Shipping SCM</field>
+            <!-- Ganti modelnya jangan lupa -->
+            <!-- <field name="model_id" ref="model_prf_approval"/> -->
+            <field name="model_id" ref="model_shipping_detail"/>
+            <field name="subject">New Shipping Detail</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set invited_users = ctx['invited_users']
+                        Dear ${invited_users.name}, <br/>
+                        Hereby notified that there is a <strong>New Shipping Detail</strong> information that has been provided by the Vendor with the following details: 
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>PO No</strong></td>
+                                    <td>:</td>
+                                    <td>
+                                        ${object.po_id.name}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Vendor</strong></td>
+                                    <td>:</td>
+                                    <td>
+                                        ${object.partner_id.name}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status Shipment</strong></td>
+                                    <td>:</td>
+                                    <td>
+                                        ${object.status_shipment_id.name}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ETA</strong></td>
+                                    <td>:</td>
+                                    <td>${object.eta.strftime('%d-%m-%Y')}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ETD</strong></td>
+                                    <td>:</td>
+                                    <td>${object.etd}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        Please access Shipping Detail to see the details through the following link:
+                        <br/>
+                        <a href="${object.url}/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=shipping.detail&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/>
+                        <br/>
+                        Please be willing to take the time to review and give consent to the reporting.
+                        <br/>
+                        <br/>
+                        Regards<br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- ALL APPROVED -->
+        <!-- ORF -->
+        <record id="approved_orf_mail_template" model="mail.template">
+            <field name="name">ORF Notification Approved</field>
+            <field name="model_id" ref="model_order_request"/>
+            <field name="subject">Approved Order Request Form (ORF)	</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set invited_users = ctx['invited_users']
+                        Dear ${invited_users.name}, <br/>
+                        Hereby notified that your <strong>Order Request Form (ORF) application has Fully Approved</strong> on the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>ORF No.</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.priority}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Required Before Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.required_before_date_string}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.requestor_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.request_date}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please access the Order Request Form (ORF) to see the details through the following link:
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=order.request&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Please be willing to take the time to review and give consent to the reporting. 
+                        <br/><br/>
+                        Regards<br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record> 
+
+        <!-- Price Comp -->
+        <record id="approved_pc_mail_template" model="mail.template">
+            <field name="name">Price Comparison Notification Approved</field>
+            <field name="model_id" ref="model_price_comparation"/>
+            <field name="subject">Approved Price Comparison	</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set invited_users = ctx['invited_users']
+                        Dear ${invited_users.name}, <br/>
+                        Hereby notified that your <strong>Price Comparison application has Fully Approved</strong> on the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Price Comp No.</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.priority}</td>
+                                </tr>
+                                <!-- <tr>
+                                    <td><strong>Required Before Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.required_before_date_string}</td>
+                                </tr> -->
+                                <tr>
+                                    <td><strong>Created By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.create_uid.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Created Date</strong></td>
+                                    <td>:</td>
+                                    <td>
+                                        ${object.create_date.strftime('%d-%m-%Y')}
+                                    </td>                                   
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please access the Price Comparison Form to see the details through the following link:
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=price.comparation&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Please be willing to take the time to review and give consent to the reporting. 
+                        <br/><br/>
+                        Regards<br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record> 
+
+        <!-- Rejected -->
+        <record id="notification_prf_mail_template_rejected" model="mail.template">
+            <field name="name">PRF Notification Rejected</field>
+            <field name="model_id" ref="model_prf_approval"/>
+            <field name="subject">Rejected Part Request Form (PRF)</field>
+            <field name="email_from">"${object.prf_id.company_id.name | safe}" &lt;${(object.prf_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${object.user_id.name}, <br/>
+                        Hereby notified that there is a <strong>Rejected Part Request Form (PRF)</strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>PRF No</strong></td>
+                                    <td>:</td>
+                                    <td>${object.prf_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.prf_id.priority}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Required Before Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.prf_id.required_before_date_string}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rejected By</strong></td>
+                                    <td>:</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Notes</strong></td>
+                                    <td>:</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please access the Part Request Form (PRF) to see the details through the following link:
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.prf_id.company_id.id}&amp;id=${object.prf_id.id}&amp;menu_id=&amp;model=part.request&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Please be willing to take the time to review and give consent to the reporting.<br/><br/>
+                        Regards, <br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- ORF -->
+        <record id="notification_orf_mail_template_rejected" model="mail.template">
+            <field name="name">ORF Notification Rejected</field>
+            <field name="model_id" ref="model_order_request"/>
+            <field name="subject"> Rejected Order Request Form (ORF)</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                       % set invited_users = ctx['invited_users']
+                        Dear ${invited_users.name}, <br/>
+                        Hereby notified that there is a <strong>Rejected Order Request Form (ORF)</strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>ORF No.</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.priority}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Required Before Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.required_before_date_string}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rejected By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.uid_reject.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Notes</strong></td>
+                                    <td>:</td>
+                                    <td>${object.reason_reject}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please access the Order Request Form (ORF) to see the details through the following link:
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=order.request&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Please be willing to take the time to review and give consent to the reporting. <br/><br/>
+                        Regards, <br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Price Comparison -->
+        <record id="notification_pc_mail_template_rejected" model="mail.template">
+            <field name="name">Price Comparison Notification Rejected</field>
+            <!-- ganti model jangan lupaaa -->
+            <!-- <field name="model_id" ref="model_prf_approval"/> -->
+            <field name="model_id" ref="model_prf_approval"/>
+            <field name="subject">Rejected Price Comparison Form</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${object.user_id.name}, <br/>
+                        Hereby notified that there is a <strong>Rejected Price Comparison Form </strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Price Comp No.</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.priority}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Required Before Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.orf_id.required_before_date_string}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rejected By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.uid_reject.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Notes</strong></td>
+                                    <td>:</td>
+                                    <td>${object.reason_reject}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please access the Price Comparison Form to see the details through the following link:
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.orf_id.company_id.id}&amp;id=${object.orf_id.id}&amp;menu_id=&amp;model=order.request&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Please be willing to take the time to review and give consent to the reporting. <br/><br/>
+                        Regards, <br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!--  Purchase Order -->
+        <record id="notification_po_mail_template_rejected" model="mail.template">
+            <field name="name">PO SCM Rejected</field>
+            <field name="model_id" ref="model_prf_approval"/>
+            <field name="subject">Rejected Purchase Order Form	</field>
+            <field name="email_from">"${object.po_id.company_id.name | safe}" &lt;${(object.po_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear  <br/>
+                        Hereby notified that there is a <strong>Rejected Purchase Order Form</strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>PO No</strong></td>
+                                    <td>:</td>
+                                    <td>${object.po_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.po_id.priority}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rejected By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.po_id.uid_reject.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Notes</strong></td>
+                                    <td>:</td>
+                                    <td>${object.po_id.reason_reject}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        Please access the Purchase Order (PO) Form to see the details through the following link:
+                        <br/>
+                        <a href="${object.url}/web#cids=${object.po_id.company_id.id}&amp;id=${object.po_id.id}&amp;menu_id=&amp;model=purchase.order&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/>
+                        <br/>
+                        Please be willing to take the time to review and give consent to the reporting. 
+                        <br/>
+                        <br/>
+                        Regards<br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- SLP -->    
+        <record id="notification_slp_mail_template_rejected" model="mail.template">
+            <field name="name">Notification SLP Rejected</field>
+            <field name="model_id" ref="model_submission_letter_payment"/>
+            <field name="subject">Rejected Submission Letter for Payment Form</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear ${object.approve_uid.user_id.name}, <br/>
+                        Hereby notified that there is a <strong>Rejected Submission Letter for Payment Form </strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>SLP Number</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Priority</strong></td>
+                                    <td>:</td>
+                                    <td>${object.slp_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rejected By</strong></td>
+                                    <td>:</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Notes</strong></td>
+                                    <td>:</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please access the Submission Letter For Payment (SLP) Form to see the details through the following link:
+                        <br/>
+                        <a href="https://mncminers.com/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=submission.letter.payment&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Please be willing to take the time to review and give consent to the reporting. 
+                        <br/><br/>
+                        Regards<br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!--  Shipping -->
+        <record id="notification_warranty_claim_mail_template" model="mail.template">
+            <field name="name">Warranty Claim Submission</field>
+            <field name="model_id" ref="model_shipping_detail"/>
+            <field name="subject">Warranty Claim Submission</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set invited_users = ctx['invited_users']
+                        Dear ${invited_users.name}, <br/>
+                        Hereby notified that there is a <strong>Warranty Claim Submission</strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>PO No</strong></td>
+                                    <td>:</td>
+                                    <td>${object.po_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ORF No</strong></td>
+                                    <td>:</td>
+                                    <td>
+                                        % for line in object.po_id.orf_ids:
+                                            ${line.name},
+                                        % endfor
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Vendor</strong></td>
+                                    <td>:</td>
+                                    <td>${object.partner_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Quality Assurance</strong></td>
+                                    <td>:</td>
+                                    <td>${object.qa_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Notes	</strong></td>
+                                    <td>:</td>
+                                    <td>${object.checking_result}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        Please access the Shipping Detail to see the details through the following link:
+                        <br/>
+                        <a href="${object.url}/web#cids=${object.po_id.company_id.id}&amp;id=${object.po_id.id}&amp;menu_id=&amp;model=purchase.order&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/>
+                        <br/>
+                        Please be willing to take the time to review and give consent to the reporting.
+                        <br/>
+                        <br/>
+                        Regards<br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!--  Shipping -->
+        <record id="notification_return_vendor_mail_template" model="mail.template">
+            <field name="name">Request for Return to Vendor</field>
+            <field name="model_id" ref="model_shipping_detail"/>
+            <field name="subject">Request for Return to Vendor</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set invited_users = ctx['invited_users']
+                        Dear ${invited_users.name}, <br/>
+                        Hereby notified that there is a <strong>Request for Return to Vendor</strong> that requires your immediate review and approval of the attached documents:
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>PO No</strong></td>
+                                    <td>:</td>
+                                    <td>${object.po_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ORF No</strong></td>
+                                    <td>:</td>
+                                    <td>
+                                        % for line in object.po_id.orf_ids:
+                                            ${line.name},
+                                        % endfor
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Vendor</strong></td>
+                                    <td>:</td>
+                                    <td>${object.partner_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Quality Assurance</strong></td>
+                                    <td>:</td>
+                                    <td>${object.qa_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Notes	</strong></td>
+                                    <td>:</td>
+                                    <td>${object.checking_result}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        Please access the Return of Goods Submission to see the details through the following link:
+                        <br/>
+                        <a href="${object.url}/web#cids=${object.po_id.company_id.id}&amp;id=${object.po_id.id}&amp;menu_id=&amp;model=purchase.order&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/>
+                        <br/>
+                        Please be willing to take the time to review and give consent to the reporting.
+                        <br/>
+                        <br/>
+                        Regards<br/>
+                        <strong>Indonesia Air Transport.</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

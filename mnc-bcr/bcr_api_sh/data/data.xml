@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="sample_record_1" model="push.notification.setting">
+            <field name="title">Time Max Scheduler Message Notification</field>
+            <field name="code">PNTM01</field>
+            <field name="value">19:00</field>
+            <field name="status">True</field>
+            <field name="description">Time Max Scheduler Message Notification All</field>
+        </record>
+        <record id="sample_record_2" model="push.notification.setting">
+            <field name="title">Message Notification Person</field>
+            <field name="code">PNMP01</field>
+            <field name="value">Activity [[model]] dengan kode [[code_activity]] yang harus di [[state]]</field>
+<!--            <field name="value">Ada [[total]] [[model]] yang harus anda kerjakan, Ayoo kerjakan !!</field>-->
+            <field name="status">True</field>
+            <field name="description">Message Notification Person</field>
+        </record>
+        <record id="sample_record_3" model="push.notification.setting">
+            <field name="title">Message Notification Daily not achieved </field>
+            <field name="code">PNMD01</field>
+            <field name="value">Pencapaian [[sub_activity]] di [[iup]] tanggal [[date]] tidak tercapai</field>
+            <field name="status">False</field>
+            <field name="description">Message Notification Daily not achieved</field>
+        </record>
+        <record id="sample_record_4" model="push.notification.setting">
+            <field name="title">Message Notification Daily achieved </field>
+            <field name="code">PNMD02</field>
+            <field name="value">Target sudah tercapai</field>
+            <field name="status">False</field>
+            <field name="description">Message Notification Daily achieved</field>
+        </record>
+        <record id="sample_record_5" model="push.notification.setting">
+            <field name="title">Message Notification Weekly not achieved</field>
+            <field name="code">PNMW01</field>
+            <field name="value">Pencapaian MTD [[sub_activity]] di [[iup]] tidak tercapai</field>
+            <field name="status">False</field>
+            <field name="description">Message Notification Weekly not achieved</field>
+        </record>
+        <record id="sample_record_6" model="push.notification.setting">
+            <field name="title">Message Notification Weekly achieved</field>
+            <field name="code">PNMW02</field>
+            <field name="value">Target sudah tercapai</field>
+            <field name="status">False</field>
+            <field name="description">Message Notification Weekly achieved</field>
+        </record>
+        <record id="sample_record_7" model="push.notification.setting">
+            <field name="title">Message Notification Monthly not achieved</field>
+            <field name="code">PNMM01</field>
+            <field name="value">Pencapaian YTD [[sub_activity]] di [[iup]] tidak tercapai</field>
+            <field name="status">False</field>
+            <field name="description">Message Notification Monthly not achieved</field>
+        </record>
+        <record id="sample_record_8" model="push.notification.setting">
+            <field name="title">Message Notification Monthly achieved</field>
+            <field name="code">PNMM02</field>
+            <field name="value">Target sudah tercapai</field>
+            <field name="status">False</field>
+            <field name="description">Message Notification Monthly achieved</field>
+        </record>
+        <record id="sample_record_9" model="push.notification.setting">
+            <field name="title">Server Token Firebase</field>
+            <field name="code">STF</field>
+            <field name="value">AAAAXp_hEig:APA91bEBR11yIYRKenwhV2cp4aDS7yzoWiJW2VH9pwuiQxWRC430TECPDqDm9PzzxGwLDyutaZrMliGH_l4XCQ3wHjCXTSQvqPrO4I12210p2n3KWuCEpu0NO2qNC8aMjTRK3KLbaTbH</field>
+            <field name="status">False</field>
+            <field name="description">Server Token Firebase</field>
+        </record>
+    </data>
+</odoo>

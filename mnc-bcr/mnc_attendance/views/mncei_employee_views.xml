@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mncei_emp_form_inherit" model="ir.ui.view">
+            <field name="name">mncei.employee.form.inherit</field>
+            <field name="model">mncei.employee</field>
+            <field name="inherit_id" ref="mnc_hr.mncei_emp_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="before">
+                    <label for="wdms_code" string="WDMS Code"/>
+                    <div>
+                        <field name="wdms_code" class="oe_inline" required="0"/>
+                    </div>
+                </xpath>
+                <xpath expr="//page[@name='informasi']" position="after">
+                    <page string="Shift" name="shift">
+                        <label for="working_time_id" string="Working Times"/>
+                        <div>
+                            <field name="working_time_id" domain="[('loc_working_id', '=', lokasi_kerja)]" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                        </div>
+                        <field name="roster_id" string="Roster"/>
+                        <group string="Temporary Shift">
+                            <field name="shift_temp_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="working_time_id" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="resouce_line_id" invisible="1" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="resource_group_id" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="employee_shift_tree" model="ir.ui.view">
+            <field name="name">employee.shift.temp.tree</field>
+            <field name="model">employee.shift.temp</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="mncei_employee_id" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="working_time_id" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="resouce_line_id" invisible="1" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="resource_group_id" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+	<record id="view_holidays_public_mnc_form" model="ir.ui.view">
+        <field name="name">hr.holidays.public.form.mnc</field>
+        <field name="model">hr.holidays.public</field>
+        <field name="arch" type="xml">
+            <form>
+            	<header>
+            		<button name="action_approved" string="Approved" type="object" class="oe_highlight" attrs="{'invisible': [('state', '=', 'verified')]}"/>
+            		<button name="action_set_draft" string="Set Draft" type="object" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                    <field name="state" readonly="True" widget="statusbar" options="{'clickable': '0'}"/>
+            	</header>
+                <sheet>
+                	<group name="group_main">
+	                    <group name="group_main_left">
+	                        <!-- <field name="year" /> -->
+	                        <label for="date_start" string="Period"/>
+			                <div class="o_row">
+			                    <field name="date_start" class="mr-2"/>
+			                    - <field name="date_end" help="If no value set, runs indefinitely" class="ml-2"/>
+			                </div>
+	                        <field name="holiday_type" widget="radio" options="{'horizontal': true}"/>
+	                        <field name="country_id" />
+	                    </group>
+	                    <group name="group_main_right">
+	                        <field name="total_days" invisible="1"/>
+	                        <!-- Left empty for extensions -->
+	                    </group>
+	                </group>
+	                <group string="Public Holidays" name="group_detail">
+	                    <field name="line_ids" nolabel="1">
+	                        <tree editable="top">
+	                            <field
+	                                name="date"
+	                                force_save="1"
+	                            />
+	                            <field name="name" />
+<!-- 	                            <field
+	                                name="state_ids"
+	                                widget="many2many_tags"
+	                                domain="[('country_id','=',parent.country_id)]"
+	                            /> -->
+	                            <!-- <field name="variable_date" /> -->
+	                        </tree>
+	                    </field>
+	                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mnc_mass_leaves" model="ir.actions.act_window">
+        <field name="name">Mass Leave</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.holidays.public</field>
+        <field name="view_mode">tree</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('hr_holidays_public.view_holidays_public_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_holidays_public_mnc_form')})]"/>
+        <field name="help" type="html">
+            <p>
+                Add New
+            </p>
+        </field>
+    </record>
+</odoo>

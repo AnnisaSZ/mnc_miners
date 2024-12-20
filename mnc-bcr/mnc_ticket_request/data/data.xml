@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Datas -->
+    <data noupdate="1">
+        <record id="status_request" model="mncei.ticket.state">
+            <field name="sequence">1</field>
+            <field name="name">Request</field>
+        </record>
+
+        <record id="status_process" model="mncei.ticket.state">
+            <field name="sequence">2</field>
+            <field name="name">Process</field>
+        </record>
+
+        <record id="status_finish" model="mncei.ticket.state">
+            <field name="sequence">3</field>
+            <field name="name">Finish</field>
+        </record>
+
+        <record id="status_revice" model="mncei.ticket.state">
+            <field name="sequence">4</field>
+            <field name="name">Revise</field>
+        </record>
+
+        <record id="status_revice" model="mncei.ticket.state">
+            <field name="sequence">5</field>
+            <field name="name">Solved</field>
+        </record>
+
+        <!-- Sequence -->
+
+        <record id="ticket_helpdesk_seq" model="ir.sequence">
+            <field name="name">Code Ticket Helpdesk</field>
+            <field name="code">ticket.helpdesk</field>
+            <field name="suffix">/%(day)s/%(month)s/%(y)s</field>
+            <field eval="5" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+        <record id="ir_cron_check_auto_solved" model="ir.cron">
+            <field name="name">Auto Solved Ticket</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="nextcall" eval="(DateTime.now().replace(hour=9, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+            <field name="model_id" ref="model_mncei_ticket"/>
+            <field name="code">model.check_auto_solved()</field>
+            <field name="state">code</field>
+        </record>
+
+        <record id="ir_cron_check_auto_reminder" model="ir.cron">
+            <field name="name">Auto Reminder Ticket</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="nextcall" eval="(DateTime.now().replace(hour=9, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+            <field name="model_id" ref="model_mncei_ticket"/>
+            <field name="code">model.check_auto_reminder()</field>
+            <field name="state">code</field>
+        </record>
+    </data>
+
+</odoo>
+

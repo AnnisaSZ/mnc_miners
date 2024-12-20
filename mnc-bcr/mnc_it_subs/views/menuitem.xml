@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<menuitem id="it_subs_menu_root" name="IT Subscription" groups="mnc_it_subs.group_user_it_subs" web_icon="mnc_it_subs,static/description/icon.png"/>
+    <menuitem id="report_itsubs" name="Report List" parent="it_subs_menu_root" sequence="10"/>
+    <menuitem id="report_itsubs_myreport" name="My Report" action="it_subs_form_view" parent="report_itsubs"/>
+    <menuitem id="master_itsubs" name="Master" parent="it_subs_menu_root" sequence="50"/>
+    <menuitem id="master_itsubs_location" name="Location" action="master_location_itsubs_view" parent="master_itsubs"/>
+    <menuitem id="master_itsubs_status" name="Status" action="master_status_itsubs_view" parent="master_itsubs"/>
+    <menuitem id="master_itsubs_subs_type" name="Subscription Type" action="master_type_itsubs_view" parent="master_itsubs"/>
+    <menuitem id="master_itsubs_subs_vendor" name="Vendor" action="master_vendor_itsubs_view" parent="master_itsubs"/>
+
+
+    
+</odoo>

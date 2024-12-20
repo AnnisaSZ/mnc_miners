@@ -1,0 +1,233 @@
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError, ValidationError
+from datetime import datetime
+
+import logging
+
+_logger = logging.getLogger(__name__)
+
+class InheritMasterShift(models.Model):
+    _inherit = 'master.shift'
+
+    bu_company_id = fields.Many2one('res.company', string='Bisnis Unit', default=lambda self: (self.env.company.id))
+    kontraktor_id = fields.Many2one('res.partner', string='Kontraktor', domain="[('is_kontraktor', '=', True)]")
+    shiftmode_id = fields.Many2one('master.shiftmode', string='Shift Mode')
+    time_start = fields.Float("Jam Mulai")
+    time_end = fields.Float("Jam Akhir")
+    durasi = fields.Float("Durasi", compute='_get_durasi')
+    area_code = fields.Many2one('master.area', required=False, )
+
+    # ini digunakan ketika data master telah di benerin
+    # bu_company_id = fields.Many2one('res.company', string='Bisnis Unit', default=lambda self: (self.env.company.id),
+    #                                 readonly=True)
+    # kontraktor_id = fields.Many2one('res.partner', string='Kontraktor', domain="[('is_kontraktor', '=', True)]")
+
+    def _get_durasi(self):
+        for rec in self:
+            start_hours = rec.time_start / 24
+            end_hours = rec.time_end / 24
+            if (end_hours - start_hours) < 0:
+                rec.durasi = (end_hours + (24/24) - start_hours) * 24
+            else:
+                rec.durasi = (end_hours - start_hours) * 24
+        # old
+        # for rec in self:
+        #     if (rec.time_end - rec.time_start) < 0:
+        #         rec.durasi = rec.time_start - rec.time_end
+        #     else:
+        #         rec.durasi = rec.time_end - rec.time_start
+
+    # ini di comment ketika data master sudah di benerin
+    @api.onchange('bu_company_id')
+    def _onchange_bu_company_id(self):
+        self.ensure_one()
+        return {
+            'domain':
+                {
+                    'kontraktor_id': [('company_id', '=', self.bu_company_id.id), ('is_kontraktor', '=', True)]
+                }
+        }
+
+    def name_get(self):
+        res = []
+        for rec in self:
+            start ='{0:02.0f}:{1:02.0f}'.format(*divmod(rec.time_start * 60, 60))
+            end = '{0:02.0f}:{1:02.0f}'.format(*divmod(rec.time_end * 60, 60))
+            res.append((rec.id, "%s (%s-%s)" % (rec.name, start, end)))
+        return res
+class InheritMasterUnit(models.Model):
+    _inherit = 'master.unit.kendaraan'
+
+    tahun = fields.Selection([
+        ('2000', '2000'),
+        ('2001', '2001'),
+        ('2002', '2002'),
+        ('2003', '2003'),
+        ('2004', '2004'),
+        ('2005', '2005'),
+        ('2006', '2006'),
+        ('2007', '2007'),
+        ('2008', '2008'),
+        ('2009', '2009'),
+        ('2010', '2010'),
+        ('2011', '2011'),
+        ('2012', '2012'),
+        ('2013', '2013'),
+        ('2014', '2014'),
+        ('2015', '2015'),
+        ('2016', '2016'),
+        ('2017', '2017'),
+        ('2018', '2018'),
+        ('2019', '2019'),
+        ('2020', '2020'),
+        ('2021', '2021'),
+        ('2022', '2022'),
+    ], default='2022', string="Tahun")
+    fc_standar = fields.Float(string="FC Standar(I/hr)")
+    bu_company_id = fields.Many2one('res.company', string='Bisnis Unit', default=lambda self: (self.env.company.id))
+    kontraktor_id = fields.Many2one('res.partner', string='Kontraktor', domain="[('is_kontraktor', '=', True)]")
+    nama_unit_kendaraan = fields.Char(string='Jenis Unit Kendaraan', required=True)
+    # ini di comment ketika data master sudah di benerin
+    @api.onchange('bu_company_id')
+    def _onchange_bu_company_id(self):
+        self.ensure_one()
+        return {
+            'domain':
+                {
+                    'kontraktor_id': [('company_id', '=', self.bu_company_id.id), ('is_kontraktor', '=', True)]
+                }
+        }
+
+    @api.constrains('kode_unit_kendaraan', 'bu_company_id', 'kontraktor_id')
+    def _check_code(self):
+        self.ensure_one()
+        cek_kode = self.env['master.unit.kendaraan'].search(
+            [('kode_unit_kendaraan', '=', self.kode_unit_kendaraan),
+             ('bu_company_id', '=', self.bu_company_id.id),
+             ('kontraktor_id', '=', self.kontraktor_id.id),
+             ('id', '!=', self.id)], limit=1)
+        if cek_kode.id:
+            print(self.kode_unit_kendaraan)
+            print(self.bu_company_id.id)
+            print(cek_kode.id)
+            raise ValidationError('Kode Unit Kendaraan tidak sudah ada')
+
+class MasterShiftMode(models.Model):
+    _name = 'master.shiftmode'
+
+    name = fields.Char("Name")
+    num_shiftmode = fields.Integer("Number")
+
+
+class MasterSourceGroup(models.Model):
+    _name = 'master.sourcegroup'
+
+    name = fields.Char("Name")
+    num_sourcegroup = fields.Integer("Number")
+
+class InheritMasterArea(models.Model):
+    _inherit = 'master.area'
+
+    bu_company_id = fields.Many2one('res.company', string='Bisnis Unit', default=lambda self: (self.env.company.id))
+    bisnis_unit_id = fields.Many2one('master.bisnis.unit', string="Old Bisnis Unit")
+class MasterSeam(models.Model):
+    _name = 'master.seam'
+    _rec_name = 'code'
+
+    code = fields.Char(string="Seam")
+    bu_company_id = fields.Many2one('res.company', string='Bisnis Unit', default=lambda self: (self.env.company.id))
+    area_id = fields.Many2one('master.area', string='Area')
+    activity_id = fields.Many2one('master.activity', string='Activity')
+    sub_activity_id = fields.Many2one('master.sub.activity', string='Sub Activity')
+
+    @api.onchange('bu_company_id')
+    def _onchange_bu_company_id(self):
+        self.ensure_one()
+        return {
+            'domain':
+                {
+                    'area_id': [('bu_company_id', '=', self.bu_company_id.id)]
+                }
+        }
+
+    @api.onchange('activity_id')
+    def _onchange_activity_idd(self):
+        self.ensure_one()
+        return {
+            'domain':
+                {
+                    'sub_activity_id': [('activity_id', '=', self.activity_id.id)]
+                }
+        }
+
+class InheritMasterSource(models.Model):
+    _inherit = 'master.source'
+
+    bu_company_id = fields.Many2one('res.company', string='Bisnis Unit', default=lambda self: (self.env.company.id))
+    source_group_id = fields.Many2one('master.sourcegroup', string='Group')
+    @api.onchange('bu_company_id')
+    def _onchange_bu_company_id(self):
+        self.ensure_one()
+        return {
+            'domain':
+                {
+                    'area_code': [('bu_company_id', '=', self.bu_company_id.id)]
+                }
+        }
+
+
+class InheritMasterValidation(models.Model):
+    _inherit = 'validation.validation'
+
+    bu_company_id = fields.Many2one('res.company', string='Bisnis Unit', default=lambda self: (self.env.company.id))
+    bisnis_unit_id = fields.Many2one('master.bisnis.unit',
+                                     default=lambda self: (self.env["res.users"].get_default_bisnis_unit_id()))
+
+
+
+class InheritMasterJetty(models.Model):
+    _inherit = 'master.jetty'
+
+    bu_company_id = fields.Many2one('res.company', string='Bisnis Unit', default=lambda self: (self.env.company.id))
+    jenis = fields.Selection([
+        ('fixed', 'Fixed'),
+        ('floating', 'Floating'),
+    ], default='fixed', string="Jenis")
+
+
+class InheritMasterBU(models.Model):
+    _inherit = 'master.bisnis.unit'
+
+    bu_company_id = fields.Many2one('res.company', string='Bisnis Unit', default=lambda self: (self.env.company.id))
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    bisnis_unit_id = fields.Many2one('master.bisnis.unit', string="Old Bisnis Unit")
+
+    def name_get(self):
+        res = []
+        for rec in self:
+            if rec.is_kontraktor:
+                res.append((rec.id, "%s" % (rec.name)))
+                # res.append((rec.id, "%s + %s" % (rec.name, self.get_name_tipe_kontraktor(rec.tipe_kontraktor))))
+            else:
+                res.append((rec.id, "%s" % (rec.name)))
+        return res
+
+    def get_name_tipe_kontraktor(self, tipe_kontraktor):
+        return {
+            'kontraktor_produksi': "Kontraktor Produksi",
+            'kontraktor_hauling': "Kontraktor Hauling",
+            'kontraktor_barging': "Kontraktor Barging",
+        }[tipe_kontraktor]
+
+class InheritMasterBarge(models.Model):
+    _inherit = 'master.barge'
+    _rec_name = 'nama_barge'
+
+
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+
+    active = fields.Boolean(default=True)

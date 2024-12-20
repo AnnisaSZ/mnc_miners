@@ -1,0 +1,755 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="notification_birthday_user" model="mail.template">
+            <field name="name">MNCEI Birthday Notification</field>
+            <field name="model_id" ref="model_mncei_employee"/>
+            <field name="subject">It's Your Birthday</field>
+            <field name="email_from">"${object.company.name | safe}" &lt;${(object.company.email or user.email) | safe}&gt;</field>
+            <field name="email_to">${object.email | safe}</field>
+            <field name="body_html" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    <!-- HEADER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <!-- <span style="font-size: 10px;">Welcome to Odoo</span><br/> -->
+                    <span style="font-size: 20px; font-weight: bold;">
+                        It's Your Birthday
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img src="/logo.png?company=${object.company.id}" style="padding: 0px; margin: 0px; height: auto; width: 50%;" alt="${object.company.name}"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear ${object.nama_lengkap}, <br/><br/>
+                            We value your special day just as much as we value you. <strong>On your birthday</strong>, we send you our warmest and most heartfelt wishes.
+                            We are thrilled to be able to share this great day with you, and glad to have you as a valuable member of the team. We appreciate everything you’ve done to help us flourish and grow.<br/>
+                            Our entire corporate family at <strong>MNC Energy Investments</strong> wishes you a very happy birthday and wishes you the best on your <strong>special day!</strong>
+                            <br/><br/>
+                            <div class="row justify-content-md-center">
+                                <div class="col-md-auto">
+                                    <img src="/mnc_attendance/static/src/img/birthday.png" class="illustration_border d-block mx-auto padding-medium o_we_selected_image" style="margin: 0px auto; vertical-align: middle; height: auto; width: 100%;"/>
+                                </div>
+                            </div>
+                            <br/><br/>
+                            Regards,<br/>
+                            <strong>MNC Energy Investments</strong>
+                        </p>
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    ${object.company.name}
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    % if object.company.email
+                        | <a href="'mailto:%s' % ${object.company.email}" style="text-decoration:none; color: #454748;">${object.company.email}</a>
+                    % endif
+                    % if object.company.website
+                        | <a href="'%s' % ${object.company.website}" style="text-decoration:none; color: #454748;">
+                        ${object.company.website}
+                    </a>
+                    % endif
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+</table>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- ######################### -->
+
+        <record id="notification_birthday_direct_user" model="mail.template">
+            <field name="name">MNCEI Birthday Notification - Direct User</field>
+            <field name="model_id" ref="model_mncei_employee"/>
+            <field name="subject">Happy Brithday</field>
+            <field name="email_from">"${object.company.name | safe}" &lt;${(object.company.email or user.email) | safe}&gt;</field>
+            <!-- <field name="email_to">${object.email | safe}</field> -->
+            <field name="lang">${object.create_uid.lang}</field>
+            <field name="body_html" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    % set invited_users = ctx['invited_users']
+    <!-- HEADER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <!-- <span style="font-size: 10px;">Welcome to Odoo</span><br/> -->
+                    <span style="font-size: 20px; font-weight: bold;">
+                        Happy Birthday, ${invited_users or ''}!
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img src="/logo.png?company=${object.company.id}" style="padding: 0px; margin: 0px; height: auto; width: 50%;" alt="${object.company.name}"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Let's celebrate your employee birthday!, <br/><br/>
+                            Hi everyone, we have some exciting news to share with you today, It's our amazing <strong>${invited_users or ''}</strong> birthday!,<br/>
+                            ${invited_users or ''} is valuable member of our team who always delivers excellent result, inspire other and brings joy to our workplace. We are so lucky to have ${object.nama_lengkap} on this company. Happy Birthday!.
+                            <br/><br/>
+                            <div class="row justify-content-md-center">
+                                <div class="col-md-auto">
+                                    <img src="/mnc_attendance/static/src/img/birthday.png" class="illustration_border d-block mx-auto padding-medium o_we_selected_image" style="margin: 0px auto; vertical-align: middle; height: auto; width: 100%;"/>
+                                </div>
+                            </div>
+                            <br/><br/>
+                            Regards,<br/>
+                            <strong>MNC Energy Investments</strong>
+                        </p>
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    ${object.company.name}
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    % if object.company.email
+                        | <a href="'mailto:%s' % ${object.company.email}" style="text-decoration:none; color: #454748;">${object.company.email}</a>
+                    % endif
+                    % if object.company.website
+                        | <a href="'%s' % ${object.company.website}" style="text-decoration:none; color: #454748;">
+                        ${object.company.website}
+                    </a>
+                    % endif
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+</table>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Email Notify Work Annive -->
+        <record id="notification_work_anniv_user" model="mail.template">
+            <field name="name">MNCEI Work Anniversary User</field>
+            <field name="model_id" ref="model_mncei_employee"/>
+            <field name="subject">Work Anniversary - User</field>
+            <field name="email_from">"${object.company.name | safe}" &lt;${(object.company.email or user.email) | safe}&gt;</field>
+            <field name="lang">${object.create_uid.lang}</field>
+            <field name="body_html" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    % set invited_users = ctx['invited_users']
+    % set total_working = ctx['total_working']
+    <!-- HEADER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <!-- <span style="font-size: 10px;">Welcome to Odoo</span><br/> -->
+                    <span style="font-size: 20px; font-weight: bold;">
+                        Happy Work Anniversary!
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img src="/logo.png?company=${object.company.id}" style="padding: 0px; margin: 0px; height: auto; width: 50%;" alt="${object.company.name}"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear ${invited_users or ''},
+                            Congratulation for ${total_working or 1} year(s) anniversary at PT. ${object.company.name or ' '}. May you continue to inspire us for many years
+                            to come! And may you always remember how much your are needed, respected and valued!<br/>Have a blessing and wonderful day.
+                            <br/><br/>
+                            <div class="row justify-content-md-center">
+                                <div class="col-md-auto">
+                                    <img src="/mnc_attendance/static/src/img/work.jpeg" class="illustration_border d-block mx-auto padding-medium o_we_selected_image" style="margin: 0px auto; vertical-align: middle; height: auto; width: 100%;"/>
+                                </div>
+                            </div>
+                            <br/><br/>
+                            Regards,<br/>
+                            <strong>MNC Energy Investments</strong>
+                        </p>
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    ${object.company.name}
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    % if object.company.email
+                        | <a href="'mailto:%s' % ${object.company.email}" style="text-decoration:none; color: #454748;">${object.company.email}</a>
+                    % endif
+                    % if object.company.website
+                        | <a href="'%s' % ${object.company.website}" style="text-decoration:none; color: #454748;">
+                        ${object.company.website}
+                    </a>
+                    % endif
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+</table>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- notif to direct user -->
+        <record id="notification_work_anniv_direct_user" model="mail.template">
+            <field name="name">MNCEI Work Anniversary Direct User</field>
+            <field name="model_id" ref="model_mncei_employee"/>
+            <field name="subject">Work Anniversary - Dircet User</field>
+            <field name="email_from">"${object.company.name | safe}" &lt;${(object.company.email or user.email) | safe}&gt;</field>
+            <field name="lang">${object.create_uid.lang}</field>
+            <field name="body_html" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    % set invited_users = ctx['invited_users']
+    % set total_working = ctx['total_working']
+    <!-- HEADER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <!-- <span style="font-size: 10px;">Welcome to Odoo</span><br/> -->
+                    <span style="font-size: 20px; font-weight: bold;">
+                        Happy Work Anniversary!
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img src="/logo.png?company=${object.company.id}" style="padding: 0px; margin: 0px; height: auto; width: 50%;" alt="${object.company.name}"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Let's celebrate your employee work anniversary!<br/>
+                            Hi everyone, we have some exciting news to share with you today.It's ${invited_users or ' '}'s work anniversary!
+                            Today is ${invited_users or ' '}'s ${total_working or 1} year(s) anniversary at PT. ${object.company.name}. May ${invited_users or ''} continue to inspire us for many years to come!
+                            <br/><br/>
+                            <div class="row justify-content-md-center">
+                                <div class="col-md-auto">
+                                    <img src="/mnc_attendance/static/src/img/work.jpeg" class="illustration_border d-block mx-auto padding-medium o_we_selected_image" style="margin: 0px auto; vertical-align: middle; height: auto; width: 100%;"/>
+                                </div>
+                            </div>
+                            <br/><br/>
+                            Regards,<br/>
+                            <strong>MNC Energy Investments</strong>
+                        </p>
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    ${object.company.name}
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    % if object.company.email
+                        | <a href="'mailto:%s' % ${object.company.email}" style="text-decoration:none; color: #454748;">${object.company.email}</a>
+                    % endif
+                    % if object.company.website
+                        | <a href="'%s' % ${object.company.website}" style="text-decoration:none; color: #454748;">
+                        ${object.company.website}
+                    </a>
+                    % endif
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+</table>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Email Notify Alpha -->
+        <record id="notification_alpha" model="mail.template">
+            <field name="name">Alpha Notification</field>
+            <field name="model_id" ref="model_hr_attendance"/>
+            <field name="subject">Alpha Notification</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <!-- <field name="email_to">${object.email | safe}</field> -->
+            <field name="body_html" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    <!-- HEADER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <span style="font-size: 20px; font-weight: bold;">
+                        Pemberitahuan Ketidakhadiran Karyawan
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img src="/logo.png?company=${object.company_id.id}" style="padding: 0px; margin: 0px; height: auto; width: 50%;" alt="${object.company_id.name}"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        % set alpha_date = ctx.get('alpha_date', [])
+                        % set head_employee = ctx.get('head_employee', [])
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Yth, Bapak/Ibu ${head_employee or ''}, <br/><br/>
+                            Diberitahukan bahwa terdapat karyawan yang tidak melakukan absen atau tidak hadir dengan detail sebagai berikut.
+                            <br/><br/>
+                            <table style="margin-top:px;margin-bottom:0px;" border="0">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Nama Karyawan</strong></td>
+                                        <td>:</td>
+                                        <td>${object.mncei_employee_id.nama_lengkap}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Jabatan</strong></td>
+                                        <td>:</td>
+                                        <td>${object.mncei_employee_id.jabatan.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tgl Alpha</strong></td>
+                                        <td>:</td>
+                                        <td>${format_date(alpha_date)}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/><br/>
+                            Untuk memastikan kelancaran operational, tugas-tugas yang seharusnya ditangani oleh karyawan tersebut pada hari tersebut akan dikoordinasikan dengan anggota team lainnya.
+                            <br/><br/>
+                            Terimakasih atas perhatian dan pengertiannya.
+                            <br/><br/>
+                            Regards,<br/>
+                            <strong>MNC Energy Investments</strong>
+                        </p>
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    ${object.company_id.name}
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    % if object.company_id.email
+                        | <a href="'mailto:%s' % ${object.company_id.email}" style="text-decoration:none; color: #454748;">${object.company_id.email}</a>
+                    % endif
+                    % if object.company_id.website
+                        | <a href="'%s' % ${object.company_id.website}" style="text-decoration:none; color: #454748;">
+                        ${object.company_id.website}
+                    </a>
+                    % endif
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+</table>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Notify Late -->
+        <record id="notification_late" model="mail.template">
+            <field name="name">Late Notification</field>
+            <field name="model_id" ref="model_mncei_employee"/>
+            <field name="subject">Late Notification</field>
+            <field name="email_from">"${object.company.name | safe}" &lt;${(object.company.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    <!-- HEADER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <span style="font-size: 20px; font-weight: bold;">
+                        Pemberitahuan Keterlambatan Karyawan
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img src="/logo.png?company=${object.company.id}" style="padding: 0px; margin: 0px; height: auto; width: 50%;" alt="${object.company.name}"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        % set lines = ctx.get('top_employees', [])
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Yth, Bapak/Ibu ${object.nama_lengkap}, <br/><br/>
+                            Diberitahukan bahwa terdapat karyawan yang terlambat melakukan absensi dengan detail sebagai berikut.
+                            <br/><br/>
+                            <table style="width:100%; border-collapse: collapse;" border="1">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">NIK</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">NAME</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">Date Time</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">Company</th>
+                                    </tr>
+                                </thead>
+                                 % for line in lines:
+                                    <tr>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${line['nik']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${line['emp_name']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${format_datetime(line['checkin']) or 'N/A'}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${line['company']}</font>
+                                        </td>
+                                    </tr>
+                                 % endfor
+                            </table>
+                            <br/><br/>
+                            Mohon untuk memperhatikan ketidakhadiran bawahan Anda, karena absensi merupakan salah satu aspek penting dalam penilaian kinerja yang harus diperhatikan.
+                            <br/><br/>
+                            Terimakasih atas perhatian dan pengertiannya.
+                            <br/><br/>
+                            Regards,<br/>
+                            <strong>MNC Energy Investments</strong>
+                        </p>
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    ${object.company.name}
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    % if object.company.email
+                        | <a href="'mailto:%s' % ${object.company.email}" style="text-decoration:none; color: #454748;">${object.company.email}</a>
+                    % endif
+                    % if object.company.website
+                        | <a href="'%s' % ${object.company.website}" style="text-decoration:none; color: #454748;">
+                        ${object.company.website}
+                    </a>
+                    % endif
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+</table>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Notify Late -->
+        <record id="notification_resume_lastday" model="mail.template">
+            <field name="name">Lastday Resume</field>
+            <field name="model_id" ref="model_mncei_employee"/>
+            <field name="subject">Lastday Resume</field>
+            <field name="email_from">"${object.company.name | safe}" &lt;${(object.company.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    % set late_data = ctx['late_data']
+    % set early_ci_data = ctx['early_ci_data']
+    % set last_co_data = ctx['last_co_data']
+    % set working_data = ctx['working_data']
+    % set today = ctx['today']
+    <!-- HEADER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <span style="font-size: 20px; font-weight: bold;">
+                        Pemberitahuan Kehadiran Harian
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img src="/logo.png?company=${object.company.id}" style="padding: 0px; margin: 0px; height: auto; width: 50%;" alt="${object.company.name}"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Yth, Bapak/Ibu ${object.nama_lengkap}, <br/>
+                            Berikut adalah ringkasan dari kehadiran <b>${today or ''} </b>:
+                            <br/><br/>
+                            <p style="text-align: center; padding: 0px; font-size: 13px;">TOP 3 Most Late:</p>
+                            <table style="width:100%; border-collapse: collapse;" border="1">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">NIK</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">NAME</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">Date Time</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">Company</th>
+                                    </tr>
+                                </thead>
+                                 % for late in late_data:
+                                    <tr>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${late['NIK']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${late['name']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${late['time_ci']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${late['company']}</font>
+                                        </td>
+                                    </tr>
+                                 % endfor
+                            </table>
+                            <br/>
+                            <p style="text-align: center; padding: 0px; font-size: 13px;">TOP 3 Early Clock-In:</p>
+                            <table style="width:100%; border-collapse: collapse;" border="1">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">NIK</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">NAME</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">Date Time</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">Company</th>
+                                    </tr>
+                                </thead>
+                                 % for early_ci in early_ci_data:
+                                    <tr>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${early_ci['NIK']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${early_ci['name']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${early_ci['time_ci']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${early_ci['company']}</font>
+                                        </td>
+                                    </tr>
+                                 % endfor
+                            </table>
+                            <br/>
+                            <p style="text-align: center; padding: 0px; font-size: 13px;">TOP 3 Lasted Clock-Out:</p>
+                            <table style="width:100%; border-collapse: collapse;" border="1">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">NIK</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">NAME</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">Date Time</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">Company</th>
+                                    </tr>
+                                </thead>
+                                 % for last_co in last_co_data:
+                                    <tr>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${last_co['NIK']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${last_co['name']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${last_co['time_co']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${last_co['company']}</font>
+                                        </td>
+                                    </tr>
+                                 % endfor
+                            </table>
+                            <br/>
+                            <p style="text-align: center; padding: 0px; font-size: 13px;">TOP 3 Longest Working Hours:</p>
+                            <table style="width:100%; border-collapse: collapse;" border="1">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">NIK</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">NAME</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">Date Time</th>
+                                        <th style="padding: 8px; text-align: left;" class=" bg-600">Company</th>
+                                    </tr>
+                                </thead>
+                                 % for working in working_data:
+                                    <tr>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${working['NIK']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${working['name']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${working['worked_hours']}</font>
+                                        </td>
+                                        <td style="padding: 20px 0;" align="left">
+                                            <font style="font-size: 12px;padding-left: 10px;">${working['company']}</font>
+                                        </td>
+                                    </tr>
+                                 % endfor
+                            </table>
+                            <br/><br/>
+                            Regards,<br/>
+                            <strong>MNC Energy Investments</strong>
+                        </p>
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    ${object.company.name}
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    % if object.company.email
+                        | <a href="'mailto:%s' % ${object.company.email}" style="text-decoration:none; color: #454748;">${object.company.email}</a>
+                    % endif
+                    % if object.company.website
+                        | <a href="'%s' % ${object.company.website}" style="text-decoration:none; color: #454748;">
+                        ${object.company.website}
+                    </a>
+                    % endif
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+</table>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

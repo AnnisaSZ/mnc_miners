@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+
+        <record id="formview_master_unit_kendaraan" model="ir.ui.view">
+            <field name="name">formview_master_unit_kendaraan</field>
+            <field name="model">master.unit.kendaraan</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form delete="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="kode_unit_kendaraan"/>
+                                <field name="nama_unit_kendaraan"/>
+                                <field name="tipe_unit_kendaraan"/>
+                                <field name="merek_unit_kendaraan"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="listview_master_unit_kendaraan" model="ir.ui.view">
+            <field name="name">listview_master_unit_kendaraan</field>
+            <field name="model">master.unit.kendaraan</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree delete="0">
+                    <field name="kode_unit_kendaraan"/>
+                    <field name="nama_unit_kendaraan"/>
+                    <field name="tipe_unit_kendaraan"/>
+                    <field name="merek_unit_kendaraan"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_master_unit_kendaraan" model="ir.actions.act_window">
+            <field name="name">Unit Kendaraan</field>
+            <field name="res_model">master.unit.kendaraan</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+         <menuitem id='menu_master_unit_kendaraan' name='Unit Kendaraan' parent='bcr_master.menu_group_master_03' sequence='5' action='action_master_unit_kendaraan'/>
+<!--                   groups="group_bcr_master_admin,group_bcr_master_admin_site"/>-->
+
+    </data>
+</odoo>

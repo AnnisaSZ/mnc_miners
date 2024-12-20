@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="module_params_approval" model="ir.module.category">
+            <field name="name">Params Approval</field>
+        </record>
+
+        <record id="group_params_approval" model="res.groups">
+            <field name="name">Settings</field>
+            <field name="category_id" ref="mnc_parameter_approval.module_params_approval"/>
+        </record>
+	</data>
+</odoo>

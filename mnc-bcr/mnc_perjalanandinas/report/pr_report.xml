@@ -1,0 +1,186 @@
+<odoo>
+    <!-- Header -->
+    <!--  -->
+    <template id='report_perdin'>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div t-attf-class="header">
+                            <div class="row">
+                                <t t-set="company" t-value="o.perusahaan"/>
+                                <div class="col-2 mb4">
+                                    <img t-if="company" t-att-src="image_data_uri(company.logo)" style="max-height: 80px;" class="float-left" alt="Logo"/>
+                                </div>
+                                <div class="col-8 text-center" style="font-size:25px; font-weight: bold;">
+                                    <strong>SURAT TUGAS PERJALANAN DINAS</strong>
+                                </div>
+                                <div class="col-2 text-center" style="font-size:28px; font-weight: bold;">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 text-right mb4" style="font-size:25px;">
+                                    <strong>No.</strong>
+                                </div>
+                                <div class="col-2 text-left" style="font-size:25px;">
+                                </div>
+                                <div class="col-6 text-left" style="font-size:25px;">
+                                    <span style="margin-left:-70px;" t-field="o.no_perdin"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div t-attf-class="body" style="margin-left:40px;">
+                            <div class="row" style="font-size:20px;">
+                                <div class="col-12 text-left">
+                                    Yang Bertanda Tangan dibawah ini, dengan ini memberi tugas kepada:
+                                </div>
+                            </div>
+                            <div class="row" id="nama_tbl" style="font-size:18px;">
+                                <div class="col-4">
+                                    <span style="margin-left:30px;">Nama</span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="margin-left:-50px;">:</span>
+                                </div>
+                                <div class="col-6">
+                                    <span style="margin-left:-60px; margin-right:10px;" t-field="o.nama_karyawan.nama_lengkap"/>
+                                </div>
+                            </div>
+                            <div class="row" id="jabatan_tbl" style="font-size:18px;">
+                                <div class="col-4">
+                                    <span style="margin-left:30px;">Jabatan</span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="margin-left:-50px;">:</span>
+                                </div>
+                                <div class="col-6">
+                                    <span style="margin-left:-60px; margin-right:10px;" t-field="o.jabatan_id"/>
+                                </div>
+                            </div>
+                            <div class="row" id="tujuan_tbl" style="font-size:18px;">
+                                <div class="col-4">
+                                    <span style="margin-left:30px;">Tujuan</span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="margin-left:-50px;">:</span>
+                                </div>
+                                <div class="col-6">
+                                    <span style="margin-left:-60px; margin-right:10px;" t-field="o.tujuan"/>
+                                </div>
+                            </div>
+                            <div class="row" id="tgl_berangkat_tbl" style="font-size:18px;">
+                                <div class="col-4">
+                                    <span style="margin-left:30px;">Tgl. Berangkat</span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="margin-left:-50px;">:</span>
+                                </div>
+                                <div class="col-6">
+                                    <span style="margin-left:-60px; margin-right:10px;" t-field="o.berangkat"/>
+                                </div>
+                            </div>
+                            <div class="row" id="tgl_pulang_tbl" style="font-size:18px;">
+                                <div class="col-4">
+                                    <span style="margin-left:30px;">Tgl. Kembali</span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="margin-left:-50px;">:</span>
+                                </div>
+                                <div class="col-6">
+                                    <span style="margin-left:-60px; margin-right:10px;" t-field="o.kembali"/>
+                                </div>
+                            </div>
+                            <div class="row" id="trasnport_tbl" style="font-size:18px;">
+                                <div class="col-4">
+                                    <span style="margin-left:30px;">Transportasi</span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="margin-left:-50px;">:</span>
+                                </div>
+                                <div class="col-6">
+                                    <span style="margin-left:-60px; margin-right:10px;" t-field="o.type_transportation"/>
+                                </div>
+                            </div>
+                            <div class="row" id="penginapan_tbl" style="font-size:18px;">
+                                <div class="col-4">
+                                    <span style="margin-left:30px;">Penginapan</span>
+                                </div>
+                                <div class="col-2">
+                                    <span style="margin-left:-50px;">:</span>
+                                </div>
+                                <div class="col-6">
+                                    <t t-if="o.penginapan">
+                                        <span style="margin-left:-60px; margin-right:10px;">Hotel</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span style="margin-left:-60px; margin-right:10px;">Non Hotel</span>
+                                    </t>
+                                    ..........
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:20px;margin-top:50px;">
+                                <div class="col-12 text-left">
+                                    Setibanya di tempat tujuan harap melapor kepada pimpinan perwakilan perusahaan.<br/>
+                                    Demikian surat tugas ini diberikan kepada yang bersangkutan, untuk dipergunakan seperlunya.
+                                </div>
+                            </div>
+                            <div class="row" style="background-color:#808080;font-size:20px; border-bottom:1px solid black; margin-top:50px;solid black;">
+                                <div class="col-12 text-center" style="text-center;">
+                                    Approved
+                                </div>
+                            </div>
+                            <div id="approved" class="row">
+                                <div class="col-12 text-center" style="font-size:18px;">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th name="th_user" class="text-left"><strong>User</strong></th>
+                                                <th name="th_ttd"><strong>TTD</strong></th>
+                                                <th name="th_date"><strong>Date</strong></th>
+                                                <th name="th_notes"><strong>Notes</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="o.approval_ids" t-as="line">
+                                                <tr>
+                                                    <td id="td_user" class="text-left">
+                                                        <span t-esc="line.user_id.name"/>
+                                                    </td>
+                                                    <td id="td_ttd">
+                                                        <img t-if="line.digital_signature" class="text-left" t-att-src="image_data_uri(line.digital_signature)" style="max-height: 40px"/>
+                                                        <img t-if="line.upload_signature" class="text-left" t-att-src="image_data_uri(line.upload_signature)" style="max-height: 40px"/>
+                                                    </td>
+                                                    <td id="td_date">
+                                                        <span t-esc="line.approve_date"/>
+                                                    </td>
+                                                    <td id="td_notes">
+                                                        <span t-esc="line.notes"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer" style="font-size:15px;float: right;">
+                            <span t-field="o.write_uid"/>
+                            <br/>
+                            <span t-field="o.__last_update"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_print_perdin" model="ir.actions.report">
+        <field name="name">Print STPD</field>
+        <field name="model">perjalanan.dinas.requestion.module</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mnc_perjalanandinas.report_perdin</field>
+        <field name="report_file">mnc_perjalanandinas.report_perdin</field>
+        <field name="print_report_name">'STPD - %s' % (object.no_perdin)</field>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

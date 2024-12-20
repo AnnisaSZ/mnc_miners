@@ -1,0 +1,60 @@
+<odoo>
+    <data>
+
+        <record id="formview_master_activity" model="ir.ui.view">
+            <field name="name">formview_master_activity</field>
+            <field name="model">master.activity</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form delete="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Sub Activity">
+                                <field name="sub_activity_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="listview_master_activity" model="ir.ui.view">
+            <field name="name">listview_master_activity</field>
+            <field name="model">master.activity</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree delete="0">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="sub_activity_ids" widget="many2many_tags"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_master_activity" model="ir.actions.act_window">
+            <field name="name">Activity</field>
+            <field name="res_model">master.activity</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id='menu_master_activity' name='Activity' parent='bcr_master.menu_group_master_01' sequence='1' action='action_master_activity'/>
+<!--                  groups="group_bcr_master_admin,group_bcr_master_admin_site"/>-->
+
+    </data>
+</odoo>

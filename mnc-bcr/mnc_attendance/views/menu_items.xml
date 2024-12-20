@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="calendar.mail_menu_calendar" active="0"/>
+        <menuitem id="hr.menu_hr_root" active="0"/>
+        <menuitem id="hr_attendance.menu_hr_attendance_root" active="0"/>
+        <!--  -->
+        <menuitem id="menu_mncei_hr_attendance_root" name="Attendances" sequence="7" groups="hr_attendance.group_hr_attendance,hr_attendance.group_hr_attendance_kiosk" web_icon="mnc_attendance,static/description/icon.png"/>
+
+        <!-- <menuitem id="menu_mncei_hr_leave_root" name="Leave" sequence="8" groups="hr_attendance.group_hr_attendance,hr_attendance.group_hr_attendance_kiosk" web_icon="mnc_attendance,static/description/leave.png"/> -->
+
+        <menuitem id="mncei_attendace" 
+            name="Attendances" 
+            parent="menu_mncei_hr_attendance_root" 
+            sequence="1" groups="hr_attendance.group_hr_attendance_user" 
+            action="hr_attendance.hr_attendance_action"/>
+
+        <menuitem id="mncei_config_shift" 
+            name="Working Times" 
+            parent="menu_mncei_hr_attendance_root" 
+            sequence="10"
+            action="resource.action_resource_calendar_form"/>
+
+        <menuitem id="mncei_attendance_config"
+            name="Configuration"
+            sequence="99"
+            parent="menu_mncei_hr_attendance_root"/>
+
+        <!-- Config -->
+        <!-- WDMS -->
+        <menuitem id="mncei_config_wdms" 
+            name="WDMS" 
+            parent="mncei_attendance_config" 
+            sequence="1"/>
+
+        <menuitem id="mncei_config_user" 
+            name="Get Token" 
+            parent="mncei_config_wdms" 
+            sequence="1"
+            action="action_wdms_config"/>
+
+        <menuitem id="mncei_config_area" 
+            name="Area" 
+            parent="mncei_config_wdms" 
+            sequence="10"
+            action="action_wdms_area"/>
+
+        <menuitem id="get_data_wdms"
+            name="Get Data WDMS"
+            parent="mncei_config_wdms"
+            action="action_get_data_wdms_wiz"
+            sequence="20"/>
+        <!-- /////// -->
+
+        <menuitem id="mncei_location_maps" 
+            name="Location Absent" 
+            parent="mncei_attendance_config" 
+            sequence="9"
+            action="action_res_location"/>
+
+        <menuitem id="mncei_roster" 
+            name="Roster" 
+            parent="mncei_attendance_config" 
+            sequence="10"
+            action="action_res_roster"/>
+
+        <menuitem id="mncei_day_period" 
+            name="Day Period" 
+            parent="mncei_attendance_config" 
+            sequence="20"
+            action="action_day_period"/>
+
+        <!-- =================== Leave =================== -->
+
+        <menuitem id="hr_holidays.menu_hr_holidays_root" name="Leave" sequence="8" groups="hr_attendance.group_hr_attendance,hr_attendance.group_hr_attendance_kiosk" web_icon="mnc_attendance,static/description/leave.png"/>
+        <!-- Archive Menu -->
+        <menuitem
+            id="hr_holidays.menu_hr_holidays_dashboard"
+            name="Everyone"
+            active="0"/>
+        <menuitem
+            id="hr_holidays.menu_hr_holidays_report"
+            name="Reporting"
+            active="0"/>
+
+        <menuitem
+            id="hr_holidays.hr_holidays_menu_config_activity_type"
+            name="Activity Types"
+            active="0"/>
+
+        <menuitem
+            id="hr_holidays.menu_open_allocation"
+            name="My Allocation Requests"
+            active="0"/>
+
+        <menuitem
+            id="hr_holidays_public.menu_hr_public_holidays"
+            name="Public Holidays"
+            parent="hr_holidays.menu_hr_holidays_root"
+            active="0"/>
+
+        <menuitem
+            id="hr_holidays.hr_leave_menu_my"
+            parent="hr_holidays.menu_hr_holidays_my_leaves"
+            action="action_my_leave_request_my"
+            sequence="2"/>
+
+        <!-- Managers -->
+        <menuitem
+            id="hr_holidays.hr_holidays_menu_manager_approve_allocations"
+            name="Allocations"
+            parent="hr_holidays.menu_hr_holidays_approvals"
+            groups="hr_holidays.group_hr_holidays_manager"/>
+
+        <!-- Config -->
+        <menuitem
+            id="hr_holidays.menu_hr_holidays_configuration"
+            name="Configuration"
+            parent="hr_holidays.menu_hr_holidays_root"
+            groups="hr_holidays.group_hr_holidays_manager"
+            sequence="5"/>
+
+        <menuitem
+            id="hr_holidays.hr_holidays_status_menu_configuration"
+            action="mnc_attendance.action_mnc_leave_types"
+            name="Time Off Types"
+            parent="hr_holidays.menu_hr_holidays_configuration" 
+            sequence="1"/>
+
+        <menuitem id="mncei_public_holiday" 
+            name="Mass Leave"
+            parent="hr_holidays.menu_hr_holidays_configuration" 
+            sequence="10"
+            action="action_mnc_mass_leaves"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,30 @@
+<odoo>
+    <template id="template_user_lates" name="Pages Product">
+        <t t-call="web.html_container">
+            <div class="container">
+                <h1>Details Employee List Late</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>NIK</th>
+                            <th>Name</th>
+                            <th>Time</th>
+                            <th>Duration Late</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop through the user_data -->
+                        <t t-foreach="user_data" t-as="user">
+                            <tr>
+                                <td><t t-esc="user['NIK']"/></td>
+                                <td><t t-esc="user['name']"/></td>
+                                <td><t t-esc="user['time']"/></td>
+                                <td><t t-esc="user['time_diff']"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

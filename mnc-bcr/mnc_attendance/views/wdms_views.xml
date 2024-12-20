@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Config -->
+        <record id="wdms_config_form" model="ir.ui.view">
+            <field name="name">wdms.config.form</field>
+            <field name="model">wdms.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="username"/>
+                                <field name="password"/>
+                            </group>
+                            <group>
+                                <label for="ip_link" string="Link"/>
+                                <div>
+                                    <field name="ip_link"/>
+                                    <button name="action_get_token" type="object" string="Get Token"/>
+                                </div>
+                                <field name="token" style="white-space: pre-wrap; word-break: break-all;" widget="text"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="wdms_config_tree" model="ir.ui.view">
+            <field name="name">wdms.config.tree</field>
+            <field name="model">wdms.config</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="username"/>
+                    <field name="password"/>
+                    <field name="ip_link"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_wdms_config" model="ir.actions.act_window">
+            <field name="name">User WDMS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wdms.config</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Area -->
+        <record id="wdms_area_form" model="ir.ui.view">
+            <field name="name">wdms.area.form</field>
+            <field name="model">wdms.area</field>
+            <field name="arch" type="xml">
+                <form create="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="wdms_id"/>
+                                <field name="area_code"/>
+                                <field name="area_name"/>                                
+                            </group>
+                            <group>
+                                <field name="company_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="wdms_area_tree" model="ir.ui.view">
+            <field name="name">wdms.area.tree</field>
+            <field name="model">wdms.area</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="wdms_id"/>
+                    <field name="area_code"/>
+                    <field name="area_name"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_wdms_area" model="ir.actions.act_window">
+            <field name="name">Area WDMS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wdms.area</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <record id="action_get_data_wdms_wiz" model="ir.actions.act_window">
+            <field name="name">Get Data WDMS</field>
+            <field name="res_model">attendance.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{'default_show_button_data':True}</field>
+      </record>
+    </data>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mncei_emp_form_cv_inherited" model="ir.ui.view">
+        <field name="name">mncei.employee.form</field>
+        <field name="model">mncei.employee</field>
+        <field name="inherit_id" ref="mnc_hr.mncei_emp_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='no_ktp_char']" position="after">
+                <field name="ktp_date_issued" string="Tgl Dikeluarkan" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                <field name="ktp_date_expired" string="Tgl Berakhir" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                <field name="ktp_place" string="Asal KTP" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+            </xpath>
+            <xpath expr="//group[3]" position="after">
+                <group name="passport" string="Passport">
+                    <field name="passport_number" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                    <field name="passport_date_issued" string="Tgl Dikeluarkan" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                    <field name="passport_date_expired" string="Tgl Berakhir" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                    <field name="passport_place" string="Asal Passport" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                </group>
+            </xpath>
+            <field name="education" position="after">
+                <field name="graduated_year" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+            </field>
+            <field name="pengalaman_kerja" position="after">
+                <field name="date_end_experience" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+            </field>
+            <field name="jabatan" position="after">
+                <field name="inside_experience" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+                <field name="date_end_inside_experience" attrs="{'readonly': ['|', ('active', '=', False), ('state', '=', 'review')]}"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

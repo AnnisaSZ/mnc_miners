@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="unit_consume_report_view_graph" model="ir.ui.view">
+        <field name="name">unit.consume.report.graph</field>
+        <field name="model">unit.consume.report</field>
+        <field name="arch" type="xml">
+            <graph string="Analysis" stacked="True" sample="1" disable_linking="1">
+                <field name="date" interval="month" type="row"/>
+                <field name="kode_unit" type="col"/>
+                <field name="fuel_consume" type="measure"/>
+                <field name="standard_high" type="measure"/>
+                <field name="standard_low" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="fuel_report_action" model="ir.actions.act_window">
+           <field name="name">Fuel Ratio</field>
+           <field name="res_model">unit.consume.report</field>
+           <field name="view_mode">graph</field>
+<!--            <field name="context">{
+                'search_default_completion_date': 1,
+                'pivot_column_groupby': ['subtype_id', 'mail_activity_type_id'],
+                'pivot_row_groupby': ['date:month'],
+                'graph_mode': 'bar',
+                'graph_groupbys': ['date:month', 'subtype_id'],
+            }</field> -->
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No data yet!
+                </p><p>
+                    Start scheduling activities on your opportunities
+                </p>
+            </field>
+       </record>
+</odoo>

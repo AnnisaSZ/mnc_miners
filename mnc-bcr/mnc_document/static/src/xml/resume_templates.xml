@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="hr_resume_data_row" t-inherit="hr_skills.hr_resume_data_row" t-inherit-mode="extension" owl="1">
+        <xpath expr="//h4[hasclass('o_resume_line_title')]" position="replace">
+            <p class="o_resume_line_desc" t-esc="data.state_desc"/>
+            <h4 class="o_resume_line_title mt-2" t-esc="data.document_number"/>
+        </xpath>
+    </t>
+</templates>
+<!-- <odoo>
+    <data>
+        <template id="hr_resume_data_row" inherit_id="hr_skills.hr_resume_data_row">
+            <xpath expr="//h4[hasclass('o_resume_line_title')]" position="replace">
+                <h4 class="o_resume_line_title mt-2" t-esc="data.document_id"/>
+            </xpath>
+        </template>
+    </data>
+</odoo> -->

@@ -1,0 +1,36 @@
+<odoo>
+    <data noupdate="1">
+        <!-- Act Operatioanl -->
+        <record id="seq_actual_operational_hauling" model="ir.sequence">
+            <field name="name">Actual Operatioanl HL</field>
+            <field name="code">actual.operational.hauling</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-HL-BUCODE</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_actual_operational_production" model="ir.sequence">
+            <field name="name">Actual Operatioanl PR</field>
+            <field name="code">actual.operational.production</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-PR-BUCODE</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_actual_survey" model="ir.sequence">
+            <field name="name">Actual Survey</field>
+            <field name="code">actual.survey</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-SR-BUCODE</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_actual_stock_opname" model="ir.sequence">
+            <field name="name">Actual Stock Opname</field>
+            <field name="code">actual.stock.opname</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-SO-BUCODE</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

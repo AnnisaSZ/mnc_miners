@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+	<record id="input_emails_wizard_form" model="ir.ui.view">
+        <field name="name">Input Emails</field>
+        <field name="model">mnc.input.email.wizard</field>
+        <field name="arch" type="xml">
+        	<form>
+        		<field name="legal_id" invisible="1"/>
+        		<notebook>
+        			<page string="Emails">
+        				<field name="line_ids">
+        					<tree editable="bottom">
+        						<field name="email"/>
+        					</tree>
+        				</field>
+        			</page>
+        		</notebook>
+        		<footer>
+                    <button string="Add" name="submit" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                </footer>
+        	</form>
+        </field>
+    </record>
+
+    <record id="action_input_email" model="ir.actions.act_window">
+    	<field name="name">Input Email Remainder</field>
+    	<field name="res_model">mnc.input.email.wizard</field>
+    	<field name="view_mode">form</field>
+    	<field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id='input_ext' name='New Input' parent='bcr_master.root_menu_bcr' sequence='1'/>
+
+        <!-- Sub Menu -->
+        <menuitem
+            id="input_planning_ext"
+            name="Planning"
+            parent="bcr_planning.menu_bcr_input"
+            sequence="0"/>
+
+        <!-- Sub Menu Plannn -->
+
+        <!-- Planning -->
+        <menuitem
+            id="input_planning_monthly_attach"
+            name="Upload Attachment Planning"
+            parent="input_planning_ext"
+            action="action_plan_monthly_attach"
+            sequence="1"/>
+        <menuitem
+            id="input_planning_yearly"
+            name="Planning Production Yearly"
+            parent="input_planning_ext"
+            action="action_plan_opr_yearly"
+            sequence="2"/>
+        <menuitem
+            id="input_planning_monthly"
+            name="Planning Production Monthly"
+            parent="input_planning_ext"
+            action="action_plan_opr_monthly"
+            sequence="3"/>
+
+        <!-- Master -->
+        <menuitem
+            id="menu_group_planning_type"
+            name="Planning Type"
+            parent="bcr_master.menu_master"
+            sequence="5"/>
+
+        <menuitem
+            id="planning_period"
+            name="Planning Period"
+            parent="menu_group_planning_type"
+            action="action_planning_type_period"
+            sequence="1"/>
+
+        <menuitem
+            id="ts_adb_menuitem"
+            name="TS ADB"
+            parent="menu_group_planning_type"
+            action="action_ts_adb"
+            sequence="2"/>
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+
+        <menuitem id="meeting_root" name="Meeting Room" web_icon="mnc_meeting_room,static/description/icon.png"/>
+        <menuitem id="all_meeting_menu" name="All Booked" sequence="1" action="mnc_meeting_room.booking_meeting_action_all" parent="meeting_root"/>
+        <menuitem id="meeting_menu" name="My Booked" action="mnc_meeting_room.booking_meeting_action" sequence="10" parent="meeting_root"/>
+        <menuitem id="waiting_meeting_menu" name="To Approve" action="mnc_meeting_room.waiting_meeting_action" sequence="50" parent="meeting_root" groups="mnc_meeting_room.group_approver_meeting"/>
+        <menuitem id="config_menu" name="Configuration" sequence="100" parent="meeting_root" groups="mnc_meeting_room.group_approver_meeting"/>
+        <menuitem id="meeting_type_menu" name="Type" action="mnc_meeting_room.meeting_type_action" sequence="1" parent="config_menu"/>
+        <menuitem id="meeting_floor_menu" name="Floor" action="mnc_meeting_room.floor_meeting_action" sequence="10" parent="config_menu"/>
+        <menuitem id="meeting_room_menu" name="Room" action="mnc_meeting_room.room_meeting_action" sequence="50" parent="config_menu"/>
+
+    </data>
+</odoo>

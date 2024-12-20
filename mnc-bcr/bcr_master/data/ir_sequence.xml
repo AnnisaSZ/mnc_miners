@@ -1,0 +1,47 @@
+<odoo>
+<!--    <data noupdate='1' >-->
+    <data>
+        <!-- master buyer -->
+        <record id="seq_master_buyer" model="ir.sequence">
+            <field name="name">Master Buyer</field>
+            <field name="code">master.buyer</field>
+            <field name="padding">6</field>
+            <field name="prefix">BU</field>
+        </record>
+
+        <!-- master buyer -->
+        <record id="seq_master_contractor" model="ir.sequence">
+            <field name="name">Master Kontraktor</field>
+            <field name="code">master.contractor</field>
+            <field name="padding">6</field>
+            <field name="prefix">CO</field>
+        </record>
+
+
+        <!-- master barge -->
+        <record id="seq_master_barge" model="ir.sequence">
+            <field name="name">Master Barge</field>
+            <field name="code">master.barge</field>
+            <field name="padding">6</field>
+            <field name="prefix">BG</field>
+        </record>
+
+
+        <!-- master fuelman -->
+        <record id="seq_master_fuelman" model="ir.sequence">
+            <field name="name">Master FuelMan</field>
+            <field name="code">master.fuelman</field>
+            <field name="padding">3</field>
+            <field name="prefix">FM</field>
+        </record>
+
+        <!-- master unit kendaraan -->
+        <record id="seq_master_unit_kendaraan" model="ir.sequence">
+            <field name="name">Master Unit Kendaraan</field>
+            <field name="code">master.unit.kendaraan</field>
+            <field name="padding">4</field>
+            <field name="prefix">DT</field>
+        </record>
+                
+    </data>
+</odoo>

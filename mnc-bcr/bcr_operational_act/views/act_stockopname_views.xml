@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="act_stock_opname_form" model="ir.ui.view">
+            <field name="name">act.stock.opname.form</field>
+            <field name="model">act.stock.opname</field>
+            <field name="arch" type="xml">
+                <form delete="0" duplicate="0">
+                    <header>
+                        <button name="action_submit" type="object" string="Submit" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_revice" type="object" string="Revise" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'complete')]}" groups="bcr_operational.operational_revice_admin_group"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <label for="kode"/>
+                        <h1>
+                            <field name="kode"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="company_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="activity_id" options="{'no_create': True, 'no_open': True}" readonly="1"/>
+                                <field name="sub_activity_id" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group>
+                                <label for="period_month" string="Period"/>
+                                <div class="o_row">
+                                    <field name="period_month" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="selected_years" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                </div>
+                                <field name="observe_date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="filename_attachment" invisible="1"/>
+                                <field name="attachment" widget="binary" filename="filename_attachment" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Stock Opname / Seams" name="so_seams">
+                                <field name="so_line_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="sub_activity_id" invisible="1"/>
+                                        <field name="source_group_id" invisible="1" context="{'opname': True, 'sub_act': sub_activity_id}"/>
+                                        <field name="company_group_id" invisible="1"/>
+                                        <field name="source_id" invisible="0" domain="[('source_group_id', '=', source_group_id), ('bu_company_id', '=', company_group_id)]" context="{'opname': True, 'sub_act': sub_activity_id}"/>
+                                        <field name="open_stock" sum="Total Open Stock"/>
+                                        <field name="vol_in_tm" sum="Total Vol In TM"/>
+                                        <field name="vol_out_tm" sum="Total Vol Out TM"/>
+                                        <field name="remain_stock" sum="Total Remain Stock"/>
+                                        <field name="stock_by_survey" sum="Total Stock Survey"/>
+                                        <field name="vol_in_od" sum="Total Vol In OD"/>
+                                        <field name="vol_out_od" sum="Total Vol Out OD"/>
+                                        <field name="end_stock" sum="Total End STock"/>
+                                        <field name="loses_coal" sum="Total Loses"/>
+                                        <field name="percent_loses_coal" sum="Total % Loses"/>
+                                        <field name="bedding"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_stock_opname_tree" model="ir.ui.view">
+            <field name="name">act.stock.opname.tree</field>
+            <field name="model">act.stock.opname</field>
+            <field name="arch" type="xml">
+                <tree delete="0" duplicate="0" decoration-success="state == 'complete'">
+                    <field name="kode"/>
+                    <field name="company_id" string="Bisnis Unit"/>
+                    <field name="activity_id"/>
+                    <field name="sub_activity_id"/>
+                    <field name="period_month"/>
+                    <field name="selected_years"/>
+                    <field name="observe_date"/>
+                    <field name="filename_attachment" invisible="1"/>
+                    <field name="attachment" widget="binary" filename="filename_attachment"/>
+                    <field name="state" widget="badge" decoration-success="state in ('complete')"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_act_stock_opname">
+            <field name="name">act.stock.opname.filter</field>
+            <field name="model">act.stock.opname</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_actual_stock_opname" model="ir.actions.act_window">
+            <field name="name">Actual Stock Opname</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">act.stock.opname</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Survey
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

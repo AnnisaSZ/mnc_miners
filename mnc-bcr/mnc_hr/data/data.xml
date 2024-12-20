@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ir_cron_check_duration_and_age" model="ir.cron">
+        <field name="name">Check Duration Work and Age Employee</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=23, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+        <field name="model_id" ref="model_mncei_employee"/>
+        <field name="code">model.calculated_date_employee()</field>
+        <field name="state">code</field>
+    </record>
+
+    <!-- Mail Reminder -->
+
+    <record id="ir_cron_check_duration_and_age" model="ir.cron">
+        <field name="name">Check Notice HR</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(DateTime.now().replace(hour=23, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" />
+        <field name="model_id" ref="model_mncei_employee"/>
+        <field name="code">model.reminder_exp_status_emp()</field>
+        <field name="state">code</field>
+    </record>
+
+    <!-- Datas -->
+    <record id="status_kontrak" model="mncei.emp.status">
+        <field name="name">Kontrak</field>
+    </record>
+
+</odoo>

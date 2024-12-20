@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+
+        <menuitem id="root_menu_bcr" name="Production Mining Coal" />
+<!--        web_icon="bcr_master,static/description/logo_mnc.jpg"-->
+        <menuitem id="menu_master" name="Master" parent="bcr_master.root_menu_bcr" sequence="15"/>
+
+<!--        bisnis unit, [activity, sub activity id], product, area_id, shift id-->
+        <menuitem
+                id="menu_group_master_01"
+                name="Group 01"
+                parent="menu_master"
+                sequence="1"/>
+
+<!--        barge, tugboat, mother vessel jetty-->
+        <menuitem
+                id="menu_group_master_02"
+                name="Group 02"
+                parent="menu_master"
+                sequence="2"/>
+
+<!--        unit kendaraan, driver, fuelman-->
+        <menuitem
+                id="menu_group_master_03"
+                name="Group 03"
+                parent="menu_master"
+                sequence="4"/>
+
+<!--        buyer, kontraktor-->
+        <menuitem
+                id="menu_group_master_04"
+                name="Group 04"
+                parent="menu_master"
+                sequence="4"/>
+
+    </data>
+</odoo>

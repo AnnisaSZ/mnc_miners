@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+
+        <record id="formview_master_shift" model="ir.ui.view">
+            <field name="name">formview_master_shift</field>
+            <field name="model">master.shift</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form delete="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="area_code"/>
+                                <field name="bisnis_unit_name"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="listview_master_shift" model="ir.ui.view">
+            <field name="name">listview_master_shift</field>
+            <field name="model">master.shift</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree delete="0">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="area_code"/>
+                    <field name="bisnis_unit_name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_master_shift" model="ir.actions.act_window">
+            <field name="name">Shift</field>
+            <field name="res_model">master.shift</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id='menu_master_shift' name='Shift' parent='bcr_master.menu_group_master_01' sequence='3' action='action_master_shift'/>
+<!--                  groups="group_bcr_master_admin,group_bcr_master_admin_site"/>-->
+
+    </data>
+</odoo>

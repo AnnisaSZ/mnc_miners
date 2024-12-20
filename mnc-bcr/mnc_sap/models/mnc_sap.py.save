@@ -1,0 +1,299 @@
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
+from datetime import timedelta
+
+import firebase_admin
+from firebase_admin import credentials, messaging, db
+
+from odoo.http import request
+
+import requests
+import json
+import string
+import random
+
+/home/ubuntu/custom/mnc-bcr/bcr_api_sh/static/js/motionminers-4b184-firebase-adminsdk-63njy-be5559e1e6.json
+# =============== Notification ===============
+def id_generator(size=10, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
+
+def cek_url(url):
+    # untuk local
+    path_local = "C:/workspace/mnc-bcr/bcr_api_sh/static/js/motionminers-4b184-firebase-adminsdk-63njy-be5559e1e6.json"
+    # untuk dev
+    path_dev = "/home/ubuntu/custom/mnc-bcr/bcr_api_sh/static/js/motionminers-4b184-firebase-adminsdk-63njy-be5559e1e6.json"
+    # untuk prod
+    path_prod = "/opt/odoo14/custom-addons/mnc-bcr/bcr_api_sh/static/js/motionminers-4b184-firebase-adminsdk-63njy-be5559e1e6.json"
+    # Check URL
+    cek_my_host = url
+    if cek_my_host.find("localhost") > 0:
+        path_run = path_local
+        print("ini local host")
+    elif cek_my_host.find("devbcr") > 0:
+        path_run = path_dev
+        print("ini devbcr host")
+    elif cek_my_host.find("mncminers") > 0:
+        path_run = path_prod
+        print("ini motionminers host")
+    else:
+        path_run = path_local
+        print("ini apa?")
+
+    return path_run
+
+
+def push_notification(title_value, message_par, mobile_token, login, code=False):
+    # Cek url untuk file json
+    if not firebase_admin._apps:
+        cred = credentials.Certificate(
+            cek_url(request.httprequest.host_url))
+        firebase_admin.initialize_app(cred, {
+            'databaseURL': 'https://motionminers-4b184-default-rtdb.firebaseio.com/'
+        })
+    message_value = message_par
+    if mobile_token:
+        server_token = request.env['push.notification.setting'].sudo().search([("code", "=", "STF")])[0].value
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'key=' + server_token,
+        }
+        body = {
+            'notification': {
+                'title': title_value,
+                'body': message_value
+            },
+            'to':
+                mobile_token,
+            'priority': 'high',
+        }
+        response = requests.post("https://fcm.googleapis.com/fcm/send", headers=headers, data=json.dumps(body))
+        print("Response Code: ", response.status_code)
+        ref = db.reference('motion-mainers/')
+        if db.reference('motion-mainers/notification'):
+            notif = ref.child('notification')
+            notif.update(
+                {
+                    id_generator(): {
+                        'title': title_value,
+                        'message': message_value,
+                        'login': login,
+                        'mobile_token': mobile_token,
+                    }
+                }
+            )
+        else:
+            notif = ref.child('notification')
+            notif.set(
+                {
+                    id_generator(): {
+                        'title': title_value,
+                        'message': message_value,
+                        'login': login,
+                        'mobile_token': mobile_token,
+                    }
+                }
+            )
+        print('Push Notification Message', message_value)
+        result = {
+            "code": 2,
+            "desc": 'Success'}
+        return result
+    else:
+        result = {
+            "code": 3,
+            "desc": 'failed'}
+        return result
+
+# =============== ############ ===============
+
+
+class sapform(models.Model):
+    _name = 'sapform'
+    _description = 'Safety Accountibility Program Form'
+    _rec_name = "sap_no"
+
+    def get_sequence(self):
+        sequence = self.env['ir.sequence'].next_by_code('hazard.code')
+        return sequence
+
+    sap_no = fields.Char(string='SAP No', size=25, store=True, default='/')
+    company_id = fields.Many2one('res.company', string='Bisnis Unit', store=True, required=True)
+    incident_date_time = fields.Datetime(string='Incident Date/Time', store=True, required=True)
+    #
+    location_id = fields.Many2one('location.point', string='Location',  store=True, required=True)
+    detail_location = fields.Text('Details Location', store=True)
+    risk_id = fields.Many2one('risk.level', string='Level Risk',  store=True)
+    categ_id = fields.Many2one('category.hazard', string='Category',  store=True, required=True)
+    danger_categ_id = fields.Many2one('category.danger', string='Danger Category', store=True, required=True)
+    activity_id = fields.Many2one('activity.hazard', string='Activity', store=True, required=True)
+    description = fields.Text(string='Description', size=250, store=True, required=True)
+    img_eviden = fields.Image(string='Eviden', store=True)
+    #
+    user_id = fields.Many2one('res.users', string="Suspect", store=True)
+    other = fields.Boolean('Other', store=True)
+    user_text = fields.Char('Suspect', store=True)
+    penalty_id = fields.Many2one('penalty.point', string="Penalty", store=True)
+    control_id = fields.Many2one('risk.control', string="Risk Control", store=True)
+    department_id = fields.Many2one('department.hse', string="Department", store=True)
+    pic_id = fields.Many2one('department.pic', string="PIC", store=True, domain="[('department_id', '=', department_id), ('status', '=', 'aktif')]", compute='_get_pic')
+    child_pic =  fields.Many2one('child.pic', string="Teams", store=True, domain="[('parent_id', '=', pic_id), ('status', '=', 'aktif')]")
+    description_result = fields.Text(string='Description', size=250, store=True)
+    img_eviden_result = fields.Image(string='Eviden', store=True)
+    sap_type = fields.Selection([
+        ('KTA', 'Kondisi Tidak Aman'),
+        ('TTA', 'Tindakan Tidak Aman'),
+        ('KA', 'Kondisi Aman'),
+        ('TA', 'Tindakan Aman'),
+    ], store=True, string="SAP Category", default='ka')
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('waiting', 'Waiting'),
+        ('hanging', 'Hanging'),
+        ('close', 'Close'),
+        ('reject', 'Reject')
+    ], store=True, string="State", default='draft')
+    act_repair = fields.Boolean('Self Repair', store=True)
+    dept_uid = fields.Many2one('res.users', string="User PIC", related='pic_id.pic_id', store=True)
+    act_repair_uid = fields.Many2one('res.users', string="Actual User Repair", store=True)
+    pic_uids = fields.Many2many('res.users', 'sap_user_rel', 'user_id', 'sap_id', string="User PIC", store=True, related='pic_id.pic_ids')
+    fix_date = fields.Date('Fixing Date', store=True)
+    active = fields.Boolean('Active', store=True, default=True)
+    revisi_notes = fields.Text('Revise Note', store=True)
+
+    @api.depends('department_id')
+    def _get_pic(self):
+        for sap in self:
+            dept_pic_id = self.env['department.pic'].search([('department_id', '=', sap.department_id.id), ('status', '=', 'aktif'), ('company_id', '=', sap.company_id.id)], limit=1)
+            if dept_pic_id:
+                sap.pic_id = dept_pic_id
+            else:
+                sap.pic_id = False
+
+    @api.onchange('categ_id', 'sap_type')
+    def change_type_sap(self):
+        if self.categ_id:
+            self.sap_type = self.categ_id.code or 'KA'
+
+    @api.constrains('incident_date_time')
+    def check_date_lock_incident(self):
+        for sap in self:
+            today = fields.Date.today()
+            date_lock = today - timedelta(days=2)
+            if sap.incident_date_time.date() < date_lock:
+                raise ValidationError(_("Date Lock, you must be input today or H-1"))
+
+    @api.constrains('sap_no')
+    def check_sap_number(self):
+        for sap in self:
+            sap_id = self.env['sapform'].search([('sap_no', '=', sap.sap_no), ('id', '!=', sap.id), ('state', '!=', 'draft')], limit=1)
+            if sap_id:
+                raise ValidationError(_("Number Already Exist, Please change number"))
+
+    def action_archive(self):
+        self.write({'active': False})
+
+    def action_submit(self, code=False):
+        self.write({
+            'state': 'waiting',
+            'sap_no': self.categ_id.code + '/' + self.get_sequence()
+        })
+        return
+
+    def action_complete(self, code=False):
+        self.write({
+            'state': 'close',
+            'act_repair_uid': self.env.user.id,
+            'fix_date': fields.Date.today()
+        })
+        return
+
+    def send_to_department(self, department_pic_id):
+        if department_pic_id:
+            title_value = "Hazard Report"
+            message_par = _("Please check SAP No. %s") % (self.sap_no)
+            for user in department_pic_id.pic_ids:
+                mobile_token = user.mobile_token
+                login = user.login
+                code = "SAP"
+                push_notification(title_value, message_par, mobile_token, login, code=code)
+            return True
+        else:
+            return False
+
+    def action_to_waiting(self, department_id):
+        self.write({
+            'state': 'waiting'
+        })
+        dept_pic_id = self.env['department.pic'].search([('department_id', '=', department_id), ('status', '=', 'aktif'), ('company_id', '=', self.company_id.id)], limit=1)
+        result = self.send_to_department(dept_pic_id)
+        return result
+
+    def not_relevan_report(self):
+        self.write({
+            'state': 'hanging'
+        })
+        dept_pic_id = self.env['department.pic'].search([('department_id.name', 'like', 'HSE'), ('status', '=', 'aktif'), ('company_id', '=', self.company_id.id)], limit=1)
+        result = self.send_to_department(dept_pic_id)
+        return result
+
+    def get_pic(self, department_id, parameter):
+        dept_pic_id = self.env['department.pic'].search([('department_id.id', '=', parameter['department']), ('status', '=', 'aktif'), ('company_id', '=', parameter['company'])], limit=1)
+        if not dept_pic_id:
+            raise ValidationError(_("Please Input User PIC"))
+        return dept_pic_id
+
+    def to_create(self, code, parameter, date_time, set_draft):
+        sap_id = False
+        datas = self.preapre_datas(parameter, date_time)
+        if code in ('KTA', 'TTA'):
+            datas['risk_id'] = parameter['risk_level']
+        if set_draft:
+            datas['state'] = 'draft'
+            sap_id = self.create(datas)
+        else:
+            datas['sap_no'] = parameter['code'] + '/' + self.get_sequence()
+            if parameter['self_repair'] and code not in ('KA', 'TA'):
+                datas['act_repair_uid'] = request.env.user.id
+                datas['fix_date'] = fields.Date.today()
+                datas['description_result'] = parameter['fixing_description']
+                datas['img_eviden_result'] = parameter['fixing_photo']
+                datas['state'] = 'close'
+            elif code in ('KA', 'TA'):
+                datas['state'] = 'close'
+            else:
+                datas['state'] = 'waiting'
+                datas['department_id'] = parameter['department'] or False
+                pic_id = self.get_pic(parameter['department'], parameter)
+                if pic_id:
+                    datas['pic_id'] = pic_id.id
+
+            sap_id = self.create(datas)
+            if sap_id.state in ('hanging', 'waiting'):
+                title_value = "Hazard Report"
+                message_par = _("Please check SAP No. %s") % (sap_id.sap_no)
+                # To Dept Fixing
+                if sap_id.pic_id:
+                    for user in sap_id.pic_id.pic_ids:
+                        mobile_token = user.mobile_token
+                        login = user.login
+                        code = "SAP"
+                        push_notification(title_value, message_par, mobile_token, login, code=code)
+        return sap_id
+
+    def preapre_datas(self, parameter, date_time):
+        categ_id = self.env['category.hazard'].search([('code', '=', parameter['code'])], limit=1)
+        return {
+            "sap_no": '/',
+            "sap_type": parameter['code'],
+            "company_id": parameter['company'],
+            "incident_date_time": date_time,
+            "location_id": parameter['location'],
+            "detail_location": parameter['detail_location'] or "",
+            "categ_id": categ_id.id,
+            "danger_categ_id": parameter['category'],
+            "activity_id": parameter['activity'],
+            "description": parameter['incident_description'],
+            "img_eviden": parameter['incident_photo'],
+            "control_id": parameter['control_id']
+        }

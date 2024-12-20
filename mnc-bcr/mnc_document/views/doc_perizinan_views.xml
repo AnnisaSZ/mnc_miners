@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<odoo>
+	<record id="mncei_perizinan_form" model="ir.ui.view">
+        <field name="name">mncei.perizinan.form</field>
+        <field name="model">mncei.perizinan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="License Data">
+                            <field name="category"/>
+                            <field name="license_number"/>
+                            <field name="license_name"/>
+                            <field name="license_date"/>
+                            <field name="licensor"/>
+                            <field name="parties"/>
+                            <field name="license_obligation" required="1"/>
+                        </group>
+                        <group string="Owner">
+                            <field name="document_type"/>
+                            <field name="company" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="pic" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="pic_phone"/>
+                        </group>
+                        <group string="Penyimpanan">
+                            <field name="location_doc_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="rak"/>
+                            <field name="url_penyimpanan" placeholder="e.g https://.." widget="url" style="white-space: pre-wrap; word-break: break-all;"/>
+                        </group>
+                        <group string="Status">
+                            <field name="release_date" force_save="1"/>
+                            <field name="expired_date" force_save="1"/>
+                            <field name="reminder_date" string="Reminder Date" force_save="1"/>
+                            <field name="periode_reminder" string="Periode" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="document_status" options="{'no_create': True}"/>
+                            <field name="email_reminder" required="0" style="white-space: pre-wrap; word-break: break-all;" widget="text" force_save="1"/>
+                            <label for="email_reminder" string="Add Emails"/>
+                            <div>
+                                <field name="email_reminder" invisible="1" required="0" class="oe_inline" force_save="1"/>
+                                <button name="add_email" type="object" icon="fa-plus" context="{'legal_id':'id'}"/>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_perizinan_tree" model="ir.ui.view">
+        <field name="name">mncei.perizinan.tree</field>
+        <field name="model">mncei.perizinan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="category"/>
+                <field name="license_number"/>
+                <field name="license_name"/>
+                <field name="license_date"/>
+                <field name="licensor"/>
+                <field name="company"/>
+                <field name="pic"/>
+                <field name="location_doc_id"/>
+                <field name="rak"/>
+                <field name="url_penyimpanan"/>
+                <field name="document_status"/>                
+            </tree>
+        </field>
+    </record>
+
+    <record id="views_mncei_perizinan_search" model="ir.ui.view">
+        <field name="name">mncei.perizinan.search</field>
+        <field name="model">mncei.perizinan</field>
+        <field name="arch" type="xml">
+            <search string="Perizinan">
+                <field name="license_number"/>
+                <field name="license_name"/>
+                <field name="company"/>                
+            </search>
+        </field>
+    </record>
+
+
+    <!-- Actions Perizinan -->
+    <record id="mncei_perizinan_actions" model="ir.actions.act_window">
+        <field name="name">Perizinan</field>
+        <field name="res_model">mncei.perizinan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tambahkan Dokumen Perizinan
+            </p>
+        </field>
+    </record>
+</odoo>

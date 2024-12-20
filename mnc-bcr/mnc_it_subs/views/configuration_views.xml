@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Location -->
+    <record id="master_location_itsubs_tree_view" model="ir.ui.view">
+        <field name="name">Master Location</field>
+        <field name="model">master.location.itsubs</field>
+        <field name="arch" type="xml">
+            <tree duplicate="0">
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="master_location_itsubs_form_view" model="ir.ui.view">
+        <field name="name">Master Location Form</field>
+        <field name="model">master.location.itsubs</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="master_location_itsubs_view" model="ir.actions.act_window">
+        <field name="name">Master Location</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.location.itsubs</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Location
+            </p>
+        </field>
+    </record>
+
+    <!-- Status -->
+    <record id="master_status_itsubs_tree_view" model="ir.ui.view">
+        <field name="name">Master Status</field>
+        <field name="model">master.status.itsubs</field>
+        <field name="arch" type="xml">
+            <tree duplicate="0">
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="master_status_itsubs_form_view" model="ir.ui.view">
+        <field name="name">Master Status Form</field>
+        <field name="model">master.status.itsubs</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="master_status_itsubs_view" model="ir.actions.act_window">
+        <field name="name">Action Master Status</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.status.itsubs</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Status
+            </p>
+        </field>
+    </record>
+
+    <!-- Subscription Type -->
+    <record id="master_type_itsubs_tree_view" model="ir.ui.view">
+        <field name="name">Master Subscription Type</field>
+        <field name="model">master.type.itsubs</field>
+        <field name="arch" type="xml">
+            <tree duplicate="0">
+                <field name="name"/>
+                <field name="classification"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="master_type_itsubs_form_view" model="ir.ui.view">
+        <field name="name">Master Subscription Type Form</field>
+        <field name="model">master.type.itsubs</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="classification"/>
+                        </group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="master_type_itsubs_view" model="ir.actions.act_window">
+        <field name="name">Master Subscription Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.type.itsubs</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Subsctiption Type
+            </p>
+        </field>
+    </record>
+
+    <!-- Master Vendor -->
+    <record id="master_vendor_itsubs_tree_view" model="ir.ui.view">
+        <field name="name">Master Vendor</field>
+        <field name="model">master.vendor.itsubs</field>
+        <field name="arch" type="xml">
+            <tree duplicate="0">
+                <field name="name"/>
+                <field name="subs_type_id"/>
+                <field name="currency_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="master_vendor_itsubs_form_view" model="ir.ui.view">
+        <field name="name">Master Vendor Form</field>
+        <field name="model">master.vendor.itsubs</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="contact"/>
+                            <field name="email"/>
+                            <field name="tel"/>
+                            <field name="first_agreement" required="1"/>
+                        </group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="subs_type_id"/>
+                            <field name="currency_id"/>
+                            <field name="filename_attachment" invisible="1"/>
+                            <field name="attachment" widget="binary" filename="filename_attachment"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="master_vendor_itsubs_view" model="ir.actions.act_window">
+        <field name="name">Master Vendor</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.vendor.itsubs</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Vendor
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,662 @@
+<odoo>
+  <data>
+<!--    planning hauling-->
+    <record id="inherit_formview_planning_hauling_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_planning_hauling_sh</field>
+        <field name="model">planning.hauling</field>
+        <field name="inherit_id" ref="bcr_planning.formview_planning_hauling"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//sheet/div" position="before">
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              <field name="active" invisible="1"/>
+          </xpath>
+        </field>
+    </record>
+    <record id="inherit_listview_planning_hauling_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_planning_hauling_sh</field>
+        <field name="model">planning.hauling</field>
+        <field name="inherit_id" ref="bcr_planning.listview_planning_hauling"/>
+        <field name="arch" type="xml">
+          <xpath expr="//tree" position="attributes">
+                <attribute name="editable"/>
+          </xpath>
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="filter_planning_hauling">
+        <field name="name">Planning Hauling Filter</field>
+        <field name="model">planning.hauling</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+    <record id="action_to_complete_planning_hauling" model="ir.actions.server">
+        <field name="name">Confirm to Complete</field>
+        <field name="model_id" ref="bcr_planning.model_planning_hauling"/>
+        <field name="binding_model_id" ref="bcr_planning.model_planning_hauling"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.filtered(lambda x: x.state in ('draft','review')).button_confirm_complete_multi()
+        </field>
+    </record>
+<!--    planning barging-->
+    <record id="inherit_formview_planning_barging_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_planning_barging_sh</field>
+        <field name="model">planning.barging</field>
+        <field name="inherit_id" ref="bcr_planning.formview_planning_barging"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='gar']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='ts']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='ash']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='tm']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='im']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+           <xpath expr="//field[@name='current_date']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//sheet/div" position="before">
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              <field name="active" invisible="1"/>
+          </xpath>
+        </field>
+    </record>
+    <record id="inherit_listview_planning_barging_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_planning_barging_sh</field>
+        <field name="model">planning.barging</field>
+        <field name="inherit_id" ref="bcr_planning.listview_planning_barging"/>
+        <field name="arch" type="xml">
+          <xpath expr="//tree" position="attributes">
+                <attribute name="editable"/>
+          </xpath>
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='gar']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="filter_planning_barging">
+        <field name="name">Planning Barging Filter</field>
+        <field name="model">planning.barging</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+    <record id="action_to_complete_planning_barging" model="ir.actions.server">
+        <field name="name">Confirm to Complete</field>
+        <field name="model_id" ref="bcr_planning.model_planning_barging"/>
+        <field name="binding_model_id" ref="bcr_planning.model_planning_barging"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.filtered(lambda x: x.state in ('draft','review')).button_confirm_complete_multi()
+        </field>
+    </record>
+<!--    planning production-->
+    <record id="inherit_formview_planning_production_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_planning_production_sh</field>
+        <field name="model">planning.production</field>
+        <field name="inherit_id" ref="bcr_planning.formview_planning_production"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="replace">
+              <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+          </xpath>
+          <xpath expr="//field[@name='volume_plan']" position="after">
+              <field name="status_seam" invisible="1"/>
+              <field name="seam_id" attrs="{'invisible': [('status_seam', '=', True)]}" domain="[('bu_company_id', '=', bu_company_id), ('area_id', '=', area_id)]"/>
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="attributes">
+              <attribute name="domain">[('bu_company_id', '=', bu_company_id)]</attribute>
+          </xpath>
+          <xpath expr="//sheet/div" position="before">
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              <field name="active" invisible="1"/>
+          </xpath>
+        </field>
+    </record>
+    <record id="inherit_listview_planning_production_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_planning_production_sh</field>
+        <field name="model">planning.production</field>
+        <field name="inherit_id" ref="bcr_planning.listview_planning_production"/>
+        <field name="arch" type="xml">
+          <xpath expr="//tree" position="attributes">
+                <attribute name="editable"/>
+          </xpath>
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+          </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="filter_planning_production">
+        <field name="name">Planning Production Filter</field>
+        <field name="model">planning.production</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+    <record id="action_to_complete_planning_production" model="ir.actions.server">
+        <field name="name">Confirm to Complete</field>
+        <field name="model_id" ref="bcr_planning.model_planning_production"/>
+        <field name="binding_model_id" ref="bcr_planning.model_planning_production"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.filtered(lambda x: x.state in ('draft','review')).button_confirm_complete_multi()
+        </field>
+    </record>
+<!--    actual production-->
+    <record id="inherit_formview_act_production_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_act_production_sh</field>
+        <field name="model">act.production</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_production"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="domain">[('kontraktor_id', '=', kontraktor_id)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="before">
+              <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+          </xpath>
+          <xpath expr="//field[@name='source_id']" position="after">
+              <field name="status_seam" invisible="1"/>
+              <field name="seam_id" attrs="{'invisible': [('status_seam', '=', True)]}" domain="[('bu_company_id', '=', bu_company_id), ('area_id', '=', area_id)]"/>
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="attributes">
+              <attribute name="domain">[('bu_company_id', '=', bu_company_id)]</attribute>
+          </xpath>
+          <xpath expr="//sheet/div" position="before">
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              <field name="active" invisible="1"/>
+          </xpath>
+          <xpath expr="//field[@name='ritase']" position="attributes">
+              <attribute name="string">Ritase</attribute>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="attributes">
+              <attribute name="string">Volume</attribute>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="replace">
+              <label for="volume" string="Volume"/>
+              <div class="o_row">
+                  <field name="volume" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" widget="num_validation" class="oe_inline"/>
+                  <field name="item_uom"  force_save="1" class="oe_inline"/>
+              </div>
+          </xpath>
+          <xpath expr="//field[@name='total_unit']" position="attributes">
+              <attribute name="string">Total Fleet</attribute>
+          </xpath>
+        </field>
+    </record>
+    <record id="inherit_listview_act_production_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_act_production_sh</field>
+        <field name="model">act.production</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_production"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+                <attribute name="editable"/>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="after">
+              <field name="seam_id"/>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="after">
+               <field name="item_uom"/>
+          </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="filter_production">
+        <field name="name">Production Filter</field>
+        <field name="model">act.production</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+    <record id="action_to_complete_act_production" model="ir.actions.server">
+        <field name="name">Confirm to Complete</field>
+        <field name="model_id" ref="bcr_planning.model_act_production"/>
+        <field name="binding_model_id" ref="bcr_planning.model_act_production"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.filtered(lambda x: x.state in ('draft','review')).button_confirm_complete_multi()
+        </field>
+    </record>
+<!--    actual inventory/stockroom-->
+    <record id="inherit_formview_act_stockroom_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_act_stockroom_sh</field>
+        <field name="model">act.stockroom</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_stockroom"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="after">
+              <field name="seam_id" domain="[('bu_company_id', '=', bu_company_id), ('area_id', '=', area_id)]"/>
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="attributes">
+              <attribute name="domain">[('bu_company_id', '=', bu_company_id)]</attribute>
+          </xpath>
+          <xpath expr="//sheet/div" position="before">
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              <field name="active" invisible="1"/>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="replace">
+              <label for="volume" string="Volume"/>
+              <div class="o_row">
+                  <field name="volume" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" widget="num_validation" class="oe_inline"/>
+                  <field name="item_uom"  force_save="1" class="oe_inline"/>
+              </div>
+          </xpath>
+        </field>
+    </record>
+    <record id="inherit_listview_act_stockroom_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_act_stockroom_sh</field>
+        <field name="model">act.stockroom</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_stockroom"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="after">
+              <field name="seam_id"/>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="after">
+               <field name="item_uom"/>
+          </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="filter_stockroom">
+        <field name="name">Stockroom Filter</field>
+        <field name="model">act.stockroom</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+    <record id="action_to_complete_act_stockroom" model="ir.actions.server">
+        <field name="name">Confirm to Complete</field>
+        <field name="model_id" ref="bcr_planning.model_act_stockroom"/>
+        <field name="binding_model_id" ref="bcr_planning.model_act_stockroom"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.filtered(lambda x: x.state in ('draft','review')).button_confirm_complete_multi()
+        </field>
+    </record>
+<!--    actual barging-->
+    <record id="inherit_formview_act_barging_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_act_barging_sh</field>
+        <field name="model">act.barging</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_barging"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="domain">[('kontraktor_id', '=', kontraktor_id)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="before">
+              <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_barging')]" />
+          </xpath>
+          <xpath expr="//field[@name='source_id']" position="after">
+              <field name="seam_id" domain="[('bu_company_id', '=', bu_company_id), ('area_id', '=', area_id)]"/>
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="attributes">
+              <attribute name="domain">[('bu_company_id', '=', bu_company_id)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='sub_activity_id']" position="after">
+              <field name="sizing" widget="radio"/>
+          </xpath>
+          <xpath expr="//field[@name='basis']" position="attributes">
+              <attribute name="attrs"/>
+              <attribute name="widget"/>
+          </xpath>
+          <xpath expr="//sheet/div" position="before">
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              <field name="active" invisible="1"/>
+          </xpath>
+          <xpath expr="//field[@name='stowage']" position="attributes">
+              <attribute name="invisible">1</attribute>
+              <attribute name="required">0</attribute>
+          </xpath>
+          <xpath expr="//field[@name='commance']" position="attributes">
+              <attribute name="invisible">1</attribute>
+              <attribute name="required">0</attribute>
+          </xpath>
+          <xpath expr="//field[@name='complete']" position="attributes">
+              <attribute name="invisible">1</attribute>
+              <attribute name="required">0</attribute>
+          </xpath>
+          <xpath expr="//field[@name='source_id']" position="attributes">
+              <attribute name="required">0</attribute>
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='total_unit']" position="after">
+              <field name="source_group"/>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="replace">
+              <label for="volume" string="Volume"/>
+              <div class="o_row">
+                  <field name="volume" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" widget="num_validation" class="oe_inline"/>
+                  <field name="item_uom"  force_save="1" class="oe_inline"/>
+              </div>
+          </xpath>
+          <xpath expr="//field[@name='buyer_id']" position="attributes">
+              <attribute name="domain"/>
+              <attribute name="required">0</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="after">
+              <field name="kontraktor_produksi_id" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}"/>
+          </xpath>
+        </field>
+    </record>
+    <record id="inherit_listview_act_barging_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_act_barging_sh</field>
+        <field name="model">act.barging</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_barging"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+              <attribute name="editable"/>
+          </xpath>
+          <xpath expr="//field[@name='sub_activity_id']" position="after">
+              <field name="sizing" widget="radio"/>
+          </xpath>
+          <xpath expr="//field[@name='state']" position="before">
+              <field name="source_group"/>
+              <field name="seam_id"/>
+              <field name="barge_id"/>
+              <field name="tugboat_id"/>
+              <field name="market"/>
+              <field name="mv_boat_id"/>
+              <field name="jetty_id"/>
+              <field name="buyer_id"/>
+              <field name="basis"/>
+              <field name="status_shipper"/>
+              <field name="remarks"/>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="after">
+               <field name="item_uom"/>
+          </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="filter_barging">
+        <field name="name">Barging Filter</field>
+        <field name="model">act.barging</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+    <record id="action_to_complete_act_barging" model="ir.actions.server">
+        <field name="name">Confirm to Complete</field>
+        <field name="model_id" ref="bcr_planning.model_act_barging"/>
+        <field name="binding_model_id" ref="bcr_planning.model_act_barging"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.filtered(lambda x: x.state in ('draft','review')).button_confirm_complete_multi()
+        </field>
+    </record>
+<!--    actual longtime/delay-->
+    <record id="inherit_formview_act_delay_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_act_delay_sh</field>
+        <field name="model">act.delay</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_delay"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="domain">[('kontraktor_id', '=', kontraktor_id)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="before">
+              <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="attributes">
+              <attribute name="domain">[('bu_company_id', '=', bu_company_id)]</attribute>
+          </xpath>
+          <xpath expr="//sheet/div" position="before">
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              <field name="active" invisible="1"/>
+          </xpath>
+          <xpath expr="//field[@name='unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+        </field>
+    </record>
+    <record id="inherit_listview_act_delay_sh" model="ir.ui.view">
+        <field name="name">inherit_listview_act_delay_sh</field>
+        <field name="model">act.delay</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_delay"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+          </xpath>
+           <xpath expr="//field[@name='volume']" position="after">
+               <field name="item_uom"/>
+           </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="filter_delay">
+        <field name="name">Delay Filter</field>
+        <field name="model">act.delay</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+    <record id="action_to_complete_act_delay" model="ir.actions.server">
+        <field name="name">Confirm to Complete</field>
+        <field name="model_id" ref="bcr_planning.model_act_delay"/>
+        <field name="binding_model_id" ref="bcr_planning.model_act_delay"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.filtered(lambda x: x.state in ('draft','review')).button_confirm_complete_multi()
+        </field>
+    </record>
+<!--    actual hauling-->
+    <record id="inherit_formview_act_hauling_sh" model="ir.ui.view">
+        <field name="name">inherit_formview_act_hauling_sh</field>
+        <field name="model">act.hauling</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_hauling"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='kontraktor_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="attributes">
+              <attribute name="domain">[('kontraktor_id', '=', kontraktor_id)]</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="before">
+              <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_hauling')]" />
+          </xpath>
+          <xpath expr="//field[@name='total_unit']" position="after">
+              <field name="seam_id" domain="[('bu_company_id', '=', bu_company_id), ('area_id', '=', area_id)]"/>
+          </xpath>
+          <xpath expr="//field[@name='area_id']" position="attributes">
+              <attribute name="domain">[('bu_company_id', '=', bu_company_id)]</attribute>
+          </xpath>
+          <xpath expr="//sheet/div" position="before">
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              <field name="active" invisible="1"/>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="replace">
+              <label for="volume" string="Volume"/>
+              <div class="o_row">
+                  <field name="volume" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" widget="num_validation" class="oe_inline"/>
+                  <field name="item_uom"  force_save="1" class="oe_inline"/>
+              </div>
+          </xpath>
+        </field>
+    </record>
+    <record id="inherit_llistview_act_hauling_sh" model="ir.ui.view">
+        <field name="name">inherit_llistview_act_hauling_sh</field>
+        <field name="model">act.hauling</field>
+        <field name="inherit_id" ref="bcr_planning.listview_act_hauling"/>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='bisnis_unit_id']" position="attributes">
+              <attribute name="invisible">1</attribute>
+          </xpath>
+          <xpath expr="//field[@name='activity_id']" position="before">
+              <field name="bu_company_id" string="Bisnis Unit"/>
+          </xpath>
+          <xpath expr="//tree" position="attributes">
+              <attribute name="delete">1</attribute>
+              <attribute name="editable"/>
+          </xpath>
+          <xpath expr="//field[@name='shift_id']" position="after">
+              <field name="seam_id"/>
+          </xpath>
+          <xpath expr="//field[@name='volume']" position="after">
+               <field name="item_uom"/>
+          </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="filter_hauling">
+        <field name="name">Hauling Filter</field>
+        <field name="model">act.hauling</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+    <record id="action_to_complete_act_hauling" model="ir.actions.server">
+        <field name="name">Confirm to Complete</field>
+        <field name="model_id" ref="bcr_planning.model_act_hauling"/>
+        <field name="binding_model_id" ref="bcr_planning.model_act_hauling"/>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                records.filtered(lambda x: x.state in ('draft','review')).button_confirm_complete_multi()
+        </field>
+    </record>
+  </data>
+</odoo>

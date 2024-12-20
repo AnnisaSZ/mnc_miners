@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_master_aircraft_type,access_master_aircraft_type,model_master_aircraft_type,base.group_user,1,1,1,1
+access_master_airport,access_master_airport,model_master_airport,base.group_user,1,1,1,1
+access_master_position,access_master_position,model_master_position,base.group_user,1,1,1,1
+access_master_crew,access_master_crew,model_master_crew,base.group_user,1,1,1,1
+access_master_agent,access_master_agent,model_master_agent,base.group_user,1,1,1,1
+access_master_agent_line,access_master_agent_line,model_master_agent_line,base.group_user,1,1,1,1
+access_master_charterby,access_master_charterby,model_master_charterby,base.group_user,1,1,1,1
+
+access_report_fis,access_report_fis,model_report_fis,base.group_user,1,0,0,0
+access_report_fis_input,access_report_fis_input,model_report_fis,mnc_fis.group_user_fis_inputers,1,1,1,1
+access_flight_schedule_line,access_flight_schedule_line,model_flight_schedule_line,base.group_user,1,1,1,1
+access_crew_detail_line,access_crew_detail_line,model_crew_detail_line,base.group_user,1,1,1,1
+access_handling_agent_line,access_handling_agent_line,model_handling_agent_line,base.group_user,1,1,1,1
+access_passenger_line,access_passenger_line,model_passenger_line,base.group_user,1,1,1,1
+access_crew_accomodation_line,access_crew_accomodation_line,model_crew_accomodation_line,base.group_user,1,1,1,1

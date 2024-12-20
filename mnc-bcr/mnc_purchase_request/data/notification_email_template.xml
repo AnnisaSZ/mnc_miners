@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="notification_purchase_request_mail_template_approved" model="mail.template">
+            <field name="name">MNCEI Purchase Request Notification</field>
+            <field name="model_id" ref="model_mncei_purchase_requisition_approval"/>
+            <field name="subject">Waiting Your Approval</field>
+            <field name="email_from">"${object.pr_id.company_id.name | safe}" &lt;${(object.pr_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Yth Bapak/Ibu  ${object.user_id.name}, <br/>
+                        Dengan ini diberitahukan bahwa Bapak/Ibu untuk melakukan Check/Review/Approve atas dokumen purchase request terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>PR Number</strong></td>
+                                    <td>:</td>
+                                    <td>${object.pr_id.pr_no}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Company</strong></td>
+                                    <td>:</td>
+                                    <td>${object.pr_id.company_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.pr_id.order_by_id.nama_lengkap}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Created Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.pr_id.date_request}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Silahkan untuk melakukan Check/Review/Approve dengan klik link dibawah ini :
+                        <br/>
+                        <a href="${object.pr_id.url}/web#cids=${object.pr_id.company_id.id}&amp;id=${object.pr_id.id}&amp;menu_id=&amp;model=mncei.purchase.requisition&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        MNCEI Purchase Request<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Notice To Finance -->
+        <record id="notification_purchase_request_mail_finance" model="mail.template">
+            <field name="name">MNCEI Purchase Request Notification</field>
+            <field name="model_id" ref="model_mncei_purchase_requisition"/>
+            <field name="subject">Waiting Your Check</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Yth Bapak/Ibu  ${object.finance_uid.name}, <br/>
+                        Dengan ini diberitahukan bahwa Bapak/Ibu untuk melakukan update Payment/Cancel atas dokumen purchase request terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>PR Number</strong></td>
+                                    <td>:</td>
+                                    <td>${object.pr_no}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Company</strong></td>
+                                    <td>:</td>
+                                    <td>${object.company_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.order_by_id.nama_lengkap}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Created Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.date_request}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <strong>**Silahkan klik button Payment jika PR sudah dibayar.</strong>
+                        <br/>
+                        <br/>
+                        Silahkan untuk melakukan Update <strong>Payment/Cancel</strong> dengan klik link dibawah ini :
+                        <br/>
+                        <a href="${object.url}/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=mncei.purchase.requisition&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        MNCEI Purchase Request<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

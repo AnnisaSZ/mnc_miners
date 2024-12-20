@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_timesheet_line_form_ext" model="ir.ui.view">
+        <field name="name">account.analytic.line.form.ext</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date']" position="after">
+                <field name="mncei_employee_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+            </xpath>
+        </field>
+     </record>
+
+    <record id="view_hr_timesheet_line_pivot_ext" model="ir.ui.view">
+        <field name="name">account.analytic.line.pivot.ext</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.view_hr_timesheet_line_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="replace">
+                <field name="mncei_employee_id" type="row"/>
+            </xpath>
+        </field>
+     </record>
+
+    <record id="hr_timesheet_line_tree_ext" model="ir.ui.view">
+        <field name="name">account.analytic.line.tree.ext</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="mncei_employee_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+            </xpath>
+        </field>
+     </record>
+
+     <record id="hr_timesheet.timesheet_view_tree_user" model="ir.ui.view">
+        <field name="name">account.analytic.line.tree.ext.user</field>
+        <field name="model">account.analytic.line</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+                <attribute name="required">1</attribute>
+                <attribute name="widget">many2one_avatar_employee</attribute>
+                <attribute name="context">{'active_test': True}</attribute>
+            </xpath>
+        </field>
+     </record>
+
+    <record id="timesheet_view_form_user_ext" model="ir.ui.view">
+        <field name="name">account.analytic.line.tree.user.ext</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.timesheet_view_form_user"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="replace">
+                <field name="mncei_employee_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+            </xpath>
+        </field>
+     </record>
+
+    <record id="hr_timesheet_line_search_ext" model="ir.ui.view">
+        <field name="name">account.analytic.line.search.ext</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="replace">
+                <field name="mncei_employee_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='groupby_employee']" position="replace">
+                <filter string="Employee" name="groupby_employee_ext" domain="[]" context="{'group_by': 'mncei_employee_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_kanban_account_analytic_line_ext" model="ir.ui.view">
+        <field name="name">account.analytic.line.kanban.ext</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.view_kanban_account_analytic_line"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="replace">
+                <field name="mncei_employee_id"/>
+            </xpath>
+            <xpath expr="//t[@t-name='kanban-box']/div/div[1]/div[1]" position="replace">
+                <div class="col-2">
+                    <img t-att-src="kanban_image('mncei.employee', 'image_128', record.mncei_employee_id.raw_value)" t-att-title="record.mncei_employee_id.value" t-att-alt="record.mncei_employee_id.value" class="o_image_40_cover float-left"/>
+                </div>
+            </xpath>
+        </field>
+     </record>
+
+    <record id="hr_timesheet.act_hr_timesheet_line" model="ir.actions.act_window">
+        <field name="name">My Timesheets</field>
+        <field name="search_view_id" ref="hr_timesheet_line_search_ext"/>
+    </record>
+</odoo>

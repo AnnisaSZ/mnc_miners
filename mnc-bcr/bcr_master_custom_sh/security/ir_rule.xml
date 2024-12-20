@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record model="ir.rule" id="master_area_rule">
+        <field name="name">Master Area multi-company</field>
+        <field name="model_id" ref="model_master_area" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="master_shift_rule">
+        <field name="name">Master Shift multi-company</field>
+        <field name="model_id" ref="model_master_shift" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="master_source_rule">
+        <field name="name">Master Source multi-company</field>
+        <field name="model_id" ref="model_master_source" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="master_seam_rule">
+        <field name="name">Master Seam multi-company</field>
+        <field name="model_id" ref="model_master_seam" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="master_jetty_rule">
+        <field name="name">Master Jetty multi-company</field>
+        <field name="model_id" ref="model_master_jetty" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            []
+        </field>
+    </record>
+    <record model="ir.rule" id="master_unit_kendaraan_rule">
+        <field name="name">Master Unit Kendaraan multi-company</field>
+        <field name="model_id" ref="model_master_unit_kendaraan" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="validation_validation_rule">
+        <field name="name">Master Validation multi-company</field>
+        <field name="model_id" ref="model_validation_validation" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+</odoo>

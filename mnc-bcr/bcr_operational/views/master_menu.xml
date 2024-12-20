@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- TS ADB -->
+        <record id="ts_adb_form" model="ir.ui.view">
+            <field name="name">ts.adb.form</field>
+            <field name="model">ts.adb</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="status"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="ts_adb_tree" model="ir.ui.view">
+            <field name="name">ts.adb.tree</field>
+            <field name="model">ts.adb</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Period -->
+        <record id="plan_type_period_form" model="ir.ui.view">
+            <field name="name">planning.type.period.form</field>
+            <field name="model">planning.type.period</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="status"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Options">
+                                <field name="option_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="status"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="plan_type_period_tree" model="ir.ui.view">
+            <field name="name">planning.type.period.tree</field>
+            <field name="model">planning.type.period</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_planning_type_period" model="ir.actions.act_window">
+            <field name="name">Planning Period</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">planning.type.period</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Period
+                </p>
+            </field>
+        </record>
+
+        <record id="action_ts_adb" model="ir.actions.act_window">
+            <field name="name">TS ADB</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ts.adb</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    Add New TS
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

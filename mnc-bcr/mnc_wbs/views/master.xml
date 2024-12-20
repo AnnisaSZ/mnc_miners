@@ -1,0 +1,185 @@
+<odoo>
+    <record id="wbs_commis_view_form" model="ir.ui.view">
+        <field name="name">Master Comissioner</field>
+        <field name="model">wbs.commisioner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="actives" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="wbs_commis_view_tree" model="ir.ui.view">
+        <field name="name">Master Comissioner</field>
+        <field name="model">wbs.commisioner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" readonly="1"/>
+                <field name="company_id" readonly="1"/>
+                <field name="actives" widget="boolean_toggle" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wbs_commis_view" model="ir.actions.act_window">
+        <field name="name">Master Comissioner</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wbs.commisioner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Comissioner
+            </p>
+        </field>
+    </record>
+
+    <!-- Director -->
+    <record id="wbs_director_view_form" model="ir.ui.view">
+        <field name="name">Master Director</field>
+        <field name="model">wbs.director</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="company_id" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="actives" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="wbs_director_view_tree" model="ir.ui.view">
+        <field name="name">Master Director</field>
+        <field name="model">wbs.director</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" readonly="1"/>
+                <field name="company_id" readonly="1" widget="many2many_tags"/>
+                <field name="actives" widget="boolean_toggle" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wbs_director_view" model="ir.actions.act_window">
+        <field name="name">Master Director</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wbs.director</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Director
+            </p>
+        </field>
+    </record>
+
+    <!-- Auditor -->
+    <record id="wbs_auditor_view_form" model="ir.ui.view">
+        <field name="name">Master Auditor</field>
+        <field name="model">wbs.auditor</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="head_audit_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="auditor_1_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" widget="many2many_tags"/>
+                            <field name="auditor_2_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" widget="many2many_tags"/>
+                            <field name="auditor_3_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" widget="many2many_tags"/>
+                            <field name="actives" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="wbs_auditor_view_tree" model="ir.ui.view">
+        <field name="name">Master Auditor</field>
+        <field name="model">wbs.auditor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="head_audit_id" readonly="1"/>
+                <field name="company_id" readonly="1"/>
+                <field name="actives" widget="boolean_toggle" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="wbs_auditor_view" model="ir.actions.act_window">
+        <field name="name">Master Auditor</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wbs.auditor</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Auditor
+            </p>
+        </field>
+    </record>
+
+    <!-- TnC -->
+    <record id="wbs_tnc_view_form" model="ir.ui.view">
+        <field name="name">Terms &amp; Conditions</field>
+        <field name="model">wbs.tnc</field>
+        <field name="arch" type="xml">
+            <form create="false" delete="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="actives" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="wbs_tnc_view_tree" model="ir.ui.view">
+        <field name="name">Terms &amp; Conditions</field>
+        <field name="model">wbs.tnc</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="false">
+                <field name="name" readonly="1"/>
+                <!-- <field name="actives" widget="boolean_toggle" readonly="1"/> -->
+            </tree>
+        </field>
+    </record>
+
+    <record id="wbs_tnc_view" model="ir.actions.act_window">
+        <field name="name">Terms &amp; Conditions</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wbs.tnc</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Auditor
+            </p>
+        </field>
+    </record>
+</odoo>

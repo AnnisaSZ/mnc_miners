@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+	<record id="resign_information_wizard_form" model="ir.ui.view">
+        <field name="name">Resign Information</field>
+        <field name="model">employee.resign.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+            	<group>
+	                <group>
+	                    <field name="employee_ids" invisible="1"/>
+	                    <field name="tgl_resign"/>
+	                    <field name="clearin_sheet_file" filename="clearin_sheet_filename"/>
+	                </group>
+            	</group>
+                
+                <group string="Notes">
+                    <field name="reason_resign" nolabel="1"/>
+                </group>
+                <footer>
+                    <button
+                        name="action_confirm"
+                        string="Confirm"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_resign_wizard" model="ir.actions.act_window">
+        <field name="name">Action Resign</field>
+        <field name="res_model">employee.resign.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Revise -->
+    <record id="revise_information_wizard_form" model="ir.ui.view">
+        <field name="name">Revise Information</field>
+        <field name="model">employee.resign.wizard</field>
+        <field name="arch" type="xml">
+            <form>                
+                <group string="Notes">
+                    <field name="revisi_notes" placeholder="Revisi dibagian ..." nolabel="1"/>
+                </group>
+                <footer>
+                    <button
+                        name="action_revise"
+                        string="Confirm"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_revise_wizard" model="ir.actions.act_window">
+        <field name="name">Action Revise</field>
+        <field name="res_model">employee.resign.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

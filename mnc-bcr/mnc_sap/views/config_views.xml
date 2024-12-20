@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<!-- Resiko -->
+	<record id="risk_level_form" model="ir.ui.view">
+        <field name="name">Risk Form</field>
+        <field name="model">risk.level</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>                    
+                    <group>
+                        <group>
+                            <field name="risk_level"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="risk_level_tree" model="ir.ui.view">
+        <field name="name">risk.level.tree</field>
+        <field name="model">risk.level</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="risk_level"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_risk" model="ir.actions.act_window">
+        <field name="name">Risk Level</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">risk.level</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Level Risk
+            </p>
+        </field>
+    </record>
+
+    <record id="risk_control_form" model="ir.ui.view">
+        <field name="name">Risk Control</field>
+        <field name="model">risk.control</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>                    
+                    <group>
+                        <group>
+                            <field name="risk_control"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="risk_control_tree" model="ir.ui.view">
+        <field name="name">risk.level.tree</field>
+        <field name="model">risk.control</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="risk_control"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_risk_control" model="ir.actions.act_window">
+        <field name="name">Risk Control</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">risk.control</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Level Risk
+            </p>
+        </field>
+    </record>
+
+    <!-- Penalty -->
+
+    <record id="penalty_form" model="ir.ui.view">
+        <field name="name">penalty.point.form</field>
+        <field name="model">penalty.point</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>                    
+                    <group>
+                        <group>
+                            <field name="penalty"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="penalty_tree" model="ir.ui.view">
+        <field name="name">penalty.point.tree</field>
+        <field name="model">penalty.point</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="penalty"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_penalty" model="ir.actions.act_window">
+        <field name="name">Penalty</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">penalty.point</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Penalty
+            </p>
+        </field>
+    </record>
+
+    <!-- Location -->
+
+    <record id="location_form" model="ir.ui.view">
+        <field name="name">location.point.form</field>
+        <field name="model">location.point</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>                    
+                    <group>
+                        <group>
+                            <field name="location"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="location_tree" model="ir.ui.view">
+        <field name="name">location.point.tree</field>
+        <field name="model">location.point</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="location"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_location" model="ir.actions.act_window">
+        <field name="name">Location</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">location.point</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Penalty
+            </p>
+        </field>
+    </record>
+
+    <!-- Activity Hazard -->
+    <record id="activity_hazard_form" model="ir.ui.view">
+        <field name="name">activity.hazard.form</field>
+        <field name="model">activity.hazard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>                    
+                    <group>
+                        <group>
+                            <field name="activity"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="activity_hazard_tree" model="ir.ui.view">
+        <field name="name">activity.hazard.tree</field>
+        <field name="model">activity.hazard</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="activity"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_act_hazard" model="ir.actions.act_window">
+        <field name="name">Activity Hazard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">activity.hazard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Activity Hazard
+            </p>
+        </field>
+    </record>
+
+    <!-- Category Hazard -->
+    <record id="category_hazard_form" model="ir.ui.view">
+        <field name="name">category.hazard.form</field>
+        <field name="model">category.hazard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>                    
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="category"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="category_hazard_tree" model="ir.ui.view">
+        <field name="name">category.hazard.tree</field>
+        <field name="model">category.hazard</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="category"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_category_hazard" model="ir.actions.act_window">
+        <field name="name">Category Hazard</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">category.hazard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Category Hazard
+            </p>
+        </field>
+    </record>
+
+    <!-- Category Danger -->
+    <record id="category_danger_form" model="ir.ui.view">
+        <field name="name">category.danger.form</field>
+        <field name="model">category.danger</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>                    
+                    <group>
+                        <group>
+                            <field name="category_danger"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="category_danger_tree" model="ir.ui.view">
+        <field name="name">category.danger.tree</field>
+        <field name="model">category.danger</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="category_danger"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_category_danger" model="ir.actions.act_window">
+        <field name="name">Category Danger</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">category.danger</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Category Danger
+            </p>
+        </field>
+    </record>
+
+    <!-- Department HSE -->
+    <record id="department_hse_form" model="ir.ui.view">
+        <field name="name">department.hse.form</field>
+        <field name="model">department.hse</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>                    
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="department_hse_tree" model="ir.ui.view">
+        <field name="name">department.hse.tree</field>
+        <field name="model">department.hse</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_department_hse" model="ir.actions.act_window">
+        <field name="name">Department</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">department.hse</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Department
+            </p>
+        </field>
+    </record>
+
+    <!-- Department PIC -->
+    <record id="department_pic_form" model="ir.ui.view">
+        <field name="name">department.pic.form</field>
+        <field name="model">department.pic</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>                    
+                    <group>
+                        <group>
+                            <field name="department_id"/>
+                            <field name="company_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                            <field name="pic_id" invisible="1"/>
+                            <field name="pic_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                    	<page string="Teams" name="team">
+                    		<field name="child_ids">
+                    			<tree editable="bottom">
+                    				<field name="child_uid"/>
+                    				<field name="status"/>
+                    			</tree>
+                    		</field>
+                    	</page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="department_pic_tree" model="ir.ui.view">
+        <field name="name">department.pic.tree</field>
+        <field name="model">department.pic</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="department_id"/>
+                <field name="pic_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_department_pic" model="ir.actions.act_window">
+        <field name="name">PIC</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">department.pic</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Department
+            </p>
+        </field>
+    </record>
+
+</odoo>

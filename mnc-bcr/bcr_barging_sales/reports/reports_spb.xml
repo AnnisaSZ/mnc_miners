@@ -1,0 +1,208 @@
+<odoo>
+    <!-- Header -->
+    <template id='report_spb'>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-foreach="doc.barge_lineup_id" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page" style="font-family:calibri; font-size: 14px !important;">
+                            <div t-attf-class="header">
+                            <br/><br/>
+                                <div class="row">
+                                    <t t-set="company" t-value="o.shipping_id.company_id"/>
+                                    <div class="col-4 mb4">
+                                        <img t-if="company" t-att-src="image_data_uri(company.logo)" style="max-height: 80px;margin-bottom: 10px;" class="float-left" alt="Logo"/>
+                                    </div>
+                                    <div class="col-8 text-left">
+                                        <b>
+                                            <u style="font-size:25px;"> SURAT PENGIRIMAN BARANG</u> <br/>
+                                            Nomor : 
+                                            <t t-foreach="o.barge_detail_ids" t-as="line">
+                                                <span t-field="line.no_spb"/>
+                                            </t>
+                                        </b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body">
+                                <div class="row">
+                                    <strong> Based On : </strong>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    IUP
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <span t-field="o.shipping_id.iup_id.no_izin_iup"/>
+                                    </div>
+                                </div> 
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Tujuan
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <t t-if="o.shipping_id.market_type == 'export'">
+                                            TANJUNG BUYUT ANCHORAGE, SOUTH SUMATERA, INDONESIA,
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="o.shipping_id.dest_local"/>
+                                        </t>
+                                        <strong><span t-if="o.shipping_id.mv_id"> MV. </span> <span t-field="o.shipping_id.mv_id"/></strong>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Kapal Pengangkut Tug Boat (TB)
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <span t-field="o.tugboat_id"/>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Tongkang (BG)
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <span t-field="o.barge_id"/>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Penerima
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <strong><span t-field="o.shipping_id.buyer_id"/></strong>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Nama Barang
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <span t-field="o.shipping_id.goods_desc"/>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Quantity
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <t t-foreach="o.barge_detail_ids" t-as="line">
+                                            <span t-field="line.dsr_volume_barge"/> MT
+                                        </t>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    Catatan: <br/>
+                                    Dipergunakan untuk 1 (satu) kali angkutan. <br/><br/>
+                                    Demikian Surat Pengiriman Barang ini diberikan untuk dipergunakan sebagaimana mestinya. <br/> <br/>
+                                    Kapal Pengangkut <br/>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                        Tug Boat (TB)
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-3 text-left">
+                                        <span t-field="o.tugboat_id"/>
+                                    </div>
+                                    <div class="col-2 text-left">
+                                        Diberikan di
+                                    </div>
+                                    <div class="col-3 text-left">
+                                        : <span t-field="o.shipping_id.iup_id.city"/>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                        Tongkang (BG)
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-3 text-left">
+                                        <span t-field="o.barge_id"/>
+                                    </div>
+                                    <div class="col-2 text-left" style="border-bottom: 1px solid black;">
+                                        Pada Tanggal
+                                    </div>
+                                    <div class="col-3 text-left" style="border-bottom: 1px solid black;">
+                                        : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %B %Y')"/>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-6 mb4">
+                                    </div>
+                                    <div class="col-6 text-center"  style="height: 130px;">
+                                        <strong> PT. <span t-field="company.name"/></strong>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-4 mb4 text-center" style="border-top: 1px solid black;">
+                                        <span>Master</span>
+                                    </div>
+                                    <div class="col-3 text-center">
+                                    </div>
+                                    <div class="col-5 text-center">
+                                        <u> <span style="text-transform: capitalize;" t-field="o.shipping_id.iup_id.nama_ktt"/></u> <br/>
+                                        <span style="text-transform: uppercase;" t-field="o.shipping_id.iup_id.ktt"/>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                        Lembar 1 (Original)
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        Untuk Pembeli
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                        Lembar 1 (Copy) <br/>
+                                        Lembar 1 (Copy) <br/>
+                                        Lembar 1 (Copy) <br/>
+                                        Lembar 1 (Copy) <br/>
+                                        Lembar 1 (Copy) <br/>
+                                    </div>
+                                    <div name="col-1">
+                                        : <br/>
+                                        : <br/>
+                                        : <br/>
+                                        : <br/>
+                                        : <br/>
+                                    </div>
+                                    <div class="col-8 text-left">
+                                       TB/BG <br/>
+                                       Untuk Pelabuhan <br/>
+                                       Untuk Dispertamben <br/>
+                                       Untuk Syahbandar <br/>
+                                       Untuk Arsip <br/>
+                                    </div>
+                                </div>  
+                            </div>
+                            <div class="footer text-center" style="font-size:15px;float: center;">
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_print_spb" model="ir.actions.report">
+        <field name="name">SPB</field>
+        <field name="model">reports.shipping.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">bcr_barging_sales.report_spb</field>
+        <field name="report_file">bcr_barging_sales.report_spb</field>
+        <field name="print_report_name">'SPB - %s' % (object.barge_lineup_id.shipping_id.contract_id.no_contract)</field>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+</odoo>

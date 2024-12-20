@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+        <record id="training_bspc_seq" model="ir.sequence">
+            <field name="name">Code BSPC Training</field>
+            <field name="code">training.code</field>
+            <field name="suffix">/BSPC/%(day)s/%(month)s/%(y)s</field>
+            <field eval="3" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+        <record id="training_pmc_seq" model="ir.sequence">
+            <field name="name">Code PMC Training</field>
+            <field name="code">training.code</field>
+            <field name="suffix">/PMC/%(day)s/%(month)s/%(y)s</field>
+            <field eval="3" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+        <record id="training_ibpe_seq" model="ir.sequence">
+            <field name="name">Code IBPE Training</field>
+            <field name="code">training.code</field>
+            <field name="suffix">/IBPE/%(day)s/%(month)s/%(y)s</field>
+            <field eval="3" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+        <record id="training_bcr_seq" model="ir.sequence">
+            <field name="name">Code BCR Training</field>
+            <field name="code">training.code</field>
+            <field name="suffix">/BCR/%(day)s/%(month)s/%(y)s</field>
+            <field eval="3" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+
+        <record id="training_ape_seq" model="ir.sequence">
+            <field name="name">Code APE Training</field>
+            <field name="code">training.code</field>
+            <field name="suffix">/APE/%(day)s/%(month)s/%(y)s</field>
+            <field eval="3" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+        </record>
+    </data>
+</odoo>

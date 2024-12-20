@@ -1,0 +1,265 @@
+<odoo>
+    <data>
+
+        <!-- List - Create   &   List - Edit -->
+        <record id="listview_planning_barging" model="ir.ui.view">
+            <field name="name">List Planning Barging - Input</field>
+            <field name="model">planning.barging</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="true" edit="true" delete="false" editable="bottom" decoration-muted="state == 'reject'" decoration-success="state == 'complete'">
+                    <field name="kode_planning"/>
+                    <field name="date_start"        required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="date_end"          required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="workdays" />
+                    <field name="bisnis_unit_id"    readonly="1" options="{'no_create': True, 'no_open': True}" />
+                    <field name="activity_id"       readonly="1" options="{'no_create': True, 'no_open': True}" />
+                    <field name="sub_activity_id"   required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_open': True}" domain="[('activity_id', '=', activity_id)]"/>
+                    <field name="product"           required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_open': True}" domain="[('sub_activity_id', '=', sub_activity_id)]"/>
+                    <field name="gar"               required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="volume_plan"       required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <button name="action_start"  type="object" string="Start"    class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <field name="state"             force_save="1"/>
+                    <field name="create_uid"        optional="show"/>
+                    <field name="create_date"       optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form - Create   &   Form - Edit -->
+        <record id="formview_planning_barging" model="ir.ui.view">
+            <field name="name">formview_planning_barging</field>
+            <field name="model">planning.barging</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form create="true" edit="true" delete="false" >
+                    <header>
+                        <button name="action_start" type="object" string="Start" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,review,approve,complete"/>
+                    </header>
+                    <sheet>
+                        <div class='oe_title'>
+                            <h1><field name="kode_planning"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <label for="date_start" string="Period"/>
+                                <div class="o_row">
+                                    <field name="date_start"        required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" /> to
+                                    <field name="date_end"          required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                </div>
+                                <field name="bisnis_unit_id"    readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="activity_id"       readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="sub_activity_id"   required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_open': True}" domain="[('activity_id', '=', activity_id)]"/>
+                                <field name="product"           required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True, 'no_open': True}" domain="[('sub_activity_id', '=', sub_activity_id)]"/>
+                                <field name="current_date"/>
+                            </group>
+                            <group>
+                                <label for="workdays" string="Workdays"/>
+                                <div class="o_row" >
+                                    <span><field name="workdays"      readonly="1" class="oe_inline"/> days</span>
+                                </div>
+                                <field name="gar"           required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="volume_plan"   required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="ts"            required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="ash"           required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="tm"            required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="im"            required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Validation">
+                                <field name="validation_plan" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom" edit="false" create="false" delete="false">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="user_id" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="validation_type_id" options="{'no_create': True, 'no_open': True}" invisible="0"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action - Menu - Create   &   Action - Menu - Edit -->
+        <record id="action_planning_barging_create_edit" model="ir.actions.act_window">
+            <field name="name">Planning Barging Input</field>
+            <field name="res_model">planning.barging</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bcr_planning.listview_planning_barging')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('bcr_planning.formview_planning_barging')})]"/>
+        </record>
+
+
+        <!--                    parent='menu_bcr_input'-->
+        <menuitem   id='menu_planning_barging_create_edit'
+                    name='Planning Barging'
+                    parent='menu_group_input_planning'
+                    sequence='1'
+                    action="action_planning_barging_create_edit"/>
+<!--                    groups="group_bcr_planning_input,group_bcr_planning_admin,group_bcr_process_actor_eng_mnc,group_bcr_process_actor_admin_site"/>-->
+
+
+        <!-- List - Review -->
+        <record id="listview_planning_barging_review" model="ir.ui.view">
+            <field name="name">listview_planning_barging_review</field>
+            <field name="model">planning.barging</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="true" delete="false" editable="bottom" decoration-muted="state == 'reject'" decoration-success="state == 'complete'">
+                    <field name="kode_planning"/>
+                    <field name="date_start"        required="1" attrs="{'readonly': [('state', '!=', 'review')]}"/>
+                    <field name="date_end"          required="1" attrs="{'readonly': [('state', '!=', 'review')]}"/>
+                    <field name="workdays" />
+                    <field name="bisnis_unit_id"    readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="activity_id"       readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="sub_activity_id"   required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True, 'no_open': True}" domain="[('activity_id', '=', activity_id)]"/>
+					<field name="product"           required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True, 'no_open': True}" domain="[('sub_activity_id', '=', sub_activity_id)]"/>
+                    <field name="gar"               required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+                    <field name="volume_plan"       required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+                    <field name="state"/>
+                    <field name="create_uid"        optional="show"/>
+                    <field name="create_date"       optional="show"/>
+                    <field name="is_reviewer"       invisible="1"/>
+                    <field name="is_approver"       invisible="1"/>
+                    <button name="action_review" type="object" string="Reviewed" class="oe_highlight" attrs="{'invisible': ['|', ('is_reviewer', '=', False), ('state', '!=', 'review')]}"/>
+                    <field name="revise_note"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- List - Approve -->
+        <record id="listview_planning_barging_approve" model="ir.ui.view">
+            <field name="name">listview_planning_barging_approve</field>
+            <field name="model">planning.barging</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="true" delete="false" decoration-muted="state == 'reject'" decoration-success="state == 'complete'">
+                    <field name="kode_planning"     />
+                    <field name="date_start"        readonly="1"/>
+                    <field name="date_end"          readonly="1"/>
+                    <field name="workdays"          readonly="1"/>
+                    <field name="bisnis_unit_id"    readonly="1"/>
+                    <field name="activity_id"       readonly="1"/>
+                    <field name="sub_activity_id"   readonly="1"/>
+                    <field name="product"           readonly="1"/>
+                    <field name="gar"               readonly="1"/>
+                    <field name="volume_plan"       readonly="1"/>
+                    <field name="state"/>
+                    <field name="create_uid"        readonly="1"/>
+                    <field name="create_date"       readonly="1"/>
+                    <field name="is_reviewer"       invisible="1"/>
+                    <field name="is_approver"       invisible="1"/>
+
+                    <field name="revise_note"       attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approve')]}"/>
+
+                    <button name="action_approve"   type="object" string="Approved" class="oe_highlight" attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approve')]}"/>
+                    <button name="action_revise"    type="object" string="Revise"   class="oe_highlight" attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approve')]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form - Review   &   Form - Approve -->
+        <record id="formview_planning_barging_validation" model="ir.ui.view">
+            <field name="name">formview_planning_barging_validation</field>
+            <field name="model">planning.barging</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="true" delete="false" >
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,review,approve,complete"/>
+                    </header>
+                    <sheet>
+                        <div class='oe_title'>
+                            <h1>
+                                <field name="kode_planning"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <label for="date_start" string="Period"/>
+                                <div class="o_row">
+                                    <field name="date_start"        required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" /> to
+                                    <field name="date_end"          required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+                                </div>
+                                <field name="bisnis_unit_id"    readonly="1" />
+                                <field name="activity_id"       readonly="1" />
+			                    <field name="sub_activity_id"   required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" options="{'no_create': True, 'no_open': True}" domain="[('activity_id', '=', activity_id)]"/>
+								<field name="product"           required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" options="{'no_create': True, 'no_open': True}" domain="[('sub_activity_id', '=', sub_activity_id)]"/>
+                            </group>
+
+                            <group>
+                                <label for="workdays" string="Workdays"/>
+                                <div class="o_row" >
+                                    <span><field name="workdays"      readonly="1" class="oe_inline"/> days</span>
+                                </div>
+                                <field name="gar"               required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+                                <field name="volume_plan"       required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+                            </group>
+
+                            <group invisible="1">
+                                <field name="is_reviewer"/>
+                                <field name="is_approver"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Validation">
+                                <field name="validation_plan" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="user_id" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="validation_type_id" options="{'no_create': True, 'no_open': True}" invisible="0"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Action - Menu - Review -->
+        <record id="action_planning_barging_review" model="ir.actions.act_window">
+            <field name="name">Planning Barging - Review</field>
+            <field name="res_model">planning.barging</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'review')]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bcr_planning.listview_planning_barging_review')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('bcr_planning.formview_planning_barging_validation')})]"/>
+        </record>
+
+        <menuitem   id='menu_planning_barging_review'
+                    name='Planning Barging'
+                    parent='menu_group_review_planning'
+                    sequence='1'
+                    action="action_planning_barging_review"/>
+<!--                    groups="group_bcr_planning_review,group_bcr_planning_admin,group_bcr_process_actor_admin_site"/>-->
+
+
+        <!-- Action - Menu - Approve -->
+        <record id="action_planning_barging_approve" model="ir.actions.act_window">
+            <field name="name">Planning Barging - Approve</field>
+            <field name="res_model">planning.barging</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'approve')]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bcr_planning.listview_planning_barging_approve')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('bcr_planning.formview_planning_barging_validation')})]"/>
+        </record>
+
+        <menuitem   id='menu_planning_barging_approve'
+                    name='Planning Barging'
+                    parent='menu_group_approve_planning'
+                    sequence='1'
+                    action="action_planning_barging_approve"/>
+<!--                    groups="group_bcr_planning_approve,group_bcr_planning_admin,group_bcr_process_actor_spv_data_cont"/>-->
+    </data>
+</odoo>

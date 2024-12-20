@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="notification_sap_hanging" model="mail.template">
+            <field name="name">Hazard Hanging Notification</field>
+            <field name="model_id" ref="model_sapform"/>
+            <field name="subject">Please your check Ticket [${object.sap_no}]</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set invited_users = ctx['invited_users']
+                        Yth Bapak/Ibu ${invited_users.name}, <br/>
+                        Mohon untuk melakukan respon terhadap Report No. [${object.sap_no}], terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Category Report</strong></td>
+                                    <td>:</td>
+                                    <td>${object.categ_id.code}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SAP No.</strong></td>
+                                    <td>:</td>
+                                    <td>${object.sap_no}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Report By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.create_uid.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hazard Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.incident_date_time}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Reject By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.reject_uid.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Reason</strong></td>
+                                    <td>:</td>
+                                    <td>${object.revisi_notes}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Category</strong></td>
+                                    <td>:</td>
+                                    <td>${object.danger_categ_id.category_danger}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Risk Level</strong></td>
+                                    <td>:</td>
+                                    <td>${object.risk_id.risk_level}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Activity</strong></td>
+                                    <td>:</td>
+                                    <td>${object.activity_id.activity}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Location</strong></td>
+                                    <td>:</td>
+                                    <td>${object.location_id.location}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Silahkan untuk update dengan klik link dibawah ini :
+                        <br/>
+                        <a href="https://mncminers.com/web#id=${object.id}&amp;menu_id=&amp;model=mncei.ticket&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Hazard Report,<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <!-- Update Data -->
+        <record id="notification_update_close" model="mail.template">
+            <field name="name">Hazard Close Notification</field>
+            <field name="model_id" ref="model_sapform"/>
+            <field name="subject">Update Your Ticket [${object.sap_no}]</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set invited_users = ctx['invited_users']
+                        Yth Bapak/Ibu ${invited_users.name}, <br/>
+                        Ada perubahan pada Report No. [${object.sap_no}], terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Category Report</strong></td>
+                                    <td>:</td>
+                                    <td>${object.sap_no}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>SAP No.</strong></td>
+                                    <td>:</td>
+                                    <td>${object.sap_no}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Report By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.create_uid.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hazard Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.incident_date_time}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Reason</strong></td>
+                                    <td>:</td>
+                                    <td>${object.revisi_notes}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Category</strong></td>
+                                    <td>:</td>
+                                    <td>${object.danger_categ_id.category_danger}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Risk Level</strong></td>
+                                    <td>:</td>
+                                    <td>${object.risk_id.risk_level}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Activity</strong></td>
+                                    <td>:</td>
+                                    <td>${object.activity_id.activity}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Location</strong></td>
+                                    <td>:</td>
+                                    <td>${object.location_id.location}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Silahkan check report klik link dibawah ini :
+                        <br/>
+                        <a href="https://mncminers.com/web#id=${object.id}&amp;menu_id=&amp;model=mncei.ticket&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        Hazard Report,<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

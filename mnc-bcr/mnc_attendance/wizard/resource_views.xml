@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="resource_wizard_form" model="ir.ui.view">
+        <field name="name">Apply To</field>
+        <field name="model">resource.calendar.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="resource_id" invisible="1"/>
+                <field name="is_shift" invisible="1"/>
+                <field name="company_ids" widget="many2many_tags" invisible="1"/>
+                <group>
+                    <field name="apply_type" required="1"/>
+                    <field name="loc_working_id" invisible="1"/>
+                    <field name="temporary"/>
+                    <label for="start_date" string="Period" attrs="{'invisible': ['|', ('temporary', '=', False), ('is_shift', '=', True)]}"/>
+                    <div class="o_row" attrs="{'invisible': ['|', ('temporary', '=', False), ('is_shift', '=', True)]}">
+                        <field name="start_date" attrs="{'invisible': ['|', ('temporary', '=', False), ('is_shift', '=', True)], 'required': [('temporary', '=', True), ('is_shift', '=', False)]}"/>
+                        <field name="end_date" attrs="{'invisible': ['|', ('temporary', '=', False), ('is_shift', '=', True)], 'required': [('temporary', '=', True), ('is_shift', '=', False)]}"/>
+                    </div>
+                    <field name="employee_ids" widget="many2many_tags" domain="[('company', 'in', company_ids), ('state', '=', 'verified')]" options="{'no_create': True, 'no_create_edit': True}" attrs="{'invisible': ['|', ('apply_type', '!=', 'employee'), ('is_shift', '=', True)]}"/>
+                    <field name="department_ids" widget="many2many_tags" attrs="{'invisible': [('apply_type', '!=', 'department')]}"/>
+                </group>
+                <field name="line_ids" nolabel="1" attrs="{'invisible': [('is_shift', '=', False)]}" context="{'loc_working_id': loc_working_id, 'company_ids': company_ids, 'temporary': temporary}">
+                    <tree editable="bottom">
+                        <field name="company_ids" invisible="1"/>
+                        <field name="loc_working_id" invisible="1"/>
+                        <field name="temporary" invisible="1"/>
+                        <field name="resouce_line_id" options="{'no_create': True, 'no_open': True}" domain="[('calendar_id', '=', parent.resource_id)]" invisible="1"/>
+                        <field name="resource_group_id" options="{'no_create': True, 'no_open': True}" domain="[('resouce_id', '=', parent.resource_id)]"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="mncei_employee_ids" widget="many2many_tags" attrs="{'column_invisible': [('parent.apply_type', '!=', 'employee')]}" options="{'no_create': True, 'no_open': True}" context="{'working_time': True, 'temporary':temporary, 'company_ids': parent.company_ids, 'working_location': loc_working_id}"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button
+                        name="action_to_apply"
+                        string="Apply"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

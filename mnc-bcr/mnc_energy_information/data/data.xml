@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- banner -->
+    <record id="ir_cron_check_exp_banner" model="ir.cron">
+        <field name="name">Check Exp Banner</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <!-- <field name="nextcall" eval="(DateTime.now().replace(hour=23, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" /> -->
+        <field name="model_id" ref="model_mncei_banner"/>
+        <field name="code">model.action_to_expired()</field>
+        <field name="state">code</field>
+    </record>
+
+    <!-- News -->
+    <record id="ir_cron_check_exp_news" model="ir.cron">
+        <field name="name">Check Exp News</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <!-- <field name="nextcall" eval="(DateTime.now().replace(hour=23, minute=0) + timedelta(days=1)).strftime('%Y-%m-%d %H:%M:%S')" /> -->
+        <field name="model_id" ref="model_mncei_news"/>
+        <field name="code">model.action_to_expired()</field>
+        <field name="state">code</field>
+    </record>
+</odoo>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Breakdown -->
+        <record id="fleet_breakdown_form_inherit" model="ir.ui.view">
+            <field name="name">fleet.breakdown.form.inherit</field>
+            <field name="model">fleet.breakdown</field>
+            <field name="inherit_id" ref="mnc_fleet.fleet_breakdown_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/field[@name='state']" position="before">
+                    <button name="action_open_request" string="Request Repair" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('state', '=', 'close'), ('repair_id', '!=', False)]}"/>
+                </xpath>
+                <xpath expr="//sheet/widget[@name='web_ribbon']" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_open_repair" class="oe_stat_button" icon="fa-list-ul">
+                            <span>Repair</span>
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='hourly_id']" position="before">
+                    <field name="repair_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Repair -->
+        <record id="repair_maintenance_form" model="ir.ui.view">
+            <field name="name">repair.maintenance.form</field>
+            <field name="model">repair.maintenance</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_confirm" string="Request Part" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', ('state', '=', 'close'), ('is_external', '=', True), ('picking_state', '!=', 'draft')]}"/>
+                        <button name="do_process" string="Process" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'request')]}"/>
+                        <!-- <button name="action_close" string="Close" type="object" class="oe_highlight"/> -->
+                        <button name="action_close" string="Close" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'process')]}"/>
+                        <button name="refresh_availability" string="Check Availbility" type="object" attrs="{'invisible': [('state', '=', 'close')]}"/>
+                        <button name="action_cancel" string="Cancel Request Part" type="object" attrs="{'invisible': ['|', ('state', '=', 'close'), ('is_external', '=', True)]}"/>
+                        <button name="create_internal" string="Add Repair Internal" type="object" attrs="{'invisible': ['|', ('state', '=', 'close'), ('is_internal', '=', True)]}"/>
+                        <button name="create_external" string="Add Repair External" type="object" attrs="{'invisible': ['|', ('state', '=', 'close'), ('is_external', '=', True)]}"/>
+                        <field name="state" readonly="True" widget="statusbar" statusbar_visible="request,process,close"/>
+                    </header>
+                    <sheet>
+                        <field name="show_check_availability" invisible="0"/>
+                        <field name="is_internal" invisible="1"/>
+                        <field name="is_external" invisible="1"/>
+                        <label for="no_repair"/>
+                        <h1>
+                            <div>
+                                <div>
+                                    <field name="no_repair" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                                </div>
+                            </div>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="wh_company_id" string="Location" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                                <field name="bisnis_unit_id" invisible="1" readonly="1" force_save="1"/>
+                                <field name="breakdown_id" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                                <field name="breakdown_code" invisible="1"/>
+                                <field name="unit_equip_id" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                                <field name="repair_type" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="date" invisible="1" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                                <field name="scheduled_date" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                                <field name="mncei_employee_id" attrs="{'readonly': [('state', '=', 'close')]}"/>
+                                <field name="picking_id" invisible="1"/>
+                                <field name="picking_state" invisible="1"/>
+                            </group>
+                            <group invisible="1">
+                                <field name="warehouse_id" readonly="1" force_save="1"/>
+                                <field name="company_id" readonly="1" force_save="1"/>
+                                <field name="picking_type_id" domain="[('warehouse_id', '=', warehouse_id), ('sequence_code', 'not in', ['POS', 'IN'])]" options="{'no_create': True}"/>
+                                <field name="picking_type_code"/>
+                                <field name="location_id" options="{'no_create': True}" attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}" context="{'default_picking_type_id': picking_type_id}"/>
+                                <field name="location_dest_id" options="{'no_create': True}" attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"/>
+                            </group>
+                        </group>
+                        <group string="Internal Notes">
+                            <field name="notes" nolabel="1" placeholder="This note is only for internal purposes." attrs="{'readonly': [('state', '=', 'close')]}"/>
+                        </group>
+                        <notebook attrs="{'invisible': [('is_internal', '=', False)]}">
+                            <page string="Part Request" name="part_request" attrs="{'invisible': [('is_internal', '=', False)], 'readonly': [('state', '=', 'close')]}">
+                                <field name="move_ids_without_package" context="{'default_company_id': company_id, 'default_date': scheduled_date,  'picking_type_code': picking_type_code, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_reference': breakdown_code, 'form_view_ref':'stock.view_move_form', 'default_picking_type_id': picking_type_id, 'default_picking_id': picking_id}" attrs="{'invisible': [('is_internal', '=', False)], 'readonly': [('state', '=', 'close')]}">
+                                    <tree editable="bottom" decoration-muted="scrapped == True or state == 'cancel' or (state == 'done' and is_locked == True)" limit="5">
+                                        <field name="repair_id" invisible="1"/>
+                                        <field name="picking_id" invisible="1"/>
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="name" invisible="1"/>
+                                        <field name="state" invisible="1" readonly="0"/>
+                                        <field name="picking_type_id" invisible="1"/>
+                                        <field name="location_id" invisible="1"/>
+                                        <field name="location_dest_id" invisible="1"/>
+                                        <field name="scrapped" invisible="1"/>
+                                        <field name="picking_code" invisible="1"/>
+                                        <field name="product_type" invisible="1"/>
+                                        <field name="show_details_visible" invisible="1"/>
+                                        <field name="show_reserved_availability" invisible="1"/>
+                                        <field name="show_operations" invisible="1" readonly="1"/>
+                                        <field name="additional" invisible="1"/>
+                                        <field name="has_move_lines" invisible="1"/>
+                                        <field name="is_locked" invisible="1"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="has_tracking" invisible="1"/>
+                                        <field name="display_assign_serial" invisible="1"/>
+                                        <field name="product_id" required="1" context="{'default_type': 'product'}" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}" domain="[('is_sparepart', '=', True)]"/>
+                                        <field name="description_picking" string="Description" optional="hide"/>
+                                        <field name="date" optional="hide"/>
+                                        <field name="date_deadline" optional="hide"/>
+                                        <field name="is_initial_demand_editable" invisible="1"/>
+                                        <field name="is_quantity_done_editable" invisible="1"/>
+                                        <field name="product_uom_qty" string="Demand"/>
+                                        <field name="product_qty" invisible="1" readonly="1"/>
+                                        <field name="reserved_availability" invisible="1"/>
+                                        <field name="forecast_expected_date" invisible="1"/>
+                                        <field name="forecast_availability" string="Reserved" widget="forecast_widget" attrs="{'column_invisible': ['|', ('parent.picking_type_code', '!=', 'outgoing'), ('parent.picking_state','=', 'done')]}"/>
+                                        <field name="quantity_done" string="Done" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}"/>
+                                        <field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('id', '!=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+                                        <field name="lot_ids" widget="many2many_tags"
+                                            attrs="{'invisible': ['|', ('show_details_visible', '=', False), ('has_tracking', '!=', 'serial')]}"
+                                            optional="hide"
+                                            context="{'default_company_id': company_id, 'default_product_id': product_id, 'active_picking_id': parent.id}"
+                                            domain="[('product_id','=',product_id)]"
+                                        />
+                                        <button name="action_show_details" type="object" icon="fa-list" width="0.1"
+                                            options='{"warn": true}'/>
+                                        <button name="action_assign_serial" type="object"
+                                            icon="fa-plus-square"
+                                            width="0.1"
+                                            role="img" title="Assign Serial Numbers"
+                                            attrs="{'invisible': ['|', ('display_assign_serial', '=', False), ('show_operations', '=', False)]}"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <notebook attrs="{'invisible': [('is_external', '=', False)]}">
+                            <page string="Workshop" name="workshop" attrs="{'invisible': [('is_external', '=', False)], 'readonly': [('state', '=', 'close')]}">
+                                <field name="workshop_ids" attrs="{'invisible': [('is_external', '=', False)], 'readonly': [('state', '=', 'close')]}">
+                                    <tree editable="bottom" limit="5" decoration-muted="parent_state == 'close'">
+                                        <field name="workshop_no"/>
+                                        <field name="po_number"/>
+                                        <field name="date"/>
+                                        <field name="price"/>
+                                        <field name="vendor"/>
+                                        <field name="description"/>
+                                        <field name="parent_state" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="repair_maintenance_tree" model="ir.ui.view">
+            <field name="name">repair.maintenance.tree</field>
+            <field name="model">repair.maintenance</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="no_repair"/>
+                    <field name="breakdown_id"/>
+                    <field name="date"/>
+                    <field name="mncei_employee_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_repair_maintenance" model="ir.actions.act_window">
+            <field name="name">Repair</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">repair.maintenance</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="operations_repair" name="Maintenance" sequence="2" parent="mnc_fleet.mncei_fleet"/>
+        <menuitem id="menu_repair" name="Request Repair" sequence="1" action="action_repair_maintenance" parent="operations_repair"/>
+    </data>
+</odoo>

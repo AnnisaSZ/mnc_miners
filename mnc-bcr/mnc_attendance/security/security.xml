@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Record Rules -->
+        <record id="hr_attendance.hr_attendance_rule_employee_company" model="ir.rule">
+            <field name="domain_force">['|',('mncei_employee_id.company','=',False), ('mncei_employee_id.company', 'in', company_ids)]</field>
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="hr_attendance.hr_attendance_rule_attendance_manager" model="ir.rule">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="hr_attendance.hr_attendance_rule_attendance_employee" model="ir.rule">
+            <field name="active" eval="False"/>
+        </record>
+
+        <record id="hr_holidays.hr_leave_rule_employee" model="ir.rule">
+            <field name="active" eval="False"/>
+        </record>
+    </data>
+</odoo>

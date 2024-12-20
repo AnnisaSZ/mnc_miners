@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Bisnis Unit -->
+        <record id="formview_master_bisnis_unit_ext" model="ir.ui.view">
+            <field name="name">formview_master_bisnis_unit_ext</field>
+            <field name="model">master.bisnis.unit</field>
+            <field name="inherit_id" ref="bcr_master.formview_master_bisnis_unit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lokasi_site']" position="after">
+                    <field name="is_rom"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="listview_master_bisnis_unit_ext" model="ir.ui.view">
+            <field name="name">listview_master_bisnis_unit_ext</field>
+            <field name="model">master.bisnis.unit</field>
+            <field name="inherit_id" ref="bcr_master.listview_master_bisnis_unit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lokasi_site']" position="after">
+                    <field name="is_rom"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- List View -->
+        <record id="listview_act_stockroom_ext" model="ir.ui.view">
+            <field name="name">act.stockroom.tree.ext</field>
+            <field name="model">act.stockroom</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree delete="0" decoration-success="state == 'complete'" decoration-warning="state in ('review', 'approve')" decoration-danger="state in ('reject')">
+                    <field name="kode" string="Kode"/>
+                    <field name="bu_company_id"/>
+                    <field name="activity_id"/>
+                    <field name="sub_activity_id"/>
+                    <field name="date_act"/>
+                    <field name="product"/>
+                    <field name="area_id"/>
+                    <field name="seam_id"/>
+                    <field name="volume"/>
+                    <field name="state" widget="badge" decoration-success="state in ('complete')" decoration-warning="state in ('review', 'approve')" decoration-danger="state in ('reject')"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="bcr_planning.action_act_stockroom_create_edit" model="ir.actions.act_window">
+            <field name="name">Inventory</field>
+            <field name="res_model">act.stockroom</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', 'in', ('draft', 'complete'))]</field>
+            <field name="context">{}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('listview_act_stockroom_ext')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('bcr_planning.formview_act_stockroom')})]"/>
+        </record>
+
+        <!-- Inventory -->
+        <record id="inherit_formview_act_stockroom_ext" model="ir.ui.view">
+            <field name="name">act.stockroom.form.inherit</field>
+            <field name="model">act.stockroom</field>
+            <field name="inherit_id" ref="bcr_planning.formview_act_stockroom"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="replace">
+                    <header>
+                        <button name="action_submit" type="object" string="Submit" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_revise" type="object" string="Revise" attrs="{'invisible': [('state', '!=', 'complete')]}" groups="bcr_operational.operational_revice_admin_group"/>
+                        <field name="state" widget="statusbar" readonly="1" statusbar_visible="draft,complete"/>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='sub_activity_id']" position="attributes">
+                    <attribute name="domain">[('code', 'in', ['IN-MA', 'IN-ME'])]</attribute>
+                </xpath>
+                <xpath expr="//field[@name='seam_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '=', 'complete')]}</attribute>
+                </xpath>
+                <xpath expr="//notebook" position="replace">
+                </xpath>
+                <xpath expr="//sheet" position="after">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

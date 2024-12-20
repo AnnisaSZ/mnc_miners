@@ -1,0 +1,90 @@
+<odoo>
+    <template id="report_hr_attendance_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <h2 style="text-align: center;">Laporan Detail Harian</h2>
+                        <table class="table table-sm">
+                            <tr>
+                                <td><strong>No. ID: </strong></td>
+                                <td><span t-esc="doc.nip_char"/></td>
+                                <td><strong>Department: </strong></td>
+                                <td><span t-esc="doc.department.name"/></td>
+                                <td><strong>Periode Waktu</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nama</strong></td>
+                                <td><span t-esc="doc.nama_lengkap"/></td>
+                                <td><strong>Company: </strong></td>
+                                <td><span t-esc="doc.company.name"/></td>
+                                <td>Dari: <span t-esc="data.get('start_date')"/> s/d <span t-esc="data.get('end_date')"/></td>
+                            </tr>
+                        </table>
+                        <div t-attf-class="body">
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                    <tr>
+                                        <th name="th_tgl"><strong>Tanggal</strong></th>
+                                        <th name="th_check_in"><strong>Check In</strong></th>
+                                        <th name="th_type_ci"><strong>Tipe Check In</strong></th>
+                                        <th name="th_check_out"><strong>Check Out</strong></th>
+                                        <th name="th_type_co"><strong>Tipe Check Out</strong></th>
+                                        <th name="th_overtime"><strong>Overtime</strong></th>
+                                        <th name="th_wh"><strong>Working Hours</strong></th>
+                                        <!-- <th>Tanggal</th>
+                                        <th>Check In</th>
+                                        <th>Category Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Category Check Out</th>
+                                        <th>Overtime</th>
+                                        <th>Worked Hours</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="data.get('attendance_data')" t-as="attendance_data">
+                                        <t t-set="employee_obj" t-value="env['mncei.employee'].browse(int(attendance_data.get('employee_id')))"/>
+                                        <t t-if="doc.id == employee_obj.id">
+                                            <t t-if="len(attendance_data.get('attendance_ids')) > 0">
+                                                <t t-foreach="attendance_data.get('attendance_ids')" t-as="attendance">
+                                                    <tr>
+                                                    </tr>
+                                                    <td t-esc="attendance.get('create_date')"/>
+                                                    <td t-esc="attendance.get('check_in')"/>
+                                                    <td t-esc="attendance.get('type_ci')"/>
+                                                    <td t-esc="attendance.get('check_out')"/>
+                                                    <td t-esc="attendance.get('type_co')"/>
+                                                    <td t-esc="attendance.get('overtime')"/>
+                                                    <td t-esc="attendance.get('working_hours')"/>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div t-attf-class="footer">
+                            <footer>
+                                <div class="text-left">
+                                    <p><strong>Oleh: </strong><span t-esc="export_user"/></p>
+                                    <p><span t-esc="time.strftime('%d/%m/%Y')"/></p>
+                                </div>
+                            </footer>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_hr_attendance_report" model="ir.actions.report">
+        <field name="name">Attendance</field>
+        <field name="model">mncei.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mnc_attendance.report_hr_attendance_document</field>
+        <field name="report_file">mnc_attendance.report_hr_attendance_document</field>
+        <field name="print_report_name">'Attendance Report - %s' % (object.nama_lengkap)</field>
+        <field name="binding_model_id" ref="mnc_attendance.model_mncei_employee"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

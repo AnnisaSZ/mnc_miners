@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Email Template -->
+    <data>
+        <record id="email_template_send_notify_psw" model="mail.template">
+            <field name="name">Registration Account</field>
+            <field name="subject">Welcome to ${object.company_id.name}!</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="email_to">${object.login | safe}</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Yth Bapak/Ibu  ${object.name}, <br/>
+        Dengan ini diberitahukan bahwa akun yang Bapak/Ibu submit telah di resgistrasi :
+        <br/>
+        <table width="50%" style="background-color: white; padding: 0; border-collapse:separate;">
+            <tr>
+                <td>Username</td>
+                <td>:</td>
+                <td><strong>${object.name}</strong></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>:</td>
+                <td><strong>${object.login}</strong></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td>:</td>
+                <td><strong>WelcomeToMNC123#</strong></td>
+            </tr>
+        </table>
+        <br/>
+        Mohon untuk langsung merubah password pada Odoo Apps dan jangan memberitahu siapapun akun anda,
+        <br/>
+        **Password yang diberikan merupakan default harap segera dirubah!
+        <br/><br/>
+        <strong>
+        Thanks,
+        <br />
+        MNC Energy Investments
+        </strong>
+    </p>
+</div>
+            </field>
+        </record>
+
+        <!-- Forgot Password -->
+        <record id="bcr_template_reset_psw" model="mail.template">
+            <field name="name">BCR: Reset Password</field>
+            <field name="subject">Reset Password</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="email_to">${object.email_formatted | safe}</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Yth Bapak/Ibu  ${object.email_formatted}, <br/><br/>
+        Email ini merupakan otomatis atas permintaan anda untuk melakukan reset password,<br/>
+        <strong>Token Mobile:</strong><br/>
+        ${object.partner_id.signup_token}
+        <br/><br/>
+        <strong>
+        Thanks,
+        <br />
+        MNC Energy Investments
+        </strong>
+    </p>
+</div>
+            </field>
+        </record>
+    </data>
+</odoo>
+

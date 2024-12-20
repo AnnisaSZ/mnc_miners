@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="formview_validation_inherit" model="ir.ui.view">
+            <field name="name">formview_validation_inherit</field>
+            <field name="model">validation.validation</field>
+            <field name="inherit_id" ref="bcr_master.formview_validation"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='model_id']" position="after">
+                    <field name="is_planning_period" invisible="1"/>
+                    <field name="planning_type" attrs="{'invisible': [('is_planning_period', '=', False)], 'required': [('is_planning_period', '=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

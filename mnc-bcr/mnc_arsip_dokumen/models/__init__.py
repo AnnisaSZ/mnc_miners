@@ -1,0 +1,1 @@
+from . import mnc_arsip_dokumen

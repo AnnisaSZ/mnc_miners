@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+        <!-- Groups -->
+        <record id="meeting_category_group" model="ir.module.category">
+            <field name="name">Meeting Room</field>
+        </record>
+
+        <record id="group_approver_meeting" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="meeting_category_group"/>
+        </record>
+	</data>
+</odoo>

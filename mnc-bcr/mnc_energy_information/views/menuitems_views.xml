@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="news_menu_root" name="CMS" 
+            groups="mnc_energy_information.group_ann_admin,mnc_energy_information.group_ann_user"
+            web_icon="mnc_energy_information,static/description/icon.png"
+        />
+        <menuitem id="banner_menu" name="Banner" action="action_banner" parent="news_menu_root"/>
+        <menuitem id="news_menu" name="News" action="action_news" parent="news_menu_root"/>
+    </data>
+</odoo>

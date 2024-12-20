@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="master_shiftmode_views_form" model="ir.ui.view">
+            <field name="name">master.shiftmode</field>
+            <field name="model">master.shiftmode</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="true" delete="false" >
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="num_shiftmode"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Detail">
+                                <field name="shift_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="name" invisible="1"/>
+                                        <field name="ttype"/>
+                                        <field name="start" widget="float_time"/>
+                                        <field name="end" widget="float_time"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record model="ir.ui.view" id="master_shiftmode_view_tree">
+            <field name="name">master.shiftmode.tree</field>
+            <field name="model">master.shiftmode</field>
+            <field name="arch" type="xml">
+                <tree delete="0">
+                    <field name="name"/>
+                    <field name="num_shiftmode"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="bcr_master_custom_sh.action_master_shiftmode" model="ir.actions.act_window">
+            <field name="name">Shift Mode</field>
+            <field name="res_model">master.shiftmode</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

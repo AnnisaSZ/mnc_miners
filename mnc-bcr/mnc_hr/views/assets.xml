@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="hide_action_assets_backend" name="Hide Action Buttons Employee" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/mnc_hr/static/js/hide_action_buttons.js"></script>
+        </xpath>
+    </template>
+
+</odoo>

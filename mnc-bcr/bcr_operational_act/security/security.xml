@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+        <record id="module_operational_miners" model="ir.module.category">
+            <field name="name">Operational</field>
+        </record>
+        <!-- Groups -->
+        <record id="operational_revice_admin_group" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="bcr_operational.module_operational_miners"/>
+        </record>
+
+        <!-- Rules -->
+        <record id="ir_rule_planning_opr" model="ir.rule">
+            <field name="name">Rules: Planning Operational</field>
+            <field name="model_id" ref="model_planning_opr"/>
+            <field name="domain_force">
+                [('company_id','in', company_ids)]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+        </record>
+	</data>
+</odoo>

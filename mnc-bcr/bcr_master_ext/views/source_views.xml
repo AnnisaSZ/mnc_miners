@@ -1,0 +1,74 @@
+<odoo>
+    <data>
+        <record id="formview_master_source_ext" model="ir.ui.view">
+            <field name="name">master.source.inherit.ext</field>
+            <field name="model">master.source</field>
+            <field name="inherit_id" ref="bcr_master_custom_sh.inherit_formview_master_source_sh"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bu_company_id']" position="after">
+                    <field name="is_barge" invisible="1"/>
+                    <field name="bu_company_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True}" string="IUP Location" domain="[('id', 'in', allowed_company_ids)]" attrs="{'invisible': [('is_barge', '=', False)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- <record id="treeview_master_source_ext" model="ir.ui.view">
+            <field name="name">master.source.inherit.tree.ext</field>
+            <field name="model">master.source</field>
+            <field name="inherit_id" ref="bcr_master_custom_sh.inherit_listview_master_jetty_sh"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bu_company_id']" position="replace">
+                    <field name="company_ids" widget="many2many_tags" options="{'no_create': True, 'no_open': True}" string="Bisnis Unit" domain="[('id', 'in', allowed_company_ids)]"/>
+                </xpath>
+            </field>
+        </record> -->
+        <record id="formview_master_bisnis_unit_inherit" model="ir.ui.view">
+            <field name="name">formview_master_bisnis_unit_inherit</field>
+            <field name="model">master.bisnis.unit</field>
+            <field name="inherit_id" ref="bcr_master.formview_master_bisnis_unit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group" position="inside">
+                    <group>
+                        <field name="nama_ktt"/>
+                        <field name="ktt"/>
+                        <label for="street" string="Address"/>
+                        <div>
+                            <div class="o_address_format" name="div_address">
+                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                            </div>
+                        </div>
+                        <field name="no_izin_iup"/>
+                        <field name="tanggal_izin_iup"/>
+                        <field name="port"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="formview_master_mv_inherit" model="ir.ui.view">
+            <field name="name">formview_master_mv_inherit</field>
+            <field name="model">master.mv</field>
+            <field name="inherit_id" ref="bcr_master.formview_master_mv"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <label for="street" string="Address"/>
+                        <div>
+                            <div class="o_address_format" name="div_address">
+                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                            </div>
+                        </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

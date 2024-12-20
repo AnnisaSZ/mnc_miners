@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+        <record id="module_barge_sale_miners" model="ir.module.category">
+            <field name="name">Barge &amp; Sales</field>
+        </record>
+
+        <record id="module_kontraktor_barge_sale_miners" model="ir.module.category">
+            <field name="name">Kontraktor Barge &amp; Sales</field>
+        </record>
+        <!-- Groups -->
+
+        <record id="module_barge_sale_kontraktor_profit" model="res.groups">
+            <field name="name">Kontraktor</field>
+            <field name="category_id" ref="bcr_barging_sales.module_kontraktor_barge_sale_miners"/>
+        </record>
+
+        <record id="kontraktor_barging" model="res.groups">
+            <field name="name">Kontraktor Barge</field>
+           <field name="implied_ids" eval="False"/>
+        </record>
+
+        <record id="module_barge_sale_admin_site" model="res.groups">
+            <field name="name">Admin Site</field>
+            <field name="implied_ids" eval="False"/>
+            <field name="category_id" ref="bcr_barging_sales.module_barge_sale_miners"/>
+        </record>
+
+        <record id="module_barge_sale_admin_ho" model="res.groups">
+            <field name="name">Admin HO</field>
+            <field name="implied_ids" eval="[(4, ref('bcr_barging_sales.module_barge_sale_admin_site'))]"/>
+            <field name="category_id" ref="bcr_barging_sales.module_barge_sale_miners"/>
+        </record>
+
+        <record id="module_barge_sale_groups" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="implied_ids" eval="[(4, ref('bcr_barging_sales.module_barge_sale_admin_ho'))]"/>
+            <field name="category_id" ref="bcr_barging_sales.module_barge_sale_miners"/>
+        </record>
+	</data>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Datas -->
+    <data noupdate="1">
+        <record id="wbs_seq" model="ir.sequence">
+            <field name="name">WBS Sequence</field>
+            <field name="code">wbs.sequence</field>
+            <field name="suffix">/COMPANY_CODE/MONTH/%(year)s</field>
+            <field eval="3" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+</odoo>
+

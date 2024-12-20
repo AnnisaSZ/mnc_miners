@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Stock Quant -->
+    <record id="view_stock_quant_tree_editable_sparepart" model="ir.ui.view">
+        <field name="name">stock.quant.form.sparepart</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_id']" position="before">
+                <field name="warehouse_id" domain="[('is_sparepart', '=', True)]" required="1" invisible="0" options="{'no_create': True}"/>
+                <field name="lot_stock_id" options="{'no_create': True}" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='location_id']" position="attributes">
+                <attribute name="domain">[('id', '=', lot_stock_id), ('usage', 'in', ['internal', 'transit'])]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Warehouse's -->
+    <record id="view_warehouse_sparepart" model="ir.ui.view">
+        <field name="name">stock.warehouse.sparepart</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="is_sparepart" invisible="1"/>
+                <field name="bisnis_unit_id" required="1" options="{'no_create': True}"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+     </record>
+
+    <record id="stock.action_warehouse_form" model="ir.actions.act_window">
+        <field name="domain">[('is_sparepart', '=', True)]</field>
+        <field name="context">
+            {'default_is_sparepart': True}
+        </field>
+    </record>
+
+    <!-- Categories -->
+    <record id="product_category_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.category.sparepart</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="is_sparepart" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_category_action_form_sparepart" model="ir.actions.act_window">
+        <field name="name">Product Categories</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.category</field>
+        <field name="domain">[('is_sparepart', '=', True)]</field>
+        <field name="context">
+            {'default_is_sparepart': True}
+        </field>
+        <field name="search_view_id" ref="product.product_category_search_view"/>
+        <field name="view_id" ref="product.product_category_list_view"/>
+    </record>
+
+    <!-- Transfer -->
+    <record id="view_picking_form_inherit_sparepart" model="ir.ui.view">
+        <field name="name">stock.picking.form.sparepart</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_scrap']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_toggle_is_locked']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@class='o_td_label']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='picking_type_id']" position="before">
+                <field name="warehouse_id" required="0" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="is_sparepart" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='picking_type_id']" position="attributes">
+               <attribute name="domain">[('warehouse_id', '=', warehouse_id), ('sequence_code', 'not like', 'POS')]</attribute>
+               <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='location_dest_id']" position="attributes">
+                <attribute name="readonly">0</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='location_id']" position="attributes">
+                <attribute name="readonly">0</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="attributes">
+                <attribute name="domain">[('is_sparepart', '=', True)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="after">
+                <field name="price_unit"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_picking_tree_all_sparepart" model="ir.actions.act_window">
+        <field name="name">Transfers</field>
+        <field name="res_model">stock.picking</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,kanban,form,calendar</field>
+        <field name="domain">[('is_sparepart', '=', True)]</field>
+        <field name="context">{'contact_display': 'partner_address', 'default_company_id': allowed_company_ids[0]}</field>
+        <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No transfer found. Let's create one!
+            </p><p>
+                Transfers allow you to move products from one location to another.
+            </p>
+        </field>
+    </record>
+
+    <!-- Adjustment -->
+    <record id="view_inventory_form_inherit_sparepart" model="ir.ui.view">
+        <field name="name">stock.inventory.form.sparepart</field>
+        <field name="model">stock.inventory</field>
+        <field name="inherit_id" ref="stock.view_inventory_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_ids']" position="before">
+                <field name="warehouse_id" required="1" invisible="0" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="lot_stock_id" invisible="1"/>
+                <field name="is_sparepart" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_inventory_form_sparepart" model="ir.actions.act_window">
+        <field name="name">Inventory Adjustments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.inventory</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('is_sparepart', '=', True)]</field>
+        <field name="view_id" ref="stock.view_inventory_tree"/>
+        <field name="search_view_id" ref="stock.view_inventory_filter"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_barcode_scanner">
+            Want to speed up your inventory counts? Try our Barcode app
+          </p><p>
+            Barcode scanner can be activated via inventory settings.
+            Manual inventory adjustments can also be performed and pre-filled with
+            suggested counted quantity.
+          </p>
+        </field>
+    </record>
+
+    <!-- Product Moves -->
+    <record id="stock_move_line_action_sparepart" model="ir.actions.act_window">
+        <field name="name">Product Moves</field>
+        <field name="res_model">stock.move.line</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,kanban,pivot,form</field>
+        <field name="domain">[('product_id.is_sparepart', '=', True)]</field>
+        <field name="view_id" ref="stock.view_move_line_tree"/>
+        <field name="context">{'search_default_done': 1, 'search_default_groupby_product_id': 1, 'create': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                There's no product move yet
+            </p><p>
+                This menu gives you the full traceability of inventory operations on a specific product.
+                You can filter on the product to see all the past movements for the product.
+            </p>
+        </field>
+    </record>
+
+    <!-- Inventory Valuation -->
+    <record id="stock_valuation_layer_action_sparepart" model="ir.actions.act_window">
+        <field name="name">Stock Valuation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.valuation.layer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="stock_account.stock_valuation_layer_tree"/>
+        <field name="domain">[('product_id.type', '=', 'product'), ('product_id.is_sparepart', '=', True)]</field>
+        <field name="context">{'search_default_group_by_product_id': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face"/>
+            <p>
+                There is no valuation layers. Valuation layers are created when some product moves should impact the valuation of the stock.
+            </p>
+        </field>
+    </record>
+</odoo>

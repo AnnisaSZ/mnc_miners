@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <record id="sample_record_1" model="bcr.parameter.setting">
+            <field name="title">Date Lock Input H(value)</field>
+            <field name="code">DL01</field>
+            <field name="value">-2</field>
+            <field name="status">True</field>
+            <field name="description">Date Lock Input</field>
+        </record>
+        <record id="sample_record_2" model="bcr.parameter.setting">
+            <field name="title">Date Lock review H(value)</field>
+            <field name="code">DL02</field>
+            <field name="value">2</field>
+            <field name="status">True</field>
+            <field name="description">Date Lock Review</field>
+        </record>
+        <record id="sample_record_3" model="bcr.parameter.setting">
+            <field name="title">Date Lock approve H(value)</field>
+            <field name="code">DL03</field>
+            <field name="value">2</field>
+            <field name="status">True</field>
+            <field name="description">Date Lock Approve</field>
+        </record>
+        <record id="sample_record_4" model="bcr.parameter.setting">
+            <field name="title">Date Lock Input H(value) Message Error</field>
+            <field name="code">DL01M</field>
+            <field name="value">Error Date Lock</field>
+            <field name="status">True</field>
+            <field name="description">Date Lock Input H(value) Message Error</field>
+        </record>
+        <record id="sample_record_5" model="bcr.parameter.setting">
+            <field name="title">Date Lock review H(value) Message Error</field>
+            <field name="code">DL02M</field>
+            <field name="value">Error Date Lock</field>
+            <field name="status">True</field>
+            <field name="description">Date Lock review H(value) Message Error</field>
+        </record>
+        <record id="sample_record_6" model="bcr.parameter.setting">
+            <field name="title">Date Lock approve H(value) Message Error</field>
+            <field name="code">DL03M</field>
+            <field name="value">Error Date Lock</field>
+            <field name="status">True</field>
+            <field name="description">Date Lock Approve Message Error</field>
+        </record>
+    </data>
+</odoo>

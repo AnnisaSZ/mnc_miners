@@ -1,0 +1,365 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Legal Dokumen -->
+    <!-- Form Views -->
+    <record id="mncei_doc_form" model="ir.ui.view">
+        <field name="name">mncei.doc.form</field>
+        <field name="model">mncei.doc</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group string="Document Data">                            
+                            <field name="id" invisible="1"/>
+                            <field name="category"/>
+                            <field name="document_number"/>
+                            <field name="document_name"/>
+                            <field name="parties"/>
+                            <field name="description" required="1"/>
+                        </group>
+                        <group string="Owner">                            
+                            <field name="company" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="pic" string="PIC" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="pic_phone"/>
+                        </group>
+                        <group string="Penyimpanan">
+                            <field name="location_doc_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="rak"/>
+                            <field name="url_document" placeholder="e.g https://.." widget="url"/>
+                            <field name="periods_times_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="email_remind_ids" invisible="1"/>
+                        </group>
+                        <group string="Status">
+                            <field name="resume_line_id" invisible="1"/>
+                            <field name="employee_id" invisible="1"/>
+                            <field name="release_date"/>
+                            <field name="expired_date" force_save="1"/>
+                            <field name="reminder_date" string="Reminder Date" force_save="1"/>
+                            <field name="periode_reminder" string="Periode" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="document_status" options="{'no_create': True}"/>
+                            <field name="email_reminder" required="0" style="white-space: pre-wrap; word-break: break-all;" widget="text" force_save="1"/>
+                            <label for="email_reminder" string="Add Emails"/>
+                            <div>
+                                <field name="email_reminder" invisible="1" required="0" class="oe_inline" force_save="1"/>
+                                <button name="add_email" type="object" icon="fa-plus" context="{'legal_id':'id'}"/>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="state" string="Status">
+                            <!-- <div class="row"> -->
+                            <div class="o_hr_skills_group o_group_resume col-lg-7 d-flex">
+                                <field mode="tree" nolabel="1" name="tracking_document_ids" widget="hr_resume" context="{'default_employee_id': employee_id, 'default_parent_doc_id': id, 'default_line_type_id': resume_line_id, 'default_name': document_number}">
+                                    <tree>
+                                        <field name="id"/>
+                                        <field name="line_type_id"/>
+                                        <field name="document_number"/>
+                                        <field name="name"/>
+                                        <field name="document_id"/>
+                                        <field name="description"/>
+                                        <field name="date_start"/>
+                                        <field name="date_end"/>
+                                        <field name="state"/>
+                                        <field name="state_desc"/>
+                                        <field name="display_type" invisible="1"/>
+                                    </tree>
+                                    <form>
+                                        <label for="name"/>
+                                        <h1>
+                                            <field name="name" invisible="1"/>
+                                            <field name="document_id"/>
+                                        </h1>
+                                        <group>
+                                            <group>
+                                                <field name="employee_id" invisible="1"/>
+                                                <field name="line_type_id" invisible="1"/>
+                                                <field name="date_start"/>
+                                                <field name="date_end"/>
+                                            </group>
+                                            <group>
+                                                <field name="state" required="1"/>
+                                                <field name="display_type" invisible="1"/>
+                                                <field name="parent_doc_id" invisible="1"/>
+                                                <field name="document_number" invisible="1"/>
+                                            </group>
+                                        </group>
+                                        <field name="description" placeholder="Description"/>
+                                    </form>
+                                </field>
+                            </div>
+                            <!-- </div> -->
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree Views -->
+    <record id="mncei_doc_tree" model="ir.ui.view">
+        <field name="name">mncei.doc.tree</field>
+        <field name="model">mncei.doc</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="document_number"/>
+                <field name="document_name"/>
+                <field name="document_category"/>
+                <field name="company"/>
+                <field name="pic_phone"/>
+                <field name="reminder_date"/>
+                <field name="expired_date"/>
+                <field name="periode_reminder"/>
+                <field name="document_status"/>
+                <field name="pic"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search Views -->
+    <record id="view_mncei_doc_search" model="ir.ui.view">
+        <field name="name">mncei.doc.search</field>
+        <field name="model">mncei.doc</field>
+        <field name="arch" type="xml">
+            <search string="Document">
+                <field name="document_number"/>
+                <field name="document_name"/>
+                <field name="document_category"/>
+                <field name="company"/>
+                <field name="document_status"/>
+                <field name="pic"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="mncei_doc_actions" model="ir.actions.act_window">
+        <field name="name">Perjanjian</field>
+        <field name="res_model">mncei.doc</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your document
+            </p>
+        </field>
+    </record>
+
+    <!-- Legal Category -->
+    <record id="mncei_doc_categ_actions" model="ir.actions.act_window">
+        <field name="name">Legal Document</field>
+        <field name="res_model">mncei.doc</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_group_by_category': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your document
+            </p>
+        </field>
+    </record>
+
+    <!-- Category -->
+    <record id="mncei_doc_categ_form" model="ir.ui.view">
+        <field name="name">mncei.doc.categ.form</field>
+        <field name="model">mncei.doc.categ</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_category"/>
+                            <field name="document_category" string="Category Name"/>
+                        </group>
+                        <group>
+                            <field name="type_document"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_doc_categ_tree" model="ir.ui.view">
+        <field name="name">mncei.doc.categ.tree</field>
+        <field name="model">mncei.doc.categ</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="document_category"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_doc_categ_actions" model="ir.actions.act_window">
+        <field name="name">Document Category</field>
+        <field name="res_model">mncei.doc.categ</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your category
+            </p>
+        </field>
+    </record>
+
+    <!-- Period -->
+    <record id="mncei_doc_period_form" model="ir.ui.view">
+        <field name="name">mncei.doc.period.form</field>
+        <field name="model">mncei.doc.period</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_periode"/>
+                            <field name="periode_reminder"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_doc_period_tree" model="ir.ui.view">
+        <field name="name">mncei.doc.period.tree</field>
+        <field name="model">mncei.doc.period</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="periode_reminder"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_doc_period_actions" model="ir.actions.act_window">
+        <field name="name">Document Period</field>
+        <field name="res_model">mncei.doc.period</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your periods
+            </p>
+        </field>
+    </record>
+
+    <!-- Status -->
+    <record id="mncei_doc_status_form" model="ir.ui.view">
+        <field name="name">mncei.doc.status.form</field>
+        <field name="model">mncei.doc.status</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_status"/>
+                            <field name="document_status"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                        <group string="Used">
+                            <group>
+                                <field name="is_dokumen"/>
+                                <field name="is_lap_wajib"/>
+                                <field name="is_lahan"/>
+                            </group>
+                            <group>
+                                <field name="is_akta"/>
+                                <field name="is_surat"/>
+                            </group>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_doc_status_tree" model="ir.ui.view">
+        <field name="name">mncei.doc.status.tree</field>
+        <field name="model">mncei.doc.status</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="document_status"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_doc_status_actions" model="ir.actions.act_window">
+        <field name="name">Document Status</field>
+        <field name="res_model">mncei.doc.status</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your periods
+            </p>
+        </field>
+    </record>
+
+    <!-- Hard Location -->
+    <record id="mncei_hardcopy_loc_form" model="ir.ui.view">
+        <field name="name">mncei.hardcopy.loc.form</field>
+        <field name="model">mncei.hardcopy.loc</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_hardcopy_loc"/>
+                            <field name="hardcopy_location"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_hardcopy_loc_tree" model="ir.ui.view">
+        <field name="name">mncei.hardcopy.loc.tree</field>
+        <field name="model">mncei.hardcopy.loc</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="hardcopy_location"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_hardcopy_loc_actions" model="ir.actions.act_window">
+        <field name="name">Hardcopy Location</field>
+        <field name="res_model">mncei.hardcopy.loc</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create New Hardcopy Location
+            </p>
+        </field>
+    </record>
+
+    <!-- Menuitems -->
+    <menuitem id="mncei_doc_menu_root"
+        name="Legal Document"
+        active="True"
+        web_icon="mnc_document,static/description/icon_legal.png"
+        sequence="7"/>
+
+    <menuitem id="mncei_doc_menu" action="mncei_doc_actions" parent="mncei_doc_menu_root" sequence="1" name="Perjanjian"/>
+    <menuitem id="mncei_doc_perizinan_menu" action="mnc_document.mncei_perizinan_actions" parent="mncei_doc_menu_root" sequence="2" name="Perizinan"/>
+    <menuitem id="mncei_doc_laporan_menu" action="mnc_document.mncei_lap_wajib_actions" parent="mncei_doc_menu_root" sequence="3" name="Laporan Wajib"/>
+    <!-- Configuration -->
+    <menuitem id="mncei_doc_config" parent="mncei_doc_menu_root" sequence="100" name="Configuration"/>
+    <menuitem id="mncei_doc_categ" action="mncei_doc_categ_actions" parent="mncei_doc_config" sequence="1" name="Category"/>
+    <menuitem id="mncei_doc_period" action="mncei_doc_period_actions" parent="mncei_doc_config" sequence="50" name="Periode"/>
+    <menuitem id="mncei_doc_status" action="mncei_doc_status_actions" parent="mncei_doc_config" sequence="100" name="Status"/>
+    <menuitem id="mncei_doc_location" action="mncei_hardcopy_loc_actions" parent="mncei_doc_config" sequence="110" name="Hardcopy Location"/>
+
+</odoo>

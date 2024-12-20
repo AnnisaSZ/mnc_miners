@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="view_users_form_bio_ext" model="ir.ui.view">
+        <field name="name">res.users.bio</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string='Token Mobile'>
+                    <group>
+                        <label for="is_bio" string="Bio Login"/>
+                        <div>
+                            <field name='is_bio'/>
+                        </div>
+                        <label for="bio_token" string="Bio Token" attrs="{'invisible': [('is_bio', '=', False)]}"/>
+                        <div>
+                            <field name='bio_token' readonly="1" attrs="{'invisible': [('is_bio', '=', False)]}"/>
+                        </div>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

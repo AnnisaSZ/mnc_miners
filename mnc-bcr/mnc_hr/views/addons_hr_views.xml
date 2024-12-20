@@ -1,0 +1,575 @@
+<?xml version="1.0"?>
+<odoo>
+	<!-- Department -->
+	<record id="mncei_department_form" model="ir.ui.view">
+        <field name="name">mncei.department.form</field>
+        <field name="model">mncei.department</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_department"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_department_tree" model="ir.ui.view">
+        <field name="name">mncei.department.tree</field>
+        <field name="model">mncei.department</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_department" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_department_actions" model="ir.actions.act_window">
+        <field name="name">Department</field>
+        <field name="res_model">mncei.department</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your department
+            </p>
+        </field>
+    </record>
+
+    <!-- Jabatan -->
+    <record id="mncei_jabatan_form" model="ir.ui.view">
+        <field name="name">mncei.jabatan.form</field>
+        <field name="model">mncei.jabatan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_jabatan"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_jabatan_tree" model="ir.ui.view">
+        <field name="name">mncei.jabatan.tree</field>
+        <field name="model">mncei.jabatan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_jabatan" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_jabatan_actions" model="ir.actions.act_window">
+        <field name="name">Jabatan</field>
+        <field name="res_model">mncei.jabatan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your jabatan
+            </p>
+        </field>
+    </record>
+
+    <!-- HR Kategori -->
+    <record id="mncei_hr_categ_form" model="ir.ui.view">
+        <field name="name">mncei.hr.kategori.form</field>
+        <field name="model">mncei.hr.kategori</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_hr_categ"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_hr_categ_tree" model="ir.ui.view">
+        <field name="name">mncei.hr.kategori.tree</field>
+        <field name="model">mncei.hr.kategori</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_hr_categ" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_hr_categ_actions" model="ir.actions.act_window">
+        <field name="name">Kategori</field>
+        <field name="res_model">mncei.hr.kategori</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your jabatan
+            </p>
+        </field>
+    </record>
+
+    <!-- Agama -->
+    <record id="mncei_hr_agama_form" model="ir.ui.view">
+        <field name="name">mncei.hr.agama.form</field>
+        <field name="model">mncei.hr.agama</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_agama"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_hr_agama_tree" model="ir.ui.view">
+        <field name="name">mncei.hr.agama.tree</field>
+        <field name="model">mncei.hr.agama</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_agama" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_hr_agama_actions" model="ir.actions.act_window">
+        <field name="name">Agama</field>
+        <field name="res_model">mncei.hr.agama</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your information Religion
+            </p>
+        </field>
+    </record>
+
+    <!-- Status -->
+    <record id="mncei_emp_status_form" model="ir.ui.view">
+        <field name="name">mncei.emp.status.form</field>
+        <field name="model">mncei.emp.status</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_emp_status"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="is_kontrak"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_emp_status_tree" model="ir.ui.view">
+        <field name="name">mncei.emp.status.tree</field>
+        <field name="model">mncei.emp.status</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_emp_status" widget="handle"/>
+                <field name="name"/>
+                <field name="is_kontrak"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_emp_status_actions" model="ir.actions.act_window">
+        <field name="name">Status Karyawan</field>
+        <field name="res_model">mncei.emp.status</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add employee information Position
+            </p>
+        </field>
+    </record>
+
+    <!-- Pajak -->
+    <record id="mncei_pajak_form" model="ir.ui.view">
+        <field name="name">mncei.status.pajak.form</field>
+        <field name="model">mncei.status.pajak</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_status_pajak"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_status_pajak_tree" model="ir.ui.view">
+        <field name="name">mncei.status.pajak.tree</field>
+        <field name="model">mncei.status.pajak</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_status_pajak" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_status_pajak_actions" model="ir.actions.act_window">
+        <field name="name">Status Pajak</field>
+        <field name="res_model">mncei.status.pajak</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add employee information Tax
+            </p>
+        </field>
+    </record>
+
+    <!-- Pendidikan -->
+    <record id="mncei_pendidikan_form" model="ir.ui.view">
+        <field name="name">mncei.status.pendidikan.form</field>
+        <field name="model">mncei.status.pendidikan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_pendidikan"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_status_pendidikan_tree" model="ir.ui.view">
+        <field name="name">mncei.status.pendidikan.tree</field>
+        <field name="model">mncei.status.pendidikan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_pendidikan" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_pendidikan_actions" model="ir.actions.act_window">
+        <field name="name">Pendidikan</field>
+        <field name="res_model">mncei.status.pendidikan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add employee information Study
+            </p>
+        </field>
+    </record>
+    <!-- Lokasi Kerja -->
+    <record id="mncei_lokasi_kerja_form" model="ir.ui.view">
+        <field name="name">mncei.lokasi.kerja.form</field>
+        <field name="model">mncei.lokasi.kerja</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_lokasi"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_lokasi_kerja_tree" model="ir.ui.view">
+        <field name="name">mncei.lokasi.kerja.tree</field>
+        <field name="model">mncei.lokasi.kerja</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_lokasi" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_lokasi_actions" model="ir.actions.act_window">
+        <field name="name">Lokasi</field>
+        <field name="res_model">mncei.lokasi.kerja</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add employee information Tax
+            </p>
+        </field>
+    </record>
+    <!-- Golongan Karyawan -->
+    <record id="mncei_employee_golongan_form" model="ir.ui.view">
+        <field name="name">mncei.employee.golongan.form</field>
+        <field name="model">mncei.employee.golongan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_emp_golongan"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_golongan_tree" model="ir.ui.view">
+        <field name="name">mncei.employee.golongan.tree</field>
+        <field name="model">mncei.employee.golongan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_emp_golongan" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_golongan_actions" model="ir.actions.act_window">
+        <field name="name">Golongan</field>
+        <field name="res_model">mncei.employee.golongan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add employee information
+            </p>
+        </field>
+    </record>
+
+    <!-- Grade -->
+    <record id="mncei_grade_form" model="ir.ui.view">
+        <field name="name">mncei.grade.form</field>
+        <field name="model">mncei.grade</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_grade"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_grade_tree" model="ir.ui.view">
+        <field name="name">mncei.grade.tree</field>
+        <field name="model">mncei.grade</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_grade" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_grade_actions" model="ir.actions.act_window">
+        <field name="name">Grade</field>
+        <field name="res_model">mncei.grade</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add employee information
+            </p>
+        </field>
+    </record>
+
+    <!-- Nama Pendidikan -->
+    <record id="mncei_nama_pendidikan_form" model="ir.ui.view">
+        <field name="name">mncei.nama.pendidikan.form</field>
+        <field name="model">mncei.nama.pendidikan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_institusi"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_nama_pendidikan_tree" model="ir.ui.view">
+        <field name="name">mncei.nama.pendidikan.tree</field>
+        <field name="model">mncei.nama.pendidikan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_institusi" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_nama_pendidikan_actions" model="ir.actions.act_window">
+        <field name="name">Universitas/Institusi Pendidikan</field>
+        <field name="res_model">mncei.nama.pendidikan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add employee information
+            </p>
+        </field>
+    </record>
+
+    <!-- Gol darah -->
+    <record id="mncei_gol_darah_form" model="ir.ui.view">
+        <field name="name">mncei.gol.darah.form</field>
+        <field name="model">mncei.gol.darah</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_gol_darah"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_gol_darah_tree" model="ir.ui.view">
+        <field name="name">mncei.gol.darah.tree</field>
+        <field name="model">mncei.gol.darah</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_gol_darah" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_gol_darah_action" model="ir.actions.act_window">
+        <field name="name">Golongan Darah</field>
+        <field name="res_model">mncei.gol.darah</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add employee information
+            </p>
+        </field>
+    </record>
+
+    <!-- Rating/Kualf -->
+    <record id="mncei_emp_rate_form" model="ir.ui.view">
+        <field name="name">mncei.emp.rate.form</field>
+        <field name="model">mncei.emp.rate</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_emp_rate"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_emp_rate_tree" model="ir.ui.view">
+        <field name="name">mncei.emp.rate.tree</field>
+        <field name="model">mncei.emp.rate</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_emp_rate" widget="handle"/>
+                <field name="name"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_emp_rate_action" model="ir.actions.act_window">
+        <field name="name">Rating/Kualifikasi</field>
+        <field name="res_model">mncei.emp.rate</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add employee information
+            </p>
+        </field>
+    </record>
+
+</odoo>

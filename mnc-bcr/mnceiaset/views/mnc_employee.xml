@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <record model="ir.ui.view" id="mncei_employee_asset_form">
+        <field name="name">pemegang.asset.groups.asset.form</field>
+        <field name="model">pemegang.asset.groups</field>
+        <field name="inherit_id" ref="mnc_hr.mncei_emp_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='foto_pegawai']" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button type="object" string="Asset" name="action_open_asset" class="oe_highlight" icon="fa-tasks" attrs="{'invisible':[('count_asset', '=', 0)]}" groups="mnceiaset.group_aset_user">
+                        <field name="count_asset"/>
+                        <field name="asset_ids" invisible="1"/>
+                    </button>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="mncei_employee_asset_tree">
+        <field name="name">pemegang.asset.groups.asset.tree</field>
+        <field name="model">pemegang.asset.groups</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="foto_pegawai" widget="image" class="oe_avatar" options="{'tooltip_image': 'image'}"/>
+                <field name="nama_lengkap"/>
+                <field name="department"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_employee" model="ir.actions.act_window">
+        <field name="name">Pemegang Asset</field>
+        <field name="res_model">pemegang.asset.groups</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('mncei_employee_asset_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('mncei_employee_asset_form')})]"/>
+        <field name="domain">[('asset_ids', '!=', False)]</field>
+        <field name="context">{'create': 0, 'edit': 0, 'delete': 0, 'remove_ks': 1}</field>
+    </record>
+
+    <record model="ir.ui.view" id="mncei_department_form_inherit">
+        <field name="name">mncei.department.form.inherit</field>
+        <field name="model">mncei.department</field>
+        <field name="inherit_id" ref="mnc_hr.mncei_department_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button type="object" string="Asset" name="action_open_asset" class="oe_highlight" icon="fa-tasks" attrs="{'invisible':[('count_asset', '=', 0)]}">
+                        <field name="count_asset"/>
+                        <field name="asset_ids" invisible="1"/>
+                    </button>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_department_assets" model="ir.actions.act_window">
+        <field name="name">Department</field>
+        <field name="res_model">mncei.department</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('mnc_hr.mncei_department_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('mncei_department_form_inherit')})]"/>
+        <field name="domain">[('asset_ids', '!=', False)]</field>
+    </record> -->
+
+    <!-- <menuitem id="partner_aset_menu" name="Pemegang Aset" parent="mnceiaset_menu_root" sequence="10" action="action_employee"/> -->
+    <!-- <menuitem id="dept_aset_menu" name="Department" parent="mnceiaset_menu_root" sequence="20" action="action_department_assets"/> -->
+</odoo>

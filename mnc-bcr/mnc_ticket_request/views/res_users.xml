@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="ticket_res_users_inherit" model="ir.ui.view">
+            <field name="name">ticket.res.users.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/div[3]/group/field[@name='partner_id']" position="after">
+                    <field name="mncei_employee_id" domain="[('company', 'in', company_ids), ('state', '=', 'verified')]" options="{'no_open': True, 'no_create': True}"/>
+                    <field name="mncei_dept_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

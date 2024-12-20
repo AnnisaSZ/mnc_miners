@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Email Template -->
+    <data>
+        <record id="email_template_reminder_contract" model="mail.template">
+            <field name="name">Email Reminder HR</field>
+            <field name="subject">Email reminder HR</field>
+            <field name="email_from">"${object.company.name | safe}" &lt;${(object.company.email or user.email) | safe}&gt;</field>
+             <field name="email_to">${object.email | safe}</field>
+             <field name="lang">${object.hr_user_id.lang | safe}</field>
+            <field name="model_id" ref="model_mncei_employee"/>
+            <field name="body_html" type="html">
+<div style="margin:0px;padding: 0px;">
+    <p style="padding:0px;font-size: 13px;">
+        <strong>Hello Team HR</strong>
+        <br/><br/>
+        This is automated email alerting you that a contract's employee is contract is over
+        <br/>
+        Please check your update state employee <strong> ${object.nama_lengkap} </strong> contract is over <strong> ${object.kontrak_berakhir} </strong>
+        <br/><br/>
+        <strong>Employee Information</strong>
+        <br/>
+        <table width="70%" style="background-color:white;padding: 0; border-collapse:separate;" border="0">
+            <tbody>
+                <tr>
+                    <td><font style="font-size:11px;">Employee Name</font></td>
+                    <td><font style="font-size:11px;">:</font></td>
+                    <td><strong><font style="font-size:11px;">${object.nama_lengkap}</font></strong></td>
+                </tr>
+                <tr>
+                    <td><font style="font-size:11px;">NIP</font></td>
+                    <td><font style="font-size:11px;">:</font></td>
+                    <td><strong><font style="font-size:11px;">${object.nip_char}</font></strong></td>
+                </tr>
+                <tr>
+                    <td><font style="font-size:11px;">Email</font></td>
+                    <td><font style="font-size:11px;">:</font></td>
+                    <td><strong><font style="font-size:11px;">${object.email}</font></strong></td>
+                </tr>
+                <tr>
+                    <td><font style="font-size:11px;">Company</font></td>
+                    <td><font style="font-size:11px;">:</font></td>
+                    <td><strong><font style="font-size:11px;">${object.company.name}</font></strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <br/><br/>
+        <strong>
+        Thanks
+        <br/>
+        MNC Energy Investments
+        <br/>
+        Auto Reminder System
+        </strong>
+    </p>
+</div>
+            </field>
+        </record>
+    </data>
+
+</odoo>
+

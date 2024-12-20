@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="report_shipping_wizard_form" model="ir.ui.view">
+        <field name="name">Print Report</field>
+        <field name="model">reports.shipping.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group string="Notes"  invisible="1">
+                    <field name="barge_lineup_id"/>
+                </group>
+                <footer>
+                    <button
+                        name="button_print_si"
+                        string="Shipping Instruction"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="button_print_spk"
+                        string="SPK"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="button_print_skab"
+                        string="SKAB"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button
+                        name="button_print_spb"
+                        string="SPB"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_reports_shipping_wizard" model="ir.actions.act_window">
+        <field name="name">Action Report Shipping Wizard</field>
+        <field name="res_model">reports.shipping.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

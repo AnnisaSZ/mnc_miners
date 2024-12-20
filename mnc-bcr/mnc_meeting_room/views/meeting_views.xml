@@ -1,0 +1,266 @@
+<odoo>
+    <data>
+        <record id="meeting_view_form" model="ir.ui.view">
+            <field name="name">Meeting Form</field>
+            <field name="model">mncei.booking.meeting</field>
+            <field name="arch" type="xml">
+                <form delete="0">
+                    <header>
+                        <button name="action_submit" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_approve" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('state', '!=', 'waiting'), ('is_approver', '=', False)]}"/>
+                        <button name="action_reschedule" string="Reschedule" type="object" attrs="{'invisible': ['|', ('state', '!=', 'approve'), ('is_request', '=', False)]}"/>
+                        <button name="action_cancel" string="Reject" type="object" attrs="{'invisible': ['|', ('state', '!=', 'waiting'), ('is_approver', '=', False)]}"/>
+                        <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': ['|', ('state', 'in', ('draft', 'cancel')), ('is_request', '=', False)]}"/>
+                        <field name="state" readonly="True" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="draft,waiting,approve"/>
+                    </header>
+                    <sheet>
+                        <field name="approver_ids" widget="many2many_tags" invisible="1"/>
+                        <field name="is_request" invisible="1"/>
+                        <field name="is_secretary" invisible="1"/>
+                        <field name="is_ga" invisible="1"/>
+                        <field name="is_approver" invisible="1"/>
+                        <h1>
+                            <field name="name" placeholder="Title.." string="Title" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="company_id" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/>
+                                <field name="department_id" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/>
+                                <field name="requestor_id" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/>
+                                <field name="meeting_type" invisible="1"/>
+                                <field name="type_id" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/>
+                                <field name="remarks" placeholder="Remarks Meeting..." attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/>
+                            </group>
+                            <group>
+                                <field name="room_ids" invisible="1" widget="many2many_tags" options="{'no_create_edit': 1, 'no_create': 1}"/>
+                                <label for="room_id" string="Room"/>
+                                <div>
+                                    <field name="room_id" class="oe_inline" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': 1}" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/>
+                                    <button name="open_room_facility" type="object" class="fa fa-fw fa-eye"/>
+                                </div>
+                                <field name="capacity_room" string="Capacity Room"/>
+                                <field name="start_date" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/>
+                                <field name="end_date" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/>
+                                <field name="start_time" invisible="1" string="Start Time"/>
+                                <field name="end_time" invisible="1" string="End Time"/>
+                                <field name="is_day" invisible="1"/>
+                                <label for="hours_start" string="Time Start" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/>
+                                <div>
+                                    <field name="hours_start" widget="float_time" class="oe_inline" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/> To 
+                                    <field name="hours_end" widget="float_time" class="oe_inline" attrs="{'readonly': [('state', 'in', ('waiting', 'approve', 'cancel'))]}"/> ** 24 Hours
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Participans" name="participans">
+                                <field name="participant_ids" options="{'no_create': 1, 'no_create_edit': 1}" attrs="{'readonly': [('state', 'in', ('approve', 'cancel'))]}">
+                                    <tree >
+                                        <field name="name"/>
+                                        <field name="login" string="Email"/>
+                                    </tree>
+                                    <form>
+                                        <field name="name"/>
+                                        <field name="login" string="Email"/>
+                                    </form>
+                                </field>
+                                <field name="total_participant" invisible="1"/>
+                            </page>
+                            <!-- <page string="Remarks" name="remarks">
+                                <field name="remarks" nolabel="1" placeholder="Remarks Meeting..." attrs="{'readonly': [('state', 'in', ('approve', 'cancel'))]}"/>
+                            </page> -->
+                            <page string="Approval" name="approval_user" invisible="1">
+                                <field name="user_approval_ids">
+                                    <tree >
+                                        <field name="user_id"/>
+                                        <field name="email" string="Email"/>
+                                        <field name="is_email_sent"/>
+                                    </tree>
+                                    <form>
+                                        <field name="user_id"/>
+                                        <field name="email" string="Email"/>
+                                        <field name="is_email_sent"/>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="meeting_view_tree" model="ir.ui.view">
+            <field name="name">Meeting Tree</field>
+            <field name="model">mncei.booking.meeting</field>
+            <field name="arch" type="xml">
+                <tree delete="0">
+                    <field name="name"/>
+                    <field name="company_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="type_id"/>
+                    <field name="requestor_id"/>
+                    <field name="room_id" />
+                    <field name="state" widget="badge" decoration-success="state == 'approve'" decoration-danger="state in ('cancel')"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="meeting_view_calendar" model="ir.ui.view">
+            <field name="name">Meeting Calendar</field>
+            <field name="model">mncei.booking.meeting</field>
+            <field name="arch" type="xml">
+                <calendar delete="0" string="Time Off Request" date_start="start_time" date_stop="end_time" mode="month">
+                    <field name="name"/>
+                    <field name="hours_start" string="Start"/>
+                    <field name="hours_end" string="End"/>
+                    <field name="department_id" options="{'no_create_edit': 1, 'no_open': 1}"/>
+                    <field name="room_ids" widget="many2many_tags"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_meeting_search" model="ir.ui.view">
+            <field name="name">mncei.booking.meeting.search</field>
+            <field name="model">mncei.booking.meeting</field>
+            <field name="arch" type="xml">
+                <search string="Meeting">
+                    <filter string="Approve" name="approved" domain="[('state', '=', 'approve')]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Gantt -->
+        <record id="view_meeting_all" model="ir.ui.view">
+            <field name="name">mncei.booking.meeting.all</field>
+            <field name="model">mncei.booking.meeting</field>
+            <field name="arch" type="xml">
+                <gantt
+                    edit="0"
+                    create="0"
+                    date_start="start_time"
+                    date_stop="end_time"
+                    string="Department"
+                    default_group_by="department_id"
+                    default_scale="week"
+                    plan="false"
+                    sample="1"
+                >
+                <field name="name"/>
+                <field name="hours_start" string="Start"/>
+                <field name="hours_end" string="End"/>
+                <field name="department_id"/>
+                <field name="room_ids" widget="many2many_tags"/>
+                <templates>
+                    <div t-name="gantt-popover" class="container-fluid p-0">
+                        <div class="row no-gutters">
+                            <div class="col">
+                                <ul class="p-0 mb-0 list-unstyled d-flex flex-row">
+                                    <li class="d-flex flex-column pr-2">
+                                        <strong>Title:</strong>
+                                        <strong>From:</strong>
+                                        <strong>To:</strong>
+                                    </li>
+                                    <li class="d-flex flex-column">
+                                        <span t-esc="display_name"/>
+                                        <span t-esc="userTimezoneStartDate.format('DD MMM, LT')"/>
+                                        <span t-esc="userTimezoneStopDate.format('DD MMM, LT')"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </templates>
+                </gantt>
+            </field>
+        </record>
+
+        <record id="booking_meeting_action" model="ir.actions.act_window">
+            <field name="name">My Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mncei.booking.meeting</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <!-- <field name="context">{'delete': 0, 'default_start_date': fields.Date.today()}</field> -->
+            <field name="context">{"search_default_approved":1}</field>
+            <field name="domain">[('requestor_id', '=', uid)]</field>
+            <field name="help" type="html">
+                <p>
+                    Please Booking Meeting Room
+                </p>
+            </field>
+        </record>
+
+        <record id="waiting_meeting_action" model="ir.actions.act_window">
+            <field name="name">Waiting Your Approve</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mncei.booking.meeting</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'create': 0, 'delete': 0}</field>
+            <field name="domain">[('approver_ids', 'in', [uid]), ('state', '=', 'waiting')]</field>
+            <field name="help" type="html">
+                <p>
+                    Please Booking Meeting Room
+                </p>
+            </field>
+        </record>
+
+        <record id="booking_meeting_action_all" model="ir.actions.act_window">
+            <field name="name">All Booking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mncei.booking.meeting</field>
+            <field name="view_mode">gantt</field>
+            <field name="domain">[('state', '=', 'approve')]</field>
+            <field name="context">{'create': 0, 'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Please Booking Meeting Room
+                </p>
+            </field>
+        </record>
+
+        <!-- Type Configuration -->
+        <record id="meeting_type_view_form" model="ir.ui.view">
+            <field name="name">Meeting Type Form</field>
+            <field name="model">mncei.type.meeting</field>
+            <field name="arch" type="xml">
+                <form delete="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="active"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="is_online"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="meeting_type_view_tree" model="ir.ui.view">
+            <field name="name">Meeting Type Tree</field>
+            <field name="model">mncei.type.meeting</field>
+            <field name="arch" type="xml">
+                <tree delete="0">
+                    <field name="active" invisible="1"/>
+                    <field name="name"/>
+                    <field name="is_online"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="meeting_type_action" model="ir.actions.act_window">
+            <field name="name">Meeting Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mncei.type.meeting</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Please Create Meeting Type
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

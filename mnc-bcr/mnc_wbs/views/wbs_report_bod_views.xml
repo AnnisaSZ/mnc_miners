@@ -1,0 +1,131 @@
+<odoo>
+
+    <record id="list_report_bod_view_tree" model="ir.ui.view">
+        <field name="name">List Report</field>
+        <field name="model">wbs.report.bod</field>
+        <field name="arch" type="xml">
+            <tree duplicate="0" decoration-danger="state in ('cancel')" decoration-success="state in ('close')" decoration-warning="state in ('assigned','process_audit','report_audit','result_audit')">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="director_id"/>
+                <field name="company_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="state"  readonly="1" widget="badge"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="list_report_bod_view_form" model="ir.ui.view">
+        <field name="name">List Report Form</field>
+        <field name="model">wbs.report.bod</field>
+        <field name="arch" type="xml">
+            <form edit="true" flags="{'mode': 'edit'}">
+                <header>
+                    <button name="assign_to_employee" string="Assign" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'process')]}"/>
+                    
+                    <button name="confirm_close" string="Close Report" type="object" class="oe_highlight" attrs="{'invisible': [('state', 'in', ('process', 'close', 'cancel'))]}"/>
+                    <button name="button_cancel" string="Cancel" type="object" attrs="{'invisible': [('state', 'not in', ('process'))]}"/>
+
+                    <field name="state" readonly="True" widget="statusbar" options="{'clickable': '0'}" statusbar_visible="process,assigned,process_audit,report_audit,result_audit"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button attrs="{'invisible': [('state', 'not in', ('result_audit','close'))]}" type="object" name="action_view_result" class="oe_stat_button" icon="fa-list-ul">
+                            <span>Summary</span>
+                            <field name="list_auditor_report_ids" invisible="1"/>
+                        </button>
+                    </div>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+
+                    <!-- Data User -->
+                    <group>
+                        <group>
+                            <field name="list_report_id" invisible="1"/>
+                            <field name="user_name"/>
+                            <field name="user_email"/>
+                        </group>
+                        <group>
+                            <field name="user_phone"/>
+                            <field name="user_company"/>
+                        </group>
+                    </group>
+                    
+                    <!-- Case Report From User -->
+                    <h3> Case Reported </h3>
+                    <group>
+                        <group>
+                            <field name="title"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <label for="start_date" string="Period of Incident"/>
+                            <div>
+                                <field name="start_date" widget="daterange" nolabel="1" class="oe_inline"  options="{'related_end_date': 'date_end'}"/>
+                                <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/> 
+                                <field name="end_date" class="oe_inline" widget="daterange" nolabel="1" options="{'related_start_date': 'start_date'}"/>
+                            </div>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Attachment" name="attchment" readonly="1">
+                            <field name="attachment_ids" options="{'no_open': True}">
+                                <tree editable="bottom" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}">
+                                    <field name="name" readonly="1"/>
+                                    <field name="datas" widget="binary" string="Download"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <!-- Director -->
+                    <h3> Review </h3>
+                    <group>
+                        <group>
+                            <field name="director_id"/>
+                            <field name="director_notes" style="white-space: pre-wrap; word-break: break-all;" attrs="{'required': [('state', '=', 'process')], 'readonly': [('state', '!=', 'process')]}"/>
+                        </group>
+                        <group>
+                            <label for="start_date_audit" string="Period of Audit"/>
+                            <div>
+                                <field name="start_date_audit" attrs="{'readonly': [('state', '!=', 'process')],'required': [('state', '=', 'process')]}" widget="daterange" nolabel="1" class="oe_inline"  options="{'related_end_date': 'end_date_audit'}"/>
+                                <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                                <field name="end_date_audit" attrs="{'readonly': [('state', '!=', 'process')],'required': [('state', '=', 'process')]}" widget="daterange" nolabel="1" class="oe_inline"  options="{'related_start_date': 'start_date_audit'}"/>
+                            </div>
+                            <field name="list_employee_wbs_ids"  widget="many2many_tags" options="{'no_create_edit': True}" attrs="{'readonly': [('state', '!=', 'process')]}" invisible="1"/>
+                            <field name="employee_ids"  widget="many2many_tags" options="{'no_create': True,'no_create_edit': True}" attrs="{'readonly': [('state', '!=', 'process')]}" domain="[('id','in',list_employee_wbs_ids)]"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="dir_attachment_ids" force_save="1">
+                            <tree editable="bottom">
+                                <field name="part_filename" string="Name" readonly="1" force_save="1"/>
+                                <field name="part_dokumen" string="Download" filename="part_filename" widget="binary"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="list_report_bod_view" model="ir.actions.act_window">
+        <field name="name">List Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wbs.report.bod</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[(1, '=', 1)]</field>
+        <field name="context">{'delete': 0,'duplicate': 0,'create':0, 'edit': 1,'flags':"{'mode':'edit'}"}</field>
+        <field name='target'>current</field>
+        <field name="help" type="html">
+            <p>
+                Add New List Report
+            </p>
+        </field>
+    </record>
+</odoo>

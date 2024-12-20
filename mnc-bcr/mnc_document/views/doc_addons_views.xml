@@ -1,0 +1,450 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Akta Perushaan -->
+    <record id="mncei_doc_akta_form" model="ir.ui.view">
+        <field name="name">mncei.doc.akta.form</field>
+        <field name="model">mncei.doc.akta</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="jenis_akta"/>
+                            <field name="no_akta"/>
+                            <field name="name" attrs="{'required': [('jenis_akta', '=', 'perubahan')], 'invisible': [('jenis_akta', '=', 'pendirian')]}"/>
+                            <field name="sk_number"/>
+                            <field name="sk_date"/>
+                            <field name="date_akta"/>
+                            <field name="release_date"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="pic_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="notaris"/>
+                            <field name="description"/>
+                        </group>
+                        <group string="Penyimpanan">
+                            <field name="location_doc_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="rak"/>
+                            <field name="url_penyimpanan" placeholder="e.g https://.." widget="url" style="white-space: pre-wrap; word-break: break-all;"/>
+                        </group>
+                        <group string="Status">
+                            <field name="document_status" options="{'no_create': True}"/>
+                            <field name="remaks" style="white-space: pre-wrap; word-break: break-all;"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_doc_akta_tree" model="ir.ui.view">
+        <field name="name">mncei.doc.akta.tree</field>
+        <field name="model">mncei.doc.akta</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="jenis_akta"/>
+                <field name="no_akta"/>
+                <field name="name"/>
+                <field name="date_akta"/>
+                <field name="url_penyimpanan"/>
+                <field name="location_doc_id"/>
+                <field name="rak"/>
+                <field name="company_id"/>
+                <field name="pic_id"/>
+                <field name="phone"/>
+                <field name="notaris"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_mncei_doc_akta_search" model="ir.ui.view">
+        <field name="name">mncei.doc.akta.search</field>
+        <field name="model">mncei.doc.akta</field>
+        <field name="arch" type="xml">
+            <search string="Document Akta">
+                <field name="no_akta"/>
+                <field name="date_akta"/>
+                <field name="company_id"/>
+                <field name="pic_id"/>
+                <field name="phone"/>
+                <field name="notaris"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="mncei_akta_actions" model="ir.actions.act_window">
+        <field name="name">Dokumen Akta Perusahaan</field>
+        <field name="res_model">mncei.doc.akta</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your akta
+            </p>
+        </field>
+    </record>
+
+    <!-- Lahan -->
+
+    <record id="mncei_doc_lahan_form" model="ir.ui.view">
+        <field name="name">mncei.doc.lahan.form</field>
+        <field name="model">mncei.doc.lahan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="jenis_lahan"/>
+                            <field name="no_doc_lahan"/>
+                            <field name="pemilik_lahan"/>
+                            <field name="release_date"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="company_id" context="{'form_view_ref': 'mnc_document.mncei_res_company_form'}" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="pic_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="location_doc_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="rak"/>
+                            <field name="url_penyimpanan" placeholder="e.g https://.." widget="url" style="white-space: pre-wrap; word-break: break-all;"/>
+                        </group>
+                        <group string="Area">
+                            <field name="luas"/>
+                            <field name="kabupaten_id" context="{'default_type_wilayah': 'kab'}"/>
+                            <field name="kecamatan_id" context="{'default_type_wilayah': 'kec'}"/>
+                            <field name="desa_id" context="{'default_type_wilayah': 'desa'}"/>
+                        </group>
+                        <group string="Status">
+                            <field name="document_status"  options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="remaks" style="white-space: pre-wrap; word-break: break-all;"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page id="pemilik_lahan" string='List Pemilik Lahan Sebelumnya'>
+                            <field name='pemilik_lahan_line_ids'>
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="tahun_kepemilikan"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_doc_lahan_tree" model="ir.ui.view">
+        <field name="name">mncei.doc.lahan.tree</field>
+        <field name="model">mncei.doc.lahan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="jenis_lahan"/>
+                <field name="no_doc_lahan"/>
+                <field name="pemilik_lahan"/>
+                <field name="kabupaten_id"/>
+                <field name="kecamatan_id"/>
+                <field name="desa_id"/>
+                <field name="company_id"/>
+                <field name="pic_id"/>
+                <field name="phone"/>
+                <field name="release_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_mncei_doc_lahan_search" model="ir.ui.view">
+        <field name="name">mncei.doc.lahan.search</field>
+        <field name="model">mncei.doc.lahan</field>
+        <field name="arch" type="xml">
+            <search string="Document Akta">
+                <field name="no_doc_lahan"/>
+                <field name="kabupaten_id"/>
+                <field name="kecamatan_id"/>
+                <field name="desa_id"/>
+                <field name="release_date"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="mncei_lahan_actions" model="ir.actions.act_window">
+        <field name="name">Dokumen Lahan</field>
+        <field name="res_model">mncei.doc.lahan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your Data Lahan
+            </p>
+        </field>
+    </record>
+
+    <record id="res_company_lahan_form" model="ir.ui.view">
+        <field name="name">res.company.lahan.form</field>
+        <field name="model">res.company.lahan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name='name'/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_company_lahan_tree" model="ir.ui.view">
+        <field name="name">res.company.lahan.tree</field>
+        <field name="model">res.company.lahan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name='name'/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="res_company_land_actions" model="ir.actions.act_window">
+        <field name="name">Perusahaan Pemilik</field>
+        <field name="res_model">res.company.lahan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your Data Perusahaan pemilik lahan
+            </p>
+        </field>
+    </record>
+
+    <!-- Daerah Lahan -->
+
+    <record id="mncei_wilayah_lahan_form" model="ir.ui.view">
+        <field name="name">mncei.wilayah.lahan.form</field>
+        <field name="model">mncei.wilayah.lahan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name='type_wilayah' invisible="1"/>
+                            <field name='name'/>
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': [('type_wilayah', '=', 'desa')]}">
+                        <page string='Regency' id="kecamatan" attrs="{'invisible': [('type_wilayah', '!=', 'kab')]}">
+                            <field name="kecamatan_ids" context="{'default_type_wilayah': 'kec'}">
+                                <tree editable="bottom">
+                                    <field name='type_wilayah' invisible="1"/>
+                                    <field name='kabupaten_id' invisible="1"/>
+                                    <field name='name' string="District Name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string='Village' id="desa" attrs="{'invisible': [('type_wilayah', '!=', 'kec')]}">
+                            <field name="desa_ids" context="{'default_type_wilayah': 'desa'}">
+                                <tree editable="bottom">
+                                    <field name='type_wilayah' invisible="1"/>
+                                    <field name='kabupaten_id' invisible="1"/>
+                                    <field name='name' string="Village Name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_wilayah_lahan_tree" model="ir.ui.view">
+        <field name="name">mncei.wilayah.lahan.tree</field>
+        <field name="model">mncei.wilayah.lahan</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name='name'/>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_kecamatan_tree" model="ir.ui.view">
+        <field name="name">mncei.wilayah.lahan.tree</field>
+        <field name="model">mncei.wilayah.lahan</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name='name'/>
+                <field name='kabupaten_id'/>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_desa_tree" model="ir.ui.view">
+        <field name="name">mncei.wilayah.lahan.tree</field>
+        <field name="model">mncei.wilayah.lahan</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name='name'/>
+                <field name='kecamatan_id'/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions Data Lahan -->
+    <record id="mncei_wilayah_kabupaten_actions" model="ir.actions.act_window">
+        <field name="name">Kabupaten</field>
+        <field name="res_model">mncei.wilayah.lahan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type_wilayah', '=', 'kab')]</field>
+        <field name="context">{'default_type_wilayah': 'kab'}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('mncei_wilayah_lahan_tree')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your Data Kabupaten
+            </p>
+        </field>
+    </record>
+
+    <record id="mncei_wilayah_kecamatan_actions" model="ir.actions.act_window">
+        <field name="name">Kecamatan</field>
+        <field name="res_model">mncei.wilayah.lahan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type_wilayah', '=', 'kec')]</field>
+        <field name="context">{'default_type_wilayah': 'kec'}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('mncei_kecamatan_tree')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your Data Kecamatan
+            </p>
+        </field>
+    </record>
+
+    <record id="mncei_wilayah_desa_actions" model="ir.actions.act_window">
+        <field name="name">Desa</field>
+        <field name="res_model">mncei.wilayah.lahan</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('type_wilayah', '=', 'desa')]</field>
+        <field name="context">{'default_type_wilayah': 'desa'}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('mncei_desa_tree')})]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your Data Desa
+            </p>
+        </field>
+    </record>
+
+    <!-- Surat Keluar/Masuk -->
+
+    <record id="mncei_doc_surat_form" model="ir.ui.view">
+        <field name="name">mncei.doc.surat.form</field>
+        <field name="model">mncei.doc.surat</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="jenis_surat"/>
+                            <field name="company_type_mail"/>
+                            <field name="tujuan_surat_char" string="Mail From" required="1" attrs="{'invisible': [('jenis_surat', '=', 'keluar')]}"/>
+                            <field name="tujuan_surat_char" string="Mail To" required="1" attrs="{'invisible': [('jenis_surat', '=', 'masuk')]}"/>
+                            <field name="alamat"/>
+                            <field name="tgl_surat"/>
+                            <field name="no_surat"/>
+                        </group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="release_date"/>
+                            <field name="pic_id"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="description" style="white-space: pre-wrap; word-break: break-all;"/>
+                        </group>
+                        <group string="Penyimpanan">
+                            <field name="location_doc_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="rak"/>
+                            <field name="url_document" placeholder="e.g https://.." widget="url" style="white-space: pre-wrap; word-break: break-all;"/>
+                        </group>
+                        <group string="Status">
+                            <field name="document_status" options="{'no_create': True}"/>
+                            <field name="remaks" style="white-space: pre-wrap; word-break: break-all;"/>
+                            <field name="attachment_filename" invisible="1"/>
+                            <field name="attachment" filename="attachment_filename"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_doc_surat_tree" model="ir.ui.view">
+        <field name="name">mncei.doc.surat.tree</field>
+        <field name="model">mncei.doc.surat</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="no_surat"/>
+                <field name="name"/>
+                <field name="jenis_surat"/>
+                <field name="alamat"/>
+                <field name="tgl_surat"/>
+                <field name="company_id"/>
+                <field name="pic_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="views_mncei_doc_surat_search" model="ir.ui.view">
+        <field name="name">mncei.doc.surat.search</field>
+        <field name="model">mncei.doc.surat</field>
+        <field name="arch" type="xml">
+            <search string="Document Akta">
+                <field name="no_surat"/>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="pic_id"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="mncei_surat_actions" model="ir.actions.act_window">
+        <field name="name">Surat Masuk/Keluar</field>
+        <field name="res_model">mncei.doc.surat</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your Data Surat
+            </p>
+        </field>
+    </record>
+
+    <!-- Menuitem -->
+
+    <menuitem id="mncei_doc_akta" action="mncei_akta_actions" parent="mncei_doc_menu_root" sequence="10" name="Akta Perusahaan"/>
+    <menuitem id="mncei_doc_lahan" action="mncei_lahan_actions" parent="mncei_doc_menu_root" sequence="20" name="Dokumen Lahan"/>
+    <menuitem id="mncei_doc_surat" action="mncei_surat_actions" parent="mncei_doc_menu_root" sequence="20" name="Surat Masuk/Keluar"/>
+    <!-- Conf -->
+    <menuitem id="mncei_doc_wilayah" parent="mncei_doc_config" sequence="200" name="Land Area"/>
+    <menuitem id="mncei_res_company_land" action='res_company_land_actions' parent="mncei_doc_wilayah" sequence="1" name="Company Land"/>
+    <menuitem id="mncei_doc_kabupaten" action='mncei_wilayah_kabupaten_actions' parent="mncei_doc_wilayah" sequence="3" name="Regency"/>
+    <menuitem id="mncei_doc_kecamatan" action='mncei_wilayah_kecamatan_actions' parent="mncei_doc_wilayah" sequence="5" name="District"/>
+    <menuitem id="mncei_doc_Desa" action='mncei_wilayah_desa_actions' parent="mncei_doc_wilayah" sequence="10" name="Village"/>
+</odoo>

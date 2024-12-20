@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Datas -->
+    <data noupdate="1">
+        <record id="prf_seq" model="ir.sequence">
+            <field name="name">PRF Sequence</field>
+            <field name="code">prf.request</field>
+            <field name="prefix">PRF/%(day)s/%(month)s/%(year)s/</field>
+            <field eval="5" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="orf_seq" model="ir.sequence">
+            <field name="name">ORF Sequence</field>
+            <field name="code">orf.request</field>
+            <field name="prefix">ORF/%(day)s/%(month)s/%(year)s/</field>
+            <field eval="5" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="pc_seq" model="ir.sequence">
+            <field name="name">Price Comparison Sequence</field>
+            <field name="code">price.comparation</field>
+            <field name="prefix">PC/%(day)s/%(month)s/%(year)s/</field>
+            <field eval="5" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="slp_seq" model="ir.sequence">
+            <field name="name">Submission Letter Payment Sequence</field>
+            <field name="code">slp.sequence</field>
+            <field name="prefix">SLP/%(day)s/%(month)s/%(year)s/</field>
+            <field eval="5" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="deliv_seq" model="ir.sequence">
+            <field name="name">Shipping Delivery Sequence</field>
+            <field name="code">ship.deliv.sequence</field>
+            <field name="prefix">IAT/</field>
+            <field name="suffix">/CUSTOMCODE/%(year)s</field>
+            <field eval="3" name="padding"/>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+
+</odoo>
+

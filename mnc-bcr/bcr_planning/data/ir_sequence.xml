@@ -1,0 +1,102 @@
+<odoo>
+<!--<data noupdate='1' >-->
+    <data>
+        
+        <!-- planning production -->
+        <record id="seq_planning_production" model="ir.sequence">
+            <field name="name">Planning Production</field>
+            <field name="code">planning.production</field>
+            <field name="padding">6</field>
+            <field name="prefix">PL-PR-BUCODE</field>
+        </record>
+
+        <!-- planning hauling -->
+        <record id="seq_planning_hauling" model="ir.sequence">
+            <field name="name">Planning Hauling</field>
+            <field name="code">planning.hauling</field>
+            <field name="padding">6</field>
+            <field name="prefix">PL-HL-BUCODE</field>
+        </record>
+
+        <!-- planning barging -->
+        <record id="seq_planning_barging" model="ir.sequence">
+            <field name="name">Planning Barging</field>
+            <field name="code">planning.barging</field>
+            <field name="padding">6</field>
+            <field name="prefix">PL-BG-BUCODE</field>
+        </record>
+
+        <!-- production -->
+        <record id="seq_act_production" model="ir.sequence">
+            <field name="name">Production</field>
+            <field name="code">act.production</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-PR-BUCODE</field>
+        </record>
+
+        <!-- hauling -->
+        <record id="seq_act_hauling" model="ir.sequence">
+            <field name="name">Hauling</field>
+            <field name="code">act.hauling</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-HL-BUCODE</field>
+        </record>
+
+        <!-- Delay -->
+        <record id="seq_act_delay" model="ir.sequence">
+            <field name="name">Delay</field>
+            <field name="code">act.delay</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-DL-BUCODE</field>
+        </record>
+
+        <!-- Barging -->
+        <record id="seq_act_barging" model="ir.sequence">
+            <field name="name">Barging</field>
+            <field name="code">act.barging</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-BG-BUCODE</field>
+        </record>
+
+        <!-- Stock Room -->
+        <record id="seq_act_stockroom" model="ir.sequence">
+            <field name="name">Stock Room</field>
+            <field name="code">act.stockroom</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-SR-BUCODE</field>
+        </record>
+
+        <!-- Fuel Dump Truck -->
+        <record id="seq_act_fueldumptruck" model="ir.sequence">
+            <field name="name">Fuel Dump Truck</field>
+            <field name="code">fuel.dump.truck</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-FDT-BUCODE</field>
+        </record>
+
+        <!-- Fuel Excavator -->
+        <record id="seq_act_fuelexcavator" model="ir.sequence">
+            <field name="name">Fuel Excavator</field>
+            <field name="code">fuel.excavator</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-FE-BUCODE</field>
+        </record>
+
+        <!-- Fuel Kendaraan Alat -->
+        <record id="seq_act_fuelkendaraanalat" model="ir.sequence">
+            <field name="name">Fuel Kendaraan Alat</field>
+            <field name="code">fuel.kendaraan.alat</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-FKA-BUCODE</field>
+        </record>
+
+        <!-- Fuel Kendaraan Mobil -->
+        <record id="seq_act_fuelkendaraanmobil" model="ir.sequence">
+            <field name="name">Fuel Kendaraan Mobil</field>
+            <field name="code">fuel.kendaraan.mobil</field>
+            <field name="padding">6</field>
+            <field name="prefix">AC-FKM-BUCODE</field>
+        </record>
+
+    </data>
+</odoo>

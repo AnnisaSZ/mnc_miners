@@ -1,0 +1,40 @@
+<odoo>
+    <data> 
+        <record id="base.res_company_rule_portal" model="ir.rule">
+            <field name="name">company rule portal</field>
+            <field name="model_id" ref="base.model_res_company"/>
+            <field eval="False" name="global"/>
+            <field name="groups" eval="[(6, 0, [ref('base.group_portal')])]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <!-- Record Rule For User -->
+        <record id="res_company_rule_portal" model="ir.rule">
+            <field name="name">company rule portal</field>
+            <field name="model_id" ref="base.model_res_company"/>
+            <field eval="False" name="global"/>
+            <field name="groups" eval="[(6, 0, [ref('base.group_portal')])]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <!-- Record Rule For Head Auditor -->
+        <record id="wbs_report_head_rule" model="ir.rule">
+            <field name="name">head auditor rule</field>
+            <field name="model_id" ref="mnc_wbs.model_wbs_report_head"/>
+            <field eval="False" name="global"/>
+            <field name="groups" eval="[(6, 0, [ref('mnc_wbs.group_head_auditor_audit')])]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <!-- Record Rule For Auditor/Employee -->
+        <record id="wbs_report_emp_rule" model="ir.rule">
+            <field name="name">employee rule</field>
+            <field name="model_id" ref="mnc_wbs.model_wbs_report_emp"/>
+            <field eval="False" name="global"/>
+            <field eval="False" name="active"/>
+            <field name="groups" eval="[(6, 0, [ref('mnc_wbs.group_user_audit')])]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mncei_booking_meeting,access_mncei_booking_meeting,model_mncei_booking_meeting,base.group_user,1,1,1,1
+access_mncei_room_meeting,access_mncei_room_meeting,model_mncei_room_meeting,base.group_user,1,1,1,1
+access_mncei_facility_meeting,access_mncei_facility_meeting,model_mncei_facility_meeting,base.group_user,1,1,1,1
+access_mncei_type_meeting,access_mncei_type_meeting,model_mncei_type_meeting,base.group_user,1,1,1,1
+access_mncei_floor_meeting,access_mncei_floor_meeting,model_mncei_floor_meeting,base.group_user,1,1,1,1
+access_mncei_user_approve_meeting,access_mncei_user_approve_meeting,model_mncei_user_approve_meeting,base.group_user,1,1,1,1
+access_reschedule_room_meeting,access_reschedule_room_meeting,model_reschedule_room_meeting,base.group_user,1,1,1,1

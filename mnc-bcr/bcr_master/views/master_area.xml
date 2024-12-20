@@ -1,0 +1,95 @@
+<odoo>
+    <data>
+
+
+        <record id="formview_master_bisnis_unit" model="ir.ui.view">
+            <field name="name">formview_master_bisnis_unit</field>
+            <field name="model">master.bisnis.unit</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="seq_code"/>
+                                <field name="lokasi_site"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="listview_master_bisnis_unit" model="ir.ui.view">
+            <field name="name">listview_master_bisnis_unit</field>
+            <field name="model">master.bisnis.unit</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="seq_code"/>
+                    <field name="lokasi_site"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="formview_master_area" model="ir.ui.view">
+            <field name="name">formview_master_area</field>
+            <field name="model">master.area</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form delete="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="bisnis_unit_id"/>
+                                <field name="active"/>
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="listview_master_area" model="ir.ui.view">
+            <field name="name">listview_master_area</field>
+            <field name="model">master.area</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree delete="0">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="bisnis_unit_id"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_master_area" model="ir.actions.act_window">
+            <field name="name">Area</field>
+            <field name="res_model">master.area</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id='menu_master_area' name='Area' parent='bcr_master.menu_group_master_01' sequence='2' action='action_master_area' />
+<!--                  groups="group_bcr_master_admin,group_bcr_master_admin_site"/>-->
+
+        <record id="action_master_bisnis_unit" model="ir.actions.act_window">
+            <field name="name">Bisnis Unit</field>
+            <field name="res_model">master.bisnis.unit</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id='menu_master_bisnis_unit' name='Bisnis Unit' parent='bcr_master.menu_group_master_01' sequence='10' action='action_master_bisnis_unit'/>
+<!--                groups="group_bcr_master_super_admin,group_bcr_master_super_admin_bu"-->
+    </data>
+</odoo>

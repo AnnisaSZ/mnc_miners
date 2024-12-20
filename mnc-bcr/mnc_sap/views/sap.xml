@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="sap_view_form" model="ir.ui.view">
+        <field name="name">Hazard Report Form</field>
+        <field name="model">sapform</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_complete" string="Complete" type="object" class="oe_highlight" attrs="{'invisible': [('state', 'not in', ('hanging', 'waiting'))]}"/>
+                    <button name="action_not_relevan" string="Not Relevan" type="object" class="oe_highlight" attrs="{'invisible': [('state', 'not in', ('waiting'))]}"/>
+                    <field name="state" readonly="True" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="draft,waiting,hanging,close"/>
+                </header>
+                <sheet>
+                    <label for="sap_no"/>
+                    <h1>
+                        <field name="sap_no" readonly="1"/>
+                    </h1>
+                    <group string='Finding'>
+                        <group>
+                            <field name="act_repair" invisible="1"/>
+                            <field name="is_not_relevan" invisible="1"/>
+                            <field name="is_hse_receive" invisible="1"/>
+                            <field name="is_delegeted" invisible="1"/>
+                            <field name="sap_type" invisible="1"/>
+                            <field name="create_uid" string="Report By" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="report_department_id" readonly="1" string="Department" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="company_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="categ_id" string="Type" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="incident_date_time" string="Date Hazard Incident"/>
+                            <field name="location_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="detail_location"/>
+                            <field name="activity_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="danger_categ_id" string="Category" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="risk_id" string="Risk Level" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}" attrs="{'invisible': [('sap_type', 'in', ('KA', 'TA'))], 'required': [('sap_type', 'not in', ('KA', 'TA'))]}"/>
+                        </group>
+                        <group>
+                            <field name="img_eviden" string="Incident Photo" widget="image" options='{"size": [80, 80]}'/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                    <group string='Fixing'>
+                        <group>
+                            <field name="department_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="pic_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="pic_uids" invisible="1" widget="many2many_tags" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="child_pic" string="Delegate" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="act_repair_uid" string="Fixing By" readonly="1" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="fix_date" invisible="1" readonly="1"/>
+                            <field name="fixing_date" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="control_id" string="Risk Management" required="1" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                            <field name="img_eviden_result" string="Fixing Photo" widget="image" options='{"size": [80, 80]}'/>
+                            <field name="description_result" string="Fixing Description"/>
+                        </group>
+                    </group>                                      
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="sap_view_tree" model="ir.ui.view">
+        <field name="name">Hazard Report Tree</field>
+        <field name="model">sapform</field>
+        <field name="arch" type="xml">
+            <tree create="1">
+                <field name="sap_no"/>
+                <field name="incident_date_time"/>
+                <field name="create_uid" string="Report By"/>
+                <field name="report_department_id"/>
+                <field name="company_id"/>
+                <field name="location_id"/>
+                <field name="detail_location"/>
+                <field name="categ_id" string="Type"/>
+                <field name="activity_id"/>
+                <field name="danger_categ_id" string="Category"/>
+                <field name="risk_id" string="Risk Level"/>
+                <field name="img_eviden" string="Incident Photo" widget="image" class="oe_avatar" options="{'tooltip_image': 'image'}"/>
+                <field name="img_eviden_result" string="Fixing Photo" widget="image" class="oe_avatar" options="{'tooltip_image': 'image'}"/>
+                <field name="state" widget="badge" decoration-success="state == 'close'" decoration-warning="state in ('waiting', 'hanging')" decoration-danger="state in ('reject')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_sap_search" model="ir.ui.view">
+        <field name="name">sap.search</field>
+        <field name="model">sapform</field>
+        <field name="arch" type="xml">
+            <search string="Meeting">
+                <!-- Category -->
+                <filter string="Kondisi Tidak Aman" name="kta" domain="[('sap_type', '=', 'kta')]"/>
+                <filter string="Kondisi Aman" name="ka" domain="[('sap_type', '=', 'ka')]"/>
+                <separator/>
+                <filter string="Tindakan Tidak Aman" name="tta" domain="[('sap_type', '=', 'tta')]"/>
+                <filter string="Tindakan Aman" name="ta" domain="[('sap_type', '=', 'ta')]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Category" name='category' context="{'group_by':'categ_id'}"/>
+                    <filter string="State" name='state' context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- All -->
+    <record id="sap_view" model="ir.actions.act_window">
+        <field name="name">All Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sapform</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="domain">[('state', '!=', 'draft')]</field> -->
+        <field name="context">{'create': 0, 'edit': 1, 'form_view': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Data Safety Accountability Program
+            </p>
+        </field>
+    </record>
+
+    <!-- My Request -->
+    <record id="action_sap_my_request" model="ir.actions.act_window">
+        <field name="name">My Request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sapform</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('create_uid', '=', uid)]</field>
+        <field name="help" type="html">
+            <p>
+                Add New Data Safety Accountability Program
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="sap_menu_root" name="SAP" web_icon="mnc_sap,static/description/icon.png" groups="group_admin_hse,group_hse"/>
+    <!-- Parent Menu -->
+    <menuitem id="sap_menu" name="Hazard Report" parent="sap_menu_root"/>
+    
+    <menuitem id="notif_hazard_menu" name="Notification" action="action_hazard_notification" sequence='50' parent="sap_menu_root" groups="group_admin_hse"/>
+    <menuitem id="configuration_menu" name="Configuration" sequence='100' parent="sap_menu_root" groups="group_admin_hse,group_hse"/>
+    <!-- Sub Menu -->
+    <menuitem id="sap_menu_all" name="All Request" action="sap_view" parent="sap_menu" sequence="10"/>
+    
+    <menuitem id="location_menu" name="Location" action="action_location" sequence='1' parent="configuration_menu" groups="group_admin_hse"/>
+    <menuitem id="activity_menu" name="Activity" action="action_act_hazard" sequence='2' parent="configuration_menu" groups="group_admin_hse"/>
+    <menuitem id="categ_hazard_menu" name="Category Hazard" action="action_category_hazard" sequence='3' parent="configuration_menu" groups="group_admin_hse"/>
+    <menuitem id="categ_menu" name="Category Danger" action="action_category_danger" sequence='10' parent="configuration_menu" groups="group_admin_hse"/>
+
+    <menuitem id="dept_hse_menu" name="Department" parent="configuration_menu" sequence='20' groups="group_admin_hse,group_hse"/>
+
+    <menuitem id="departmenthse_menu" name="Department" action="action_department_hse" groups="group_admin_hse" parent="dept_hse_menu"/>
+    <menuitem id="departmentpic_menu" name="PIC" action="action_department_pic" groups="group_admin_hse,group_hse" parent="dept_hse_menu"/>
+
+    <menuitem id="risk_parent" name="Risk" parent="configuration_menu" sequence='30' groups="group_admin_hse"/>
+
+    <menuitem id="risk_control_menu" name="Risk Management" action="action_risk_control" sequence='10' parent="risk_parent"/>
+    <menuitem id="risk_level_menu" name="Risk Level" action="action_risk" sequence='20' parent="risk_parent"/>
+
+</odoo>

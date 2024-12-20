@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_master_shiftmode,master_shiftmode,model_master_shiftmode,base.group_user,1,1,1,1
+access_master_seam,master_seam,model_master_seam,base.group_user,1,1,1,1
+access_master_sourcegroup,master_sourcegroup,model_master_sourcegroup,base.group_user,1,1,1,1

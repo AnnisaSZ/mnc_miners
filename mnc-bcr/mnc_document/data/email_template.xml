@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Email Template -->
+    <data>
+        <record id="email_template_email_reminder" model="mail.template">
+            <field name="name">Email Reminder</field>
+            <field name="subject">Email reminder</field>
+            <field name="email_from">"${object.document_id.company.name | safe}" &lt;${(object.document_id.company.email or user.email) | safe}&gt;</field>
+             <field name="email_to">${object.email | safe}</field>
+            <field name="lang">"${object.document_id.pic.lang}"</field>
+            <field name="model_id" ref="model_mncei_mail_reminder"/>
+            <field name="body_html" type="html">
+<div style="margin:0px;padding: 0px;">
+    <p style="padding:0px;font-size: 13px;">
+        <strong>Hi ${object.email}</strong>
+        <br/><br/>
+        This is automated email alerting you that a document is about to expire
+        <br/>
+        Please check your document <strong>Perjanjian ${object.document_id.document_name} </strong> status <strong>${object.document_id.document_status.document_status} </strong> expire date <strong> ${object.document_id.expired_date} </strong>
+        <br/><br/>
+        <strong>Contact Immediately</strong>
+        <br/>
+        <table width="70%" style="background-color:white;padding: 0; border-collapse:separate;" border="0">
+            <tbody><tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">PIC</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.document_id.pic.name}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">PIC Phone</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.document_id.pic_phone}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Document Name</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td style="white-space: nowrap;"><strong><font style="font-size:11px;">${object.document_id.document_name}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Document Category</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.document_id.document_category.document_category}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Description</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.document_id.description}</font></strong></td>
+            </tr>
+            <tr>
+                <td><font style="font-size:11px;">Company</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td style="white-space: nowrap;"><strong><font style="font-size:11px;">${object.document_id.company.name}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Hardcopy Document</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td style="white-space: nowrap;"><strong><font style="font-size:11px;">${object.document_id.hardcopy_document}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Softcopy Document</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td ><font style="font-size:11px;"><a href="${object.document_id.url_document}">${object.document_id.url_document}</a></font></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Release Date</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.document_id.release_date}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Remaks</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.remaks}</font></strong></td>
+            </tr>
+        </tbody></table>
+        <br/><br/>
+        <br/>
+        Link Document :
+        <br/>
+        <a href="https://mncminers.com/web#id=${object.document_id.id}&amp;action=&amp;model=mncei.doc&amp;view_type=form&amp;cids=&amp;menu_id=">
+            CLICK HERE
+        </a>
+        <br/><br/>
+        <strong>
+        Best Regards,
+        <br/>
+        MNC Energy Investments
+        <br/>
+        Auto Reminder System
+        </strong>
+    </p>
+</div>
+            </field>
+        </record>
+
+        <!-- Perizinan -->
+        <record id="email_template_perizinan" model="mail.template">
+            <field name="name">Email Reminder</field>
+            <field name="subject">Email reminder</field>
+            <field name="email_from">"${object.perizinan_id.company.name | safe}" &lt;${(object.perizinan_id.company.email or user.email) | safe}&gt;</field>
+             <field name="email_to">${object.email | safe}</field>
+            <field name="lang">"${object.perizinan_id.pic.lang}"</field>
+            <field name="model_id" ref="model_mncei_mail_reminder"/>
+            <field name="body_html" type="html">
+<div style="margin:0px;padding: 0px;">
+    <p style="padding:0px;font-size: 13px;">
+        <strong>Hi ${object.email}</strong>
+        <br/><br/>
+        This is automated email alerting you that a document is about to expire
+        <br/>
+        Please check your document <strong>Perizinan ${object.perizinan_id.document_name} </strong> status <strong>${object.perizinan_id.document_status.document_status} </strong> expired date <strong> ${object.perizinan_id.expired_date} </strong>
+        <br/><br/>
+        <strong>Contact Immediately</strong>
+        <br/>
+        <table width="70%" style="background-color:white;padding: 0; border-collapse:separate;" border="0">
+            <tbody><tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">PIC</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.perizinan_id.pic.name}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">PIC Phone</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.perizinan_id.pic_phone}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">License Name</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td style="white-space: nowrap;"><strong><font style="font-size:11px;">${object.perizinan_id.license_name}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Document Category</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.perizinan_id.category}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Description</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.perizinan_id.license_obligation}</font></strong></td>
+            </tr>
+            <tr>
+                <td><font style="font-size:11px;">Company</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td style="white-space: nowrap;"><strong><font style="font-size:11px;">${object.perizinan_id.company.name}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Hardcopy Document</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td style="white-space: nowrap;"><strong><font style="font-size:11px;">${object.perizinan_id.location_doc_id.hardcopy_location}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Softcopy Document</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td ><font style="font-size:11px;"><a href="${object.document_id.url_document}">${object.perizinan_id.url_penyimpanan}</a></font></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Release Date</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.perizinan_id.release_date}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Remaks</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.remaks}</font></strong></td>
+            </tr>
+        </tbody></table>
+        <br/><br/>
+        <br/>
+        Link Document :
+        <br/>
+        <a href="https://mncminers.com/web#id=${object.perizinan_id.id}&amp;action=609&amp;model=mncei.doc&amp;view_type=form&amp;cids=&amp;menu_id=504">
+            CLICK HERE
+        </a>
+        <br/><br/>
+        <strong>
+        Best Regards,
+        <br/>
+        MNC Energy Investments
+        <br/>
+        Auto Reminder System
+        </strong>
+    </p>
+</div>
+            </field>
+        </record>
+
+        <!-- Laporan -->
+        <record id="email_template_laporan" model="mail.template">
+            <field name="name">Email Reminder</field>
+            <field name="subject">Email reminder</field>
+            <field name="email_from">"${object.laporan_id.company.name | safe}" &lt;${(object.laporan_id.company.email or user.email) | safe}&gt;</field>
+             <field name="email_to">${object.email | safe}</field>
+            <field name="model_id" ref="model_mncei_mail_reminder"/>
+            <field name="body_html" type="html">
+<div style="margin:0px;padding: 0px;">
+    <p style="padding:0px;font-size: 13px;">
+        <strong>Hi ${object.email}</strong>
+        <br/><br/>
+        This is automated email alerting you that a document is about to expire
+        <br/>
+        Please check your document <strong>Laporan ${object.laporan_id.document_name} </strong> status <strong>${object.laporan_id.document_status.document_status} </strong> expired date <strong> ${object.laporan_id.reminder_finish} </strong>
+        <br/><br/>
+        <strong>Contact Immediately</strong>
+        <br/>
+        <table width="70%" style="background-color:white;padding: 0; border-collapse:separate;" border="0">
+            <tbody>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Document Number</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td style="white-space: nowrap;"><strong><font style="font-size:11px;">${object.laporan_id.doc_number}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Document Name</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td style="white-space: nowrap;"><strong><font style="font-size:11px;">${object.laporan_id.doc_name}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Description</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.laporan_id.description}</font></strong></td>
+            </tr>
+            <tr>
+                <td><font style="font-size:11px;">Company</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td style="white-space: nowrap;"><strong><font style="font-size:11px;">${object.laporan_id.company.name}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Hardcopy Document</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td style="white-space: nowrap;"><strong><font style="font-size:11px;">${object.laporan_id.location_doc_id.hardcopy_location}</font></strong></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Softcopy Document</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td ><font style="font-size:11px;"><a href="${object.document_id.url_document}">${object.laporan_id.url_penyimpanan}</a></font></td>
+            </tr>
+            <tr>
+                <td style="white-space: nowrap;"><font style="font-size:11px;">Release Date</font></td>
+                <td><font style="font-size:11px;">:</font></td>
+                <td><strong><font style="font-size:11px;">${object.laporan_id.doc_date}</font></strong></td>
+            </tr>
+        </tbody></table>
+        <br/><br/>
+        <br/>
+        Link Document :
+        <br/>
+        <a href="https://mncminers.com/web#id=${object.laporan_id.id}&amp;action=&amp;model=mncei.lap.wajib&amp;view_type=form&amp;cids=&amp;menu_id=">
+            CLICK HERE
+        </a>
+        <br/><br/>
+        <strong>
+        Best Regards,
+        <br/>
+        MNC Energy Investments
+        <br/>
+        Auto Reminder System
+        </strong>
+    </p>
+</div>
+            </field>
+        </record>
+    </data>
+
+</odoo>
+

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_stage_view_form" model="ir.ui.view">
+        <field name="name">project.stage.form</field>
+        <field name="model">project.stage</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <form>
+                <field name="active" invisible="1"/>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="fold"/>
+                            <field name="is_closed" groups="base.group_no_one"/>
+                            <field name="sequence" groups="base.group_no_one"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_stage_view_tree" model="ir.ui.view">
+        <field name="name">project.stage.tree</field>
+        <field name="model">project.stage</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="fold"/>
+                <field name="sequence"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_project_stages" model="ir.actions.act_window">
+        <field name="name">Project Stages</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">project.stage</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Stages on Projects
+            </p>
+        </field>
+    </record>
+
+    <menuitem action="action_project_stages" id="menu_project_config_stage" name="Project Stages" parent="project.menu_project_config" sequence="3" groups="base.group_no_one"/>
+
+    <!-- Project Views -->
+    <record id="edit_project_ext" model="ir.ui.view">
+        <field name="name">project.project.form.stage</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+           <xpath expr="//header" position="inside">
+                <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}"/>
+            </xpath>
+            <xpath expr="//div[@class='oe_chatter']" position="inside">
+                <field name="message_ids"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_project_kanban_ext">
+        <field name="name">project.project.kanban</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="default_group_by">stage_id</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="stage_id" options='{"group_by_tooltip": {"description": "Description"}}'/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

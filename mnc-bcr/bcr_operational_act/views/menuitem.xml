@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- <menuitem id='act_opr_ext' name='Actual' parent='bcr_master.root_menu_bcr' sequence='2'/> -->
+
+        <!-- Sub Menu New Input -->
+        <menuitem
+            id="act_operatioanl"
+            name="Actual"
+            groups="bcr_planning.group_bcr_planning_input,bcr_planning.group_bcr_planning_admin,bcr_planning.group_bcr_process_actor_eng_mnc,bcr_planning.group_bcr_process_actor_admin_site"
+            parent="bcr_planning.menu_bcr_input"
+            sequence="1"/>
+
+        <menuitem
+            id="menu_act_production_create_edit"
+            name="(Old) Production"
+            parent="act_operatioanl"
+            action="bcr_planning.action_act_production_create_edit"
+            sequence="0"/>
+
+        <menuitem
+            id="input_actual_operatioanl_ext"
+            name="(New) Production"
+            parent="act_operatioanl"
+            action="action_act_operational"
+            sequence="1"/>
+
+        <!-- Inherit -->
+
+        <menuitem id='menu_inventory_act'
+            name='Inventory'
+            parent='act_operatioanl'
+            sequence='7'
+            action="bcr_planning.action_act_stockroom_create_edit"/>
+
+        <menuitem id='menu_weather_act'
+            name='Weather'
+            parent='act_operatioanl'
+            sequence='8'
+            action="action_act_weather"/>
+
+        <menuitem id='menu_survey'
+            name='Survey'
+            parent='act_operatioanl'
+            sequence='10'
+            action="action_actual_survey"/>
+
+        <menuitem id='menu_stock_opname'
+            name='Stock Opname'
+            parent='act_operatioanl'
+            sequence='20'
+            action="action_actual_stock_opname"/>
+
+        <!-- Edit Views Menuitem Existing -->
+        <menuitem id='bcr_planning.menu_bcr_review' name='Review' parent='bcr_master.root_menu_bcr' sequence='9' active="0"/>
+        <menuitem id='bcr_planning.menu_bcr_approve' name='Approve' parent='bcr_master.root_menu_bcr' sequence='9' active="0"/>
+        <menuitem id='bcr_planning.menu_group_input_planning' name='Planning' active="0"/>
+        <menuitem id='bcr_planning.menu_group_input_actual' name='Actual' active="0"/>
+        <menuitem id='bcr_planning.menu_group_input_fuel_management' name='Fuel Management' active="0"/>
+
+    </data>
+</odoo>

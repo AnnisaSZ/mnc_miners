@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="bcr_scheduler_timbangan_cron_bspc" model="ir.cron">
+        <field name="name">Scheduler Timbangan BSPC</field>
+        <field name="model_id" ref="model_timbangan_vdata_wiz"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="state">code</field>
+        <field name="code">model.get_data_bspc_scheduler_days()</field>
+    </record>
+    <record id="bcr_scheduler_timbangan_cron_pmc" model="ir.cron">
+        <field name="name">Scheduler Timbangan PMC</field>
+        <field name="model_id" ref="model_timbangan_vdata_wiz"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="state">code</field>
+        <field name="code">model.get_data_pmc_scheduler_days()</field>
+    </record>
+    <record id="bcr_scheduler_timbangan_cron_ibpe" model="ir.cron">
+        <field name="name">Scheduler Timbangan IBPE</field>
+        <field name="model_id" ref="model_timbangan_vdata_wiz"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="state">code</field>
+        <field name="code">model.get_data_ibpe_scheduler_days()</field>
+    </record>
+</odoo>

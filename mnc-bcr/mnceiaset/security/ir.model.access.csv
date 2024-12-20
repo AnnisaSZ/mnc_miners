@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mnceiaset_module,access_mnceiaset_module,model_mnceiaset_module,base.group_user,1,1,1,1
+access_asetkategori_module,access_asetkategori_module,model_asetkategori_module,base.group_user,1,1,1,1
+access_lokasiaset_module,access_lokasiaset_module,model_lokasiaset_module,base.group_user,1,1,1,1
+access_kondisiaset_module,access_kondisiaset_module,model_kondisiaset_module,base.group_user,1,1,1,1
+access_statusaset_module,access_statusaset_module,model_statusaset_module,base.group_user,1,1,1,1
+access_department_module,access_department_module,model_department_module,base.group_user,1,1,1,1
+access_pemegangaset_module,access_pemegangaset_module,model_pemegang_aset,base.group_user,1,1,1,1
+access_sub_categ_aset,access_sub_categ_aset,model_sub_categ_aset,base.group_user,1,1,1,1
+access_sub_categ_aset_line,access_sub_categ_aset_line,model_sub_categ_aset_line,base.group_user,1,1,1,1
+access_qr_generator,access_qr_generator,model_qr_generator,base.group_user,1,1,1,1
+access_pemegang_asset_groups,pemegang.asset.groups,model_pemegang_asset_groups,base.group_user,1,1,1,1

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_perjalanan_dinas_requestion_module,access_perjalanan_dinas_requestion_module,model_perjalanan_dinas_requestion_module,base.group_user,1,1,1,1
+access_tujuan_module,access_tujuan_module,model_tujuan_module,base.group_user,1,1,1,1
+access_tugas_module,access_tugas_module,model_tugas_module,base.group_user,1,1,1,1
+access_mncei_perdin_approval,access_mncei_perdin_approval,model_mncei_perdin_approval,base.group_user,1,1,1,1
+access_perdin_approval_wizard,access_perdin_approval_wizard,model_perdin_approval_wizard,base.group_user,1,1,1,1
+access_mncei_perdin_attachment,access_mncei_perdin_attachment,model_mncei_perdin_attachment,base.group_user,1,1,1,1

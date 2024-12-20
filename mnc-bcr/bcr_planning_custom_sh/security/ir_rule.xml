@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+<!--    group -->
+    <record id="group_bcr_planning_all_archive" model="res.groups">
+        <field name="name">All Archive</field>
+        <field name="category_id" ref="bcr_planning.module_bcr_planning"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+<!--    planning-->
+    <record model="ir.rule" id="planning_hauling_rule">
+        <field name="name">Planning Hauling multi-company</field>
+        <field name="model_id" ref="model_planning_hauling" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="planning_barging_rule">
+        <field name="name">Planning Barging multi-company</field>
+        <field name="model_id" ref="model_planning_barging" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="planning_production_rule">
+        <field name="name">Planning Production multi-company</field>
+        <field name="model_id" ref="model_planning_production" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+<!--    actual-->
+    <record model="ir.rule" id="act_production_rule">
+        <field name="name">Act Production multi-company</field>
+        <field name="model_id" ref="model_act_production" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="act_stockroom_rule">
+        <field name="name">Act Stockroom multi-company</field>
+        <field name="model_id" ref="model_act_stockroom" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="act_barging_rule">
+        <field name="name">Act Barging multi-company</field>
+        <field name="model_id" ref="model_act_barging" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="act_delay_rule">
+        <field name="name">Act Delay multi-company</field>
+        <field name="model_id" ref="model_act_delay" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+    <record model="ir.rule" id="act_hauling_rule">
+        <field name="name">Act Hauling multi-company</field>
+        <field name="model_id" ref="model_act_hauling" />
+        <field name="global" eval="True" />
+        <field name="domain_force">
+            ['|',('bu_company_id','=',False),('bu_company_id', 'in', company_ids)]
+        </field>
+    </record>
+</odoo>

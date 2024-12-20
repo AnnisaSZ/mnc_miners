@@ -1,0 +1,143 @@
+<odoo>
+    <!-- Header -->
+    <template id='report_slp'>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-foreach="doc" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <div t-attf-class="header">
+                                <t t-set="company" t-value="o.company_id"/>
+                                <table width="100%" name="header_info" style="border-bottom: 1px solid black;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center"> 
+                                                <strong>PT INDONESIA AIR TRANSPORT</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center"> 
+                                                INTERNAL OFFICE MEMORANDUM
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="body">
+                                <table name="partner_info">
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding-right: 15px;">No. </td>
+                                            <td  style="padding-right: 5px;">: </td>
+                                            <td><span t-field="o.name"/> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>PO Number </td>
+                                            <td>: </td>
+                                            <td><span t-field="o.po_id.name"/> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vendor </td>
+                                            <td>: </td>
+                                            <td><span t-field="o.vendor_id.name"/> </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-right: 15px;"> Created Date </td>
+                                            <td>: </td>
+                                            <td><span t-field="o.create_date" t-options='{"widget": "date"}'/> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kepada Yth. </td>
+                                            <td>: </td>
+                                            <td><span t-field="o.cfo_id.name"/> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Perihal </td>
+                                            <td>: </td>
+                                            <td><span t-field="o.perihal"/> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br/>
+                                <table name="product_detail" width="100%" style="padding: 10px; border: 1px solid black;" class="text-center">
+                                    <tbody>
+                                        <tr>
+                                            <td width="10%" style="padding: 10px; border: 1px solid black;">No. </td>
+                                            <td width="40%" style="padding: 10px; border: 1px solid black;">Keterangan </td>
+                                            <td style="padding: 10px; border: 1px solid black;">Giro/Cek</td>
+                                            <td style="padding: 10px; border: 1px solid black;">Nominal</td>
+                                        </tr>
+                                        <t t-set="number" t-value="1"/>
+                                        <t t-foreach="o.order_line_ids" t-as="line">
+                                            <tr>
+                                                <td style="padding: 10px; border: 1px solid black;"><span t-esc="number"/></td>
+                                                <td style="padding: 10px; border: 1px solid black;"><span t-field="line.airplane_reg"/></td>
+                                                <td style="padding: 10px; border: 1px solid black;"><span t-field="line.giro_cek"/></td>
+                                                <td style="padding: 10px; border: 1px solid black;"><span t-field="line.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                                            </tr>
+                                            <t t-set="number" t-value="number+1"/>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <br/>
+                                <table class="text-center" name="sign_table" width="100%" style="vertical-align: baseline;">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="3" height="150px" style="vertical-align: baseline;"> Mengetahui, </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="33%"><u><span t-field="o.spv_finance_id.name"/></u></td>
+                                            <td width="34%"><u><span t-field="o.finance_manager_id.name"/></u></td>
+                                            <td width="33%"><u><span t-field="o.cfo_id.name"/></u></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="33%">SPV Finance</td>
+                                            <td width="34%" height="20px" style="vertical-align: baseline;">Manager Finance <br/></td>
+                                            <td width="33%">CFO <br/></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" height="150px" style="vertical-align: baseline;"> Menyetujui, </td>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="o.president_director_id.name">
+                                                <td><u><span t-field="o.vp_director_id.name"/></u></td>
+                                                <td><u><span t-field="o.president_director_id.name"/></u></td>
+                                            </t>
+                                            <t t-else="">
+                                                <td/>
+                                                <td><u><span t-field="o.vp_director_id.name"/></u></td>
+                                            </t>
+                                        </tr>
+                                        <tr>
+                                            <t t-if="o.president_director_id.name">
+                                                <td>Wakil Presiden Direktur</td>
+                                                <td>Presiden Direktur</td>
+                                            </t>
+                                            <t t-else="">
+                                                <td/>
+                                                <td>Wakil Presiden Direktur</td>
+                                            </t>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="footer">
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_print_slp" model="ir.actions.report">
+        <field name="name">Submission Letter Payment</field>
+        <field name="model">submission.letter.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mnc_scm.report_slp</field>
+        <field name="report_file">mnc_scm.report_slp</field>
+        <field name="print_report_name">'SLP %s' % (object.name)</field>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="mnc_scm.paperformat_slp"/>
+    </record>
+</odoo>

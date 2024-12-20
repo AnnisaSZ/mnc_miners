@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_planning_opr,planning.opr,model_planning_opr,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_planning_type_option,planning.type.option,model_planning_type_option,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_planning_type_period,planning.type.period,model_planning_type_period,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_ts_adb,ts.adb,model_ts_adb,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_lost_time_line,lost.time.line,model_lost_time_line,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_seam_code_plan_line,seam.code.plan.line,model_seam_code_plan_line,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_planning_month_attachment,planning.month.attachment,model_planning_month_attachment,bcr_planning.group_bcr_process_actor_admin_site,1,1,1,1
+access_planning_operational_attachment,planning.operational.attachment,model_planning_operational_attachment,base.group_user,1,1,1,1

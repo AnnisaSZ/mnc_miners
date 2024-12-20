@@ -1,0 +1,192 @@
+<odoo>
+    <!-- Header -->
+    <template id='report_orf'>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-foreach="doc" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page" style="font-family:calibri; font-size: 12px !important;">
+                            <div t-attf-class="header">
+                            </div>
+                            <div class="body">
+                                <t t-set="company" t-value="o.company_id"/>
+                                <table width="100%" name="header_info" style="border-bottom: 1px solid black; page-break-inside: avoid;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-center" width="40%"> 
+                                                <img t-if="company" t-att-src="image_data_uri(company.logo)" style="max-height: 80px;margin-bottom: 10px;" class="float-left" alt="Logo"/>
+                                            </td>
+                                            <td class="text-left" width="60%"> 
+                                                <h4><strong>ORDER REQUEST FORM</strong></h4>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table name="main_table">
+                                    <tbody>
+                                        <tr style="font-weight: bold;">
+                                        <strong>
+                                            <td width="4%" style="border: 1px solid black;" class="text-center">NO </td>
+                                            <td width="13%" style="border: 1px solid black;" class="text-center">PART NUMBER</td>
+                                            <td width="20%" style="border: 1px solid black;" class="text-center">DESCRIPTION</td>
+                                            <td width="5%" style="border: 1px solid black;" class="text-center">REQ. QTY</td>
+                                            <td width="7%" style="border: 1px solid black;" class="text-center">A/C REG</td>
+                                            <td width="13%" style="border: 1px solid black;" class="text-center">REFERENCE</td>
+                                            <td width="28%" style="border: 1px solid black;" class="text-center">REASON FOR REQUEST</td>
+                                            <td width="5%" style="border: 1px solid black;" class="text-center">ORDER TYPE</td>
+                                            <td width="5%" style="border: 1px solid black;" class="text-center">ORDER QTY</td>
+                                            </strong>
+                                        </tr>
+                                        <t t-set="ac_reg" t-value="1"/>
+                                        <t t-set="number" t-value="1"/>
+                                        <t t-foreach="o.order_request_ids" t-as="line">
+                                            <tr>
+                                                <td style="border: 1px solid black;" class="text-center"><span t-esc="number"/></td>
+                                                <td style="border: 1px solid black;"><span t-field="line.part_number"/></td>
+                                                <td style="border: 1px solid black;"><span t-field="line.decription"/></td>
+                                                <td style="border: 1px solid black;" class="text-center"><span t-esc="'%.0f'%(line.qty_request)"/></td>
+                                                <td style="border: 1px solid black;" class="text-center"><span t-field="line.ac_reg"/></td>
+                                                <td style="border: 1px solid black;"><span t-field="line.reference"/></td>
+                                                <td style="border: 1px solid black;"><span t-field="line.reason_for_request"/></td>
+                                                <td style="border: 1px solid black;" class="text-center"><span t-field="line.order_type_id.name"/></td>
+                                                <td style="border: 1px solid black;" class="text-center"><span t-esc="'%.0f'%(line.qty_to_order)"/></td>
+                                            </tr>
+                                            <t t-set="number" t-value="number+1"/>
+                                            <t t-set="ac_reg" t-value="line.ac_reg"/>
+                                        </t>
+                                        <t t-if="number &lt; 5">
+                                            <t t-foreach="range(5-number)" t-as="item">
+                                                <tr>
+                                                    <td style="padding: 10px; border: 1px solid black;"/>
+                                                    <td style="padding: 10px; border: 1px solid black;"/>
+                                                    <td style="padding: 10px; border: 1px solid black;"/>
+                                                    <td style="padding: 10px; border: 1px solid black;"/>
+                                                    <td style="padding: 10px; border: 1px solid black;"/>
+                                                    <td style="padding: 10px; border: 1px solid black;"/>
+                                                    <td style="padding: 10px; border: 1px solid black;"/>
+                                                    <td style="padding: 10px; border: 1px solid black;"/>
+                                                    <td style="padding: 10px; border: 1px solid black;"/>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                        <tr>
+                                            <td colspan="3" style="padding: 5px; border: 1px solid black;">
+                                                REQUEST NO: <strong><span t-field="o.name"/> </strong> 
+                                            </td>
+                                            <td colspan="6" style="padding: 5px; border-right: 1px solid black;" class="text-right">
+                                                REQUIRED BEFORE DATE : <strong><span t-field="o.required_before_date_string"/> </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="padding: 5px; border: 1px solid black;">
+                                                REQUESTED BY :  <br/> <img t-if="o.requestor_id" t-att-src="image_data_uri(o.requestor_id.digital_signature)" style="max-height: 70px;margin-bottom: 10px;"/><br/> 
+                                                <span t-field="o.requestor_id.mncei_employee_id.nama_lengkap"/>
+                                            </td>
+                                            <td style="padding: 5px; border: 1px solid black;">
+                                                CHECKED BY : <br/> <img t-if="o.store_id" t-att-src="image_data_uri(o.store_id.digital_signature)" style="max-height: 70px;margin-bottom: 10px;"/><br/> <span t-field="o.store_id.mncei_employee_id.nama_lengkap"/>
+                                            </td>
+                                            <td colspan="6" style="padding: 5px; border-right: 1px solid black;">
+                                                PLANNING FOR :<span t-esc="ac_reg"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-right: 1px solid black;">
+                                            <td colspan="3" style="padding: 10px; border: 1px solid black;">
+                                                TO BE FILLED FOR ORDER TYPE: <span t-field="o.order_type_id.name"/>
+                                                <br/>
+                                                US COMPONENT SERIAL NUMBER : <span t-field="o.component_serial_number"/>
+                                            </td>
+                                            <td colspan="2" style="padding: 10px;" class="text-left"/>
+                                            <td class="text-left">
+                                                AOG (  
+                                                    <t t-if="o.priority == 'aog'">
+                                                        <strong> X </strong>
+                                                    </t>  
+                                                    )
+                                            </td>
+                                            <td class="text-left">
+                                                URGENT (  
+                                                    <t t-if="o.priority == 'urgent'">
+                                                        <strong> X </strong>
+                                                    </t>  
+                                                    )
+                                            </td>
+                                            <td colspan="2" class="text-left" style="border-right: 1px solid black; border-bottom: 1px solid black;">
+                                                NORMAL (  
+                                                    <t t-if="o.priority == 'normal'">
+                                                        <strong> X </strong>
+                                                    </t>  
+                                                    )
+                                            </td>
+                                        </tr>
+                                        <tr style="border-left: 1px solid black; border-right: 1px solid black;">
+                                            <td colspan="8" style="padding: 10px;" class="text-right">
+                                                <t t-if="o.location.lower() == 'halim' or o.location.lower() == 'jakarta'">
+                                                    Jakarta,
+                                                </t> 
+                                                <t t-else="">
+                                                    Banyuwangi,
+                                                </t>
+                                                <span t-field="o.request_date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd MMM yyyy&quot;}"/>
+                                            </td>
+                                            <td style="border-right: 1px solid black;"/>
+                                        </tr>
+                                        <tr style="border-left: 1px solid black; border-right: 1px solid black;">
+                                            <td colspan="2" style="padding: 10px; border-left: 1px solid black;" class="text-right">
+                                                ORDER TYPE 
+                                            </td>
+                                            <td style="padding: 10px;" class="text-left">
+                                                E   : Exchange <br/>
+                                                I   : Increase Inventory <br/>
+                                                RPL : Replace Inventory <br/>
+                                                R   : Request <br/>
+                                            </td>
+                                            <td colspan="3" style="padding: 10px;" class="text-left">
+                                                <br/>
+                                                Acknowledged by: <br/>
+                                                <img t-if="o.chief_mtc_id" t-att-src="image_data_uri(o.chief_mtc_id.digital_signature)" style="max-height: 70px;margin-bottom: 10px;"/>
+                                                <br/>
+                                                <span t-field="o.chief_mtc_id.mncei_employee_id.nama_lengkap"/> <br/>
+                                                Chief Maintenance
+                                            </td>
+                                            <td colspan="4" style="padding: 10px;" class="text-left">
+                                                <br/>
+                                                Approved by: <br/> 
+                                                <img t-if="o.director_mtc_id" t-att-src="image_data_uri(o.director_mtc_id.digital_signature)" style="max-height: 70px;margin-bottom: 10px;"/>
+                                                <br/>
+                                                <span t-field="o.director_mtc_id.mncei_employee_id.nama_lengkap"/> <br/>
+                                                Maintenance Director
+                                            </td>
+                                        </tr>
+                                        <tr style="border-left: 1px solid black; border-right: 1px solid black;">
+                                          <td style="border-left: 1px solid black; border-right: 1px solid black;" colspan="9">Note : * A.R = As Required</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="9" style="padding: 10px;border-top:1px solid black;" class="text-left">
+                                                Form : IAT/MTC-4021
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="footer" style="position:absolute; margin:0px; padding:0px">
+                                <span class="page"/> of <span class="topage"/>
+                            </div> 
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_print_orf" model="ir.actions.report">
+        <field name="name">ORF</field>
+        <field name="model">order.request</field>
+        <field name="binding_model_id" ref="model_order_request"/>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mnc_scm.report_orf</field>
+        <field name="report_file">mnc_scm.report_orf</field>
+        <field name="print_report_name">"Report - %s" % object.name</field>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="mnc_scm.paperformat_scm_landscape"/>
+    </record>
+</odoo>

@@ -1,0 +1,221 @@
+<odoo>
+    <!-- Form View -->
+    <record id="view_training_form" model="ir.ui.view" >
+        <field name="name">Training Requisition form</field>
+        <field name="model">mncei.training.requesition</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approval" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <!-- Hr -->
+                    <button name="action_sign_approve" string="Sign and Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', ('state', 'in', ('draft', 'approve', 'reject')), ('is_approved', '=', False), ('is_hrga', '=', False)]}" confirm="Apakah anda sudah menginput ikatan dinas?"/>
+                    <!-- Non Hr -->
+                    <button name="action_sign_approve" string="Sign and Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', ('state', 'in', ('draft', 'approve', 'reject')), ('is_approved', '=', False), ('is_hrga', '=', True)]}"/>
+                    <!-- -->
+                    <button name="open_reject" string="Reject" type="object" attrs="{'invisible': ['|', ('state', 'in', ('draft', 'approve', 'reject')), ('is_approved', '=', False)]}"/>
+                    <button name="set_draft" string="Revise" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'reject')]}"/>
+                    <field name="state" readonly="True" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="draft,waiting,approve"/>
+                </header>
+                <sheet>
+                     <!-- Parameter -->
+                    <field name="is_creator" invisible="1"/>
+                    <field name="is_hrga" invisible="1"/>
+                    <field name="is_approved" invisible="1"/>
+                    <field name="approve_uid" invisible="1"/>
+                    <field name="approval_id" invisible="1" readonly="0"/>
+                    <!--  -->
+                    <h1>
+                        <!-- Training Details -->
+                        <field name="name" placeholder="Training No." readonly="1" force_save="1"/>
+                    </h1>                        
+                    <group>
+                        <group>
+                            <field name="company_id" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}" options="{'no_create': True, 'no_open':True}"/>
+                            <field name="title_tr" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}"/>
+                            <label for="start_date" string="Duration Date"/>
+                                <div class="o_row">
+                                    <field name="start_date" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}"/> -
+                                    <field name="end_date" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}"/>
+                                </div>
+                            <field name="address_tr" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}" />
+                        </group>
+                        <group>
+                            <field name="organizer_tr" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}"/>
+                            <field name="speaker_tr" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}"/>
+                            <field name="cost_tr" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}"/>
+                            <field name="objective_tr" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}"/>
+                            <label for="is_ikatan_dinas" string="Ikatan Dinas"/>
+                            <div>
+                                <field name="is_ikatan_dinas" class="oe_inline" attrs="{'readonly': ['|', ('is_hrga', '=', False), ('state','in', ('approve'))]}"/>
+                                <field name="duration_ikatan_dinas" attrs="{'invisible': [('is_ikatan_dinas', '=', False)], 'readonly': ['|', ('is_hrga', '=', False), ('state','in', ('approve'))]}" class="oe_inline"/>
+                                <span attrs="{'invisible': [('is_ikatan_dinas', '=', False)]}">  Year</span>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Reason Rejected" name="reason_reject" attrs="{'invisible': [('state', '!=', 'reject')]}">
+                            <field name="reason_reject" readonly="1"/>
+                            <label for="uid_reject" string="Rejected By:"/>
+                            <div>
+                                <field name="uid_reject" class="oe_inline"/>
+                            </div>
+                        </page>
+                        <page string="Participant">
+                            <field name="participant_ids" domain="[('state', '=', 'verified')]" options="{'no_create': True, 'no_open':True}" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}">
+                                <tree>
+                                    <field name="nip_char" options="{'no_create': True, 'no_open':True}"/>
+                                    <field name="nama_lengkap" options="{'no_create': True, 'no_open':True}"/>
+                                    <field name="department" options="{'no_create': True, 'no_open':True}"/>
+                                    <field name="jabatan" options="{'no_create': True, 'no_open':True}"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="nip_char" readonly="1"/>
+                                            <field name="nama_lengkap" readonly="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="department" readonly="1" options="{'no_create': True, 'no_open':True}"/>
+                                            <field name="jabatan" readonly="1" options="{'no_create': True, 'no_open':True}"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Attachments" name="attach_ids">
+                            <field name="attach_ids">
+                                <tree editable="bottom">
+                                    <field name="attach_name" invisible="1"/>
+                                    <field name="attach_file" filename="attach_name" widget="binary"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Approval" name="approval" attrs="{'invisible': [('is_creator', '=', False)]}">
+                            <group>
+                                <group string="Head Management">
+                                    <field name="requestor_id" attrs="{'readonly': [('state','in',('waiting', 'reject', 'approve'))]}" options="{'no_create': True, 'no_open':True}"/>  
+                                    <field name="head_request_id" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}" options="{'no_create': True, 'no_open':True}"/>
+                                    <field name="spv_hr_id" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}" options="{'no_create': True, 'no_open':True}"/> 
+                                    <field name="head_hrga_id" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}" options="{'no_create': True, 'no_open':True}"/> 
+                                    <field name="accounting_dept_id" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}" options="{'no_create': True, 'no_open':True}"/> 
+                                </group>
+                                <group string="Director">
+                                    <field name="direksi1_id" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}" options="{'no_create': True, 'no_open':True}"/>
+                                    <field name="direksi2_id" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}" options="{'no_create': True, 'no_open':True}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Approval Status" name="app_list">
+                            <field name="approval_ids" readonly="1" options="{'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="user_id"/>
+                                    <field name="email"/>
+                                    <field name="is_email_sent"/>
+                                    <field name="action_type"/>
+                                    <field name="is_current_user" invisible="1" string="Approved"/>
+                                    <field name="approve_date"/>
+                                    <field name="notes"/>
+                                    <field name="reject_notes" invisible="1"/>
+                                    <field name="digital_signature" invisible="1"/>
+                                    <field name="upload_signature" invisible="1"/>
+                                    <field name="is_head_dept" invisible="1"/>
+                                    <field name="is_bod" invisible="1"/>
+                                    <field name="upload_signature" invisible="1"/>
+                                    <field name="digital_signature" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="training_request_view_tree">
+        <field name="name">training.tree</field>
+        <field name="model">mncei.training.requesition</field>
+        <field name="arch" type="xml">
+            <tree delete="0">
+                <field name="name"/>
+                <field name="title_tr"/>
+                <field name="start_date" widget="remaining_days"/>
+                <field name="end_date" widget="remaining_days"/>
+                <field name="organizer_tr"/>
+                <field name="company_id"/>
+                <field name="requestor_id"/>
+                <field name="cost_tr"/>
+                <field name="state" widget="badge" decoration-success="state == 'approve'" decoration-warning="state in ('waiting', 'procurement')" decoration-danger="state == 'reject'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Actions Window Training Request-->
+    <record model="ir.actions.act_window" id="action_training">
+        <field name="name">Training</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.training.requesition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('requestor_id', '=', uid)]</field>
+    </record>
+
+    <!-- Actions Window Approved List-->
+    <record  model="ir.actions.act_window" id="action_training_approved_list">
+        <field name="name">List Approved</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.training.requesition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'edit': 0, 'create': 0, 'delete': 0}</field>
+        <field name="domain">[('user_approval_ids', 'in', [uid])]</field>
+        <field name="help" type="html">
+            <p>
+                Not Listed
+            </p>
+        </field>
+    </record>
+    
+    <!-- Action To Requestor -->
+    <record id="action_training_req_wait_approval" model="ir.actions.act_window">
+        <field name="name">Waiting Approval</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.training.requesition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'create': 0, 'delete': 0}</field>
+        <field name="domain">[('state', '=', 'waiting'), ('approve_uid', '=', uid)]</field>
+        <field name="help" type="html">
+            <p>
+                Not Listed
+            </p>
+        </field>
+    </record>
+
+    <!-- GA -->
+    <record id="action_training_all" model="ir.actions.act_window">
+        <field name="name">All List</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.training.requesition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'create': 0, 'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Not Listed
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item -->
+    <data>
+        <menuitem id="training_menu_root" name="Training Request"/>
+        <menuitem id="training_request" name="My Request" action="action_training" parent="training_menu_root"/>
+        <menuitem id="training_menu_approval" name="To Approval" sequence="20" parent="training_menu_root" groups="mnc_training_request.group_training_approval"/>
+        <menuitem id="training_menu_approved" name="Approved List" sequence="40" action="action_training_approved_list" parent="training_menu_root" groups="mnc_training_request.group_training_approval"/>
+        <menuitem id="training_menu_all" name="All Request" sequence="40" action="action_training_all" parent="training_menu_root" groups="mnc_training_request.group_training_ga"/>
+
+        <menuitem id="tr_menu_wait_approve" name="Management" sequence="10" action="action_training_req_wait_approval" parent="training_menu_approval"/>
+    </data>
+</odoo>

@@ -1,0 +1,237 @@
+<odoo>
+    <!-- Header -->
+    <!--  -->
+    <template id='report_trainig'>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div t-attf-class="header">
+                            <div class="row" style="border-bottom:1px solid black;">
+                                <t t-set="company" t-value="o.company_id"/>
+                                <div class="col-2 mb4">
+                                    <img t-if="company" t-att-src="image_data_uri(company.logo)" style="max-height: 80px;" class="float-left" alt="Logo"/>
+                                </div>
+                                <div class="col-8 text-center" style="font-size:25px; font-weight: bold;">
+                                    <span t-field="o.company_id.name"/>
+                                </div>
+                                <div class="col-2 text-center" style="font-size:28px; font-weight: bold;">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                </div>
+                                <div class="col-6">
+                                    <div class="row" id="blood_tbl">
+                                        <div class="col-6">
+                                            <span>Tgl. Berlaku</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-60px; margin-right:10px;">
+                                            <span t-field="o.start_date"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div t-attf-class="body" style="margin-left:40px;">
+                            <div class="row" style="font-size:15px;">
+                                Peserta
+                            </div>
+                            <div class="row" style="margin-top:5px;font-size:15px;">
+                                <div class="col-12 text-center" style="font-size:17px;">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr style="font-size:15px;">
+                                                <th name="th_number" class="text-left"><strong>No.</strong></th>
+                                                <th name="th_name"><strong>Nama</strong></th>
+                                                <th name="th_nik"><strong>NIK</strong></th>
+                                                <th name="th_dept"><strong>Department</strong></th>
+                                                <th name="th_jabatan"><strong>Jabatan</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-value="0" t-set="number"/>
+                                            <t t-foreach="o.participant_ids" t-as="employee">
+                                                <tr style="font-size:15px;">
+                                                    <td id="td_number">
+                                                        <t t-set="number" t-value="number+1"/>
+                                                        <span t-esc="number"/>
+                                                    </td>
+                                                    <td id="td_name">
+                                                        <span t-field="employee.nama_lengkap"/>
+                                                    </td>
+                                                    <td id="td_nik">
+                                                        <span t-field="employee.nip_char"/>
+                                                    </td>
+                                                    <td id="td_dept">
+                                                        <span t-field="employee.department"/>
+                                                    </td>
+                                                    <td id="td_dept">
+                                                        <span t-field="employee.jabatan"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" style="background-color:#808080;font-size:20px; border-bottom:1px solid black;border-top:1px solid black;margin-top:10px;">
+                                <div class="col-12 text-center" style="text-center;">
+                                    Information
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:15px;">
+                                <div class="col-6">
+                                    <div class="row" id="name_tbl" style="margin-right:-100px;">
+                                        <div class="col-6">
+                                            <span>Topik</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-43px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-76px;">
+                                            <span style="margin-right:-500px;" t-field="o.title_tr"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="durasi_tbl" style="margin-right:-100px;">
+                                        <div class="col-6">
+                                            <span>Durasi</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-43px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-76px;">
+                                            <span style="margin-right:-500px;" t-field="o.start_date"/> - 
+                                            <span style="margin-right:-500px;" t-field="o.end_date"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="durasi_tbl" style="margin-right:-100px;">
+                                        <div class="col-6">
+                                            <span>Alamat</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-43px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-76px;">
+                                            <span style="margin-right:-500px;" t-field="o.address_tr"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="penyelenggara_tbl" style="margin-right:-100px;">
+                                        <div class="col-6">
+                                            <span>Penyelenggara</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-43px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-76px;">
+                                            <span style="margin-right:-500px;" t-field="o.organizer_tr"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="pembicara_tbl" style="margin-right:-100px;">
+                                        <div class="col-6">
+                                            <span>Pembicara</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-43px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-76px;">
+                                            <span style="margin-right:-500px;" t-field="o.speaker_tr"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="biaya_tbl" style="margin-right:-100px;">
+                                        <div class="col-6">
+                                            <span>Biaya</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-43px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-76px;">
+                                            <span style="margin-right:-500px;" t-field="o.cost_tr"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="tujuan_tbl" style="margin-right:-100px;">
+                                        <div class="col-6">
+                                            <span>Alasan/Tujuan</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-43px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-76px;">
+                                            <span style="margin-right:-500px;" t-field="o.objective_tr"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:15px;margin-top:20px;border-top: 1px solid black;">
+                                <div class="col-12 text-left" style="text-center;">
+                                    Catatan :
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:15px;border-bottom: 1px solid black;">
+                                <div class="col-12 text-left" style="text-center;font-weight: bold;">
+                                    Dengan masa ikatan Dinas selama <span t-field="o.duration_ikatan_dinas"/> tahun (diatur tersendiri dalam perjanjian training).
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:17px;margin-top:20px">
+                                <div class="col-12 text-center" style="text-center;">
+                                    Approval
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:15px;margin-top:10px" t-if="o.approval_ids">
+                                <div class="col-12 text-left" style="font-size:15px;">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th name="th_user"><strong>User</strong></th>
+                                                <th name="th_ttd"><strong>TTD</strong></th>
+                                                <th name="th_date"><strong>Date</strong></th>
+                                                <th name="th_notes"><strong>Notes</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="o.approval_ids" t-as="line">
+                                                <tr>
+                                                    <td id="td_user" class="text-left">
+                                                        <span t-esc="line.user_id.name"/>
+                                                    </td>
+                                                    <td id="td_ttd" class="text-left">
+                                                        <img t-if="line.digital_signature" class="text-left" t-att-src="image_data_uri(line.digital_signature)" style="max-height: 40px"/>
+                                                        <img t-if="line.upload_signature" class="text-left" t-att-src="image_data_uri(line.upload_signature)" style="max-height: 40px"/>
+                                                    </td>
+                                                    <td id="td_date" class="text-left">
+                                                        <span t-esc="line.approve_date"/>
+                                                    </td>
+                                                    <td id="td_notes" class="text-left">
+                                                        <span t-esc="line.notes"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer" style="font-size:15px;float: right;">
+                            <span t-field="o.write_uid"/>
+                            <br/>
+                            <span t-field="o.__last_update"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_print_training" model="ir.actions.report">
+        <field name="name">Form Training Request</field>
+        <field name="model">mncei.training.requesition</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mnc_training_request.report_trainig</field>
+        <field name="report_file">mnc_training_request.report_trainig</field>
+        <field name="print_report_name">'Training - %s' % (object.title_tr)</field>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

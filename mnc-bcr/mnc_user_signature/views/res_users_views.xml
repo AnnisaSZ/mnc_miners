@@ -1,0 +1,25 @@
+<odoo>
+
+    <record id="view_users_form_simple_modif_inherit" model="ir.ui.view">
+         <field name="name">res.users.preferences.form.inherit</field>
+         <field name="model">res.users</field>
+         <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+         <field name="arch" type="xml">
+             <xpath expr="//notebook" position="inside">
+                <page string="Signature">
+                    <group>
+                        <field name="choice_signature"/>
+                        <field name="upload_signature_fname" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="upload_signature" filename="upload_signature_fname" widget="image"
+                            attrs="{'invisible': [('choice_signature', '=', 'draw')],'required': [('choice_signature', '=', 'upload')]}"/>
+                        <field name="digital_signature" widget="signature" 
+                            attrs="{'invisible': [('choice_signature', '=', 'upload')],'required': [('choice_signature', '=', 'draw')]}"/>
+                    </group>
+                </page>
+             </xpath>
+         </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="price_comp_view_form" model="ir.ui.view">
+        <field name="name">Price Comp Form</field>
+        <field name="model">price.comparation</field>
+        <field name="arch" type="xml">
+            <form duplicate="0">
+                <header>
+                    <field name="is_scm" invisible="1"/>
+                    <button name="create_agreement" string="Comparison" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="submit_po" string="Create PO" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('is_scm','=', False), ('state', '!=', 'approved')]}"/>
+                    <button name="action_to_approve" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('is_scm','=', False), ('state', 'not in', ('comparation'))]}"/>
+                    <button name="action_sign_approve" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('state', 'not in', ('to approve')), ('is_approve_uid', '=', False)]}"/>
+                    <button name="action_reject" string="Reject" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('to approve')), ('is_approve_uid', '=', False)]}"/>
+
+                    <field name="state"  readonly="True" widget="statusbar" statusbar_visible="draft,comparation,to approve,approved,purchase"/>
+                </header>
+                <sheet> 
+                    <!-- <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_po" class="oe_stat_button" icon="fa-list-ul" attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <field name="po_count" widget="statinfo" string="PO"/>
+                            <field name="po_ids" invisible="1"/>
+                        </button>
+                    </div> -->
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" required="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="orf_ids" widget="many2many_tags" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="scm_id"/>
+                            <field name="internal_memo" attrs="{'required': [('state', '!=', 'draft')]}"/>
+                            <field name="summary" attrs="{'required': [('state', '!=', 'draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="issued" string="Date Issued" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="priority" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="ac_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Reason Rejected" name="reason_reject" attrs="{'invisible': [('state', '!=', 'cancel')]}">
+                            <field name="reason_reject" readonly="1"/>
+                            <label for="uid_reject" string="Rejected By:"/>
+                            <div>
+                                <field name="uid_reject" class="oe_inline"/>
+                            </div>
+                        </page>
+                        <page string="Part Request Detail" name="order_line">
+                            <field name="pc_line_ids" options="{'no_open': True}" context="{'default_supplier_rank': 1}" attrs="{'readonly': [('state', '!=', 'draft')]}" widget="section_and_note_one2many">
+                                <tree editable="bottom">
+                                    <!-- <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                        <create name="add_section_control" string="Add a section"
+                                                context="{'default_display_type': 'line_section'}"/>
+                                    </control> -->
+                                    <field name="display_type" invisible="1"/>
+                                    <!-- <field name="name" widget="section_and_note_text" optional="show"/> -->
+                                    <field name="product_tmpl_id" invisible="1" options="{'no_open': True, 'no_create_edit': 1}" context="{'default_is_product_scm': True}"/>
+                                    <field name="part_number" required="1"/>
+                                    <field name="orf_line_id" invisible="1"/>
+                                    <field name="pc_id" invisible="1"/>
+                                    <field name="description"/>
+                                    <field name="qty"/>
+                                    <field name="ac_reg"/>
+                                    <field name="vendor_ids" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True}" attrs="{'required': [('parent.state', '=', 'draft')]}" context="{'default_supplier_rank': 2, 'is_scm': True}"/>
+                                    <field name="part_filename" invisible="1"/>
+                                    <field name="part_dokumen" filename="part_filename" widget="binary"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Product Detail" name="pr_line" attrs="{'invisible':[('state', '=', 'draft')]}">
+                            <field name="pr_line_ids" options="{'no_open': True}" context="{'default_supplier_rank': 1}" attrs="{'readonly': [('state', '!=', 'comparation')]}" widget="section_and_note_one2many">
+                                <tree editable="bottom">
+                                    <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                    </control>
+                                    <field name="display_type" invisible="1"/>
+                                    <field name="orf_line_id" invisible="1"/>
+                                    <field name="partner_id" invisible="0"/>
+                                    <field name="product_id" invisible="1" readonly="1" options="{'no_open': 1, 'no_create': 1, 'no_create_edit': 1}" context="{'default_purchase_requisition': 'tenders'}"/>
+		                            <field name="product_description_variants" string="Part Number" attrs="{'invisible': [('product_description_variants', '=', '')], 'readonly': [('parent.state', '!=', 'draft')]}"/>
+                                    <field name="name" string="Description" widget="section_and_note_text" optional="show"/>
+		                            <field name="product_qty"/>
+		                            <field name="qty_ordered" invisible="1"/>
+		                            <field name="product_uom_category_id" invisible="1"/>
+		                            <field name="product_uom_id" string="UoM" groups="uom.group_uom" optional="show" attrs="{'required': [('product_id', '!=', False)]}"/>
+		                            <field name="schedule_date" groups="base.group_no_one"/>
+		                            <field name="currency_id" options="{'no_open': True, 'no_create_edit': 1}" required="1"/>
+		                            <field name="price_unit" required="1"/>
+                                    <field name="additional_price"/>
+		                            <field name="cd_part" required="1"/>
+		                            <field name="del_part" required="1"/>
+		                            <field name="fob_id"/>
+		                            <field name="payment_terms_id" options="{'no_open': True, 'no_create_edit': 1}"/>
+		                            <field name="is_buy"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="User Approval" name="user_approval_purchase">
+                            <group>
+                                <group name="user_approvals_group" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <field name="scm_manager_id" widget="many2one_avatar_user"/>
+                                    <field name="cfo_id" widget="many2one_avatar_user"/>
+                                    <field name="vp_director_id" widget="many2one_avatar_user"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="approve_uid" invisible="1"/>
+                                    <field name="is_approve_uid" invisible="1"/>
+                                </group>
+                                <group/>
+                            </group>
+                        </page>
+                        <page string="Approval List" name="appr_line">
+                            <field name="approval_ids" readonly="1" options="{'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="name" invisible="1"/>
+                                    <field name="user_id"/>
+                                    <field name="email"/>
+                                    <field name="is_email_sent"/>
+                                    <field name="action_type" invisible="1"/>
+                                    <field name="is_current_user"/>
+                                    <field name="approve_date"/>
+                                    <field name="reject_notes" invisible="1"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="price_comp_view_tree" model="ir.ui.view">
+        <field name="name">Price Comp. List</field>
+        <field name="model">price.comparation</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'purchase'" decoration-warning="state in ('comparation','to approve','approved')" decoration-danger="state in ('cancel')">
+                <field name="name"/>
+                <field name="orf_ids" widget="many2many_tags"/>
+                <field name="priority"/>
+                <field name="issued"/>
+                <field name="state"  readonly="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="price_comp_view" model="ir.actions.act_window">
+        <field name="name">Price Comparison</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">price.comparation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'create': 1, 'delete': 1, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Price Comparison
+            </p>
+        </field>
+    </record>
+</odoo>

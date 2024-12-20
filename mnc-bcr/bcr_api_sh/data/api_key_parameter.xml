@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <record model="ir.config_parameter" id="api_key_mobile">
+            <field name="key">APIKEY</field>
+            <field name="value">e308a8bc-a99e-4cc0-ad7a-cc1c96e7d147</field>
+        </record>
+    </data>
+</odoo>

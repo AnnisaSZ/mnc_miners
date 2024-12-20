@@ -1,0 +1,51 @@
+<odoo>
+<!--    <data noupdate='1'>-->
+
+        <record id="module_bcr_master" model="ir.module.category">
+            <field name="name">BCR Master</field>
+            <!-- <field name="sequence">30</field> -->
+        </record>
+
+        <record id="group_bcr_master_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="bcr_master.module_bcr_master"/>
+            <field name="users" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="group_bcr_master_admin" model="res.groups">
+            <field name="name">Admin MNC Site</field>
+            <field name="category_id" ref="bcr_master.module_bcr_master"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_bcr_master_super_admin" model="res.groups">
+            <field name="name">Super Admin HO</field>
+            <field name="category_id" ref="bcr_master.module_bcr_master"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_bcr_master_super_admin_bu" model="res.groups">
+            <field name="name">Super Admin BU</field>
+            <field name="category_id" ref="bcr_master.module_bcr_master"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="group_bcr_master_admin_site" model="res.groups">
+            <field name="name">Admin Site [ Inputer, Reviewer ]</field>
+            <field name="category_id" ref="bcr_master.module_bcr_master"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+<!--    syarif 18/102022-->
+         <record id="group_admin_report_bu_bspc" model="res.groups">
+            <field name="name">Admin Report BU BSPC</field>
+            <field name="category_id" ref="bcr_master.module_bcr_master"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+        <record id="group_admin_report_bu_pmc" model="res.groups">
+            <field name="name">Admin Report BU PMC</field>
+            <field name="category_id" ref="bcr_master.module_bcr_master"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+<!--    </data>-->
+</odoo>

@@ -1,0 +1,285 @@
+<odoo>
+    <data>
+
+        <!-- List - Create   &   List - Edit -->
+        <record id="listview_fuel_kendaraan_mobil" model="ir.ui.view">
+            <field name="name">Fuel Kendaraan Mobil - Input</field>
+            <field name="model">fuel.kendaraan.mobil</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="true" edit="true" delete="false" editable="bottom" decoration-muted="state == 'reject'" decoration-success="state == 'complete'">
+                    <field name="kode"/>
+                    <field name="date_act" 			required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="bisnis_unit_id"    readonly="1" options="{'no_create': True}" />
+                    <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bisnis_unit_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+                    <field name="unit_id"           required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" />
+                    <field name="tipe_unit_id"      required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" />
+					<field name="driver_id"         required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" />
+
+					<field name="no_pengambilan" 	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+					<field name="no_polisi"    		required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+					<field name="km_awal"    		required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+					<field name="km_akhir"    		required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+
+					<field name="bbm"         		required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="fuel_man_id"      	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" />
+                    <field name="pic_fuel_man_id"   required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" />
+
+                    <field name="jarak_tempuh" 		readonly="1" />
+                    <field name="konsumsi_bbm" 		readonly="1" />
+
+                    <button name="action_start"  type="object" string="Start"    class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <field name="state"             force_save="1"/>
+                    <field name="create_uid"        optional="show"/>
+                    <field name="create_date"       optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Form - Create   &   Form - Edit -->
+        <record id="formview_fuel_kendaraan_mobil" model="ir.ui.view">
+            <field name="name">fuel.kendaraan.mobil.form</field>
+            <field name="model">fuel.kendaraan.mobil</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form create="true" edit="true" delete="false" >
+                    <header>
+                        <button name="action_start" type="object" string="Start" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,review,approve,complete"/>
+                    </header>
+                    <sheet>
+                        <div class='oe_title'>
+                            <h1><field name="kode"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date_act" 			required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="bisnis_unit_id"    readonly="1" options="{'no_create': True}" />
+                                <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"  options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bisnis_unit_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+			                    <field name="unit_id"           required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" />
+			                    <field name="tipe_unit_id"      required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" />
+								<field name="driver_id"         required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" />
+                            </group>
+
+                            <group>
+								<field name="no_pengambilan" 	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+								<field name="no_polisi"    		required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+								<field name="km_awal"    		required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+								<field name="km_akhir"    		required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+								<field name="bbm"         		required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+			                    <field name="fuel_man_id"      	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" />
+			                    <field name="pic_fuel_man_id"   required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" />
+			                    <field name="jarak_tempuh" 		readonly="1" />
+			                    <field name="konsumsi_bbm" 		readonly="1" />
+
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Validation">
+                                <field name="validation_plan" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom" edit="false" create="false" delete="false">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="user_id"/>
+                                        <field name="validation_type_id" invisible="0"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action - Menu - Create   &   Action - Menu - Edit -->
+        <record id="action_fuel_kendaraan_mobil_create_edit" model="ir.actions.act_window">
+            <field name="name">Fuel Kendaraan Mobil</field>
+            <field name="res_model">fuel.kendaraan.mobil</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bcr_planning.listview_fuel_kendaraan_mobil')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('bcr_planning.formview_fuel_kendaraan_mobil')})]"/>
+        </record>
+
+        <menuitem   id='menu_fuel_kendaraan_mobil_create_edit'
+                    name='Fuel Kendaraan Mobil'
+                    parent='menu_group_input_fuel_management'
+                    sequence='10'
+                    action="action_fuel_kendaraan_mobil_create_edit"/>
+<!--                    groups="group_bcr_planning_input,group_bcr_planning_admin,group_bcr_process_actor_kon_produksi,group_bcr_process_actor_admin_site"/>-->
+
+
+        <!-- List - Review -->
+        <record id="listview_fuel_kendaraan_mobil_review" model="ir.ui.view">
+            <field name="name">listview_fuel_kendaraan_mobil_review</field>
+            <field name="model">fuel.kendaraan.mobil</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="true" delete="false" editable="bottom" decoration-muted="state == 'reject'" decoration-success="state == 'complete'">
+                    <field name="kode"/>
+
+                    <field name="date_act" 			required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+                    <field name="bisnis_unit_id"    readonly="1" options="{'no_create': True}" />
+                    <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bisnis_unit_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+                    <field name="unit_id"           required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" />
+                    <field name="tipe_unit_id"      required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" />
+					<field name="driver_id"         required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" />
+
+					<field name="no_pengambilan" 	required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+					<field name="no_polisi"    		required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+					<field name="km_awal"    		required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+					<field name="km_akhir"    		required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+
+					<field name="bbm"         		required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+                    <field name="fuel_man_id"      	required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" />
+                    <field name="pic_fuel_man_id"   required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" />
+
+                    <field name="jarak_tempuh" 		readonly="1" />
+                    <field name="konsumsi_bbm" 		readonly="1" />
+
+                    <field name="state"             force_save="1"/>
+                    <field name="create_uid"        optional="show"/>
+                    <field name="create_date"       optional="show"/>
+                    <field name="is_reviewer"       invisible="1"/>
+                    <field name="is_approver"       invisible="1"/>
+                    <button name="action_review" type="object" string="Reviewed" class="oe_highlight" attrs="{'invisible': ['|', ('is_reviewer', '=', False), ('state', '!=', 'review')]}"/>
+                    <field name="revise_note"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- List - Approve -->
+        <record id="listview_fuel_kendaraan_mobil_approve" model="ir.ui.view">
+            <field name="name">listview_fuel_kendaraan_mobil_approve</field>
+            <field name="model">fuel.kendaraan.mobil</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="true" delete="false" decoration-muted="state == 'reject'" decoration-success="state == 'complete'">
+                    <field name="kode"              readonly="1"/>
+
+                    <field name="date_act"          readonly="1"/>
+                    <field name="bisnis_unit_id"    readonly="1"/>
+                    <field name="kontraktor_id"     readonly="1"/>
+                    <field name="unit_id"           readonly="1"/>
+                    <field name="tipe_unit_id"      readonly="1"/>
+                    <field name="driver_id"         readonly="1"/>
+                    <field name="no_pengambilan"    readonly="1"/>
+                    <field name="no_polisi"         readonly="1"/>
+                    <field name="km_awal"           readonly="1"/>
+                    <field name="km_akhir"          readonly="1"/>
+                    <field name="bbm"               readonly="1"/>
+                    <field name="fuel_man_id"       readonly="1"/>
+                    <field name="pic_fuel_man_id"   readonly="1"/>
+                    <field name="jarak_tempuh"      readonly="1"/>
+                    <field name="konsumsi_bbm"      readonly="1"/>
+
+                    <field name="state"             force_save="1"/>
+                    <field name="create_uid"        readonly="1"/>
+                    <field name="create_date"       readonly="1"/>
+                    <field name="is_reviewer"       invisible="1"/>
+                    <field name="is_approver"       invisible="1"/>
+
+                    <field name="revise_note"       attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approve')]}"/>
+
+                    <button name="action_approve"   type="object" string="Approved" class="oe_highlight" attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approve')]}"/>
+                    <button name="action_revise"    type="object" string="Revise"   class="oe_highlight" attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approve')]}"/>
+                </tree>
+            </field>
+        </record>
+
+		<!-- Form - Review   &   Form - Approve -->
+        <record id="formview_fuel_kendaraan_mobil_validation" model="ir.ui.view">
+            <field name="name">formview_fuel_kendaraan_mobil_validation</field>
+            <field name="model">fuel.kendaraan.mobil</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="true" delete="false" >
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,review,approve,complete"/>
+                    </header>
+                    <sheet>
+                        <div class='oe_title'>
+                            <h1>
+                                <field name="kode"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="date_act" 			required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+                                <field name="bisnis_unit_id"    readonly="1" options="{'no_create': True}" />
+                                <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'complete')]}"  options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bisnis_unit_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+			                    <field name="unit_id"           required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" options="{'no_create': True}" />
+			                    <field name="tipe_unit_id"      required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" options="{'no_create': True}" />
+								<field name="driver_id"         required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" options="{'no_create': True}" />
+                            </group>
+
+                            <group>
+								<field name="no_pengambilan" 	required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+								<field name="no_polisi"    		required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+								<field name="km_awal"    		required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+								<field name="km_akhir"    		required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+								<field name="bbm"         		required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+			                    <field name="fuel_man_id"      	required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" options="{'no_create': True}" />
+			                    <field name="pic_fuel_man_id"   required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" options="{'no_create': True}" />
+			                    <field name="jarak_tempuh" 		readonly="1" />
+			                    <field name="konsumsi_bbm" 		readonly="1" />
+
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Validation">
+                                <field name="validation_plan" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="user_id"/>
+                                        <field name="validation_type_id" invisible="0"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action - Menu - Review -->
+        <record id="action_fuel_kendaraan_mobil_review" model="ir.actions.act_window">
+            <field name="name">Fuel Kendaraan Mobil - Review</field>
+            <field name="res_model">fuel.kendaraan.mobil</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'review')]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bcr_planning.listview_fuel_kendaraan_mobil_review')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('bcr_planning.formview_fuel_kendaraan_mobil_validation')})]"/>
+        </record>
+
+        <menuitem   id='menu_fuel_kendaraan_mobil_review'
+                    name='Fuel Kendaraan Mobil'
+                    parent='menu_group_review_fuel_management'
+                    sequence='10'
+                    action="action_fuel_kendaraan_mobil_review"/>
+<!--                    groups="group_bcr_planning_review,group_bcr_planning_admin,group_bcr_process_actor_admin_site"/>-->
+
+
+        <!-- Action - Menu - Approve -->
+        <record id="action_fuel_kendaraan_mobil_approve" model="ir.actions.act_window">
+            <field name="name">Fuel Kendaraan Mobil - Approve</field>
+            <field name="res_model">fuel.kendaraan.mobil</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'approve')]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bcr_planning.listview_fuel_kendaraan_mobil_approve')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('bcr_planning.formview_fuel_kendaraan_mobil_validation')})]"/>
+        </record>
+
+        <menuitem   id='menu_fuel_kendaraan_mobil_approve'
+                    name='Fuel Kendaraan Mobil'
+                    parent='menu_group_approve_fuel_management'
+                    sequence='10'
+                    action="action_fuel_kendaraan_mobil_approve"/>
+<!--                    groups="group_bcr_planning_approve,group_bcr_planning_admin,group_bcr_process_actor_spv_data_cont"/>-->
+    </data>
+</odoo>

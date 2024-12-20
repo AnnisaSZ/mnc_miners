@@ -1,0 +1,138 @@
+<odoo>
+
+    <record id="report_fis_view_tree" model="ir.ui.view">
+        <field name="name">report.fis.tree</field>
+        <field name="model">report.fis</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="request_date"/>
+                <field name="aircraft_reg_id"/>
+                <field name="aircraft_type"/>
+                <field name="aircraft_qty"/>
+                <field name="charterby_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="report_fis_view_form" model="ir.ui.view">
+        <field name="name">report.fis.form</field>
+        <field name="model">report.fis</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" required="True"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="request_date"/>
+                            <field name="charterby_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="airport_ids" invisible="1"/>
+                            <field name="last_airport_id" invisible="1"/>
+                            <field name="last_date" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="aircraft_reg_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="aircraft_type" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                            <field name="aircraft_qty"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Flight Schedule" name="flight_schedule">
+                            <field name="flight_schedule_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" context="{'default_start_airport' : last_airport_id,'default_date_domain' : last_date,}">
+                                <tree editable="bottom">
+                                    <field name="date"/>
+                                    <field name="date_domain" invisible="1"/>
+                                    <field name="start_airport" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                    <field name="end_airport" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                    <field name="etd" widget="float_time"/>
+                                    <field name="eta" widget="float_time"/>
+                                    <field name="total_flight" widget="float_time"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group/>
+                                <group>
+                                    <field name="sum_flight_time"/>
+                                </group>
+                            </group>
+                            <!-- Airport Information -->
+                            <group>
+                                <label for="notes"/>
+                                <field name="notes" nolabel="1"/>
+                            </group>
+                        </page>
+
+                        <page string="Crew Detail" name="crew_detail">
+                            <field name="used_crew_ids" invisible="1"/>
+                            <field name="crew_detail_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="crew_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"  domain="[('id','not in',parent.used_crew_ids)]"/>
+                                    <field name="position_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                    <field name="phone"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Handling Agents" name="handling_agent">
+                            <field name="handling_agent_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="location_id" domain="[('id','in',parent.airport_ids)]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                    <field name="agent_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" domain="[('airport_ids','in', location_id)]"/>
+                                    <field name="cp_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" domain="[('parent_id','=',agent_id),('parent_id','!=',False)]"/>
+                                    <field name="phone"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Passenger" name="passenger">
+                            <field name="passenger_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Crew Accomodation" name="crew_accomodation">
+                            <field name="crew_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="location_id" domain="[('id','in',parent.airport_ids)]" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                    <field name="name"/>
+                                    <field name="address"/>
+                                    <field name="phone"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Other Information" name="other">
+                            <group>
+                                <field name="status_clearance"/>
+                                <field name="status_approval"/>
+                                <field name="status_fuel"/>
+                                <field name="status_notam"/>
+                                <field name="status_parking"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="config_report_fis_view" model="ir.actions.act_window">
+        <field name="name">List Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">report.fis</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Report
+            </p>
+        </field>
+    </record>
+</odoo>

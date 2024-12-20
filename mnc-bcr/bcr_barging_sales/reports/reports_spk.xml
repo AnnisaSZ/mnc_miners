@@ -1,0 +1,195 @@
+<odoo>
+    <!-- Header -->
+    <template id='report_spk'>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-foreach="doc.barge_lineup_id" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page" style="font-family:calibri; font-size: 14px !important;">
+                            <div t-attf-class="header">
+                            <br/><br/>
+                                <div class="row">
+                                    <t t-set="company" t-value="o.shipping_id.company_id"/>
+                                    <div class="col-2 mb4">
+                                        <img t-if="company" t-att-src="image_data_uri(company.logo)" style="max-height: 80px;margin-bottom: 10px;" class="float-left" alt="Logo"/>
+                                    </div>
+                                    <div class="col-10 text-right" style="font-size:25px; font-weight: bold;">
+                                        PT <span t-field="company.name"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body">
+                                <div class="row" name="no_contract">
+                                        No. 
+                                        <t t-foreach="o.barge_detail_ids" t-as="line">
+                                            <span t-field="line.no_spk"/>
+                                        </t>
+                                </div>
+                                <div class="row" name="date_now">
+                                    Jakarta, <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %B %Y')"/>
+                                </div>  
+                                <div class="row">
+                                    Kepada Yth.
+                                </div> 
+                                <div class="row">
+                                    <span t-field="o.surveyor_id"/> <br/>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-5 mb4">
+                                    
+                                    </div>
+                                    <div name="col-1"></div>
+                                    <div class="col-6 text-left"  style="font-weight: bold; fon-size:22 !important;">
+                                    <u><strong>SURAT PERINTAH KERJA</strong></u>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    Dear, <br/>
+                                    In respect the above subject, we would like to asking you to do the DRAFT SURVEY and LAB ANALYSIS <strong>(ASTM STANDARD)</strong> the bellow document, with the following heading details : <br/>
+                                </div>   
+
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Seller
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <strong><span t-field="o.shipping_id.iup_id"/></strong> <br/> 
+                                        <span t-field="o.shipping_id.iup_id.street"/> <br/>
+                                        <span t-field="o.shipping_id.iup_id.street2"/>, <span t-field="o.shipping_id.iup_id.city"/>, <span t-field="o.shipping_id.iup_id.zip"/>, <span t-field="o.shipping_id.iup_id.country_id"/>
+                                    </div>
+                                </div>      
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Buyer
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <strong><span t-field="o.shipping_id.buyer_id"/></strong> <br/> 
+                                        <span t-field="o.shipping_id.buyer_id.street"/>, <span t-field="o.shipping_id.buyer_id.street2"/> <br/>
+                                        <span t-field="o.shipping_id.buyer_id.country_id"/> <span t-field="o.shipping_id.buyer_id.zip"/>
+                                    </div>
+                                </div>   
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Port of Loading
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <span t-field="o.shipping_id.iup_id.jetty_code"/> JETTY, SUMATERA, INDONESIA
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Port of Discharge
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <t t-if="o.shipping_id.market_type == 'export'">
+                                            TANJUNG BUYUT ANCHORAGE, SOUTH SUMATERA, INDONESIA,
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="o.shipping_id.dest_local"/>
+                                        </t>
+                                            <strong><span t-if="o.shipping_id.mv_id"> MV. </span> <span t-field="o.shipping_id.mv_id"/></strong>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Barge ETA
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                    <strong><span t-field="o.eta" t-options='{"format": "dd MMM yyyy"}'/></strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    TB/BG
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                    <strong><span t-field="o.tugboat_id"/>/<span t-field="o.barge_id"/></strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Quantity
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <strong><span class="fw-bold"  style="font_weight:bold !important" t-field="o.provisional_quantity"  t-options='{"widget": "float", "precision": 2}'/>MT</strong> <span> +/- 10%</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Description of Goods
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <span t-field="o.shipping_id.goods_desc"/>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-3 mb4">
+                                    Document Required
+                                    </div>
+                                    <div name="col-1">:</div>
+                                    <div class="col-8 text-left">
+                                        <t t-if="o.shipping_id.market_type == 'export'">
+                                            - <strong> DSR, COW, COA, COO, COAH </strong> ( 1 Original &amp; 4 Copies) <br/>
+                                            - <strong>Clean on Board Bill of Landing </strong> (3 Original &amp; 4 Non Negotiable Copy) <br/>
+                                            <t t-if="o.shipping_id.add_doc">
+                                                <span t-field="o.shipping_id.add_doc"/> <br/>
+                                            </t>
+                                            - 1 photocopy of Certificate of Origin in <strong>Form E </strong> issued by Indonesian Chamber of Commerceor Competent Government Authority <br/>
+                                            - 1 Beneficiary Certificate Certifying That the Beneficiary Has Emailed One Set of All Non-Negotiable Documents to the Buyer Within 5 Working Days from Date of Bill of Landing <br/>
+                                        </t>
+                                        <t t-else="">
+                                            - <strong> DSR, COW, COA </strong> ( 1 Original &amp; 4 Copies) <br/>
+                                            - <strong>Clean on Board Bill of Landing </strong> (3 Original &amp; 4 Non Negotiable Copy) <br/>
+                                            <t t-if="o.shipping_id.add_doc">
+                                                <span t-field="o.shipping_id.add_doc"/> <br/>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </div>  
+                                <br/><br/>
+                                <div class="row">
+                                    Thank you for your kind supports and corporation. <br/><br/>
+                                    For and on behalf of <br/>
+                                </div>  
+                                <div class="row" style="height: 110px;">
+                                    <strong> PT. <span t-field="o.shipping_id.company_id"/></strong>
+                                </div>  
+                                <div class="row">
+                                    <strong><u> Daniel Tambunan </u></strong>
+                                </div>  
+                                <div class="row">
+                                    Head of Marketing Division
+                                </div>  
+                            </div>
+                            <div class="footer text-center" style="font-size:15px;float: center;">
+                                <strong> 
+                                     Office: MNC Tower, 19th Floor, Jl. Kebon Sirih No. 17-19 Jakarta 10340, Indonesia  <br/>
+                                     Phone. (62-21) 392 2950, Fax. (62 21) 392 2950
+                                </strong>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_print_spk" model="ir.actions.report">
+        <field name="name">SPK</field>
+        <field name="model">reports.shipping.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">bcr_barging_sales.report_spk</field>
+        <field name="report_file">bcr_barging_sales.report_spk</field>
+        <field name="print_report_name">'SPK %s' % (object.barge_lineup_id.shipping_id.contract_id.no_contract)</field>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+</odoo>

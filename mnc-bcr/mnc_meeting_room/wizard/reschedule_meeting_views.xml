@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="mncei_reschedule_form" model="ir.ui.view">
+        <field name="name">Reschedule Meeting</field>
+        <field name="model">reschedule.room.meeting</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="booking_id" invisible="1"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                    <group>
+                        <field name="hours_start" widget="float_time"/>
+                        <field name="hours_end" widget="float_time"/>
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="action_reschedule"
+                        string="Reschedule"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+</odoo>

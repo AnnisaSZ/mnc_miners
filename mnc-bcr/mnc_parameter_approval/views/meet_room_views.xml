@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="room_meeting_view_form_inherit" model="ir.ui.view">
+            <field name="name">Room Form Inherit</field>
+            <field name="model">mncei.room.meeting</field>
+            <field name="inherit_id" ref="mnc_meeting_room.room_meeting_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='status']" position="before">
+                    <field name="ga_dept_params_ids" widget="many2many_tags" invisible="1"/>
+                    <field name="secretary_dept_params_ids" widget="many2many_tags" invisible="1"/>
+                </xpath>
+                <xpath expr="//group[2]" position="replace">
+                    <group>
+                        <field name="is_merge"/>
+                        <field name="room_ids" domain="[('floor_id', '=', floor_id), ('is_merge', '=', False)]" options="{'no_create': True, 'no_create_edit': True}" widget="many2many_tags" attrs="{'invisible': [('is_merge', '=', False)], 'required': [('is_merge', '=', True)]}"/>
+                        <field name="ga_uid"  widget="many2many_tags" domain="[('mncei_dept_id', 'in', ga_dept_params_ids)]" options="{'no_create_edit': True, 'no_open': True, 'no_create': True}"/>
+                        <field name="secretay_uid" domain="[('mncei_dept_id', 'in', secretary_dept_params_ids)]" options="{'no_create_edit': True, 'no_open': True, 'no_create': True}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

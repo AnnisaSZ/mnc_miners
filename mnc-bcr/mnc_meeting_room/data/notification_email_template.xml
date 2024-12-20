@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="notification_booking_meeting_room_mail_template_approved" model="mail.template">
+            <field name="name">MNCEI Booking Meeting Room Notification</field>
+            <field name="subject">Waiting Your Approval</field> 
+            <field name="model_id" ref="model_mncei_user_approve_meeting" />
+            <field name="email_from">"${object.booking_id.company_id.name | safe}" &lt;${(object.booking_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hi ${object.user_id.name}, <br/><br/>
+                        This is an automated email alerting you that. you have a meeting at the following time and place <br/>
+                        Please check your information or contact your room PIC to confirm any changes.
+                        <br/><br/>
+                        <strong>Contact Immediately</strong>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Requestor</strong></td>
+                                    <td>:</td>
+                                    <td>${object.booking_id.requestor_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Title</strong></td>
+                                    <td>:</td>
+                                    <td>${object.booking_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Department</strong></td>
+                                    <td>:</td>
+                                    <td>${object.booking_id.department_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Meeting Start</strong></td>
+                                    <td>:</td>
+                                    <td>${format_date(object.booking_id.start_date)}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Meeting End</strong></td>
+                                    <td>:</td>
+                                    <td>${format_date(object.booking_id.end_date)}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Time</strong></td>
+                                    <td>:</td>
+                                    <td>${object.booking_id.hours_start_act}:${object.booking_id.minute_start_act} - ${object.booking_id.hours_end_act}:${object.booking_id.minute_end_act} WIB</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Meeting Type</strong></td>
+                                    <td>:</td>
+                                    <td>${object.booking_id.type_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Participants Meeting:</strong>
+                                        <ul>
+                                            % for invited_user in object.booking_id.participant_ids:
+                                                <li>${invited_user.name}</li>
+                                            % endfor
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Room Meeting</strong>
+                                        <ul>
+                                            % for room in object.booking_id.room_ids:
+                                                <li>${room.name}</li>
+                                            % endfor
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Please click Link to approve/review :
+                        <br/>
+                        <a href="localhost:8014/web#cids=${object.booking_id.company_id.id}&amp;id=${object.booking_id.id}&amp;menu_id=&amp;model=mncei.booking.meeting&amp;view_type=form">
+                            CLICK HERE !
+                        </a>
+                        <br/><br/>
+                        <strong>Thanks</strong><br/>
+                        <strong>MNC Energy Investments</strong><br/>
+                        Auto Reminder System
+                    </p>
+                </div>
+            </field>
+            <field name="lang">${object.booking_id.requestor_id.lang}</field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Notification to Usr -->
+        <record id="notification_invitation_meeting" model="mail.template">
+            <field name="name">Invitation Meeting</field>
+            <field name="subject">Invitation Meeting</field> 
+            <field name="model_id" ref="model_mncei_booking_meeting" />
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+                    <tbody>
+                        <tr>
+                            <td align="center" style="min-width: 590px;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                                     % set invited_users = ctx['invited_users']
+                                    <td style="text-align : left">
+                                        <span style="font-size: 20px; font-weight: bold;">
+                                            Invitations
+                                        </span><br/><br/>
+                                    </td>
+                                    <tr><td valign="top" style="font-size: 13px;">
+                                        <div>
+                                            Dear ${invited_users.name or ''},<br/> <br/>
+                                            You are invited to a meeting ${object.name} From Department ${object.department_id.name},
+                                        </div>
+                                    </td></tr>
+                                    <!-- <table style="margin-top:0px;margin-bottom:0px;" border="0"> -->
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Meeting Start</strong></td>
+                                            <td>:</td>
+                                            <td>${format_date(object.start_date)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Meeting End</strong></td>
+                                            <td>:</td>
+                                            <td>${format_date(object.end_date)}</td>
+                                        </tr>
+                                         <tr>
+                                            <td><strong>Time</strong></td>
+                                            <td>:</td>
+                                            <td>${object.hours_start_act}:${object.minute_start_act} - ${object.hours_end_act}:${object.minute_end_act} WIB</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Meeting Type</strong></td>
+                                            <td>:</td>
+                                            <td>${object.type_id.name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Participants Meeting:</strong>
+                                                <ul>
+                                                    % for invited_user in object.participant_ids:
+                                                        <li>${invited_user.name}</li>
+                                                    % endfor
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Room Meeting</strong>
+                                                <ul>
+                                                    % for room in object.room_ids:
+                                                        <li>${room.name}</li>
+                                                    % endfor
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <!-- </table> -->
+                                    <tr><td valign="middle" style="font-size: 13px;">
+                                        <div>
+                                            <strong>Thanks</strong><br/>
+                                            <strong>MNC Energy Investments</strong><br/>
+                                            Auto Reminder System
+                                        </div>
+                                    </td></tr>
+                                    <tr><td style="text-align:center;">
+                                      <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                                    </td></tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </field>
+            <field name="lang">${object.requestor_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <!-- Notification For It -->
+        <record id="notification_booking_zoom" model="mail.template">
+            <field name="name">Booking Zoom Meeting</field>
+            <field name="subject">Booking Zoom Meeting</field> 
+            <field name="model_id" ref="model_mncei_booking_meeting" />
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear Team <strong>IT MNC Energy</strong>,<br/><br/>
+                        This is an automated email for you. Please create zoom meeting about this meeting.
+                        <br/><br/>
+                        <strong>Contact Immediately</strong>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Requestor</strong></td>
+                                    <td>:</td>
+                                    <td>${object.requestor_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Title</strong></td>
+                                    <td>:</td>
+                                    <td>${object.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Department</strong></td>
+                                    <td>:</td>
+                                    <td>${object.department_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Meeting Start</strong></td>
+                                    <td>:</td>
+                                    <td>${format_date(object.start_date)}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Meeting End</strong></td>
+                                    <td>:</td>
+                                    <td>${format_date(object.end_date)}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Time</strong></td>
+                                    <td>:</td>
+                                    <td>${object.hours_start_act}:${object.minute_start_act} - ${object.hours_end_act}:${object.minute_end_act} WIB</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/><br/>
+                        <strong>Thanks</strong><br/>
+                        <strong>MNC Energy Investments</strong><br/>
+                        Auto Reminder System
+                    </p>
+                </div>
+            </field>
+            <field name="lang">${object.requestor_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+</odoo>

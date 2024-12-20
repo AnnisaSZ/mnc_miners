@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_master_location_itsubs,access_master_location_itsubs,model_master_location_itsubs,base.group_user,1,1,1,1
+access_master_status_itsubs,access_master_status_itsubs,model_master_status_itsubs,base.group_user,1,1,1,1
+access_master_type_itsubs,access_master_type_itsubs,model_master_type_itsubs,base.group_user,1,1,1,1
+access_master_vendor_itsubs,access_master_vendor_itsubs,model_master_vendor_itsubs,base.group_user,1,1,1,1
+access_it_subs_form,access_it_subs_form,model_it_subs_form,base.group_user,1,1,1,1
+access_it_subs_form_line,access_it_subs_form_line,model_it_subs_form_line,base.group_user,1,1,1,1

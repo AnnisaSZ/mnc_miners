@@ -1,0 +1,298 @@
+<odoo>
+    <record id="fis_aircraft_type_view_tree" model="ir.ui.view">
+        <field name="name">master.aircraft.type.tree</field>
+        <field name="model">master.aircraft.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ac_reg"/>
+                <field name="name"/>
+                <field name="qty_max"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fis_aircraft_view_form" model="ir.ui.view">
+        <field name="name">master.aircraft.type.form</field>
+        <field name="model">master.aircraft.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <label for="ac_reg"/>
+                    <h1>
+                        <field name="ac_reg"/>
+                    </h1>
+                    <group>
+                        <field name="name" required="True"/>
+                        <field name="qty_max"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fis_airport_view_tree" model="ir.ui.view">
+        <field name="name">master.airport.tree</field>
+        <field name="model">master.airport</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="start_hour" widget="float_time"/>
+                <field name="end_hour" widget="float_time"/>
+                <field name="country_id"/>
+                <field name="city"/>
+                <field name="utc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fis_airport_view_form" model="ir.ui.view">
+        <field name="name">master.airport.form</field>
+        <field name="model">master.airport</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" required="True"/>
+                    </h1>
+                    <group>
+                        <field name="code"/>
+                        <label for="start_hour" string="Operation Hours"/>
+                        <div>
+                            <field name="start_hour" class="oe_inline" widget="float_time"/> To <field name="end_hour" class="oe_inline" widget="float_time"/>
+                        </div>
+                        <field name="city" required="1"/>
+                        <field name="country_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                        <field name="city_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                        <field name="utc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fis_position_view_tree" model="ir.ui.view">
+        <field name="name">master.position.tree</field>
+        <field name="model">master.position</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fis_position_view_form" model="ir.ui.view">
+        <field name="name">master.position.form</field>
+        <field name="model">master.position</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" required="True"/>
+                    </h1>
+                    <group>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fis_crew_view_tree" model="ir.ui.view">
+        <field name="name">master.crew.tree</field>
+        <field name="model">master.crew</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="nik"/>
+                <field name="position_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                <field name="phone"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fis_crew_view_form" model="ir.ui.view">
+        <field name="name">master.crew.form</field>
+        <field name="model">master.crew</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" required="True"/>
+                    </h1>
+                    <group>
+                        <field name="nik"/>
+                        <field name="position_id" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                        <field name="phone"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fis_agent_view_tree" model="ir.ui.view">
+        <field name="name">master.agent.tree</field>
+        <field name="model">master.agent</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="airport_ids" widget="many2many_tags"/>
+                <field name="phone"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fis_agent_view_form" model="ir.ui.view">
+        <field name="name">master.agent.form</field>
+        <field name="model">master.agent</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" required="True"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="airport_ids" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="address"/>
+                            <field name="phone"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Contact Person" name="contact_person">
+                            <field name="cp_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="phone"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fis_charterby_view_tree" model="ir.ui.view">
+        <field name="name">master.charterby.tree</field>
+        <field name="model">master.charterby</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="pic"/>
+                <field name="address"/>
+                <field name="phone"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fis_charterby_view_form" model="ir.ui.view">
+        <field name="name">master.charterby.form</field>
+        <field name="model">master.charterby</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <label for="name"/>
+                    <h1>
+                        <field name="name" required="True"/>
+                    </h1>
+                    <group>
+                        <field name="pic"/>
+                        <field name="address"/>
+                        <field name="phone"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_country_state_form_inherit" model="ir.ui.view">
+        <field name="name">res.country.state.inherits</field>
+        <field name="model">res.country.state</field>
+        <field name="inherit_id" ref="base.view_country_state_form"/>
+        <field name="arch" type="xml">
+			<xpath expr="//field[@name='code']" position="attributes">
+				<attribute name="required">0</attribute>
+			</xpath>
+        </field>
+    </record>
+
+    <record id="config_ac_type_view" model="ir.actions.act_window">
+        <field name="name">Master Aircraft</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.aircraft.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Aircraft
+            </p>
+        </field>
+    </record>
+
+    <record id="config_airport_view" model="ir.actions.act_window">
+        <field name="name">Master Airport</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.airport</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Airport
+            </p>
+        </field>
+    </record>
+
+    <record id="config_position_view" model="ir.actions.act_window">
+        <field name="name">Master Position</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.position</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Position
+            </p>
+        </field>
+    </record>
+
+    <record id="config_crew_view" model="ir.actions.act_window">
+        <field name="name">Master Crew</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.crew</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Crew
+            </p>
+        </field>
+    </record>
+
+    <record id="config_agent_view" model="ir.actions.act_window">
+        <field name="name">Master Agent</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.agent</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Agent
+            </p>
+        </field>
+    </record>
+
+    <record id="config_charterby_view" model="ir.actions.act_window">
+        <field name="name">Master Charter By</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">master.charterby</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Charter By
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,134 @@
+<odoo>
+    <record id="order_type_view_form" model="ir.ui.view">
+        <field name="name">Order Type</field>
+        <field name="model">scm.order.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <!-- <field name="name" style="text-transform: uppercase;"/> -->
+                        </group>
+                        <group>
+                            <field name="actives"  widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="order_type_view_tree" model="ir.ui.view">
+        <field name="name">Order Type</field>
+        <field name="model">scm.order.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"  readonly="1"/>
+                <field name="actives" widget="boolean_toggle" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="order_type_view" model="ir.actions.act_window">
+        <field name="name">Order Type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">scm.order.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Order Type
+            </p>
+        </field>
+    </record>
+
+    <record id="fob_view_form" model="ir.ui.view">
+        <field name="name">FOB</field>
+        <field name="model">scm.fob</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <!-- <field name="name" style="text-transform: uppercase;"/> -->
+                        </group>
+                        <group>
+                            <field name="actives"  widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fob_view_tree" model="ir.ui.view">
+        <field name="name">FOB</field>
+        <field name="model">scm.fob</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" readonly="1"/>
+                <field name="actives" widget="boolean_toggle" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="fob_view" model="ir.actions.act_window">
+        <field name="name">FOB</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">scm.fob</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Status Shipment
+            </p>
+        </field>
+    </record>
+
+    <record id="payment_term_view_form" model="ir.ui.view">
+        <field name="name">Payment Terms</field>
+        <field name="model">scm.payment.term</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <!-- <field name="name" style="text-transform: uppercase;"/> -->
+                        </group>
+                        <group>
+                            <field name="actives"  widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="payment_term_view_tree" model="ir.ui.view">
+        <field name="name">Payment Terms</field>
+        <field name="model">scm.payment.term</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" readonly="1"/>
+                <!-- <field name="name" style="text-transform: uppercase;"/> -->
+                <field name="actives"  widget="boolean_toggle" readonly="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="payment_term_view" model="ir.actions.act_window">
+        <field name="name">Payment Terms</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">scm.payment.term</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0, 'duplicate': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New Status Shipment
+            </p>
+        </field>
+    </record>
+</odoo>

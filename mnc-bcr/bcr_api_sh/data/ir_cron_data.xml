@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <record model="ir.config_parameter" id="scheduler_message_notification">
+            <field name="key">bcr.scheduler_message_notification</field>
+            <field name="value">Ada [[total]] [[model]] yang harus anda kerjakan, Ayoo kerjakan !!</field>
+        </record>
+
+        <record model="ir.config_parameter" id="time_max_scheduler_message_notification">
+            <field name="key">bcr.time_max_scheduler_message_notification</field>
+            <field name="value">17:00</field>
+        </record>
+
+        <record id="bcr_scheduler_push_notification_cron" model="ir.cron">
+            <field name="name">Scheduler Push Notification</field>
+            <field name="model_id" ref="model_push_notification"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="state">code</field>
+            <field name="active">0</field>
+            <field name="code">model.push_notification_scheduler(0)</field>
+        </record>
+
+        <record id="bcr_scheduler_push_notification_daily_cron" model="ir.cron">
+            <field name="name">Scheduler Push Notification Daily</field>
+            <field name="model_id" ref="model_push_notification"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="state">code</field>
+            <field name="active">0</field>
+            <field name="code">model.push_notification_scheduler(1)</field>
+        </record>
+        <record id="bcr_scheduler_push_notification_weekly_cron" model="ir.cron">
+            <field name="name">Scheduler Push Notification Weekly</field>
+            <field name="model_id" ref="model_push_notification"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="state">code</field>
+            <field name="active">0</field>
+            <field name="code">model.push_notification_scheduler(2)</field>
+        </record>
+        <record id="bcr_scheduler_push_notification_months_cron" model="ir.cron">
+            <field name="name">Scheduler Push Notification Months</field>
+            <field name="model_id" ref="model_push_notification"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="state">code</field>
+            <field name="active">0</field>
+            <field name="code">model.push_notification_scheduler(3)</field>
+        </record>
+    </data>
+</odoo>

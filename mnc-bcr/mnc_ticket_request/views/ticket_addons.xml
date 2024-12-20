@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<odoo>
+	<!-- Request Type -->
+	<record id="mncei_ticket_type_form" model="ir.ui.view">
+        <field name="name">mncei.ticket.type.form</field>
+        <field name="model">mncei.ticket.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Category">
+                            <field name="categ_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="uid" invisible="1"/>
+                                    <field name="dept_uid" invisible="1"/>
+                                    <field name="dept_id" options="{'no_create': True, 'no_open': True}"/>
+                                    <field name="duration_auto_solve"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_ticket_type_tree" model="ir.ui.view">
+        <field name="name">mncei.ticket.type.tree</field>
+        <field name="model">mncei.ticket.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id" widget="handle"/>
+                <field name="name"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_request_type_actions" model="ir.actions.act_window">
+        <field name="name">Request Type</field>
+        <field name="res_model">mncei.ticket.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your type request
+            </p>
+        </field>
+    </record>
+
+    <!-- Category -->
+    <record id="mncei_ticket_category_form" model="ir.ui.view">
+        <field name="name">mncei.ticket.category.form</field>
+        <field name="model">mncei.ticket.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id"/>
+                            <field name="type_id"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="uid" invisible="1"/>
+                            <field name="dept_uid" invisible="1" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="dept_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="status"/>
+                            <field name="duration_auto_solve"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_ticket_category_tree" model="ir.ui.view">
+        <field name="name">mncei.ticket.category.tree</field>
+        <field name="model">mncei.ticket.category</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id" widget="handle"/>
+                <field name="name"/>
+                <field name="status"/>
+                <field name="dept_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_request_category_actions" model="ir.actions.act_window">
+        <field name="name">Request Category</field>
+        <field name="res_model">mncei.ticket.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('dept_id', '=', context.get('department_id'))]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your type request
+            </p>
+        </field>
+    </record>
+
+    <!-- Status -->
+    <record id="mncei_ticket_state_form" model="ir.ui.view">
+        <field name="name">mncei.ticket.state.form</field>
+        <field name="model">mncei.ticket.state</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                            <field name="is_draft" string="To Reminder"/>
+                            <field name="is_finish"/>
+                            <field name="is_solved"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mncei_ticket_state_tree" model="ir.ui.view">
+        <field name="name">mncei.ticket.state.tree</field>
+        <field name="model">mncei.ticket.state</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="mncei_request_state_actions" model="ir.actions.act_window">
+        <field name="name">Request Status</field>
+        <field name="res_model">mncei.ticket.state</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your type request
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="ticket_menu_conf" name="Configuration" sequence="100" parent="ticket_menu_root" groups="mnc_ticket_request.group_ticket_conf"/>
+    <menuitem id="ticket_menu_type" name="Type Request" action="mncei_request_type_actions" sequence="50" parent="ticket_menu_conf"/>
+    <menuitem id="ticket_menu_categ" name="Category" action="mncei_request_category_actions" sequence="80" parent="ticket_menu_conf"/>
+    <menuitem id="ticket_menu_state" name="Status" action="mncei_request_state_actions" sequence="100" parent="ticket_menu_conf"/>
+</odoo>

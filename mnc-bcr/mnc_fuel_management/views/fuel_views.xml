@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form Views -->
+    <record id="fuel_form_views" model="ir.ui.view">
+        <field name="name">fuel.distribution.form</field>
+        <field name="model">fuel.distribution</field>
+        <field name="arch" type="xml">
+            <form delete="0" duplicate="0">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_set_draft" string="Set Draft" type="object" attrs="{'invisible': [('state', '!=', 'complete')]}"/>
+                    <field name="state" readonly="True" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <label for="distribution_number"/>
+                    <h1>
+                        <field name="distribution_number" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True, 'no_open':True, 'no_create_edit': True}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                            <field name="fuel_truck_id" domain="[('fuel_truck', '=', True), ('state', '=', 'active')]" options="{'no_create': True, 'no_open':True}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                            <field name="company_fuel_id" readonly="1" force_save="1" options="{'no_create': True, 'no_open':True}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                            <field name="fulment_date" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                            <field name="attachment_filename" invisible="1"/>
+                            <field name="attachment" filename="attachment_filename" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                            <field name="volume" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                        </group>
+                        <group>
+                            <field name="driver_id" options="{'no_create': True, 'no_open':True}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                            <field name="maintank_id" domain="[('state', '=', 'active')]" options="{'no_create': True, 'no_open':True}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="distribution_line" string="Distribution">
+                            <field name="distribution_line_ids" attrs="{'readonly': [('state', '=', 'complete')]}">
+                                <tree editable="bottom">
+                                    <field name="company_unit_id" invisible="1"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="shift_time" widget="float_time"/>
+                                    <field name="unit_id" domain="[('state', '=', 'active')]" options="{'no_create': True, 'no_open':True}"/>
+                                    <field name="jenis_unit_id" invisible="1"/>
+                                    <field name="is_hm" invisible="1"/>
+                                    <field name="is_km" invisible="1"/>
+                                    <field name="total_liter" sum="Total Volume"/>
+                                    <field name="hm" attrs="{'readonly': [('is_hm', '=', False)]}"/>
+                                    <field name="hm_km" attrs="{'readonly': [('is_km', '=', False)]}"/>
+                                    <field name="driver_id" domain="[('company_id', '=', company_id), ('company_fuel_id', '=', company_unit_id), ('state', '=', 'active')]" options="{'no_create': True, 'no_open':True}"/>
+                                    <field name="location_id" domain="[('state', '=', 'active')]" options="{'no_create': True, 'no_open':True}"/>
+                                    <field name="other_info"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group>
+                                </group>
+                                <group>
+                                    <field name="total_consume_volume"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Tree View -->
+    <record model="ir.ui.view" id="fuel_distribution_view_tree">
+        <field name="name">fuel.distribution.tree</field>
+        <field name="model">fuel.distribution</field>
+        <field name="arch" type="xml">
+            <tree delete="0">
+                <field name="distribution_number"/>
+                <field name="fulment_date"/>
+                <field name="company_fuel_id"/>
+                <field name="maintank_id"/>
+                <field name="fuel_truck_id"/>
+                <field name="volume" sum="Total Volume"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="filter_fuel_distribution">
+        <field name="name">fuel.distribution.filter</field>
+        <field name="model">fuel.distribution</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          </search>
+        </field>
+    </record>
+
+    <record id="search_fuel_distribution" model="ir.ui.view">
+        <field name="name">search.fuel.distribution</field>
+        <field name="model">fuel.distribution</field>
+        <field name="arch" type="xml">
+            <search string="Fuel Truck Search">
+                <field name="fuel_truck_id"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_fuel_truck_id" string="Fuel Truck" context="{'group_by':'fuel_truck_id'}"/>
+                    <filter name="group_by_fulment_date" string="Date" context="{'group_by':'fulment_date'}"/>
+                    <filter name="group_by_company_id" string="Date" context="{'group_by':'company_fuel_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <!-- Actions Window Training Request-->
+    <record id="action_fuel_distribution" model="ir.actions.act_window">
+        <field name="name">Fuel Distribution</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fuel.distribution</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'delete': 0}</field>
+    </record>
+
+    <!-- Distribution LIne -->
+    <record model="ir.ui.view" id="fuel_distribution_line_view_form">
+        <field name="name">fuel.distribution.line.form</field>
+        <field name="model">fuel.distribution.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="distribute_id" options="{'no_create': True}"/>
+                            <field name="shift_time" widget="float_time"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="unit_id" options="{'no_create': True, 'no_open':True}"/>
+                        </group>
+                        <group>
+                            <field name="hm_awal"/>
+                            <field name="hm" string="HM Akhir"/>
+                            <field name="hm_km"/>
+                            <field name="total_liter"/>
+                            <field name="driver_id" options="{'no_create': True}"/>
+                            <field name="location_id" options="{'no_create': True, 'no_open':True}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="fuel_distribution_line_view_tree">
+        <field name="name">fuel.distribution.line.tree</field>
+        <field name="model">fuel.distribution.line</field>
+        <field name="arch" type="xml">
+            <tree delete="0">
+                <field name="distribute_id" options="{'no_create': True, 'no_open':True}"/>
+                <field name="company_id" options="{'no_create': True, 'no_open':True}"/>
+                <field name="distribute_date"/>
+                <field name="shift_time" widget="float_time"/>
+                <field name="unit_id" options="{'no_create': True, 'no_open':True}"/>
+                <field name="hm_awal"/>
+                <field name="hm" string="HM Akhir"/>
+                <field name="hm_finals" sum="Total HM"/>
+                <field name="hm_km"/>
+                <field name="total_liter" sum="Total Volume"/>
+                <field name="new_total_ltr" sum="Total_Liter"/>
+                <field name="new_total_ltr_km" sum="Total Liter km"/>
+                <field name="driver_id" options="{'no_create': True, 'no_open':True}"/>
+                <field name="location_id" options="{'no_create': True, 'no_open':True}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="fuel_distribution_line_view_graph">
+        <field name="name">fuel.distribution.line.graph</field>
+        <field name="model">fuel.distribution.line</field>
+        <field name="type">graph</field>
+        <field name="arch" type="xml">
+            <graph string="Unit" type="bar">
+                <!-- <field name="standard_high" type="row"/> -->
+                <field name="unit_id" type="col"/>
+                <field name="standard_high" operator="average"/>
+                <!-- <field name="standard_high" type="measure" operation="max"/> -->
+                <!-- <field name="new_total_ltr" type="measure"/> -->
+            </graph>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="filter_fuel_distribution_line">
+        <field name="name">fuel.distribution.line.filter</field>
+        <field name="model">fuel.distribution.line</field>
+        <field name="arch" type="xml">
+          <search>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            <field name="distribute_id"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_distribute_id" string="Distribute" context="{'group_by':'distribute_id'}"/>
+                    <filter name="group_by_unit" string="Unit" context="{'group_by':'unit_id'}"/>
+                    <filter name="group_by_distribute_date" string="Distribute Date" context="{'group_by':'distribute_date'}"/>
+                </group>
+          </search>
+        </field>
+    </record>
+
+    <record id="action_fuel_distribution_line" model="ir.actions.act_window">
+        <field name="name">Unit Consumption</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fuel.distribution.line</field>
+        <field name="view_mode">tree,form,graph</field>
+        <field name="context">{'delete': 0, 'create': 0, 'duplicate': 0, 'edit': 0, 'search_default_group_by_unit': 1}</field>
+    </record>
+</odoo>

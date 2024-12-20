@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Incoterms -->
+        <record id="master_incoterms_form" model="ir.ui.view">
+            <field name="name">master.incoterms.form</field>
+            <field name="model">master.incoterms</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="status"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="master_incoterms_tree" model="ir.ui.view">
+            <field name="name">master.incoterms.tree</field>
+            <field name="model">master.incoterms</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_master_incoterms">
+            <field name="name">master.incoterms.filter</field>
+            <field name="model">master.incoterms</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_incoterms" model="ir.actions.act_window">
+            <field name="name">Incoterms</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">master.incoterms</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Incoterms
+                </p>
+            </field>
+        </record>
+
+        <!-- ToP -->
+        <record id="buyer_term_form" model="ir.ui.view">
+            <field name="name">buyer.term.form</field>
+            <field name="model">buyer.term</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="status"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="buyer_term_tree" model="ir.ui.view">
+            <field name="name">buyer.term.tree</field>
+            <field name="model">buyer.term</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_buyer_term">
+            <field name="name">buyer.term.filter</field>
+            <field name="model">buyer.term</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_term_of_payments" model="ir.actions.act_window">
+            <field name="name">Term Of Payment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">buyer.term</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Terms Of Payments
+                </p>
+            </field>
+        </record>
+
+        <!-- Nations -->
+
+        <record id="action_res_country" model="ir.actions.act_window">
+            <field name="name">Nations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Nations
+                </p>
+            </field>
+        </record>
+
+        <!-- Category -->
+        <record id="category_type_coal_form" model="ir.ui.view">
+            <field name="name">category.type.coal.form</field>
+            <field name="model">category.type.coal</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <group>
+                                <field name="name"/>
+                                <label for="start_gar" string="CV GAR"/>
+                                <div class="o_row">
+                                    <field name="start_gar"/> -
+                                    <field name="end_gar"/>
+                                </div>
+                                <field name="ts_id"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="category_type_coal_tree" model="ir.ui.view">
+            <field name="name">category.type.coal.tree</field>
+            <field name="model">category.type.coal</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="start_gar"/>
+                    <field name="end_gar"/>
+                    <field name="ts_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_category_type_coal">
+            <field name="name">category.type.coal.filter</field>
+            <field name="model">category.type.coal</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_category_type_coal" model="ir.actions.act_window">
+            <field name="name">Category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">category.type.coal</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Category
+                </p>
+            </field>
+        </record>
+
+        <!-- Barge Agent -->
+        <record id="barge_agent_form" model="ir.ui.view">
+            <field name="name">barge.agent.form</field>
+            <field name="model">barge.agent</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="barge_agent_tree" model="ir.ui.view">
+            <field name="name">barge.agent.tree</field>
+            <field name="model">barge.agent</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_barge_agent">
+            <field name="name">barge.agent.filter</field>
+            <field name="model">barge.agent</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_barge_agent" model="ir.actions.act_window">
+            <field name="name">Agent</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">barge.agent</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Agent
+                </p>
+            </field>
+        </record>
+
+        <!-- Consignee -->
+        <record id="master_consignee_form" model="ir.ui.view">
+            <field name="name">master.consignee.form</field>
+            <field name="model">master.consignee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="master_consignee_tree" model="ir.ui.view">
+            <field name="name">master.consignee.tree</field>
+            <field name="model">master.consignee</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_master_consignee">
+            <field name="name">master.consignee.filter</field>
+            <field name="model">master.consignee</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_master_consignee" model="ir.actions.act_window">
+            <field name="name">Consignee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">master.consignee</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Consignee
+                </p>
+            </field>
+        </record>
+
+        <!-- Surveyor -->
+        <record id="master_surveyor_form" model="ir.ui.view">
+            <field name="name">master.surveyor.form</field>
+            <field name="model">master.surveyor</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="master_surveyor_tree" model="ir.ui.view">
+            <field name="name">master.surveyor.tree</field>
+            <field name="model">master.surveyor</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_master_surveyor">
+            <field name="name">master.surveyor.filter</field>
+            <field name="model">master.surveyor</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <separator/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_master_surveyor" model="ir.actions.act_window">
+            <field name="name">Surveyor</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">master.surveyor</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Surveyor
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

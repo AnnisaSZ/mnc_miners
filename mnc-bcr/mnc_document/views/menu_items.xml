@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Menuitems -->
+    <menuitem id="mncei_doc_menu_root"
+        name="Legal Document"
+        active="True"
+        web_icon="mnc_document,static/description/icon_legal.png"
+        sequence="7"/>
+
+    <menuitem id="mncei_doc_menu" action="mncei_doc_actions" parent="mncei_doc_menu_root" sequence="1" name="Document"/>
+
+</odoo>

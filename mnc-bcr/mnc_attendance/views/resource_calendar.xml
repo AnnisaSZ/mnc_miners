@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="resource_calendar_form_inherit" model="ir.ui.view">
+            <field name="name">resource.calendar.form.inherit</field>
+            <field name="model">resource.calendar</field>
+            <field name="inherit_id" ref="resource.resource_calendar_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="action_apply" string="Apply To" type="object" class="oe_highlight"/>
+                        <button name="action_reset_employee" string="Reset Employees" type="object"/>
+                    </header>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="replace">
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_open_shift" class="oe_stat_button" icon="fa-list-ul" attrs="{'invisible': [('is_shift', '=', False)]}">
+                            <span>Detail Shift</span>
+                            <field name="shift_temp_ids" invisible="1"/>
+                        </button>
+                        <button type="object" name="action_view_employee" class="oe_stat_button" icon="fa-list-ul">
+                            <field name="total_mncei_employee"/>
+                            <field name="mncei_employee_id" invisible="1"/>
+                            Permanent
+                        </button>
+                    </div>
+                    <!-- <attribute name="invisible">1</attribute> -->
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="replace">
+                    <field name="company_ids" widget="many2many_tags" string="Company"/>
+                    <field name="loc_working_id" options="{'no_create': True, 'no_open': True}" domain="[('state', '=', 'active')]"/>
+                    <field name="limit_attendance" widget="float_time"/>
+                    <field name="is_shift"/>
+                    <label for="is_roster" string="Roster"/>
+                    <div class="o_row">
+                        <field name="is_roster"/>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='hours_per_day']" position="replace">
+                    <field name="hours_per_day" string="Total Working Hours per Shift" widget="float_time" attrs="{'invisible': [('is_shift', '=', False)]}"/>
+                    <field name="hours_per_day" widget="float_time" attrs="{'invisible': [('is_shift', '=', True)]}"/>
+                </xpath>
+                <xpath expr="//page[@name='working_hours']" position="replace">
+                    <page string="Working Hours" name="working_hours_ext">
+                        <field name="attendance_ids">
+                            <tree editable="bottom">
+                                <field name="is_shift" invisible="1"/>
+                                <field name="dayofweek" invisible="0"/>
+                                <field name="day_period" invisible="1"/>
+                                <field name="day_period_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="start_ci" widget="float_time"/>
+                                <field name="hour_from" widget="float_time"/>
+                                <field name="start_co" widget="float_time"/>
+                                <field name="hour_to" widget="float_time"/>
+                                <field name="start_overtime" widget="float_time"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Working Hours Groups" name="working_hours_group">
+                        <field name="attendance_group_ids">
+                            <tree editable="bottom">
+                                <field name="day_period_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="start_ci" widget="float_time"/>
+                                <field name="hour_from" widget="float_time"/>
+                                <field name="start_co" widget="float_time"/>
+                                <field name="hour_to" widget="float_time"/>
+                                <field name="start_overtime" widget="float_time"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//page[@name='global_leaves']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- List Views -->
+        <record id="view_resource_calendar_tree_inherit" model="ir.ui.view">
+            <field name="name">resource.calendar.form.inherit</field>
+            <field name="model">resource.calendar</field>
+            <field name="inherit_id" ref="resource.view_resource_calendar_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="replace">
+                    <field name="company_ids" widget="many2many_tags"/>
+                    <field name="loc_working_id" />
+                    <field name="is_shift" />
+                    <field name="hours_per_day" string="Average Working Hours"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

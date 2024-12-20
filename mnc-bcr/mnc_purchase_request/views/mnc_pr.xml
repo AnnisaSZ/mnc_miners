@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Line -->
+
+    <record id="purchase_req_view_form_editing" model="ir.ui.view">
+        <field name="name">Edit Price</field>
+        <field name="model">mncei.purchase.requisition.line</field>
+        <field name="arch" type="xml">
+            <form delete='0' create="0">
+                <group>
+                    <group>
+                        <field name="item_name"/>
+                        <field name="description"/>
+                        <field name="qty"/>
+                    </group>
+                    <group>
+                        <field name="price_qty"/>
+                        <field name="est_price" readonly="1" force_save="1"/>
+                        <field name="other_info"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+    <!--  -->
+    <record id="purchase_req_view_form" model="ir.ui.view">
+        <field name="name">Purchase Requisition</field>
+        <field name="model">mncei.purchase.requisition</field>
+        <field name="arch" type="xml">
+            <form delete='0'>
+                <header>
+                    <button name="action_approval" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_sign_approve" string="Sign and Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('state', 'in', ('draft', 'approve', 'reject', 'payment', 'cancel')), ('is_approved', '=', False)]}"/>
+                    <button name="open_reject" string="Reject" type="object" attrs="{'invisible': ['|', ('state', 'in', ('draft', 'approve', 'reject', 'payment', 'cancel')), ('is_approved', '=', False)]}"/>
+                    <button name="set_draft" string="Revise" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'reject')]}"/>
+                    <button name="to_payment" string="Payment" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('payment_state', '!=', False), ('state', '!=', 'approve')]}"/>
+                    <button name="action_cancel" string="Revise Price" type="object" attrs="{'invisible': ['|', ('payment_state', '!=', False), ('state', '!=', 'approve')]}"/>
+                    <button name="to_ready_payment" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('payment_state', '!=', 'cancel'), ('state', '!=', 'approve')]}"/>
+                    <button name="print_pr" string="Print" type="object" attrs="{'invisible': [('state', 'in', ('draft', 'reject'))]}"/>
+                    <field name="state" readonly="1" widget="statusbar" statusbar_visible="draft,waiting,procurement,approve"/>
+                    <field name="payment_state" readonly="True" invisible="1"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="In Payment" attrs="{'invisible': [('payment_state', '!=', 'payment')]}"/>
+                    <widget name="web_ribbon" title="Revise Price" bg_color="bg-danger" attrs="{'invisible': [('payment_state', '!=', 'cancel')]}"/>
+                    <!-- Parameter -->
+                    <field name="is_procurement_uid" invisible="1"/>
+                    <field name="is_ga_uid" invisible="1"/>
+                    <field name="is_hr_uid" invisible="1"/>
+                    <field name="is_finance" invisible="1"/>
+                    <field name="is_creator" invisible="1"/>
+                    <field name="is_approved" invisible="1"/>
+                    <field name="approve_uid" invisible="1"/>
+                    <field name="approval_id" invisible="1" readonly="0"/>
+                    <!--  -->
+                    <label for="pr_no"/>
+                    <h1>
+                        <field name="pr_no" placeholder="PR No." readonly="1" force_save="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="company_id" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': 1}" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                            <field name="department_id" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': 1}" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                            <field name="order_by_id" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': 1}" domain="[('state', '=', 'verified'), ('department', '=', department_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                            <field name="date_request" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                            <field name="eta" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                        </group>
+                        <group>
+                            <field name="budget" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>  
+                            <field name="capex" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                            <field name="remaks" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                        </group>
+                        <group string="Reference To">
+                            <group>
+                                <field name="ref_mol_no" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>  
+                                <field name="ref_bl_no" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                                <field name="ref_date" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                            </group>
+                            <group string=" ">
+                                <field name="ref_cn_unit" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>  
+                                <field name="ref_model" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                                <field name="ref_smr" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                            </group>
+                        </group>
+                        <group string="Reason &amp; Supplier">
+                            <field name="pr_reason" style="white-space: pre-wrap; word-break: break-all;" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>  
+                            <field name="supplier" style="white-space: pre-wrap; word-break: break-all;" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                            <field name="create_uid" invisible="1"/>
+                            <field name="user_approval_ids" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Reason Rejected" name="reason_reject" attrs="{'invisible': [('state', '!=', 'reject')]}">
+                            <field name="reason_reject" readonly="1"/>
+                            <label for="uid_reject" string="Rejected By:"/>
+                            <div>
+                                <field name="uid_reject" class="oe_inline"/>
+                            </div>
+                        </page>
+                        <page string="Item List" name="item_list">
+                            <field name="line_ids" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}">
+                                <tree editable="bottom">
+                                    <field name="parent_state" invisible="1" force_save="1"/>
+                                    <field name="item_part_no_id" options="{'no_create_edit': True, 'no_create': True, 'no_open':True}"/>
+                                    <field name="sub_categ_id" options="{'no_create_edit': True, 'no_create': True, 'no_open':True}" domain="[('aset_id', '=', item_part_no_id)]"/>
+                                    <field name="sub_categ_line_id" options="{'no_create': True, 'no_open':True}" domain="[('parent_id', '=', sub_categ_id)]"/>
+                                    <field name="item_name"/>
+                                    <field name="description"/>
+                                    <field name="qty" required="1"/>
+                                    <field name="price_qty"/>
+                                    <field name="est_price" sum="Total Price"/>
+                                    <field name="other_info"/>
+                                    <button name="action_to_edit" string="Edit" type="object" attrs="{'invisible': ['|', ('parent.is_ga_uid', '=', False), ('parent.state', 'not in', ('waiting'))]}"/>
+                                    <button name="action_to_edit" string="Edit" type="object" attrs="{'invisible': ['|', ('parent.is_procurement_uid', '=', False), ('parent.state', 'not in', ('procurement', 'approve'))]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Approval" name="approval" attrs="{'invisible': [('is_ga_uid', '=', False)]}">
+                            <group>
+                                <group string="Head Management">
+                                    <field name="requestor_id" options="{'no_create': True, 'no_open': True}" readonly="1"/>  
+                                    <field name="head_request_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                                    <field name="head_ga_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                                    <field name="head_hrga_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                </group>
+                                <group string="Direksi">
+                                    <field name="direksi1_id" string="Direksi Related" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                    <field name="direksi2_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                    <field name="direksi3_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                </group>
+                                <group>
+                                    <field name="it_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': ['|', ('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                    <field name="head_finance_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                    <!--  -->
+                                </group>
+                                <group string="Procurement">
+                                    <field name="procurement_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Attachments" name="attach_ids">
+                            <field name="attach_ids" attrs="{'readonly': ['|', ('is_creator', '=', False), ('state', '!=', 'draft')]}">
+                                <tree editable="bottom">
+                                    <field name="attach_name" invisible="1"/>
+                                    <field name="attach_file" filename="attach_name" widget="binary"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Approval Status" name="app_list">
+                            <field name="approval_ids" readonly="1" options="{'no_open': True}">
+                                <tree editable="bottom">
+                                    <field name="user_id"/>
+                                    <field name="email"/>
+                                    <field name="is_email_sent"/>
+                                    <field name="is_current_user" invisible="1" string="Approved"/>
+                                    <field name="action_type" string="Status"/>
+                                    <field name="approve_date"/>
+                                    <field name="notes"/>
+                                    <field name="reject_notes" invisible="1"/>
+                                    <field name="digital_signature" invisible="1"/>
+                                    <field name="upload_signature" invisible="1"/>
+                                    <field name="url" invisible="1"/>
+                                    <field name="is_head_dept" invisible="1"/>
+                                    <field name="is_bod" invisible="1"/>
+                                    <field name="upload_signature" invisible="1"/>
+                                    <field name="digital_signature" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Finance Status" name="app_list" attrs="{'invisible': [('payment_state', '=', False)]}">
+                            <field name="finance_approval_ids" readonly="1" options="{'no_open': True}" domain="[('is_finance', '=', True)]">
+                                <tree editable="bottom">
+                                    <field name="user_id" invisible="1"/>
+                                    <field name="email" invisible="1"/>
+                                    <field name="is_email_sent" invisible="1"/>
+                                    <field name="action_type" invisible="1"/>
+                                    <field name="is_current_user" string="Approved"/>
+                                    <field name="approve_date"/>
+                                    <field name="finance_attachment_fname" invisible="1"/>
+                                    <field name="finance_attachment" filename="finance_attachment_fname" widget="binary"/>
+                                    <field name="notes"/>
+                                    <field name="reject_notes" invisible="1"/>
+                                    <field name="digital_signature" invisible="1"/>
+                                    <field name="upload_signature" invisible="1"/>
+                                    <field name="url" invisible="1"/>
+                                    <field name="is_head_dept" invisible="1"/>
+                                    <field name="is_bod" invisible="1"/>
+                                    <field name="upload_signature" invisible="1"/>
+                                    <field name="digital_signature" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="purchase_req_view_tree" model="ir.ui.view">
+        <field name="name">Purchase Request List</field>
+        <field name="model">mncei.purchase.requisition</field>
+        <field name="arch" type="xml">
+            <tree delete="0">
+                <field name="pr_no"/>
+                <field name="department_id"/>
+                <field name="order_by_id"/>
+                <field name="requestor_id"/>
+                <field name="date_request" widget="remaining_days"/>
+                <field name="eta" widget="remaining_days"/>
+                <field name="company_id"/>            
+                <field name="total_price"/>
+                <field name="state" widget="badge" decoration-success="state in ('approve', 'payment')" decoration-warning="state in ('waiting', 'procurement')" decoration-danger="state in ('reject', 'cancel')"/>            
+                <!-- <field name="payment_state" widget="badge" decoration-success="payment_state == 'payment'" decoration-danger="state in ('cancel')"/>             -->
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action Requestor -->
+    <record id="action_purchase_req" model="ir.actions.act_window">
+        <field name="name">Purchase Requistion</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.purchase.requisition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('requestor_id', '=', uid)]</field>
+        <field name="context">{'delete': 0}</field>
+        <field name="help" type="html">
+            <p>
+                Add New PR
+            </p>
+        </field>
+    </record>
+
+    <!-- Action To Requestor -->
+    <record id="action_purchase_req_wait_approval" model="ir.actions.act_window">
+        <field name="name">Waiting Approval</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.purchase.requisition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'edit': 1, 'create': 0, 'delete': 0}</field>
+        <field name="domain">[('state', '=', 'waiting'), ('approve_uid', '=', uid)]</field>
+        <field name="help" type="html">
+            <p>
+                Not Listed
+            </p>
+        </field>
+    </record>
+
+    <record id="action_purchase_req_procurement" model="ir.actions.act_window">
+        <field name="name">Waiting Procurement</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.purchase.requisition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'edit': 0, 'create': 0, 'delete': 0}</field>
+        <field name="domain">[('state', '=', 'procurement')]</field>
+        <field name="help" type="html">
+            <p>
+                Not Listed
+            </p>
+        </field>
+    </record>
+
+    <record id="action_purchase_req_payment" model="ir.actions.act_window">
+        <field name="name">To Payment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.purchase.requisition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'edit': 0, 'create': 0, 'is_finance': True}</field>
+        <field name="domain">[('state', '=', 'approve'), ('payment_state', '=', False)]</field>
+        <field name="help" type="html">
+            <p>
+                Not Listed
+            </p>
+        </field>
+    </record>
+
+    <record id="action_purchase_approved_list" model="ir.actions.act_window">
+        <field name="name">List Approved</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mncei.purchase.requisition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'edit': 0, 'create': 0}</field>
+        <field name="domain">[('user_approval_ids', 'in', [uid])]</field>
+        <field name="help" type="html">
+            <p>
+                Not Listed
+            </p>
+        </field>
+    </record>
+
+    <!-- Menuitems -->
+
+    <menuitem id="pr_menu_root" name="Purchase Request" web_icon="mnc_purchase_request,static/description/icon.png"/>
+    <menuitem id="pr_menu" name="My Request" sequence="10" action="action_purchase_req" parent="pr_menu_root"/>
+    <menuitem id="pr_menu_approval" name="To Approval" sequence="20" parent="pr_menu_root" groups="mnc_purchase_request.group_pr_approval"/>
+    <menuitem id="pr_menu_approved" name="Approved List" sequence="40" action="action_purchase_approved_list" parent="pr_menu_root" groups="mnc_purchase_request.group_pr_approval"/>
+
+    <menuitem id="pr_menu_wait_approve" name="Management" sequence="10" action="action_purchase_req_wait_approval" parent="pr_menu_approval"/>
+    <menuitem id="pr_menu_procurement" name="Procurement" sequence="50" action="action_purchase_req_procurement" parent="pr_menu_approval" groups="group_pr_procurement"/>
+    <menuitem id="pr_menu_payment" name="To Payment" sequence="100" action="action_purchase_req_payment" parent="pr_menu_approval" groups="group_pr_finance"/>
+
+</odoo>

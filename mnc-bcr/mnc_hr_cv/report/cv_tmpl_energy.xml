@@ -1,0 +1,477 @@
+<odoo>
+    <!-- Header -->
+    <template id='report_cv_energy'>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div t-attf-class="header">
+                            <div class="row">
+                                <t t-set="company" t-value="o.company"/>
+                                <div class="col-2 mb4">
+                                    <img t-if="company" t-att-src="image_data_uri(company.logo)" style="max-height: 80px;margin-bottom: 10px;" class="float-left" alt="Logo"/>
+                                </div>
+                                <div class="col-8 text-center" style="font-size:25px; font-weight: bold;">
+                                     <span t-field="o.company.name"/>
+                                </div>
+                                <div class="col-2 text-center" style="font-size:28px; font-weight: bold;">
+                                </div>
+                            </div>
+                        </div>
+                        <div t-attf-class="body">
+                            <div class="row" style="background-color:#808080;font-size:20px; border-bottom:1px solid black;border-top:1px solid black;">
+                                <div class="col-12 text-center" style="text-center;">
+                                    PERSONAL
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:15px;">
+                                <div class="col-6">
+                                    <div class="row" id="name_tbl" style="margin-right:-100px;">
+                                        <div class="col-6">
+                                            <span>Name</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-43px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-76px;">
+                                            <span style="margin-right:-500px;" t-field="o.nama_lengkap"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="jbt_tbl">
+                                        <div class="col-6">
+                                            <span style="">Function</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.jabatan.name"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="nip_tbl">
+                                        <div class="col-6">
+                                            <span>Employee Number</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.nip_char"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="birthday_tbl">
+                                        <div class="col-6">
+                                            <span>Place &amp; Date of Birth</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.tempat_lahir"/>, 
+                                            <span style="margin-right:10px;" t-field="o.tgl_lahir"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="matital_tbl">
+                                        <div class="col-6">
+                                            <span>Marital Status</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.status_perkwn"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="religion_tbl">
+                                        <div class="col-6">
+                                            <span>Religion</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.agama"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="address_tbl" style="margin-right:-100px;">
+                                        <div class="col-6">
+                                            <span>Address</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-43px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-76px;">
+                                            <span style="margin-right:-500px;" t-field="o.alamat"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="phone_tbl">
+                                        <div class="col-6">
+                                            <span>Phone/HP</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.no_tlp"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="nik_tbl">
+                                        <div class="col-6">
+                                            <span>KTP Number</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.no_ktp_char"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="nik_date_issued_tbl">
+                                        <div class="col-6">
+                                            <span>Date of Issued</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.ktp_date_issued"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="nik_date_exp_tbl">
+                                        <div class="col-6">
+                                            <span>Date of Expired</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.ktp_date_expired"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="nik_place_tbl">
+                                        <div class="col-6">
+                                            <span>Place</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.ktp_place"/>
+                                        </div>
+                                    </div>
+                                    <!-- Passport -->
+                                    <div class="row" id="passport_number">
+                                        <div class="col-6">
+                                            <span>Passport Number</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.passport_number"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="passport_date_issued_tbl">
+                                        <div class="col-6">
+                                            <span>Date of Issued</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.passport_date_issued"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="passport_date_exp_tbl">
+                                        <div class="col-6">
+                                            <span>Date of Expired</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.passport_date_expired"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="passport_place_tbl">
+                                        <div class="col-6">
+                                            <span>Place</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.passport_place"/>
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    <div class="row" id="nik_tbl">
+                                        <div class="col-6">
+                                            <span>NPWP Number</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.npwp_char"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row" id="nik_tbl" style="margin-top:20px;">
+                                        <t t-set="foto_pegawai" t-value="o.foto_pegawai"/>
+                                        <div class="col-4 mb4">
+                                        </div>
+                                        <div class="col-8 mb4" >
+                                            <img t-if="foto_pegawai" t-att-src="image_data_uri(foto_pegawai)" style="max-width: 55%; margin-top: 10px;" class="float-right" alt="Image"/>
+                                        </div>
+                                    </div>
+                                    <div class="row text-right" id="weight_tbl">
+                                        <div class="col-6" style="margin-left:70px;">
+                                            <span>Weight</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-30px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-40px;">
+                                            <span t-field="o.weight"/>
+                                        </div>
+                                    </div>
+                                    <div class="row text-right" id="height_tbl">
+                                        <div class="col-6" style="margin-left:70px;">
+                                            <span>Height</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-30px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-40px;">
+                                            <span t-field="o.height"/>
+                                        </div>
+                                    </div>
+                                    <div class="row text-right" id="blood_tbl">
+                                        <div class="col-6" style="margin-left:70px;">
+                                            <span>Blood Type</span>
+                                        </div>
+                                        <div class="col-2" style="margin-left:-30px;">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-40px;">
+                                            <span t-field="o.gol_darah.name"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="background-color:#808080;font-size:20px; border-bottom:1px solid black;border-top:1px solid black;">
+                                <div class="col-12 text-center" style="text-center;">
+                                    EDUCATION/TRAINING
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;font-size:15px;">
+                                <div class="col-6">
+                                    <div class="row" id="blood_tbl">
+                                        <div class="col-6">
+                                            <span>Highest Formal Education</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-60px; margin-right:10px;">
+                                            <span t-field="o.education"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row text-right" id="blood_tbl">
+                                        <div class="col-6">
+                                            <span>Graduated</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4" style="margin-left:-60px; margin-right:10px;">
+                                            <span t-field="o.graduated_year"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;font-size:15px;page-break-inside: avoid;" t-if="o.emp_training_ids">
+                                Training
+                            </div>
+                            <div class="row" style="margin-top:5px;font-size:15px;" t-if="o.emp_training_ids">
+                                <div class="col-12 text-center" style="font-size:15px;">
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <thead>
+                                            <tr>
+                                                <th name="th_number" class="text-left"><strong>No.</strong></th>
+                                                <th name="th_name"><strong>Training</strong></th>
+                                                <th name="th_from_date"><strong>From</strong></th>
+                                                <th name="th_to_date"><strong>To</strong></th>
+                                                <th name="th_total"><strong>Total Hours</strong></th>
+                                                <th name="th_location"><strong>Location</strong></th>
+                                                <th name="th_conducted"><strong>Conducted By</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-value="0" t-set="number"/>
+                                            <t t-foreach="o.emp_training_ids" t-as="training">
+                                                <tr>
+                                                    <td id="td_number">
+                                                        <t t-set="number" t-value="number+1"/>
+                                                        <span t-esc="number"/>
+                                                    </td>
+                                                    <td id="td_name">
+                                                        <span t-field="training.name"/>
+                                                    </td>
+                                                    <td id="td_from">
+                                                        <span t-field="training.start_date"/>
+                                                    </td>
+                                                    <td id="td_to">
+                                                        <span t-field="training.exp_date"/>
+                                                    </td>
+                                                    <td id="td_totals">
+                                                        <span t-field="training.total"/>
+                                                    </td>
+                                                    <td id="td_location">
+                                                        <span t-field="training.location"/>
+                                                    </td>
+                                                    <td id="td_conducted">
+                                                        <span t-field="training.conducted_by"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" style="background-color:#808080;font-size:20px; border-bottom:1px solid black;border-top:1px solid black;" t-if="o.license_ids">
+                                <div class="col-12 text-center" style="text-center;">
+                                    LICENCE / AUTHORIZATION
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;font-size:15px;" t-if="o.license_ids">
+                                <div class="col-12 text-center" style="font-size:15px;">
+                                    <table class="table table-sm" style="page-break-inside: avoid;">
+                                        <thead>
+                                            <tr>
+                                                <th name="th_number" class="text-left"><strong>No.</strong></th>
+                                                <th name="th_licence_no"><strong>Licence No.</strong></th>
+                                                <th name="th_licence"><strong>Licence Name</strong></th>
+                                                <th name="th_rating"><strong>Rating</strong></th>
+                                                <th name="th_start"><strong>Start</strong></th>
+                                                <th name="th_end"><strong>End</strong></th>
+                                                <th name="th_pic"><strong>PIC</strong></th>
+                                                <th name="th_total"><strong>Flying Hours</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-value="0" t-set="no_licence"/>
+                                            <t t-foreach="o.license_ids" t-as="licence_id">
+                                                <tr>
+                                                    <td id="td_number">
+                                                        <t t-set="no_licence" t-value="no_licence+1"/>
+                                                        <span t-esc="no_licence"/>
+                                                    </td>
+                                                    <td id="td_licence_no">
+                                                        <span t-field="licence_id.license_no"/>
+                                                    </td>
+                                                    <td id="td_licence">
+                                                        <span t-field="licence_id.license_name"/>
+                                                    </td>
+                                                    <td id="td_rating">
+                                                        <span t-field="licence_id.kualf_id.name"/>
+                                                    </td>
+                                                    <td id="td_start">
+                                                        <span t-field="licence_id.start_date"/>
+                                                    </td>
+                                                    <td id="td_end">
+                                                        <span t-field="licence_id.end_date"/>
+                                                    </td>
+                                                    <td id="td_pic">
+                                                        <span t-field="licence_id.pic"/>
+                                                    </td>
+                                                    <td id="td_total">
+                                                        <span t-field="licence_id.flying_hours"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <div id="total" class="row justify-content-end">
+                                    <div class="col-4" style="font-size:15px;">
+                                        <table class="table table-sm">
+                                            <tr class="border-black">
+                                                <td name="td_subtotal_label"><strong>Total :</strong></td>
+                                                <td class="text-right">
+                                                    <t t-esc="sum(o.license_ids.mapped('flying_hours'))"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="row" style="background-color:#808080;font-size:20px; border-bottom:1px solid black;border-top:1px solid black;margin-top:15px;">
+                                <div class="col-12 text-center" style="text-center;">
+                                    WOKING EXPERIENCES / CAREER HISTORIES
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;font-size:15px;">
+                                <div class="col-6">
+                                    <div class="row" id="outside_tbl">
+                                        <div class="col-6">
+                                            <span>Outside</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.pengalaman_kerja"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="inside_tbl">
+                                        <div class="col-6">
+                                            <span>Inside</span>
+                                        </div>
+                                        <div class="col-2">
+                                            <span>:</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span style="margin-left:-60px; margin-right:10px;" t-field="o.inside_experience"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row" id="outside_date_tbl">
+                                        <div class="col-8">
+                                            <span t-field="o.date_end_experience"/>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="inside_date_tbl">
+                                        <div class="col-8">
+                                            <span t-field="o.date_end_inside_experience"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer" style="font-size:15px;float: right;">
+                            <span t-field="o.write_uid"/>
+                            <br/>
+                            <span t-field="o.__last_update"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_print_cv_energy" model="ir.actions.report">
+        <field name="name">Print CV</field>
+        <field name="model">mncei.employee</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mnc_hr_cv.report_cv_energy</field>
+        <field name="report_file">mnc_hr_cv.report_cv_energy</field>
+        <field name="print_report_name">'CV %s - [%s]' % (object.nama_lengkap, object.nip_char)</field>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

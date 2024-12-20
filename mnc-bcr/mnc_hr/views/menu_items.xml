@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<odoo>
+
+	<!-- Menuitems -->
+    <menuitem id="mncei_emp_menu_root"
+        name="Human Resources"
+        active="True"
+        web_icon="mnc_hr,static/description/icon.png"
+        sequence="7" groups="mnc_hr.group_hr_mgr,mnc_hr.group_hr_user"/>
+
+    <menuitem id="mncei_employee" parent="mncei_emp_menu_root" sequence="2" name="Employee"/>
+    <menuitem id="mncei_employee_input" action="mnc_hr.mncei_emp_actions" parent="mncei_employee" sequence="1" name="Draft" groups="mnc_hr.group_hr_user"/>
+    <menuitem id="mncei_employee_review" action="mnc_hr.mncei_emp_review" parent="mncei_employee" sequence="10" name="Waiting Review" groups="mnc_hr.group_hr_mgr"/>
+    <menuitem id="mncei_employee_verify" action="mnc_hr.mncei_emp_verified" parent="mncei_employee" sequence="20" name="Verified"/>
+
+    <!-- Department -->
+    <menuitem id="mncei_dept" 
+        action="mnc_hr.mncei_department_actions" 
+        parent="mncei_emp_menu_root" 
+        sequence="10"
+        groups="mnc_hr.group_hr_user"
+        name="Department"/>
+
+    <menuitem id="mncei_hr_config"
+        name="Configuration"
+        active="True"
+        parent="mncei_emp_menu_root"
+        groups="mnc_hr.group_hr_user"
+        sequence="100"/>
+
+    <menuitem id="mncei_hr_agama" action="mnc_hr.mncei_hr_agama_actions" parent="mncei_hr_config" sequence="1" name="Agama"/>
+
+    <menuitem id="mncei_hr_info_emp"
+        name="Karyawan"
+        active="True"
+        parent="mncei_hr_config"
+        sequence="3"/>
+
+    <menuitem id="mncei_hr_info_penddk"
+        name="Pendidikan"
+        active="True"
+        parent="mncei_hr_config"
+        sequence="4"/>
+
+    <menuitem id="mncei_jabatan" action="mnc_hr.mncei_jabatan_actions" parent="mncei_hr_info_emp" sequence="1" name="Jabatan"/>
+    <menuitem id="mncei_emp_status" action="mnc_hr.mncei_emp_status_actions" parent="mncei_hr_info_emp" sequence="20" name="Status Karyawan"/>
+    <menuitem id="mncei_emp_golongan" action="mnc_hr.mncei_golongan_actions" parent="mncei_hr_info_emp" sequence="30" name="Golongan Karyawan"/>
+    <menuitem id="mncei_lokasi" action="mnc_hr.mncei_lokasi_actions" parent="mncei_hr_info_emp" sequence="40" name="Lokasi Kerja"/>
+    <menuitem id="mncei_hr_categ" action="mnc_hr.mncei_hr_categ_actions" parent="mncei_hr_info_emp" sequence="50" name="Kategori"/>
+    <menuitem id="mncei_grade" action="mnc_hr.mncei_grade_actions" parent="mncei_hr_info_emp" sequence="60" name="Grade"/>
+    <menuitem id="mncei_emp_rate" action="mnc_hr.mncei_emp_rate_action" parent="mncei_hr_info_emp" sequence="62" name="Rating/Kualifikasi"/>
+
+    <menuitem id="mncei_pendidikan" action="mnc_hr.mncei_pendidikan_actions" parent="mncei_hr_info_penddk" sequence="20" name="Tingkat Pendidikan"/>
+    <menuitem id="mncei_institusi" action="mnc_hr.mncei_nama_pendidikan_actions" parent="mncei_hr_info_penddk" sequence="25" name="Institusi Pendidikan"/>
+    <menuitem id="mncei_pajak" action="mnc_hr.mncei_status_pajak_actions" parent="mncei_hr_config" sequence="30" name="Status Pajak"/>
+    <menuitem id="mncei_gol_darah" action="mnc_hr.mncei_gol_darah_action" parent="mncei_hr_config" sequence="80" name="Golongan Darah"/>
+</odoo>

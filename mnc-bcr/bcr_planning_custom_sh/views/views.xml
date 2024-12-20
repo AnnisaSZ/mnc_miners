@@ -1,0 +1,93 @@
+<odoo>
+  <data>
+      <record id="inherit_formview_act_delay_sh_uom" model="ir.ui.view">
+        <field name="name">inherit_formview_act_delay_sh_uom</field>
+        <field name="model">act.delay</field>
+        <field name="inherit_id" ref="bcr_planning.formview_act_delay"/>
+        <field name="arch" type="xml">
+          <xpath expr="//group/group[2]/div[1]" position="replace">
+              <div class="o_row">
+                  <field name="name_uom" invisible="1"/>
+                  <field name="volume_hours" required="1" attrs="{'readonly': [('state', '!=', 'draft')],'invisible':[('name_uom', 'not in', ('Hours','hours'))]}" widget="float_time" class="oe_inline"/>
+                  <field name="volume" required="1" attrs="{'readonly': [('state', '!=', 'draft')],'invisible':[('name_uom', 'in', ('Hours','hours'))]}" class="oe_inline"/>
+                  <field name="item_uom" readonly="1" force_save="1" class="oe_inline"/>
+              </div>
+          </xpath>
+        </field>
+     </record>
+<!--      changen name menu,list&form-->
+<!--      stockroom to inventory-->
+    <record model="ir.ui.menu" id="bcr_planning.menu_act_stockroom_create_edit">
+        <field name="name">Inventory</field>
+    </record>
+    <record model="ir.ui.menu" id="bcr_planning.menu_act_stockroom_review">
+        <field name="name">Inventory</field>
+    </record>
+    <record model="ir.ui.menu" id="bcr_planning.menu_act_stockroom_approve">
+        <field name="name">Inventory</field>
+    </record>
+    <record model="ir.actions.act_window" id="bcr_planning.action_act_stockroom_create_edit">
+        <field name="name">Inventory</field>
+    </record>
+<!--      delay to lost time-->
+    <record model="ir.ui.menu" id="bcr_planning.menu_act_delay_create_edit">
+        <field name="name">Lost Time</field>
+    </record>
+    <record model="ir.ui.menu" id="bcr_planning.menu_act_delay_review">
+        <field name="name">Lost Time</field>
+    </record>
+    <record model="ir.ui.menu" id="bcr_planning.menu_act_delay_approve">
+        <field name="name">Lost Time</field>
+    </record>
+      <record model="ir.actions.act_window" id="bcr_planning.action_act_delay_create_edit">
+        <field name="name">Lost Time</field>
+    </record>
+<!--      area to PIT-->
+    <record model="ir.ui.menu" id="bcr_master.menu_master_area">
+        <field name="name">PIT</field>
+    </record>
+      <record model="ir.actions.act_window" id="bcr_master.action_master_area">
+        <field name="name">PIT</field>
+    </record>
+<!--      bisnit unit to IUP-->
+    <record model="ir.ui.menu" id="bcr_master.menu_master_bisnis_unit">
+        <field name="name">IUP</field>
+    </record>
+      <record model="ir.actions.act_window" id="bcr_master.action_master_bisnis_unit">
+        <field name="name">IUP</field>
+    </record>
+
+<!--      menu setting -->
+       <record id="bcr_parameter_setting_sh_tree" model="ir.ui.view">
+            <field name="name">bcr.parameter.setting.tree</field>
+            <field name="model">bcr.parameter.setting</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" create="0" edit="1" delete="0">
+                    <field name="title"/>
+                    <field name="code"/>
+                    <field name="value"/>
+                    <field name="status" widget="boolean_toggle"/>
+                    <field name="description"/>
+                    <field name="not_allow_user_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+      </record>
+      <record id="bcr_setting_parameter_action" model="ir.actions.act_window">
+            <field name="name">Parameter Setting</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bcr.parameter.setting</field>
+            <field name="view_mode">tree,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Empty Data, Get Data Parameter setting!
+                </p>
+            </field>
+      </record>
+    <menuitem id='bcr_setting_parameter_root_sh' name='Setting Parameter' parent='bcr_master.root_menu_bcr' sequence='17'/>
+    <menuitem id="bcr_setting_parameter_sh"
+            name="Setting Parameter"
+            parent="bcr_setting_parameter_root_sh"
+            action="bcr_setting_parameter_action"
+            sequence="1"/>
+  </data>
+</odoo>

@@ -1,0 +1,25 @@
+<odoo>
+    <menuitem id="fis_menu_root" groups="mnc_fis.group_user_fis" name="FIS" web_icon="mnc_fis,static/description/strange.png"/>
+
+    <menuitem id="list_report_fis" sequence="100" name="Report List" parent="fis_menu_root" action="config_report_fis_view"/>
+
+    <!-- Master -->
+    <menuitem id="list_report_config" sequence="1000" name="Master" parent="fis_menu_root" groups="mnc_fis.group_user_fis_administrator"/>
+    
+    <menuitem id="list_report_config_ac_type" sequence="150" name="Aircraft" parent="list_report_config"/>
+    <menuitem id="list_report_ac_type" sequence="150" name="Aircraft" action="config_ac_type_view" parent="list_report_config_ac_type"/>
+
+    <menuitem id="list_report_config_airport" sequence="100" name="Airport" parent="list_report_config"/>
+    <menuitem id="list_report_airport" sequence="100" name="Airport" action="config_airport_view" parent="list_report_config_airport"/>
+
+    <menuitem id="list_report_config_crew" sequence="250" name="Crew" parent="list_report_config"/>
+    <menuitem id="list_report_position" sequence="200" name="Position" action="config_position_view" parent="list_report_config_crew"/>
+    <menuitem id="list_report_crew" sequence="250" name="Crew" action="config_crew_view" parent="list_report_config_crew"/>
+
+    <menuitem id="list_report_config_agent" sequence="300" name="Agent" parent="list_report_config"/>
+    <menuitem id="list_report_agent" sequence="300" name="Agent" action="config_agent_view" parent="list_report_config_agent"/>
+
+    <menuitem id="list_report_config_charterby" sequence="350" name="Charter By" parent="list_report_config"/>
+    <menuitem id="list_report_charterby" sequence="350" name="Charter By" action="config_charterby_view" parent="list_report_config_charterby"/>
+
+</odoo>

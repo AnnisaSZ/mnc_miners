@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="act_survey_form" model="ir.ui.view">
+            <field name="name">act.survey.form</field>
+            <field name="model">act.survey</field>
+            <field name="arch" type="xml">
+                <form delete="0" duplicate="0">
+                    <header>
+                        <button name="action_submit" type="object" string="Submit" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_revice" type="object" string="Revise" attrs="{'invisible': [('state', '!=', 'complete')]}" groups="bcr_operational.operational_revice_admin_group"/>
+                        <field name="state" widget="statusbar" readonly="1"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <label for="kode"/>
+                        <h1>
+                            <field name="kode"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="active" invisible="1"/>
+                                <field name="company_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="activity_id" options="{'no_create': True, 'no_open': True}" readonly="1" force_save="1"/>
+                                <!-- <field name="sub_activity_id" options="{'no_create': True, 'no_open': True}"/> -->
+                                <field name="kontraktor_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="pit_id" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="time_type"/>
+                                <label for="period_month" string="Period"/>
+                                <div class="o_row">
+                                    <field name="week" attrs="{'invisible': [('time_type', '=', 'Monthly')], 'required': [('time_type', '=', 'Weekly')]}"/>
+                                    <field name="period_month"/>
+                                    <field name="selected_years"/>
+                                </div>
+                                <label for="date_start" string="Date"/>
+                                <div class="o_row">
+                                    <field name="date_start"/> To
+                                    <field name="date_end"/>
+                                </div>
+                                <field name="filename_attachment" invisible="1"/>
+                                <field name="attachment" widget="binary" filename="filename_attachment"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Overburden" name="ob_survey">
+                                <field name="ob_survey_line_ids" context="{'default_pit_id': pit_id}">
+                                    <tree editable="bottom">
+                                        <field name="ob_survey_id" invisible="1"/>
+                                        <field name="ttype" invisible="1"/>
+                                        <field name="sub_activity_id" invisible="1"/>
+                                        <!-- <field name="product_ids" required="1" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True}"/> -->
+                                        <field name="product_id" required="1" options="{'no_create': True, 'no_create_edit': True}"/>
+                                        <field name="pit_id" invisible="1"/>
+                                        <field name="seam_id" invisible="1"/>
+                                        <field name="track_count" string="Truckcount"/>
+                                        <field name="volume" string="Survey"/>
+                                        <field name="distance" string="Distance(M)"/>
+                                        <field name="voldist" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group>
+                                        <field name="total_volume_ob"/>
+                                        <field name="total_distance_ob"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Coal Getting" name="cg_survey">
+                                <field name="cg_survey_line_ids" context="{'default_pit_id': pit_id}">
+                                    <tree editable="bottom">
+                                        <field name="cg_survey_id" invisible="1"/>
+                                        <field name="ttype" invisible="1"/>
+                                        <field name="sub_activity_id" invisible="1"/>
+                                        <field name="product_ids" invisible="1" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True}"/>
+                                        <field name="pit_id" invisible="1"/>
+                                        <field name="seam_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                        <field name="track_count"/>
+                                        <field name="volume"/>
+                                        <field name="distance" string="Distance(M)"/>
+                                        <field name="voldist" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group>
+                                        <field name="total_volume_cg"/>
+                                        <field name="total_distance_cg"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Coal Hauling" name="ch_survey">
+                                <field name="ch_survey_line_ids" context="{'default_pit_id': pit_id}">
+                                    <tree editable="bottom">
+                                        <field name="ch_survey_id" invisible="1"/>
+                                        <field name="ttype" invisible="1"/>
+                                        <field name="sub_activity_id" invisible="1"/>
+                                        <field name="product_ids" invisible="1" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True}"/>
+                                        <field name="pit_id" invisible="1"/>
+                                        <field name="seam_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                        <field name="track_count"/>
+                                        <field name="volume"/>
+                                        <field name="distance" string="Distance(M)"/>
+                                        <field name="voldist" invisible="1"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group>
+                                        <field name="total_volume_ch"/>
+                                        <field name="total_distance_ch"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="act_survey_tree" model="ir.ui.view">
+            <field name="name">act.survey.tree</field>
+            <field name="model">act.survey</field>
+            <field name="arch" type="xml">
+                <tree delete="0" duplicate="0" decoration-success="state == 'complete'">
+                    <field name="kode"/>
+                    <field name="company_id" string="Bisnis Unit"/>
+                    <field name="activity_id"/>
+                    <!-- <field name="sub_activity_id"/> -->
+                    <field name="kontraktor_id"/>
+                    <field name="pit_id"/>
+                    <field name="time_type"/>
+                    <field name="period_month"/>
+                    <field name="selected_years"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="filename_attachment" invisible="1"/>
+                    <field name="attachment" widget="binary" filename="filename_attachment"/>
+                    <field name="state" widget="badge" decoration-success="state in ('complete')"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_act_survey">
+            <field name="name">act.survey.filter</field>
+            <field name="model">act.survey</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_actual_survey" model="ir.actions.act_window">
+            <field name="name">Actual Survey</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">act.survey</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Survey
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

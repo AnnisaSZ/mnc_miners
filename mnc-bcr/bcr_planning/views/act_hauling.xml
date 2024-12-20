@@ -1,0 +1,255 @@
+<odoo>
+    <data>
+
+        <!-- List - Create   &   List - Edit -->
+        <record id="listview_act_hauling" model="ir.ui.view">
+            <field name="name">List Hauling - Input</field>
+            <field name="model">act.hauling</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="true" edit="true" delete="false" editable="bottom" decoration-muted="state == 'reject'" decoration-success="state == 'complete'">
+                    <field name="kode"/>
+                    <field name="date_act"			required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="bisnis_unit_id"    readonly="1" optional="hide"/>
+                    <field name="activity_id"       readonly="1" optional="show"/>
+                    <field name="sub_activity_id"   required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('activity_id', '=', activity_id)]"/>
+                    <field name="product"           required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('sub_activity_id', '=', sub_activity_id)]"/>
+                    <field name="area_id" 			required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('bisnis_unit_id', '=', bisnis_unit_id)]"/>
+                    <field name="shift_id" 			required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('area_code', '=', area_id)]"/>
+                    <field name="ritase"			required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="volume"	    	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="total_unit"		required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bisnis_unit_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+                    <button name="action_start"  type="object" string="Start"    class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <field name="state"             force_save="1"/>
+                    <field name="create_uid"        optional="show"/>
+                    <field name="create_date"       optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="formview_act_hauling" model="ir.ui.view">
+            <field name="name">formview_act_hauling</field>
+            <field name="model">act.hauling</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form create="true" edit="true" delete="false" >
+                    <header>
+                        <button name="action_start" type="object" string="Start" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,review,approve,complete"/>
+                    </header>
+                    <sheet>
+                        <div class='oe_title'>
+                            <h1><field name="kode"/></h1>
+                        </div>
+                        <group>
+                            <group>
+			                    <field name="date_act"			required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+			                    <field name="bisnis_unit_id"    readonly="1" optional="hide"/>
+			                    <field name="activity_id"       readonly="1" optional="show"/>
+                                <field name="sub_activity_id"   required="1" options="{'no_create': True, 'no_open': True}" domain="[('activity_id', '=', activity_id)]"            attrs="{'readonly': [('state', '!=', 'draft')]}" />
+			                    <field name="product"           required="1" options="{'no_create': True, 'no_open': True}" domain="[('sub_activity_id', '=', sub_activity_id)]"    attrs="{'readonly': [('state', '!=', 'draft')],'invisible': [('sub_activity_id','=',False)]}" />
+                            </group>
+
+                            <group>
+			                    <field name="area_id" 			required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('bisnis_unit_id', '=', bisnis_unit_id)]"/>
+			                    <field name="shift_id" 			required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('area_code', '=', area_id)]"/>
+			                    <field name="ritase"			required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+			                    <field name="volume"		    required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+			                    <field name="total_unit"		required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+			                    <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bisnis_unit_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Validation">
+                                <field name="validation_plan" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom" edit="false" create="false" delete="false">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="user_id"/>
+                                        <field name="validation_type_id" invisible="0"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action - Menu - Create   &   Action - Menu - Edit -->
+        <record id="action_act_hauling_create_edit" model="ir.actions.act_window">
+            <field name="name">Hauling Input</field>
+            <field name="res_model">act.hauling</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bcr_planning.listview_act_hauling')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('bcr_planning.formview_act_hauling')})]"/>
+        </record>
+
+        <menuitem   id='menu_act_hauling_create_edit'
+                    name='Hauling'
+                    parent='menu_group_input_actual'
+                    sequence='6'
+                    action="action_act_hauling_create_edit"/>
+<!--                    groups="group_bcr_planning_input,group_bcr_planning_admin,group_bcr_process_actor_kon_hauling,group_bcr_process_actor_admin_site"/>-->
+
+
+        <!-- List - Review -->
+        <record id="listview_act_hauling_review" model="ir.ui.view">
+            <field name="name">listview_act_hauling_review</field>
+            <field name="model">act.hauling</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="true" delete="false" editable="bottom" decoration-muted="state == 'reject'" decoration-success="state == 'complete'">
+                    <field name="kode"/>
+                    <field name="date_act"			required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+                    <field name="bisnis_unit_id"    readonly="1" optional="hide"/>
+                    <field name="activity_id"       readonly="1" optional="show"/>
+                    <field name="sub_activity_id"   required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('activity_id', '=', activity_id)]"/>
+                    <field name="product"           required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('sub_activity_id', '=', sub_activity_id)]"/>
+                    <field name="area_id" 			required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('bisnis_unit_id', '=', bisnis_unit_id)]"/>
+                    <field name="shift_id" 			required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('area_code', '=', area_id)]"/>
+                    <field name="ritase"			required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+                    <field name="volume"		    required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+                    <field name="total_unit"		required="1" attrs="{'readonly': [('state', '!=', 'review')]}" />
+                    <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'review')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bisnis_unit_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+                    <field name="state"/>
+                    <field name="create_uid"        optional="show"/>
+                    <field name="create_date"       optional="show"/>
+                    <field name="is_reviewer"       invisible="1"/>
+                    <field name="is_approver"       invisible="1"/>
+                    <button name="action_review" type="object" string="Reviewed" class="oe_highlight" attrs="{'invisible': ['|', ('is_reviewer', '=', False), ('state', '!=', 'review')]}"/>
+                    <field name="revise_note"/>
+				</tree>
+            </field>
+        </record>
+
+        <!-- List - Approve -->
+        <record id="listview_act_hauling_approve" model="ir.ui.view">
+            <field name="name">listview_act_hauling_approve</field>
+            <field name="model">act.hauling</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="true" delete="false" decoration-muted="state == 'reject'" decoration-success="state == 'complete'">
+                    <field name="kode"				readonly="1"/>
+                    <field name="date_act"			readonly="1"/>
+                    <field name="bisnis_unit_id"    readonly="1"/>
+                    <field name="activity_id"       readonly="1"/>
+                    <field name="sub_activity_id"   readonly="1"/>
+                    <field name="product"           readonly="1"/>
+                    <field name="area_id" 			readonly="1"/>
+                    <field name="shift_id" 			readonly="1"/>
+                    <field name="ritase"			readonly="1"/>
+                    <field name="volume"		    readonly="1"/>
+                    <field name="total_unit"		readonly="1"/>
+                    <field name="kontraktor_id"  	readonly="1"/>
+                    <field name="state"/>
+                    <field name="create_uid"        readonly="1"/>
+                    <field name="create_date"       readonly="1"/>
+                    <field name="is_reviewer"       invisible="1"/>
+                    <field name="is_approver"       invisible="1"/>
+
+                    <field name="revise_note"       attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approve')]}"/>
+
+                    <button name="action_approve"   type="object" string="Approved" class="oe_highlight" attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approve')]}"/>
+                    <button name="action_revise"    type="object" string="Revise"   class="oe_highlight" attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'approve')]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form - Review   &   Form - Approve -->
+        <record id="formview_act_hauling_validation" model="ir.ui.view">
+            <field name="name">formview_act_hauling_validation</field>
+            <field name="model">act.hauling</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="true" delete="false" >
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,review,approve,complete"/>
+                    </header>
+                    <sheet>
+                        <div class='oe_title'>
+                            <h1>
+                                <field name="kode"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+			                    <field name="date_act"			required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+			                    <field name="bisnis_unit_id"    readonly="1" optional="hide"/>
+			                    <field name="activity_id"       readonly="1" optional="show"/>
+                                <field name="sub_activity_id"   required="1" options="{'no_create': True, 'no_open': True}" domain="[('activity_id', '=', activity_id)]"            attrs="{'readonly': [('state', '!=', 'complete')]}" />
+			                    <field name="product"           required="1" options="{'no_create': True, 'no_open': True}" domain="[('sub_activity_id', '=', sub_activity_id)]"    attrs="{'readonly': [('state', '!=', 'complete')],'invisible': [('sub_activity_id','=',False)]}" />
+                            </group>
+
+                            <group>
+			                    <field name="area_id" 			required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" options="{'no_create': True}" domain="[('bisnis_unit_id', '=', bisnis_unit_id)]"/>
+			                    <field name="shift_id" 			required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" options="{'no_create': True}" domain="[('area_code', '=', area_id)]"/>
+			                    <field name="ritase"			required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+			                    <field name="volume"		    required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+			                    <field name="total_unit"		required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" />
+			                    <field name="kontraktor_id"  	required="1" attrs="{'readonly': [('state', '!=', 'complete')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('bisnis_unit_id', '=', bisnis_unit_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+                            </group>
+
+                            <group invisible="1">
+                                <field name="is_reviewer"/>
+                                <field name="is_approver"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Validation">
+                                <field name="validation_plan" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="user_id"/>
+                                        <field name="validation_type_id" invisible="0"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action - Menu - Review -->
+        <record id="action_act_hauling_review" model="ir.actions.act_window">
+            <field name="name">Hauling - Review</field>
+            <field name="res_model">act.hauling</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'review')]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bcr_planning.listview_act_hauling_review')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('bcr_planning.formview_act_hauling_validation')})]"/>
+        </record>
+
+        <menuitem   id='menu_act_hauling_review'
+                    name='Hauling'
+                    parent='menu_group_review_actual'
+                    sequence='6'
+                    action="action_act_hauling_review"/>
+<!--                    groups="group_bcr_planning_review,group_bcr_planning_admin,group_bcr_process_actor_kon_hauling,group_bcr_process_actor_admin_site"/>-->
+
+
+        <!-- Action - Menu - Approve -->
+        <record id="action_act_hauling_approve" model="ir.actions.act_window">
+            <field name="name">Hauling - Approve</field>
+            <field name="res_model">act.hauling</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', '=', 'approve')]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('bcr_planning.listview_act_hauling_approve')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('bcr_planning.formview_act_hauling_validation')})]"/>
+        </record>
+
+        <menuitem   id='menu_act_hauling_approve'
+                    name='Hauling'
+                    parent='menu_group_approve_actual'
+                    sequence='5'
+                    action="action_act_hauling_approve"/>
+<!--                    groups="group_bcr_planning_approve,group_bcr_planning_admin,group_bcr_process_actor_spv_data_cont"/>-->
+    </data>
+</odoo>

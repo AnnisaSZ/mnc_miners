@@ -1,0 +1,146 @@
+<odoo>
+    <data>
+        <!-- <record id="product_template_view_form_inherit_marketing" model="ir.ui.view">
+            <field name="name">product.template.marketing</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='options']" position="inside">
+                    <div>
+                        <field name="is_marketing"/>
+                        <label for="is_marketing"/>
+                    </div>
+                </xpath>
+            </field>
+        </record> -->
+
+        <record id="product_template_view_new_marketing" model="ir.ui.view">
+            <field name="name">product.template.marketing.new</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="product_variant_count" invisible="1"/>
+                        <field name="is_product_variant" invisible="1"/>
+                        <field name="is_marketing" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                        <field name="attribute_line_ids" invisible="1"/>
+                        <div class="oe_button_box" name="button_box"/>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="id" invisible="True"/>
+                        <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Product Name"/>
+                            <h1><field name="name" placeholder="Product Name"/></h1>
+                        </div>
+                        <group>
+                            <group name="specification" string="Specification">
+                                <!-- ################## -->
+                                <label for="gcv_start_arb" string="GCV (ARB)"/>
+                                <div class="o_row">
+                                    <field name="gcv_start_arb" attrs="{'required': [('is_marketing', '=', True)]}" class="oe_inline"/> - 
+                                    <field name="gcv_end_arb" attrs="{'required': [('is_marketing', '=', True)]}" class="oe_inline"/> Kcal/kg
+                                </div>
+                                <!-- ################## -->
+                                <label for="tm_arb_start" string="TM (ARB)"/>
+                                <div class="o_row">
+                                    <field name="tm_arb_start" attrs="{'required': [('is_marketing', '=', True)]}" class="oe_inline"/>% - 
+                                    <field name="tm_arb_end" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/>%
+                                </div>
+                                <!-- ################## -->
+                                <label for="im_adb" string="IM (ADB)"/>
+                                <div class="o_row">
+                                    <field name="im_adb" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/> % Approx
+                                </div>
+                                <!-- ################## -->
+                                <label for="ash_adb_start" string="ASH (ADB)"/>
+                                <div class="o_row">
+                                    <field name="ash_adb_start" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/>% - 
+                                    <field name="ash_adb_end" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/>%
+                                </div>
+                                <!-- ################## -->
+                                <label for="vm_adb" string="VM (ADB)"/>
+                                <div class="o_row">
+                                    <field name="vm_adb" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/> % Approx
+                                </div>
+                                <!-- ################## -->
+                                <label for="fc_adb" string="FC (ADB)"/>
+                                <div class="o_row">
+                                    <field name="fc_adb" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/>
+                                </div>
+                                <!-- ################## -->
+                                <label for="sulfur_adb_start" string="Sulfur (ADB)"/>
+                                <div class="o_row">
+                                    <field name="sulfur_adb_start" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/>% - 
+                                    <field name="sulfur_adb_end" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/>%
+                                </div>
+                                <!-- ################## -->
+                                <label for="hgi" string="HGI"/>
+                                <div class="o_row">
+                                    <field name="hgi" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/> % Approx
+                                </div>
+                                <!-- ################## -->
+                                <label for="size" string="Size"/>
+                                <div class="o_row">
+                                    <field name="min_size" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/> -
+                                    <field name="max_size" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/> mm  
+                                    <field name="size" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/> %
+                                </div>
+                            </group>
+                            <group name="aft" string="AFT (Reduction)">
+                                <!-- ################## -->
+                                <label for="initial_deformation" string="Initial Deformation"/>
+                                <div class="o_row">
+                                    <field name="initial_deformation" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/> Approx
+                                </div>
+                                <!-- ################## -->
+                                <label for="spherical" string="Spherical"/>
+                                <div class="o_row">
+                                    <field name="spherical" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/> Approx
+                                </div>
+                                <!-- ################## -->
+                                <label for="hemispherical" string="Hemispherical"/>
+                                <div class="o_row">
+                                    <field name="hemispherical" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/> Approx
+                                </div>
+                                <!-- ################## -->
+                                <label for="fluid" string="Fluid"/>
+                                <div class="o_row">
+                                    <field name="fluid" class="oe_inline" attrs="{'required': [('is_marketing', '=', True)]}"/> Approx
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="product_marketing_view_tree" model="ir.ui.view">
+            <field name="name">product.template.tree.marketing</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'tooltip_image': 'image'}"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_product_marketing" model="ir.actions.act_window">
+            <field name="name">Product</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_marketing','=', True)]</field>
+            <field name="context">{'default_is_marketing': True}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('product_marketing_view_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('product_template_view_new_marketing')})]"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                        Click here to add
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

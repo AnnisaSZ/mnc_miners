@@ -1,0 +1,78 @@
+<odoo>
+    <data>
+
+		<record id="bcr_res_partner_inherit01" model="ir.ui.view">
+        	<field name="name">res.partner.inherit</field>
+        	<field name="model">res.partner</field>
+        	<field name="inherit_id" ref="base.view_partner_form"/>
+        	<field name="arch" type="xml">
+        		<field name="vat" position="after">
+                    <field name="is_buyer" invisible="1"/>
+                    <field name="is_kontraktor" invisible="1"/>
+<!--                    <group string="Buyer / Contractor Info" colspan="4">-->
+<!--                    </group>-->
+        		</field>
+
+                <xpath expr="//form/sheet/notebook/page[@name='internal_notes']" position="after">
+                    <page name="bcr_page" string="Buyer &amp; Contractor">
+                        <group string="Buyer Info" attrs="{'invisible': [('is_buyer','!=',True)]}">
+                            <field name="kode_buyer" readonly="1" attrs="{'invisible': [('is_buyer','!=',True)]}"/>
+                            <field name="keterangan" attrs="{'invisible': [('is_buyer','!=',True)]}"/>
+                            <field name="fax_no" attrs="{'invisible': [('is_buyer','!=',True)]}"/>
+                        </group>
+                        <group string="Contractor Info" attrs="{'invisible': [('is_kontraktor','!=',True)]}">
+                            <field name="kode_kontraktor" readonly="1" attrs="{'invisible': [('is_kontraktor','!=',True)]}"/>
+                            <field name="tipe_kontraktor"
+                                   attrs="{ 'invisible': [('is_kontraktor','!=',True)],
+                                            'required': [('is_kontraktor','=',True)]}"/>
+                            <field name="bisnis_unit_id" options="{'no_quick_create': True, 'no_create_edit' : True}"
+                                   attrs="{ 'invisible': [('is_kontraktor','!=',True)],
+                                            'required': [('is_kontraktor','=',True)]}"/>
+                        </group>
+                    </page>
+                </xpath>
+        	</field>
+      	</record>
+
+        <record id="action_master_buyer" model="ir.actions.act_window">
+            <field name="name">Buyer</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_buyer','=',True)]</field>
+            <field name="context">{'default_is_buyer': True, 'default_is_kontraktor': False, 'default_is_company': True}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                        Click here to add
+                </p>
+            </field>
+        </record>
+
+        <record id="action_master_kontraktor" model="ir.actions.act_window">
+            <field name="name">Kontraktor</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_kontraktor','=',True)]</field>
+            <field name="context">{'default_is_buyer': False, 'default_is_kontraktor': True, 'default_is_company': True}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                        Click here to add
+                </p>
+            </field>
+        </record>
+
+        <menuitem id='menu_master_buyer'
+        		name='Buyer'
+        		parent='bcr_master.menu_group_master_04'
+        		sequence='15'
+        		action='action_master_buyer'/>
+<!--                groups="group_bcr_master_admin,group_bcr_master_admin_site"/>-->
+
+        <menuitem id='menu_master_kontraktor'
+        		name='Kontraktor'
+        		parent='bcr_master.menu_group_master_04'
+        		sequence='16'
+        		action='action_master_kontraktor'/>
+<!--                groups="group_bcr_master_admin,group_bcr_master_admin_site"/>-->
+
+    </data>
+</odoo>

@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Product -->
+        <record id="product_losttime_view_tree" model="ir.ui.view">
+            <field name="name">product.product.tree.planning.losttime</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="default_code"/>
+                    <field name="name"/>
+                    <field name="uom_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Planning -->
+        <record id="plan_opr_view_form" model="ir.ui.view">
+            <field name="name">planning.opr.form</field>
+            <field name="model">planning.opr</field>
+            <field name="arch" type="xml">
+                <form duplicate="0">
+                    <header>
+                        <button name="action_submit" type="object" string="Submit" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_revice" type="object" string="Revise" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'complete')]}" groups="bcr_operational.operational_revice_admin_group"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="active" invisible="1"/>
+                        <label for="kode_planning"/>
+                        <h1>
+                            <field name="kode_planning"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="is_yearly" invisible="1"/>
+                                <field name="is_monthly" invisible="1"/>
+                                <field name="is_production" invisible="1"/>
+                                <field name="is_ob" invisible="1"/>
+                                <field name="company_id" string="Bisnis Unit" options="{'no_open': True}"/>
+                                <field name="activity_ids" widget="many2many_tags" invisible="1"/>
+                                <field name="activity_id" force_save="1" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                <field name="sub_activity_id" options="{'no_open': True}" domain="[('activity_id', '=', activity_id)]" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                <!-- Kontraktor -->
+                                <field name="kontraktor_id" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('is_production', '=', True)], 'readonly': [('state', '=', 'complete')]}" context="{'activity_id': activity_id, 'company_id': company_id}"/>
+                                <field name="option_id" force_save="1" string="Category" options="{'no_create': True, 'no_open': True}" context="{'plan_id': active_id, 'is_yearly': is_yearly}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                <field name="atth_monthly_id" required="1" options="{'no_create': True, 'no_create_edit': True}" context="{'plan_id': active_id, 'kontraktor_id': kontraktor_id, 'activity_id': activity_id, 'category_id': option_id}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                <label for="date_start" string="Date Range" attrs="{'invisible': [('is_yearly', '=', False)]}"/>
+                                <div class="o_row" attrs="{'invisible': [('is_yearly', '=', False)]}">
+                                    <field name="date_start" attrs="{'required': [('is_yearly', '=', True)], 'readonly': [('state', '=', 'complete')]}"/> to
+                                    <field name="date_end" attrs="{'required': [('is_yearly', '=', True)], 'readonly': [('state', '=', 'complete')]}"/>
+                                </div>
+                                <field name="date_start" string="Date" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)], 'readonly': [('state', '=', 'complete')]}"/>
+                                <label for="workdays" string="Workdays" attrs="{'invisible': [('is_yearly', '=', False)]}"/>
+                                <div class="o_row" attrs="{'invisible': [('is_yearly', '=', False)]}">
+                                    <field name="workdays"/>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="create_uid" options="{'no_open': True}"/>
+                                <field name="create_date" string="Create Date" attrs="{'invisible': [('is_monthly', '=', False)]}"/>
+                                <field name="area_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}" domain="[('bu_company_id', '=', company_id)]" required="1" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                <field name="source_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}" domain="[('area_code', '=', area_id)]" required="1" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                <label for="distance_plan" attrs="{'invisible': [('is_yearly', '=', False)], 'required': [('is_yearly', '=', True)]}"/>
+                                <div class="o_row" attrs="{'invisible': [('is_yearly', '=', False)], 'required': [('is_yearly', '=', True)]}">
+                                    <field name="distance_plan" attrs="{'readonly': [('state', '=', 'complete')]}"/> M
+                                </div>
+                                <!-- ////// -->
+                                <field name="filename_attachment" invisible="1"/>
+                                <label for="volume_total" string="Total Volume"/>
+                                <div class="o_row">
+                                    <field name="volume_total"/>
+                                    <field name="uom_planning"/>
+                                </div>
+                            </group>
+                            <group name="adj">
+                                <label for="adj_volume" string="Adj Volume" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                    <field name="adj_volume" force_save="1"/>
+                                    <field name="uom_planning" force_save="1"/>
+                                </div>
+                                <label for="adj_ua" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                    <field name="adj_ua" force_save="1"/> %
+                                </div>
+                                <label for="adj_wh" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                    <field name="adj_wh" force_save="1"/> Hour
+                                </div>
+                            </group>
+                            <group>
+                                <label for="adj_delay" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                    <field name="adj_delay" force_save="1"/> Hour
+                                </div>
+                                <label for="adj_stb" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                    <field name="adj_stb" force_save="1"/> Hour
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Volume per Product" name="volume_product" attrs="{'invisible': [('is_ob', '=', False)]}">
+                                <field name="product_plan_ids" attrs="{'readonly': [('state', '=', 'complete')]}">
+                                    <tree editable="bottom">
+                                        <field name="sub_activity_ids" invisible="1"/>
+                                        <field name="sub_activity_id" invisible="1"/>
+                                        <field name="is_product_ob" invisible="1"/>
+                                        <field name="area_id" invisible="1"/>
+                                        <field name="product_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                                        <field name="volume_seam"/>
+                                        <field name="uom_product_planning"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Volume per Seam" name="volume_seam" attrs="{'invisible': [('is_ob', '=', True)]}">
+                                <field name="seam_plan_ids" attrs="{'readonly': [('state', '=', 'complete')]}">
+                                    <tree editable="bottom">
+                                        <field name="sub_activity_ids" invisible="1"/>
+                                        <field name="is_ob" invisible="1"/>
+                                        <field name="area_id" invisible="1"/>
+                                        <field name="seam_id" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}" domain="[('bu_company_id', '=', parent.company_id), ('area_id', '=', parent.area_id)]"/>
+                                        <field name="cv_ar"/>
+                                        <field name="ts_id" domain="[('status', '=', 'active')]" options="{'no_open': True, 'no_create_edit': True, 'no_create': True}"/>
+                                        <field name="volume_seam"/>
+                                        <field name="uom_planning"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Lost Time" attrs="{'invisible': [('is_monthly', '=', False)]}">
+                                <field name="lost_time_ids" attrs="{'readonly': [('state', '=', 'complete')]}" options="{'no_open': True}">
+                                    <tree editable="bottom">
+                                        <field name="sub_activity_ids" invisible="1"/>
+                                        <field name="product_id" string="Description" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" context="{'tree_view_ref': 'bcr_operational.product_losttime_view_tree'}"/>
+                                        <field name="total_losttime" string="Duration"/>
+                                        <field name="uom_id"/>
+                                    </tree>
+                                </field>
+                                <group>
+                                    <group>
+                                        <label for="pa" string="PA" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                        <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                            <field name="pa" attrs="{'readonly': [('state', '=', 'complete')]}"/> %
+                                        </div>
+                                        <field name="prodty_loader" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)], 'readonly': [('state', '=', 'complete')]}"/>
+                                        <field name="unit_loader" string="N Unit" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)], 'readonly': [('state', '=', 'complete')]}"/>
+                                        <label for="delay" string="Delay" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                        <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                            <field name="delay"/> Hours
+                                        </div>
+                                        <label for="idle" string="Idle" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                        <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                            <field name="idle"/> Hours
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <label for="breakdown_time" string="BD" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                        <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                            <field name="breakdown_time"/> Hours
+                                        </div>
+                                        <label for="total_losttime" string="STB" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                        <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                            <field name="total_losttime"/> Hours
+                                        </div>
+                                        <label for="total_wh" string="WH" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                        <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                            <field name="total_wh"/> Hours
+                                        </div>
+                                        <label for="ua" string="UA" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                        <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                            <field name="ua"/> %
+                                        </div>
+                                        <label for="volume_perf_unit" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}"/>
+                                        <div class="o_row" attrs="{'invisible': [('is_monthly', '=', False)], 'required': [('is_monthly', '=', True)]}">
+                                            <field name="volume_perf_unit" force_save="1"/>
+                                            <field name="uom_planning" force_save="1"/>
+                                        </div>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_planning_operational">
+            <field name="name">planning.opr.filter</field>
+            <field name="model">planning.opr</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+              </search>
+            </field>
+        </record>
+
+        <record id="plan_opr_view_tree" model="ir.ui.view">
+            <field name="name">planning.opr.tree</field>
+            <field name="model">planning.opr</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="state == 'complete'">
+                    <field name="kode_planning"/>
+                    <field name="company_id" string="Bisnis Unit"/>
+                    <field name="activity_id"/>
+                    <field name="option_id"/>
+                    <field name="sub_activity_id"/>
+                    <field name="kontraktor_id"/>
+                    <field name="area_id"/>
+                    <field name="source_id"/>
+                    <field name="atth_monthly_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="volume_total"/>
+                    <field name="distance_plan"/>
+                    <field name="seam_plan_ids"/>
+                    <field name="product_plan_ids"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="plan_opr_view_monthly_tree" model="ir.ui.view">
+            <field name="name">planning.opr.tree</field>
+            <field name="model">planning.opr</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="state == 'complete'">
+                    <field name="kode_planning"/>
+                    <field name="company_id" string="Bisnis Unit"/>
+                    <field name="activity_id"/>
+                    <field name="option_id"/>
+                    <field name="sub_activity_id"/>
+                    <field name="kontraktor_id"/>
+                    <field name="area_id"/>
+                    <field name="source_id"/>
+                    <field name="atth_monthly_id"/>
+                    <field name="date_start"/>
+                    <field name="volume_total"/>
+                    <field name="lost_time_ids"/>
+                    <field name="seam_plan_ids"/>
+                    <field name="product_plan_ids"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_plan_opr_yearly" model="ir.actions.act_window">
+            <field name="name">Planning Yearly</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">planning.opr</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_is_yearly': True, 'delete': 0}</field>
+            <field name="domain">[('is_yearly', '=', True)]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('plan_opr_view_tree')})]"/>
+            <field name="help" type="html">
+                <p>
+                    Add New Planning Yearly
+                </p>
+            </field>
+        </record>
+
+        <record id="action_plan_opr_monthly" model="ir.actions.act_window">
+            <field name="name">Planning Monthly</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">planning.opr</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_is_monthly': True, 'delete': 0}</field>
+            <field name="domain">[('is_monthly', '=', True)]</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('plan_opr_view_monthly_tree')})]"/>
+            <field name="help" type="html">
+                <p>
+                    Add New Planning Monthly
+                </p>
+            </field>
+        </record>
+
+        <!-- Plan Month Attachment -->
+        <record id="plan_month_attach" model="ir.ui.view">
+            <field name="name">planning.month.attachment.form</field>
+            <field name="model">planning.month.attachment</field>
+            <field name="arch" type="xml">
+                <form delete="0" duplicate="0">
+                    <header>
+                        <button name="action_submit" type="object" string="Submit" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_revice" type="object" string="Revise" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'complete')]}" groups="bcr_operational.operational_revice_admin_group"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="active" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="is_production" invisible="1"/>
+                                <field name="company_id" options="{'no_open': True}"/>
+                                <field name="attachment_type" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                <!-- For Monthly -->
+                                <field name="date_start" invisible="1"/>
+                                <label for="period_month" string="Period" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                <div class="o_row">
+                                    <field name="period_month" attrs="{'invisible': [('attachment_type', '=', 'Yearly')], 'required': [('attachment_type', '!=', 'Yearly')], 'readonly': [('state', '=', 'complete')]}"/>
+                                    <field name="selected_years" required="1" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                </div>
+                                <field name="activity_ids" invisible="1"/>
+                                <field name="activity_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                            </group>
+                            <group>
+                                <field name="option_id" string="Category" options="{'no_create': True, 'no_open': True}" context="{'type_period': attachment_type}" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                <field name="kontraktor_id" options="{'no_create': True, 'no_open': True}" attrs="{'required': [('is_production', '=', True)], 'readonly': [('state', '=', 'complete')]}" context="{'activity_id': activity_id, 'company_id': company_id}"/>
+                                <field name="filename_attachment" invisible="1"/>
+                                <field name="attachment" widget="binary" filename="filename_attachment" attrs="{'readonly': [('state', '=', 'complete')]}"/>
+                                <!-- Flagging -->
+                                <field name="is_cg" invisible="1"/>
+                                <field name="is_ob" invisible="1"/>
+                                <field name="is_hl" invisible="1"/>
+                                <!--  -->
+                                <!-- <field name="qty_coal_getting"/> -->
+                                <label for="qty_coal_getting" class="oe_read_only" string="Coal Getting" attrs="{'invisible': [('is_cg', '=', False)]}"/>
+                                <div class="oe_read_only o_row" attrs="{'invisible': [('is_cg', '=', False)]}">
+                                    <field name="qty_coal_getting" attrs="{'invisible': [('is_cg', '=', False)]}"/> Ton
+                                </div>
+                                <label for="qty_ob" class="oe_read_only" string="Overburden" attrs="{'invisible': [('is_ob', '=', False)]}"/>
+                                <div class="oe_read_only o_row" attrs="{'invisible': [('is_ob', '=', False)]}">
+                                    <field name="qty_ob" attrs="{'invisible': [('is_ob', '=', False)]}"/> Bcm
+                                </div>
+                                <!-- <field name="qty_ob"/> -->
+                                <label for="qty_hauling" class="oe_read_only" string="Hauling Room To Port" attrs="{'invisible': [('is_hl', '=', False)]}"/>
+                                <div class="oe_read_only o_row" attrs="{'invisible': [('is_hl', '=', False)]}">
+                                    <field name="qty_hauling" attrs="{'invisible': [('is_hl', '=', False)]}"/> Ton
+                                </div>
+                                <!-- <field name="qty_hauling"/> -->
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Planning">
+                                <field name="planning_monthly_ids" readonly="1">
+                                    <tree>
+                                        <field name="kode_planning"/>
+                                        <field name="date_start" string="Date Start"/>
+                                        <field name="date_end" string="Date End" attrs="{'column_invisible':[('parent.attachment_type', '=', 'Monthly')]}"/>
+                                        <field name="sub_activity_id"/>
+                                        <field name="volume_total"/>
+                                        <field name="uom_planning"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Attachments" name="attach_ids">
+                                <field name="attachment_ids" attrs="{'readonly': [('state', '=', 'complete')]}">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="attach_name" invisible="1"/>
+                                        <field name="attach_file" filename="attach_name" widget="binary"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="plan_month_attach_tree" model="ir.ui.view">
+            <field name="name">planning.month.attachment.tree</field>
+            <field name="model">planning.month.attachment</field>
+            <field name="arch" type="xml">
+                <tree delete="0" duplicate="0" import="0" decoration-success="state == 'complete'">
+                    <field name="company_id" string="Bisnis Unit"/>
+                    <field name="attachment_type"/>
+                    <field name="option_id"/>
+                    <field name="period_month"/>
+                    <field name="selected_years"/>
+                    <field name="activity_id"/>
+                    <field name="kontraktor_id"/>
+                    <field name="planning_monthly_ids"/>
+                    <field name="filename_attachment" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <field name="attachment" widget="binary" filename="filename_attachment"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_period_attachment">
+            <field name="name">planning.month.attachment.filter</field>
+            <field name="model">planning.month.attachment</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_plan_monthly_attach" model="ir.actions.act_window">
+            <field name="name">Upload Attachment Planning</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">planning.month.attachment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Attachment
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

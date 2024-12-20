@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mnceiaset_view_form" model="ir.ui.view">
+        <field name="name">MNCEI Aset Form</field>
+        <field name="model">mnceiaset.module</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_qr_generate" string="Print Label" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <label for="no_aset"/>
+                    <h1>
+                        <field name="sunfish_code" required="1" placeholder="Sunfish Code" attrs="{'invisible': [('is_sunfish', '=', True)]}"/>
+                        <field name="no_aset" placeholder="Nomor Aset" attrs="{'invisible': [('is_sunfish', '=', False)]}"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="is_sunfish" invisible="1"/>
+                            <field name="code_aset"/>
+                            <field name="kategori_aset"/>
+                            <field name="sub_categ_id"/>
+                            <field name="sub_categ_line_id"/>
+                            <field name="nama_aset" string="Detail Aset"/>
+                            <field name="jumlah_aset"/>
+                            <field name="nilai_aset"/>                            
+                            <field name="line_id" invisible="1"/>                         
+                        </group>                        
+                    </group>
+                    <notebook>
+                        <page string="Pemegang Aset">
+                            <field name="pemegangaset_ids">
+                                <tree editable="bottom">
+                                    <field name="aset_id" invisible="1"/>
+                                    <field name="employee_id" domain="[('state', '=', 'verified')]" options='{"no_open": True, "no_create": True}'/>
+                                    <field name="pemegangaset_id" invisible="1" options='{"no_open": True}'/>
+                                    <field name="groups_asset_line_id" invisible="1" options='{"no_open": True}'/>
+                                    <field name="perusahaan"/>
+                                    <field name="department"/>
+                                    <field name="lokasi_aset"/>
+                                    <field name="kondisi_aset"/>
+                                    <field name="tanggal_perolehan"/>
+                                    <field name="status_aset"/>
+                                    <field name="catatan"/>
+                                    <field name="code_aset" invisible="1" force_save="1"/>
+                                    <field name="file_bast" filename="bast_filename" widget="binary"/>
+                                    <field name="bast_filename" invisible="1"/>
+                                    <field name="gambar_aset" widget="image" class="oe_avatar" options="{'tooltip_image': 'image'}"/>
+                                    <field name="is_run"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="employee_id" options='{"no_open": True}'/>
+                                            <field name="perusahaan"/>
+                                            <field name="department"/>
+                                            <field name="tanggal_perolehan"/>
+                                        </group>
+                                        <group>
+                                            <field name="is_run"/>
+                                            <field name="lokasi_aset"/>
+                                            <field name="kondisi_aset"/>
+                                            <field name="status_aset"/>
+                                            <field name="gambar_aset" widget="image" class="oe_avatar" options="{'preview_image': 'gambar_aset'}"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>                    
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="mnceiaset_view_tree" model="ir.ui.view">
+        <field name="name">MNCEIAset.Tree</field>
+        <field name="model">mnceiaset.module</field>
+        <field name="arch" type="xml">
+            <tree delete="0">
+                <field name="no_aset"/>
+                <field name="kategori_aset"/>
+                <field name="sub_categ_id"/>
+                <field name="sub_categ_line_id"/>
+                <field name="nama_aset"/>
+                <field name="jumlah_aset"/>
+                <field name="nilai_aset"/>                
+            </tree>
+        </field>
+    </record>
+
+    <record id="mnceiaset_view" model="ir.actions.act_window">
+        <field name="name">MNCEI Aset</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mnceiaset.module</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Asset
+            </p>
+        </field>
+    </record>
+
+    <!-- Lokasi -->
+
+    <record id="lokasiaset_form" model="ir.ui.view">
+        <field name="name">Lokasi Aset Form</field>
+        <field name="model">lokasiaset.module</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_lokasiaset"/>
+                            <field name="code"/>
+                            <field name="lokasi_aset"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="lokasiaset_view_tree" model="ir.ui.view">
+        <field name="name">lokasiaset.Tree</field>
+        <field name="model">lokasiaset.module</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_lokasiaset" widget="handle"/>
+                <field name="code"/>
+                <field name="lokasi_aset"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="lokasiaset_view" model="ir.actions.act_window">
+        <field name="name">Lokasi Aset</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lokasiaset.module</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Asset Location
+            </p>
+        </field>
+    </record>
+
+    <!-- Kondisi -->
+
+    <record id="kondisiaset_form" model="ir.ui.view">
+        <field name="name">Kondisi Aset Form</field>
+        <field name="model">kondisiaset.module</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_kondisiaset"/>
+                            <field name="kondisi_aset"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="kondisiaset_view_tree" model="ir.ui.view">
+        <field name="name">kondisiaset.Tree</field>
+        <field name="model">kondisiaset.module</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_kondisiaset" widget="handle"/>
+                <field name="kondisi_aset"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="kondisiaset_view" model="ir.actions.act_window">
+        <field name="name">Kondisi Aset</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">kondisiaset.module</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Asset Condition
+            </p>
+        </field>
+    </record>
+
+    <!-- Status Aset -->
+
+    <record id="statusaset_form" model="ir.ui.view">
+        <field name="name">Status Aset Form</field>
+        <field name="model">statusaset.module</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_statusaset"/>
+                            <field name="status_aset"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="statusaset_view_tree" model="ir.ui.view">
+        <field name="name">statusaset.Tree</field>
+        <field name="model">statusaset.module</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_statusaset" widget="handle"/>
+                <field name="status_aset"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="statusaset_view" model="ir.actions.act_window">
+        <field name="name">Status Aset</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">statusaset.module</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Asset Status
+            </p>
+        </field>
+    </record>
+
+    <!-- Dept -->
+
+    <record id="department_form" model="ir.ui.view">
+        <field name="name">Department Form</field>
+        <field name="model">department.module</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="id_department"/>
+                            <field name="code"/>
+                            <field name="department"/>
+                        </group>
+                        <group>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="department_view_tree" model="ir.ui.view">
+        <field name="name">department.Tree</field>
+        <field name="model">department.module</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="id_department" widget="handle"/>
+                <field name="code"/>
+                <field name="department"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="department_view" model="ir.actions.act_window">
+        <field name="name">Department</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">department.module</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Add New Department
+            </p>
+        </field>
+    </record>
+
+    <!-- Menuitems -->
+
+    <menuitem id="mnceiaset_menu_root" name="Tracking Asset" web_icon="mnceiaset,static/description/icon.png"/>
+    <menuitem id="mnceiaset_menu" name="Aset" action="mnceiaset_view" parent="mnceiaset_menu_root"/>
+    <menuitem id="configuration_menu_root" name="Configuration" sequence="100" parent="mnceiaset_menu_root" groups="mnceiaset.group_aset_mgr"/>
+    <menuitem id="department_menu" name="Department" action="department_view" sequence="10" parent="mnceiaset_menu_root" groups="mnceiaset.group_aset_mgr"/>
+    <!-- config -->
+    <menuitem id="lokasiaset_menu" name="Lokasi Aset" action="lokasiaset_view" sequence="50" parent="configuration_menu_root"/>
+    <menuitem id="kondisiaset_menu" name="Kondisi Aset" action="kondisiaset_view" sequence="60" parent="configuration_menu_root"/> 
+    <menuitem id="statusaset_menu" name="Status Aset" action="statusaset_view" sequence="61" parent="configuration_menu_root"/> 
+
+</odoo>

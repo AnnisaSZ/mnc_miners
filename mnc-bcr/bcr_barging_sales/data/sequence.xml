@@ -1,0 +1,38 @@
+<odoo>
+    <data noupdate="1">
+        <record id="params_buyer_contract_1" model="bcr.parameter.setting">
+            <field name="title">Announce Contract</field>
+            <field name="code">BC01</field>
+            <field name="value">30</field>
+            <field name="status">True</field>
+            <field name="description">Buyer Contract Announcement Will Be Expired</field>
+        </record>
+
+        <record id="seq_contract_number" model="ir.sequence">
+            <field name="name">Contract Number</field>
+            <field name="code">buyer.contract</field>
+            <field name="padding">3</field>
+            <field name="suffix">/BUCODE-BUYER/MARKET/MONTH/%(year)s</field>
+        </record>
+
+        <record id="buyer_contract_tobe_exp_cron" model="ir.cron">
+            <field name="name">Buyer Contract Check</field>
+            <field name="model_id" ref="model_buyer_contract"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="state">code</field>
+            <field name="code">model.check_exp_date()</field>
+        </record>
+
+        <record id="seq_contract_number_report" model="ir.sequence">
+            <field name="name">Contract Number</field>
+            <field name="code">no.contract</field>
+            <field name="company_id" eval="False"/>
+            <field eval="1" name="number_next"/>			
+            <field eval="1" name="number_increment"/>	
+            <field name="padding">4</field>
+            <field eval="True" name="use_date_range"/>	
+            <field name="suffix">/CUSTOMCODE/%(year)s</field>
+        </record>
+    </data>
+</odoo>

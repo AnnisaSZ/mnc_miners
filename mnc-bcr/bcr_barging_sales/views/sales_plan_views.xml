@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sales_plan_view_form" model="ir.ui.view">
+            <field name="name">sales.plan.form</field>
+            <field name="model">sales.plan</field>
+            <field name="arch" type="xml">
+                <form delete="0" duplicate="0">
+                    <header>
+                        <button name="action_submit" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('is_creator', '=', False), ('state', '!=', 'draft')]}"/>
+                        <button name="action_approve" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'waiting')]}"/>
+                        <button name="action_reject" string="Reject" type="object" attrs="{'invisible': ['|', ('is_approver', '=', False), ('state', '!=', 'waiting')]}"/>
+                        <button name="action_revise" string="Revise" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'approve')]}" groups="bcr_barging_sales.module_barge_sale_groups"/>
+                        <button name="action_revise" string="Set To Draft" type="object" attrs="{'invisible': [('state', '!=', 'reject')]}"/>
+                        <button name="action_create_contract" string="Create Contract" type="object" class="oe_highlight" attrs="{'invisible': [('contract', '=', 'yes')]}" groups="bcr_barging_sales.module_barge_sale_admin_ho"/>
+                        <field name="state" readonly="True" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="draft,waiting,approve"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="is_creator" invisible="1"/>
+                            <field name="is_approver" invisible="1"/>
+                            <!-- Filter Type -->
+                            <group string="Filters" name="filter">
+                                <field name="planning_type" required="1" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <!-- Monthly -->
+                                <label for="period_month" string="Period"/>
+                                <div class="o_row">
+                                    <field name="period_month" attrs="{'invisible': [('planning_type', '=', 'Yearly')], 'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="selected_years" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                </div>
+                                <!-- Yearly -->
+                                <label for="date_start" string="Date Range"/>
+                                <div class="o_row">
+                                    <field name="date_start" attrs="{'readonly': [('state', '!=', 'draft')]}"/> - 
+                                    <field name="date_end" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                </div>
+                                <field name="category_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="plan_company_ids" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" widget="many2many_tags" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                            <group name="result" string="Result">
+                                <field name="result_plan_ids" options="{'no_open': True}" readonly="1" force_save="1">
+                                    <tree delete="0">
+                                        <field name="category_id"/>
+                                        <field name="ts_id"/>
+                                        <field name="volume"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <!-- Contract -->
+                            <group name="contract" string="Planning">
+                                <field name="create_uid" options="{'no_open': True}"/>
+                                <field name="company_id" readonly="1" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" force_save="1"/>
+                                <field name="contract" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="contract_id" attrs="{'readonly': [('state', '!=', 'draft')], 'required': [('contract', '=', 'yes')], 'invisible': [('contract', '=', 'no')]}" options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                <field name="contract_type" attrs="{'readonly': [('state', '!=', 'draft')]}" widget="radio" options="{'horizontal': true}" force_save="1"/>
+                                <field name="market_type" readonly="True" widget="radio" options="{'horizontal': true}" force_save="1" attrs="{'invisible': [('contract', '=', 'no')]}"/>
+                                <field name="buyer_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" force_save="1"/>
+                                <label for="bl_month" string="BL" />
+                                <div class="o_row">
+                                    <field name="bl_month" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                    <field name="bl_years" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                </div>
+                            </group>
+                            <group string="Details">
+                                <field name="sizing" widget="radio" options="{'horizontal': true}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <label for="laycan_start" string="Laycan Date" />
+                                <div class="o_row">
+                                    <field name="laycan_start" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1"/> - 
+                                    <field name="laycan_end" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1"/>
+                                </div>
+                                <field name="product_id" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" force_save="1"/>
+                                <field name="qty_sales_plan" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Approval">
+                                <field name="validation_plan" options="{'no_open': True}" readonly="1">
+                                    <tree editable="bottom" edit="false" create="false" delete="false">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="user_id"/>
+                                        <field name="validation_type_id" invisible="0"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree Views -->
+        <record id="sales_plan_view_tree" model="ir.ui.view">
+            <field name="name">sales.plan.tree</field>
+            <field name="model">sales.plan</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="state in ('approve')" decoration-warning="state in ('waiting')" decoration-danger="state in ('reject')">
+                    <field name="contract"/>
+                    <field name="create_uid"/>
+                    <field name="id"/>
+                    <field name="contract_id"/>
+                    <field name="company_id"/>
+                    <field name="contract_type"/>
+                    <field name="buyer_id"/>
+                    <field name="bl_month"/>
+                    <field name="bl_years"/>
+                    <field name="sizing"/>
+                    <field name="laycan_start"/>
+                    <field name="laycan_end"/>
+                    <field name="product_id"/>
+                    <field name="qty_sales_plan"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="filter_sales_plan">
+            <field name="name">sales.plan.filter</field>
+            <field name="model">sales.plan</field>
+            <field name="arch" type="xml">
+              <search>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+              </search>
+            </field>
+        </record>
+
+        <record id="action_sales_plan" model="ir.actions.act_window">
+            <field name="name">Sales Plan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sales.plan</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'delete': 0}</field>
+            <field name="help" type="html">
+                <p>
+                    Add New Sales Plan
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

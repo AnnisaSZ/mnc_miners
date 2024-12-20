@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo> 
+    <record id="res_config_settings_view_form_params_approval" model="ir.ui.view">
+        <field name="name">Approval Setting</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="General Settings" string="Parameter Department Approval" data-key="mnc_parameter_approval">
+                    <div class="app_settings_custom">
+                        <h2>Settings Approval Groups</h2>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    Spv Position
+                                    <field
+                                        name="spv_id"
+                                        class="oe_inline"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    Head Department
+                                    <field
+                                        name="head_dept_id"
+                                        class="oe_inline"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app_settings_custom">
+                        <h2>Settings Approval Department</h2>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    BOD
+                                    <field
+                                        name="bod_dept_id"
+                                        class="oe_inline"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    Secretary
+                                    <field
+                                        name="secretary_dept_id"
+                                        class="oe_inline"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    HR/GA Department
+                                    <field
+                                        name="hrga_dept_id"
+                                        class="oe_inline"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    GA Department
+                                    <field
+                                        name="ga_dept_id"
+                                        class="oe_inline"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    Finance Department
+                                    <field
+                                        name="finance_dept_id"
+                                        class="oe_inline"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    Accounting Department
+                                    <field
+                                        name="accounting_dept_id"
+                                        class="oe_inline"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    Procurement Department
+                                    <field
+                                        name="procurement_dept_id"
+                                        class="oe_inline"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    IT Department
+                                    <field
+                                        name="it_dept_id"
+                                        class="oe_inline"
+                                        widget="many2many_tags"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="approve_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="mnc_parameter_approval.res_config_settings_view_form_params_approval"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'mnc_parameter_approval'}</field>
+        <field name="groups_id" eval="[(4, ref('mnc_parameter_approval.group_params_approval'))]"/>
+    </record>
+
+    <!-- <menuitem id="ticket_menu_setting_params" name="Settings" action="approve_config_settings_action" sequence="1"/> -->
+</odoo>

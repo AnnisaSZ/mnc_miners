@@ -1,0 +1,89 @@
+<odoo>
+    <data>
+
+        <menuitem id='menu_config_bcr' name='Configuration' parent='bcr_master.root_menu_bcr' sequence='12'/>
+
+        <record id="listview_validation_type" model="ir.ui.view">
+            <field name="name">listview_validation_type</field>
+            <field name="model">validation.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="code" options="{'no_create': True, 'no_open': True}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_validation_type" model="ir.actions.act_window">
+            <field name="name">Validation Type</field>
+            <field name="res_model">validation.type</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id='menu_validation_type' name='Validation Type' parent='bcr_master.menu_config_bcr' groups='group_bcr_master_super_admin_bu' action='action_validation_type' sequence='2'/>
+
+        <!--===-->
+
+        <record id="formview_validation" model="ir.ui.view">
+            <field name="name">formview_validation</field>
+            <field name="model">validation.validation</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="model_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="bisnis_unit_id" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="User Validation">
+                                <field name="validation_line" >
+                                    <tree editable='bottom'>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="user_id" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="validation_type_id" options="{'no_create': True, 'no_open': True}"/>
+                                    </tree>
+                                    <form>
+                                        <sheet>
+                                            <group>
+                                                <field name="sequence" widget="handle"/>
+                                                <field name="user_id" options="{'no_create': True, 'no_open': True}"/>
+                                                <field name="validation_type_id" options="{'no_create': True, 'no_open': True}" invisible="0"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="listview_validation" model="ir.ui.view">
+            <field name="name">listview_validation</field>
+            <field name="model">validation.validation</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="model_id" options="{'no_create': True, 'no_open': True}"/>
+                    <field name="bisnis_unit_id" options="{'no_create': True, 'no_open': True}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_validation" model="ir.actions.act_window">
+            <field name="name">Validation</field>
+            <field name="res_model">validation.validation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id='menu_validation' name='Validation' parent='bcr_master.menu_config_bcr' action='action_validation' groups='group_bcr_master_super_admin_bu' sequence='1'/>
+
+    </data>
+</odoo>

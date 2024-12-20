@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="notification_contract_approval" model="mail.template">
+            <field name="name">MNCEI Contract Notification</field>
+            <field name="model_id" ref="model_bcr_barging_approval"/>
+            <field name="subject">Waiting Your Approval : Buyer Contract</field>
+            <field name="email_from">"${object.contract_id.company_id.name | safe}" &lt;${(object.contract_id.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Yth Bapak/Ibu  ${object.user_id.name}, <br/>
+                        Dengan ini diberitahukan bahwa Bapak/Ibu untuk melakukan Check/Review/Approve atas <strong>Contract ${object.contract_id.no_contract}</strong>, Informasi terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>No Contact</strong></td>
+                                    <td>:</td>
+                                    <td>${object.contract_id.no_contract}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Company</strong></td>
+                                    <td>:</td>
+                                    <td>${object.contract_id.company_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Buyer</strong></td>
+                                    <td>:</td>
+                                    <td>${object.contract_id.buyer_id.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Contract Type</strong></td>
+                                    <td>:</td>
+                                    <td>${object.contract_id.contract_type}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Contract Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.contract_id.contract_start} To ${object.contract_id.contract_end}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Dimohon untuk melakukan Check/Review/Approve dengan klik link dibawah ini :
+                        <br/>
+                        <div style="margin: 16px 0px 16px 0px;">
+                            <a href="https://mncminers.com/web#cids=${object.contract_id.company_id.id}&amp;id=${object.contract_id.id}&amp;menu_id=&amp;model=buyer.contract&amp;view_type=form">
+                                CLICK HERE !
+                            </a>
+                        </div>
+                        <br/><br/>
+                        Regards, ${object.contract_id.create_uid.name}<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+
+        <!-- Sales Plan -->
+        <record id="notification_sales_plan_approval" model="mail.template">
+            <field name="name">Sales Plan Notification</field>
+            <field name="model_id" ref="model_sales_plan"/>
+            <field name="subject">Waiting Your Approval : Sales Plan</field>
+            <field name="email_from">"${object.company_id.name | safe}" &lt;${(object.company_id.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        % set invited_users = ctx['invited_users']
+                        % set bl_month = ctx['bl_month']
+                        % set no_contract = ctx['no_contract']
+                        Yth Bapak/Ibu  ${invited_users.name}, <br/>
+                        Dengan ini diberitahukan bahwa Bapak/Ibu untuk melakukan Check/Review/Approve atas <strong>Sales Plan</strong>, Informasi terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>BL Period</strong></td>
+                                    <td>:</td>
+                                    <td>${bl_month} - ${object.bl_years}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Market Type</strong></td>
+                                    <td>:</td>
+                                    <td>${object.market_type}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>No. Contract</strong></td>
+                                    <td>:</td>
+                                    <td>${no_contract}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Dimohon untuk melakukan Check/Review/Approve dengan klik link dibawah ini :
+                        <br/>
+                        <div style="margin: 16px 0px 16px 0px;">
+                            <a href="https://mncminers.com/web#cids=${object.company_id.id}&amp;id=${object.id}&amp;menu_id=&amp;model=sales.plan&amp;view_type=form">
+                                CLICK HERE !
+                            </a>
+                        </div>
+                        <br/>
+                        Regards,<br/>
+                        ${object.create_uid.name}<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

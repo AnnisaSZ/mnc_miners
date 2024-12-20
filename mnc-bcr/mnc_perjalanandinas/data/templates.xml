@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="notification_perdin_mail_template_approved" model="mail.template">
+            <field name="name">MNCEI Perjalanan Dinas Notification</field>
+            <field name="model_id" ref="model_mncei_perdin_approval"/>
+            <field name="subject">Waiting Your Approval : Perjalanan Dinas</field>
+            <field name="email_from">"${object.perdin_id.perusahaan.name | safe}" &lt;${(object.perdin_id.perusahaan.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Yth Bapak/Ibu  ${object.user_id.name}, <br/>
+                        Dengan ini diberitahukan bahwa Bapak/Ibu untuk melakukan Check/Review/Approve atas dokumen <strong>Perjalanan Dinas</strong>, Informasi terlampir :
+                        <br/>
+                        <br/>
+                        <table style="margin-top:px;margin-bottom:0px;" border="0">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Perdin Number</strong></td>
+                                    <td>:</td>
+                                    <td>${object.perdin_id.no_perdin}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Company</strong></td>
+                                    <td>:</td>
+                                    <td>${object.perdin_id.perusahaan.name}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Request By</strong></td>
+                                    <td>:</td>
+                                    <td>${object.perdin_id.nama_karyawan.nama_lengkap}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Departure Date</strong></td>
+                                    <td>:</td>
+                                    <td>${object.perdin_id.berangkat}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        Silahkan untuk melakukan Check/Review/Approve dengan klik link dibawah ini :
+                        <br/>
+                        <div style="margin: 16px 0px 16px 0px;">
+                            <a href="https://mncminers.com/web#cids=${object.perdin_id.perusahaan.id}&amp;id=${object.perdin_id.id}&amp;menu_id=&amp;model=perjalanan.dinas.requestion.module&amp;view_type=form">
+                                CLICK HERE !
+                            </a>
+                        </div>
+                        <br/><br/>
+                        MNCEI : Perjalanan Dinas<br/>
+                        <strong>MNC Energy Investments</strong>
+                    </p>
+                </div>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

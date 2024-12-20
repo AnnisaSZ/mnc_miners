@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mncei_banner,access_mncei_banner,model_mncei_banner,base.group_user,1,1,1,1
+access_mncei_news,access_mncei_news,model_mncei_news,base.group_user,1,1,1,1
+access_cms_extend_wizard,access_cms_extend_wizard,model_cms_extend_wizard,base.group_user,1,1,1,1

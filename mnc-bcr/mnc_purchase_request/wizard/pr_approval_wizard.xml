@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="mncei_pr_approval_wizard_form" model="ir.ui.view">
+        <field name="name">Sign and Approve</field>
+        <field name="model">purchase.requisition.approval.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="is_procurement" invisible="1"/>
+                <group>
+                    <field name="choice_signature" invisible="1" class="oe_inline" required="1"/>
+                    <field name="upload_signature" invisible="1" filename="upload_signature_fname" widget="image"
+                        attrs="{'invisible': [('choice_signature', '=', 'draw')],'required': [('choice_signature', '=', 'upload')]}"/>
+                    <field name="digital_signature" invisible="1" widget="signature" 
+                        attrs="{'invisible': [('choice_signature', '=', 'upload')],'required': [('choice_signature', '=', 'draw')]}"/>
+                    <field name="upload_signature_fname" invisible="1" />
+                    <field name="current_uid" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="finance_uid" string="Finance/Acc" domain="[('company_ids', 'in', company_id)]" options="{'no_create': True, 'no_open': True}" attrs="{'invisible': [('is_procurement', '=', False)]}"/>
+                </group>
+                
+                <group string="Notes">
+                    <field name="notes" required="1" nolabel="1"/>
+                </group>
+                <footer>
+                    <button
+                        name="action_approve"
+                        string="Approve"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="reject_view_form" model="ir.ui.view">
+        <field name="name">Reason Rejected</field>
+        <field name="model">purchase.requisition.approval.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="user_approval_ids" widget="many2many_tags" invisible="1"/>
+                <group>
+                    <field name="type_rejected" widget="radio" options="{'horizontal': true}"/>
+                    <field name="to_user_id" required="1" domain="[('id', 'in', user_approval_ids)]" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" attrs="{'invisible': [('type_rejected', '=', 'Requestor')]}"/>
+                </group>
+                <field name="reason_reject" required="1" placeholder="Tuliskan alasan mengapa PR ini direject"/>
+                <footer>
+                    <button
+                        name="button_reject"
+                        string="Reject"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="payment_view_form" model="ir.ui.view">
+        <field name="name">Payment</field>
+        <field name="model">purchase.requisition.approval.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="finance_attachment" filename="finance_attachment_fname" widget="binary"/>
+                    </group>
+                     <group string="Notes">
+                        <field name="notes" nolabel="1" required="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button
+                        name="finance_approve"
+                        string="Approve"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="payment_cancel_view_form" model="ir.ui.view">
+        <field name="name">Cancel Payment</field>
+        <field name="model">purchase.requisition.approval.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                     <group string="Notes">
+                        <field name="notes" nolabel="1" required="1" placeholder="Tuliskan catatan kenapa PR ini dicancel"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button
+                        name="action_cancel_payment"
+                        string="Cancel PR"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_mncei_pr_approval_wizard" model="ir.actions.act_window">
+        <field name="name">Action Mnc PR Approval Wizard</field>
+        <field name="res_model">purchase.requisition.approval.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

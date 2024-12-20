@@ -1,0 +1,297 @@
+<odoo>
+    <!-- Header -->
+    <template id='report_fis'>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-foreach="doc" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="page">
+                            <div style="font-family:'Calibri';font-size: 1.7rem; padding: 10px;">
+                                <div class="body">
+                                    <!-- Header -->
+                                    <img class="img" style="margin-top:0px;margin-left:-25px;margin-right:-25px;" src="/mnc_fis/static/src/img/header.png"/>
+                                    <br/>
+
+                                    <!-- Body -->
+                                    <table width="100%" name="header_info" style="page-break-inside: avoid; margin-top: 30px;">
+                                        <tr style="margin-right:10px;">
+                                            <td width="35%">Flight No:</td>
+                                            <td width="25%">Aircraft Type:</td>
+                                            <td width="20%">Registration:</td>
+                                            <td width="20%">Seat Capacity:</td>
+                                        </tr>
+                                        <tr style="color: #21497B; margin-right:10px;">
+                                            <td><span t-field="o.name"/><br/></td>
+                                            <td><span t-field="o.aircraft_type"/></td>
+                                            <td><span t-field="o.aircraft_reg_id.ac_reg"/></td>
+                                            <td><span t-field="o.aircraft_qty"/></td>
+                                        </tr>
+                                        <tr style="margin-right:10px;">
+                                            <td>Route:</td>
+                                            <td>Date:</td>
+                                            <td>Chartered By:</td>
+                                        </tr>
+                                        <tr style="color: #21497B;vertical-align: top; margin-right:10px;">
+                                            <td style="padding-right:50px;">
+                                                <t t-foreach="o.flight_schedule_ids" t-as="line">
+                                                    <span t-field="line.start_airport.code"/> - 
+                                                </t>
+                                                <t t-foreach="o.flight_schedule_ids[-1]" t-as="line">
+                                                    <span t-field="line.end_airport.code"/> 
+                                                </t>
+                                            </td>
+                                            <td><span t-field="o.request_date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd MMMM yyyy&quot;}"/></td>
+                                            <td><span t-field="o.charterby_id.name"/></td>
+                                        </tr>
+                                    </table>
+                                    <br/>
+
+                                    <span><strong>Flight Schedule</strong></span>
+                                    <table width="100%" name="flight_schedule" class="text-center" style="page-break-inside: avoid; margin-top: 10px; padding-left: 5px;">
+                                        <tr style="background-color: #21497B; color: white;">
+                                            <td width="20%">DATE</td>
+                                            <td width="20%">ROUTES</td>
+                                            <td width="20%">ETD / ETA</td>
+                                            <td width="20%">FLIGHT TIME</td>
+                                            <td width="20%">REMARKS</td>
+                                        </tr>
+                                        <t t-foreach="o.flight_schedule_ids" t-as="line">
+                                            <tr style="border:1px solid black;">
+                                                <td style="border:1px solid black;">
+                                                    <span t-field="line.date" t-options="{&quot;widget&quot;: &quot;date&quot;,&quot;format&quot;: &quot;dd MMMM yyyy&quot;}"/></td>
+                                                <td style="border:1px solid black;">
+                                                    <span t-field="line.start_airport.code"/> - <span t-field="line.end_airport.code"/>
+                                                </td>
+                                                <t t-if="line.total_flight == 0">
+                                                    <td style="border:1px solid black;">TBA</td>
+                                                    <td style="border:1px solid black;">TBA</td>
+                                                </t>
+                                                <t t-else="">
+                                                    <td style="border:1px solid black;">
+                                                        <span t-field="line.etd" t-options="{'widget': 'float_time'}"/> / <span t-field="line.eta" t-options="{'widget': 'float_time'}"/>
+                                                    </td>
+                                                    <td style="border:1px solid black;">
+                                                        <span t-field="line.total_flight" t-options="{'widget': 'float_time'}"/>
+                                                    </td>
+                                                </t>
+                                                <td style="border:1px solid black;">
+                                                    <t t-if="line.remarks">
+                                                        <span t-field="line.remarks"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        -
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <tr style="border:1px solid black;">
+                                            <td colspan="3" class="text-left" style="padding: 10px;"><strong>Duration Flight</strong></td>
+                                            <td class="text-center"><strong><span t-esc="o.sum_flight_time"/></strong></td>
+                                            <td/>
+                                        </tr>
+                                    </table>
+
+                                    <table width="100%" name="flight_total" style="page-break-inside: avoid;margin-top: 10px;padding-left: 5px; border:1px solid black;">
+                                        <!-- Airport Information -->
+                                        <tr>
+                                            <td style="padding: 10px;"><strong>Airport Information:</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 10px; font-size: 1.6rem;"><p t-raw="o.notes.replace('\n', '&lt;br/&gt;').replace('\r', '&lt;br/&gt;')"/></td>
+                                        </tr>
+                                    </table>
+
+                                    <!-- Crew Detail -->
+                                    <table width="100%" name="crew_detail" style="page-break-inside: avoid;margin-top: 10px; padding-left: 5px;">
+                                        <tr>
+                                            <td colspan="4" class="text-left"><strong>Crew Detail</strong></td>
+                                        </tr>
+                                        <tr style="background-color: #21497B; color: white; padding-left: 10px;">
+                                            <td width="25%" style="padding-left: 10px;">NAME</td>
+                                            <td width="31%" style="padding-left: 10px;">POSITION</td>
+                                            <td width="22%" style="padding-left: 10px;">PHONE</td>
+                                            <td width="22%" style="padding-left: 10px;">REMARKS</td>
+                                        </tr>
+                                        <t t-foreach="o.crew_detail_ids" t-as="line">
+                                            <tr style="padding-left: 10px;">
+                                                <td style="border:1px solid black; padding-left: 10px;"><span t-field="line.crew_id.name"/></td>
+                                                <td style="border:1px solid black; padding-left: 10px;">
+                                                    <span t-field="line.crew_id.position_id.code"/> - <span t-field="line.crew_id.position_id.name"/>
+                                                </td>
+                                                <td style="border:1px solid black; padding-left: 10px;">
+                                                    <t t-if="line.phone">
+                                                        <span t-field="line.phone"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        N/A
+                                                    </t>
+                                                </td>
+                                                <td style="border:1px solid black; padding-left: 10px;">
+                                                    <t t-if="line.remarks">
+                                                        <span t-field="line.remarks"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        -
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                    <br/>
+                                    
+                                    <!-- Handling Agent -->
+                                    <table width="100%" name="handling_agent" style="page-break-inside: avoid;margin-top: 10px; padding-left: 5px;">
+                                        <tr>
+                                            <td colspan="4" class="text-left"><strong>Handling Agent</strong></td>
+                                        </tr>
+                                        <tr style="background-color: #21497B; color: white; padding-left: 10px;">
+                                            <td width="15%" style="padding-left: 10px;">LOCATION</td>
+                                            <td width="35%" style="padding-left: 10px;">COMPANY</td>
+                                            <td width="25%" style="padding-left: 10px;">CONTACT PERSON</td>
+                                            <td width="25%" style="padding-left: 10px;">PHONE</td>
+                                        </tr>
+                                        <t t-foreach="o.handling_agent_ids" t-as="line">
+                                            <tr style="padding-left: 10px;">
+                                                <td style="padding-left: 10px; border:1px solid black;"><span t-field="line.location_id.code"/></td>
+                                                <td style="padding-left: 10px; border:1px solid black;">
+                                                    <t t-if="line.agent_id">
+                                                        <span t-field="line.agent_id.name"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        -
+                                                    </t>
+                                                </td>
+                                                <td style="padding-left: 10px; border:1px solid black;">
+                                                    <t t-if="line.cp_id">
+                                                        <span t-field="line.cp_id.name"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        -
+                                                    </t>
+                                                </td>
+                                                <td style="padding-left: 10px; border:1px solid black;">
+                                                    <t t-if="line.phone">
+                                                        <span t-field="line.phone"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        N/A
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                    <br/>
+
+                                    <!-- Crew Accomodation -->
+                                    <table width="100%" name="crew_accomodation" style="page-break-inside: avoid;margin-top: 10px; padding-left: 5px;">
+                                        <tr>
+                                            <td colspan="2" class="text-left"><strong>Crew Accomodation</strong></td>
+                                        </tr>
+                                        <tr style="background-color: #21497B; color: white; padding-left: 10px;">
+                                            <td width="25%" style="padding-left: 10px;">LOCATION</td>
+                                            <td width="25%" style="padding-left: 10px;">HOTEL</td>
+                                            <td width="25%" style="padding-left: 10px;">ADDDRESS</td>
+                                            <td width="25%" style="padding-left: 10px;">PHONE</td>
+                                        </tr>
+                                        <t t-foreach="o.crew_ids" t-as="line">
+                                            <tr style="padding-left: 10px;">
+                                                <td style="padding-left: 10px; border:1px solid black;"><span t-field="line.location_id.code"/></td>
+                                                <td style="padding-left: 10px; border:1px solid black;"><span t-field="line.name"/></td>
+                                                <td style="padding-left: 10px; border:1px solid black;"><span t-field="line.address"/></td>
+                                                <td style="padding-left: 10px; border:1px solid black;">
+                                                    <t t-if="line.phone">
+                                                        <span t-field="line.phone"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        N/A
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                    <br/>
+
+                                    <!-- Other Information -->
+                                    <table width="100%" name="crew_accomodation" style="page-break-inside: avoid;margin-top: 10px;">
+                                        <tr>
+                                            <td colspan="2" class="text-left"><strong>Other Information</strong></td>
+                                        </tr>
+                                        <tr style="background-color: #21497B; color: white; padding-left: 10px;">
+                                            <td width="50%" style="padding-left: 10px;">FLIGHT OPERATIONS MANAGEMENT</td>
+                                            <td width="50%" style="padding-left: 10px;">STATUS</td>
+                                        </tr>
+                                        <tr style="padding-left: 10px;">
+                                            <td style="padding-left: 10px; border:1px solid black;">Flight Security Clearance</td>
+                                            <td style="padding-left: 10px; border:1px solid black;"><span t-field="o.status_clearance"/></td>
+                                        </tr>
+                                        <tr style="padding-left: 10px;">
+                                            <td style="padding-left: 10px; border:1px solid black;">Flight Apporval</td>
+                                            <td style="padding-left: 10px; border:1px solid black;"><span t-field="o.status_approval"/></td>
+                                        </tr>
+                                        <tr style="padding-left: 10px;">
+                                            <td style="padding-left: 10px; border:1px solid black;">Fuel On Board</td>
+                                            <td style="padding-left: 10px; border:1px solid black;"><span t-field="o.status_fuel"/></td>
+                                        </tr>
+                                        <tr style="padding-left: 10px;">
+                                            <td style="padding-left: 10px; border:1px solid black;">Notam</td>
+                                            <td style="padding-left: 10px; border:1px solid black;"><span t-field="o.status_notam"/></td>
+                                        </tr>
+                                        <tr style="padding-left: 10px;">
+                                            <td style="padding-left: 10px; border:1px solid black;">Parking Stand</td>
+                                            <td style="padding-left: 10px; border:1px solid black;"><span t-field="o.status_parking"/></td>
+                                        </tr>
+                                    </table>
+                                    <br/>
+
+                                    <!-- Passenger -->
+                                    <table width="100%" name="passenger" style="page-break-inside: avoid;margin-top: 10px; padding-left: 5px;">
+                                        <tr>
+                                            <td colspan="2" class="text-left"><strong>Passenger</strong></td>
+                                        </tr>
+                                        <tr style="background-color: #21497B; color: white; padding-left: 10px;">
+                                            <td width="50%" style="padding-left: 10px;">NAME</td>
+                                            <td width="50%" style="padding-left: 10px;">REMARKS</td>
+                                        </tr>
+                                        <t t-foreach="o.passenger_ids" t-as="line">
+                                            <tr style="padding-left: 10px;">
+                                                <td style="padding-left: 10px; border:1px solid black;"><span t-field="line.name"/></td>
+                                                <td style="padding-left: 10px; border:1px solid black;">
+                                                    <t t-if="line.remarks">
+                                                        <span t-field="line.remarks"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        -
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </table>
+                                    <br/>
+                                    
+                                </div>
+                                <div class="footer" style="position:absolute; margin:0px; padding:0px; right: 10px;">
+                                    <small>
+                                        V. <span t-esc="'%03d' % o.print_count"/> | <span t-esc="print_date.strftime('%d%m%y')"/> | <span t-esc="print_date.strftime('%H:%M')"/>  | <span class="page"/> of <span class="topage"/> 
+                                    </small>
+                                </div> 
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+    <record id="action_print_fis" model="ir.actions.report">
+        <field name="name">Print Report</field>
+        <field name="model">report.fis</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mnc_fis.report_fis</field>
+        <field name="report_file">mnc_fis.report_fis</field>
+        <field name="binding_model_id" ref="model_report_fis"/>
+        <field name="print_report_name">'Flight Information - %s V.%s' % (object.name,object.print_count)</field>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="mnc_fis.paperformat_fis"/>
+    </record>
+</odoo>

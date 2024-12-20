@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id='input_barge_ext' name='Barge &amp; Sales' parent='bcr_master.root_menu_bcr' sequence='2' groups="bcr_barging_sales.module_barge_sale_kontraktor_profit,bcr_barging_sales.module_barge_sale_admin_site"/>
+        <!-- Sub Menu Barging -->
+        <menuitem
+            id="barging_sales"
+            name="Barging &amp; Sales"
+            parent="bcr_operational.input_ext"
+            sequence="10"/>
+
+        <!-- Barging -->
+        <menuitem
+            id="buyer_contract_menu"
+            name="Buyer Contract"
+            parent="input_barge_ext"
+            action="action_buyer_contract"
+            sequence="1"
+            groups="bcr_barging_sales.module_barge_sale_admin_ho,bcr_barging_sales.module_barge_sale_groups"/>
+        <menuitem
+            id="sales_plan_menu"
+            name="Sales Plan"
+            parent="input_barge_ext"
+            action="action_sales_plan"
+            sequence="10"
+            groups="bcr_barging_sales.module_barge_sale_admin_site"/>
+        <menuitem
+            id="sales_shipping_menu"
+            name="Shipping"
+            parent="input_barge_ext"
+            action="action_sales_shipping"
+            sequence="20"
+            groups="bcr_barging_sales.module_barge_sale_kontraktor_profit,bcr_barging_sales.module_barge_sale_admin_site"/>
+        <menuitem
+            id="barge_detail_menu"
+            name="Barge Details"
+            parent="input_barge_ext"
+            action="action_barge_detail"
+            sequence="30"
+            groups="bcr_barging_sales.module_barge_sale_kontraktor_profit,bcr_barging_sales.module_barge_sale_admin_site"/>
+        <menuitem
+            id="quality_barge_menu"
+            name="Quality Barge"
+            parent="input_barge_ext"
+            action="action_quality_barge"
+            sequence="40"
+            groups="bcr_barging_sales.module_barge_sale_admin_site"/>
+        <menuitem
+            id="product_detail_menu"
+            name="Product Details"
+            parent="input_barge_ext"
+            action="action_product_detail"
+            sequence="50"
+            groups="bcr_barging_sales.module_barge_sale_admin_site"/>
+
+        <!-- Master Menu -->
+        <menuitem
+            id="menu_group_barging_sales"
+            name="Barging Sales Master"
+            parent="bcr_master.menu_master"
+            sequence="6"
+            groups="bcr_barging_sales.module_barge_sale_admin_site"/>
+
+        <!-- Sub Menu -->
+        <menuitem
+            id="term_payment_menu"
+            name="Term Of Payment"
+            parent="menu_group_barging_sales"
+            action="action_term_of_payments"
+            sequence="1"/>
+
+        <menuitem
+            id="incoterms_menu"
+            name="Incoterms"
+            parent="menu_group_barging_sales"
+            action="action_incoterms"
+            sequence="2"/>
+
+        <menuitem
+            id="category_plan_menu"
+            name="Category"
+            parent="menu_group_barging_sales"
+            action="action_category_type_coal"
+            sequence="10"/>
+
+        <menuitem
+            id="nation_menu"
+            name="Nation"
+            parent="menu_group_barging_sales"
+            action="action_res_country"
+            sequence="20"/>
+
+        <menuitem
+            id="product_marketing_menu"
+            name="Product"
+            parent="menu_group_barging_sales"
+            action="action_product_marketing"
+            sequence="30"/>
+
+        <menuitem
+            id="calory_menu"
+            name="Calory"
+            parent="menu_group_barging_sales"
+            action="action_master_calory"
+            sequence="32"/>
+
+        <menuitem
+            id="barge_agent_menu"
+            name="Agent"
+            parent="menu_group_barging_sales"
+            action="action_barge_agent"
+            sequence="34"/>
+        <menuitem
+            id="consignee_menu"
+            name="Consignee"
+            parent="menu_group_barging_sales"
+            action="action_master_consignee"
+            sequence="35"/>
+        <menuitem
+            id="surveyor_menu"
+            name="Surveyor"
+            parent="menu_group_barging_sales"
+            action="action_master_surveyor"
+            sequence="36"/>
+
+        <!-- Moving Menuitem -->
+        <menuitem id='bcr_master.menu_master_buyer'
+            name='Buyer'
+            parent='menu_group_barging_sales'
+            sequence='1'/>
+
+        <menuitem id='bcr_master.menu_master_barge'
+            name='Barge'
+            parent='menu_group_barging_sales'
+            sequence='5'/>
+
+        <menuitem id='bcr_master.menu_master_tugboat'
+            name='Tugboat'
+            parent='menu_group_barging_sales'
+            sequence='6'/>
+
+        <menuitem id='bcr_master.menu_master_mv'
+            name='Mother Vessel'
+            parent='menu_group_barging_sales'
+            sequence='7'/>
+
+        <menuitem id='bcr_master.menu_master_jetty'
+            name='Jetty'
+            parent='menu_group_barging_sales'
+            sequence='8'/>
+    </data>
+</odoo>

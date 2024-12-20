@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <record id="bcr_res_partner_ext" model="ir.ui.view">
+            <field name="name">res.partner.inherit.ext</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="bcr_master.bcr_res_partner_inherit01"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tipe_kontraktor']" position="replace">
+                    <field name="tipe_kontraktor" invisible="1" required="0"/>
+                </xpath>
+                <xpath expr="//field[@name='bisnis_unit_id']" position="before">
+                    <field name="kontraktor_activity_ids" string="Tipe Kontraktor" widget="many2many_tags" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" attrs="{'invisible': [('is_kontraktor','!=',True)], 'required': [('is_kontraktor','=',True)]}"/>
+                    <field name="shift_mode_id" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" attrs="{'invisible': [('is_kontraktor','!=',True)], 'required': [('is_kontraktor','=',True)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

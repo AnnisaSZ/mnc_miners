@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wdms_config,access_wdms_config,model_wdms_config,base.group_user,1,1,1,1
+access_wdms_area,access_wdms_area,model_wdms_area,base.group_user,1,1,1,1
+access_employee_shift_temp,access_employee_shift_temp,model_employee_shift_temp,base.group_user,1,1,1,1
+access_resource_calendar_wizard,access_resource_calendar_wizard,model_resource_calendar_wizard,base.group_user,1,1,1,1
+access_resource_calendar_wizard_line,access_resource_calendar_wizard_line,model_resource_calendar_wizard_line,base.group_user,1,1,1,1
+access_res_roster,access_res_roster,model_res_roster,base.group_user,1,1,1,1
+access_res_day_period,access_res_day_period,model_res_day_period,base.group_user,1,1,1,1
+access_res_att_location,access_res_att_location,model_res_att_location,base.group_user,1,1,1,1
+access_hr_leave_type_details,access_hr_leave_type_detail,model_hr_leave_type_details,base.group_user,1,1,1,1
+access_hr_leave_approval,access_hr_leave_approval,model_hr_leave_approval,base.group_user,1,1,1,1
+access_attendance_report_wizard,access_attendance_report_wizard,model_attendance_report_wizard,base.group_user,1,1,1,1
+access_resource_calendar_group,access_resource_calendar_group,model_resource_calendar_group,base.group_user,1,1,1,1

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Location Groups -->
+        <record id="fleet_master_location_group_form" model="ir.ui.view">
+            <field name="name">fleet.master.location.group.form</field>
+            <field name="model">fleet.master.location.group</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_location_group_tree" model="ir.ui.view">
+            <field name="name">fleet.master.location.group.tree</field>
+            <field name="model">fleet.master.location.group</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_location_groups" model="ir.actions.act_window">
+            <field name="name">Location Groups</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.master.location.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+        <!-- Location -->
+        <record id="fleet_master_location_form" model="ir.ui.view">
+            <field name="name">fleet.master.location.form</field>
+            <field name="model">fleet.master.location</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="group_id"/>
+                            </group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_location_tree" model="ir.ui.view">
+            <field name="name">fleet.master.location.tree</field>
+            <field name="model">fleet.master.location</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="group_id"/>
+                    <field name="company_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_location" model="ir.actions.act_window">
+            <field name="name">Location</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.master.location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+        <!-- Operator -->
+        <record id="fleet_master_operator_form" model="ir.ui.view">
+            <field name="name">fleet.master.operator.form</field>
+            <field name="model">fleet.master.operator</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="nik"/>
+                            </group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_operator_tree" model="ir.ui.view">
+            <field name="name">fleet.master.operator.tree</field>
+            <field name="model">fleet.master.operator</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="nik"/>
+                    <field name="company_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_operator" model="ir.actions.act_window">
+            <field name="name">Operator</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.master.operator</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Equipment Activity -->
+        <record id="fleet_equipment_unit_form" model="ir.ui.view">
+            <field name="name">fleet.equipment.unit.form</field>
+            <field name="model">fleet.equipment.unit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="company_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="kontraktor_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="sub_kontraktor_id" string="Sub Kontraktor" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="fuel_unit_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="years"/>
+                                <field name="number"/>
+                                <field name="equipment_group_id"/>
+                                <field name="equip_class_code"/>
+                                <field name="brand_id"/>
+                            </group>
+                            <group>
+                                <field name="shift_mode_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="interface_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="state_unit_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                <field name="is_timesheet"/>
+                                <field name="is_loader"/>
+                                <field name="fc_standard"/>
+                                <field name="material_ids" widget="many2many_tags" invisible="0"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="capacity" string="Capacity">
+                                <field name="line_ids" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="fleet_material_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
+                                        <field name="capacity_unit"/>
+                                        <field name="plan_product"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_equipment_unit_tree" model="ir.ui.view">
+            <field name="name">fleet.equipment.unit.tree</field>
+            <field name="model">fleet.equipment.unit</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="number"/>
+                    <field name="equipment_group_id"/>
+                    <field name="equipment_class_id"/>
+                    <field name="kontraktor_id"/>
+                    <field name="sub_kontraktor_id"/>
+                    <field name="state_unit_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_equp_units" model="ir.actions.act_window">
+            <field name="name">Unit Equipment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.equipment.unit</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+        <!-- Equipment Unit -->
+        <record id="fleet_equipment_activity_form" model="ir.ui.view">
+            <field name="name">fleet.equipment.activity.form</field>
+            <field name="model">fleet.equipment.activity</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="class_id"/>
+                                <field name="fleet_activity_id"/>
+                                <field name="activity_name"/>
+                                <field name="process_id"/>
+                                <field name="process_name"/>
+                            </group>
+                            <group>
+                                <field name="material_id"/>
+                                <field name="material_group_id" string="Material Group"/>
+                                <field name="location_id"/>
+                                <field name="destination_id"/>
+                                <field name="map_act_id"/>
+                                <field name="map_process_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_equipment_activity_tree" model="ir.ui.view">
+            <field name="name">fleet.equipment.activity.tree</field>
+            <field name="model">fleet.equipment.activity</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="fleet_activity_id"/>
+                    <field name="location_id"/>
+                    <field name="destination_id"/>
+                    <field name="process_name"/>
+                    <field name="map_act_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_equp_act" model="ir.actions.act_window">
+            <field name="name">Equipment Activity</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">fleet.equipment.activity</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+
+        <!-- Shift -->
+        <record id="fleet_time_range" model="ir.ui.view">
+            <field name="name">Time Range</field>
+            <field name="model">master.shiftmode.line</field>
+            <field name="arch" type="xml">
+                <form>        
+                    <group>
+                        <field name="timerange_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="name" invisible="1"/>
+                                <field name="time_from"/>
+                                <field name="time_to"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="master_shiftmode_views_form_ext" model="ir.ui.view">
+            <field name="name">master.shiftmode.ext</field>
+            <field name="model">master.shiftmode</field>
+            <field name="inherit_id" ref="bcr_master_ext.master_shiftmode_views_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='end']" position="after">
+                    <button name="add_timerange" type="object" icon="fa-plus"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--  -->
+        <record id="fleet_product_template_form" model="ir.ui.view">
+            <field name="name">fleet.product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1" string="Breakdown Name"/>
+                                <field name="default_code" required="1" string="Breakdown Code"/>
+                            </group>
+                            <group>
+                                <field name="activity_name" required="1"/>
+                                <field name="sub_activity_id" required="1" readonly="1" options="{'no_open': True}"/>
+                                <field name="uom_id" required="1" domain="[('category_id.name', '=', 'Working Time')]" options="{'no_create': True, 'no_create_edit': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fleet_product_template_tree" model="ir.ui.view">
+            <field name="name">fleet.product.template.tree</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Breakdown Name"/>
+                    <field name="default_code" string="Breakdown Code"/>
+                    <field name="activity_name"/>
+                    <field name="sub_activity_id"/>
+                    <field name="uom_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_fleet_product_template" model="ir.actions.act_window">
+            <field name="name">Breakdown Code</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="domain">[('sub_activity_id.code', '=', 'LT-BD')]</field>
+            <field name="context">{
+                'default_sub_activity_id': 15,
+                'default_uom_id': False,
+                'default_activity_name': 'LOSTTIME',
+                'delete': 0,
+                'fleet': True
+            }</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('fleet_product_template_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('fleet_product_template_form')})]"/>
+            <field name="help" type="html">
+                <p>
+                    /
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

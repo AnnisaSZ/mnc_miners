@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="module_fuel_management" model="ir.module.category">
+            <field name="name">Fuel</field>
+        </record>
+        <!-- Groups -->
+        <record id="fuel_admin_group" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="mnc_fuel_management.module_fuel_management"/>
+        </record>
+
+        <record id="fleet_category_superadmin" model="res.groups">
+            <field name="name">Super Admin</field>
+            <field name="implied_ids" eval="[(4, ref('fuel_admin_group'))]"/>
+            <field name="category_id" ref="module_fuel_management"/>
+        </record>
+
+        <!-- Rules -->
+        <!-- Fuel -->
+        <record id="ir_rule_fuel" model="ir.rule">
+            <field name="name">Rules: Fuel Management</field>
+            <field name="model_id" ref="model_fuel_distribution"/>
+            <field name="domain_force">
+                [('company_id','in', company_ids)]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="groups" eval="[(4, ref('fuel_admin_group'))]"/>
+        </record>
+        <!-- Fuel -->
+        <record id="ir_rule_distribute_unit" model="ir.rule">
+            <field name="name">Rules: Distribute Unit</field>
+            <field name="model_id" ref="model_fuel_distribution_line"/>
+            <field name="domain_force">
+                [('company_id','in', company_ids)]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="groups" eval="[(4, ref('fuel_admin_group'))]"/>
+        </record>
+        <!-- DO -->
+        <record id="ir_rule_report" model="ir.rule">
+            <field name="name">Rules: Fuel DO</field>
+            <field name="model_id" ref="model_fuel_report"/>
+            <field name="domain_force">
+                [('company_id','in', company_ids)]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="groups" eval="[(4, ref('fuel_admin_group'))]"/>
+        </record>
+        <!-- Master Unit -->
+        <record id="ir_rule_fuel_unit" model="ir.rule">
+            <field name="name">Rules: Fuel Unit</field>
+            <field name="model_id" ref="model_master_fuel_unit"/>
+            <field name="domain_force">
+                [('company_id','in', company_ids)]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="groups" eval="[(4, ref('fuel_admin_group'))]"/>
+        </record>
+        <!-- Master Type Unit -->
+        <record id="ir_rule_fuel_type_unit" model="ir.rule">
+            <field name="name">Rules: Fuel Type Units</field>
+            <field name="model_id" ref="model_master_fuel_type_unit"/>
+            <field name="domain_force">
+                [('company_id','in', company_ids)]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="groups" eval="[(4, ref('fuel_admin_group'))]"/>
+        </record>
+        <!-- Master Driver -->
+        <record id="ir_rule_fuel_driver" model="ir.rule">
+            <field name="name">Rules: Fuel Driver</field>
+            <field name="model_id" ref="model_master_fuel_driver"/>
+            <field name="domain_force">
+                [('company_id','in', company_ids)]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="groups" eval="[(4, ref('fuel_admin_group'))]"/>
+        </record>
+        <!-- Master Maintank -->
+        <record id="ir_rule_fuel_maintank" model="ir.rule">
+            <field name="name">Rules: Fuel Maintank</field>
+            <field name="model_id" ref="model_fuel_maintank"/>
+            <field name="domain_force">
+                [('company_id','in', company_ids)]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="groups" eval="[(4, ref('fuel_admin_group'))]"/>
+        </record>
+        <!-- Master Kontraktor -->
+        <!-- <record id="ir_rule_fuel_maintank" model="ir.rule">
+            <field name="name">Rules: Fuel Kontraktor</field>
+            <field name="model_id" ref="model_master_fuel_company"/>
+            <field name="domain_force">
+                [('company_ids','in', company_ids)]</field>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+        </record> -->
+    </data>
+</odoo>

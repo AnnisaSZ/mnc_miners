@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="perdin_approval_wizard_form" model="ir.ui.view">
+        <field name="name">Sign and Approve</field>
+        <field name="model">perdin.approval.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group invisible="1">
+                    <field name="choice_signature" class="oe_inline" required="1"/>
+                    <field name="upload_signature" filename="upload_signature_fname" widget="image"
+                        attrs="{'invisible': [('choice_signature', '=', 'draw')],'required': [('choice_signature', '=', 'upload')]}"/>
+                    <field name="digital_signature" widget="signature" 
+                        attrs="{'invisible': [('choice_signature', '=', 'upload')],'required': [('choice_signature', '=', 'draw')]}"/>
+                    <field name="upload_signature_fname" invisible="1" />
+                    <field name="current_uid" invisible="1"/>
+                </group>
+                
+                <group string="Notes">
+                    <field name="notes" nolabel="1" required="1"/>
+                </group>
+                <footer>
+                    <button
+                        name="action_approve"
+                        string="Approve"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="perdin_reject_view_form" model="ir.ui.view">
+        <field name="name">Reason Rejected</field>
+        <field name="model">perdin.approval.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+               <field name="user_approval_ids" widget="many2many_tags" invisible="1"/>
+                <group>
+                    <field name="type_rejected" widget="radio" options="{'horizontal': true}"/>
+                    <field name="to_user_id" required="1" domain="[('id', 'in', user_approval_ids)]" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" attrs="{'invisible': [('type_rejected', '=', 'Requestor')]}"/>
+                </group>
+                <field name="reason_reject" required="1" placeholder="Tuliskan alasan mengapa Perdin ini direject"/>
+                <footer>
+                    <button
+                        name="button_reject"
+                        string="Reject"
+                        type="object"
+                        default_focus="1"
+                        class="oe_highlight"
+                    />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_perdin_approval_wizard" model="ir.actions.act_window">
+        <field name="name">Action Perdin Approval Wizard</field>
+        <field name="res_model">perdin.approval.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

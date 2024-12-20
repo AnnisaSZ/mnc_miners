@@ -1,0 +1,53 @@
+<odoo>
+    <data>
+
+        <record id="product_template_view_tree_inherit_master_activity" model="ir.ui.view">
+            <field name="name">product.template.view.tree.inherit.master.actitivy</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="default_code" position="replace">
+                    <field name="default_code" string="Product Code" optional="show"/>
+                    <field name="activity_name"/>
+                    <field name="sub_activity_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="product_template_view_form_inherit_master_activity" model="ir.ui.view">
+            <field name="name">product.template.view.form.inherit.master.actitivy</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <field name="default_code" position="replace">
+                    <field name="default_code" string="Product Code" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>
+                    <field name="activity_name"/>
+                    <field name="sub_activity_id"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="action_bcr_master_product_template" model="ir.actions.act_window">
+            <field name="name">Product</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('sub_activity_id','!=',False)]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                        Click here to add
+                </p>
+            </field>
+        </record>
+
+        <menuitem id='menu_bcr_master_product_template'
+        		name='Product'
+        		parent='bcr_master.menu_group_master_01'
+        		sequence='17'
+        		action='action_bcr_master_product_template'/>
+<!--                groups="group_bcr_master_admin,group_bcr_master_admin_site"/>-->
+
+    </data>
+</odoo>
+
+

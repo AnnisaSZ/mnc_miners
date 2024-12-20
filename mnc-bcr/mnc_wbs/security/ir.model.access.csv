@@ -1,0 +1,26 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_wbs_report,access_wbs_report,model_wbs_report,base.group_user,1,1,1,1
+access_wbs_report_bod,access_wbs_report_bod,model_wbs_report_bod,,1,1,1,1
+access_wbs_report_bod_attach,access_wbs_report_bod_attach,model_wbs_report_bod_attach,base.group_user,1,1,1,1
+
+access_wbs_report_head,access_wbs_report_head,model_wbs_report_head,,1,1,1,1
+access_wbs_report_head_attach,access_wbs_report_head_attach,model_wbs_report_head_attach,base.group_user,1,1,1,1
+
+access_wbs_report_emp,access_wbs_report_emp,model_wbs_report_emp,base.group_user,1,1,1,1
+access_wbs_report_emp_attach,access_wbs_report_emp_attach,model_wbs_report_emp_attach,base.group_user,1,1,1,1
+
+"base.access_ir_attachment_group_portal_public","base.ir_attachment group_portal_public","base.model_ir_attachment",,1,1,1,1
+
+
+
+access_wbs_report_portal,access_wbs_report_portal,model_wbs_report,base.group_portal,1,1,1,1
+access_company_portal,access_company_portal,base.model_res_company,base.group_portal,1,0,0,0
+access_user_portal,access_user_portal,base.model_res_users,base.group_portal,1,1,1,0
+access_wbs_commisioner,access_wbs_commisioner,model_wbs_commisioner,base.group_user,1,1,1,0
+access_wbs_director,access_wbs_director,model_wbs_director,base.group_user,1,1,1,0
+access_wbs_auditor,access_wbs_auditor,model_wbs_auditor,base.group_user,1,1,1,0
+access_wbs_tnc,access_wbs_tnc,model_wbs_tnc,,1,1,1,0
+access_wbs_tnc,access_wbs_tnc,model_wbs_tnc,,1,1,1,0
+access_wbs_wizard,access_wbs_wizard,model_wbs_wizard,,1,1,1,1
+access_wbs_report_bod_attach,access_wbs_report_bod_attach,model_wbs_report_bod_attach,,1,1,1,1
+access_wbs_assign_wizard,access_wbs_assign_wizard,model_wbs_assign_wizard,,1,1,1,1

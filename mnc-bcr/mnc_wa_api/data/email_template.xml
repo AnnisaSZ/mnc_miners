@@ -1,0 +1,243 @@
+<odoo>
+    <data>
+        <record id="notification_weekly_resume" model="mail.template">
+            <field name="name">Weekly Resume Attendance</field>
+            <field name="model_id" ref="mnc_attendance.model_mncei_employee"/>
+            <field name="subject">Weekly Resume</field>
+            <field name="email_from">"${object.company.name | safe}" &lt;${(object.company.email or user.email) | safe}&gt;</field>
+            <field name="body_html" type="html">
+<table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; font-family:Verdana, Arial,sans-serif; color: #454748; width: 100%; border-collapse:separate;"><tr><td align="center">
+<table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: #454748; border-collapse:separate;">
+<tbody>
+    % set res_data = ctx['res_data']
+    <!-- HEADER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle">
+                    <span style="font-size: 20px; font-weight: bold;">
+                        Weekly Summary
+                    </span>
+                </td><td valign="middle" align="right">
+                    <img src="/logo.png?company=${object.company.id}" style="padding: 0px; margin: 0px; height: auto; width: 50%;" alt="${object.company.name}"/>
+                </td></tr>
+                <tr><td colspan="2" style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- CONTENT -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="top" style="font-size: 13px;">
+                    <div>
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Dear <b>${object.nama_lengkap}</b>, <br/>
+                            Here is a summary of the weekly attendance:
+                            <br/><br/>
+                            <p style="text-align: left; padding: 0px; font-size: 13px;" class="bg-600"><b> Normative Attendance</b></p>
+                            <table style="width:100%; border-collapse: collapse;" border="0">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 3px; text-align: left; width: 40%;"><strong>Total Working Days</strong></td>
+                                        <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                        <td style="padding: 3px; text-align: left; width: 40%;">${res_data['planning']['total_working_days']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 3px; text-align: left; width: 40%;"><strong>Total Working Hours</strong></td>
+                                        <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                        <td style="padding: 3px; text-align: left; width: 40%;">${res_data['planning']['total_working_hours']}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <p style="text-align: left; padding: 0px; font-size: 13px;" class="bg-600"><b> Actual Attendance</b></p>
+                            <table style="width:100%; border-collapse: collapse;" border="0">
+                                <tr>
+                                    <td style="padding: 3px; text-align: left; width: 40%;"><strong>Total Working Days</strong></td>
+                                    <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                    <td style="padding: 3px; text-align: left; width: 40%;">${res_data['actual']['total_working_days']}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 3px; text-align: left; width: 40%;"><strong>Total Working Hours</strong></td>
+                                    <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                    <td style="padding: 3px; text-align: left; width: 40%;">${res_data['actual']['total_working_hours']}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 3px; text-align: left; width: 40%;"><strong>Avg Total Working Hours</strong></td>
+                                    <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                    <td style="padding: 3px; text-align: left; width: 40%;">${res_data['actual']['avg_total_working_hours']}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 3px; text-align: left; width: 40%;"><strong>Total Absent</strong></td>
+                                    <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                    <td style="padding: 3px; text-align: left; width: 40%;">${res_data['actual']['total_absent']}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 3px; text-align: left; width: 40%;"><strong>Total Late Days</strong></td>
+                                    <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                    <td style="padding: 3px; text-align: left; width: 40%;">${res_data['actual']['total_late']}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 3px; text-align: left; width: 40%;"><strong>Total Late in Minutes</strong></td>
+                                    <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                    <td style="padding: 3px; text-align: left; width: 40%;">${res_data['actual']['total_late_minutes']}</td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <p style="text-align: center; padding: 0px; font-size: 13px;"><b>Absent Day(s) in Each Day:</b></p>
+                            <table style="width:100%; border-collapse: collapse;" border="1">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">MON</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">TUE</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">WED</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">THU</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">FRI</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">SAT</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">SUN</th>
+                                    </tr>
+                                </thead>
+                                    <tr>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['absent_weekly']['1']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['absent_weekly']['2']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['absent_weekly']['3']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['absent_weekly']['4']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['absent_weekly']['5']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['absent_weekly']['6']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['absent_weekly']['7']}</font>
+                                        </td>
+                                    </tr>
+                            </table>
+                            <br/>
+                            <p style="text-align: center; padding: 0px; font-size: 13px;"><b>Late Day(s) in Each Day:</b></p>
+                            <table style="width:100%; border-collapse: collapse;" border="1">
+                                <thead>
+                                    <tr>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">MON</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">TUE</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">WED</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">THU</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">FRI</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">SAT</th>
+                                        <th style="padding: 5px; text-align: left;" class=" bg-600">SUN</th>
+                                    </tr>
+                                </thead>
+                                    <tr>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['late_weekly']['1']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['late_weekly']['2']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['late_weekly']['3']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['late_weekly']['4']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['late_weekly']['5']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['late_weekly']['6']}</font>
+                                        </td>
+                                        <td style="padding: 3px;" align="center">
+                                            <font style="font-size: 12px;padding-left: 10px;">${res_data['late_weekly']['7']}</font>
+                                        </td>
+                                    </tr>
+                            </table>
+                            <br/>
+                            <table style="width:100%; border-collapse: collapse;" border="0">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 3px; text-align: left; width: 40%;"><strong>Total Sick</strong></td>
+                                        <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                        <td style="padding: 3px; text-align: left; width: 40%;">${res_data['total_sick']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 3px; text-align: left; width: 40%;"><strong>Total On Leave</strong></td>
+                                        <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                        <td style="padding: 3px; text-align: left; width: 40%;">${res_data['total_leave']}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 3px; text-align: left; width: 40%;"><strong>% Punctuality (On-Time)</strong></td>
+                                        <td style="padding: 3px; text-align: left; width: 20%;">:</td>
+                                        <td style="padding: 3px; text-align: left; width: 40%;">${res_data['total_punch']} %</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/><br/>
+                            <p style="text-align: left; padding: 0px; font-size: 13px;"><b>Notes</b></p>
+                            <table style="width:100%; border-collapse: collapse;" border="0">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 3px; text-align: left; width: 5%;"><strong>1.</strong></td>
+                                        <td style="padding: 3px; text-align: left; width: 95%;">Total Working Hours - The actual number of working hours per day when the employee is present at the work location.</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 3px; text-align: left; width: 5%;"><strong>2.</strong></td>
+                                        <td style="padding: 3px; text-align: left; width: 95%;">If either clock-in or clock-out is missing, the working hours for that day will not be counted.</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 3px; text-align: left; width: 5%;"><strong>3.</strong></td>
+                                        <td style="padding: 3px; text-align: left; width: 95%;">For employees with more than one unexcused absence, please submit an attendance correction with justification by the end of the current month. If no justification is provided by the first week of the following month, the HR Department will apply sanctions as per applicable regulations.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/><br/>
+                            Regards,<br/>
+                            <strong>MNC Energy Investments</strong>
+                        </p>
+                    </div>
+                </td></tr>
+                <tr><td style="text-align:center;">
+                  <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0; margin: 16px 0px 16px 0px;"/>
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+    <!-- FOOTER -->
+    <tr>
+        <td align="center" style="min-width: 590px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="590" style="min-width: 590px; background-color: white; font-size: 11px; padding: 0px 8px 0px 8px; border-collapse:separate;">
+                <tr><td valign="middle" align="left">
+                    ${object.company.name}
+                </td></tr>
+                <tr><td valign="middle" align="left" style="opacity: 0.7;">
+                    % if object.company.email
+                        | <a href="'mailto:%s' % ${object.company.email}" style="text-decoration:none; color: #454748;">${object.company.email}</a>
+                    % endif
+                    % if object.company.website
+                        | <a href="'%s' % ${object.company.website}" style="text-decoration:none; color: #454748;">
+                        ${object.company.website}
+                    </a>
+                    % endif
+                </td></tr>
+            </table>
+        </td>
+    </tr>
+</tbody>
+</table>
+</td></tr>
+</table>
+            </field>
+            <field name="auto_delete" eval="False"/>
+        </record>
+    </data>
+</odoo>

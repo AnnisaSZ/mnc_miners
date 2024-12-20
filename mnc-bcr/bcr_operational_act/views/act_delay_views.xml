@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="bcr_planning.action_act_delay_create_edit" model="ir.actions.act_window">
+            <field name="name">Weather</field>
+        </record>
+
+        <record id="act_delay_operatioanl_ext" model="ir.ui.view">
+            <field name="name">formview_act_delay_validation</field>
+            <field name="model">act.delay</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="true" delete="false" >
+                    <header>
+                        <button name="action_submit" type="object" string="Submit" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_revise" type="object" string="Revise" attrs="{'invisible': [('state', '!=', 'complete')]}" groups="bcr_operational.operational_revice_admin_group"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,complete"/>
+                    </header>
+                    <sheet>
+                        <div class='oe_title'>
+                            <h1>
+                                <field name="kode"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="bu_company_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="activity_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="date_act" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="kontraktor_id"     required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" options="{'no_create': True}" domain="[('is_kontraktor', '=', True),('company_id', '=', bu_company_id),('tipe_kontraktor', '=', 'kontraktor_produksi')]" />
+                                <!-- <field name="sub_activity_id" required="1" options="{'no_create': True, 'no_open': True}" attrs="{'readonly': [('state', '!=', 'draft')]}" /> -->
+                                <!-- <field name="product" required="1" options="{'no_create': True, 'no_open': True}" domain="[('sub_activity_id', '=', sub_activity_id)]" attrs="{'readonly': [('state', '!=', 'draft')]}" /> -->
+                            </group>
+
+                            <group>
+                                <field name="area_id" required="1" options="{'no_create': True, 'no_open': True}" domain="[('bu_company_id', '=', bu_company_id)]" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+<!--                                 <label for="volume" string="Volume"/>
+                                <div class="o_row" >
+                                    <field name="volume" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" class="oe_inline"/>
+                                </div> -->
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Weather Detail">
+                                <field name="delay_line_ids" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                    <tree editable="bottom">
+                                        <field name="kontraktor_id" invisible="1"/>
+                                        <field name="shift_mode_id" invisible="1"/>
+                                        <field name="shift_line_id" options="{'no_create': True, 'no_open': True}"/>
+                                        <field name="rain" string="Rain(Hour)"/>
+                                        <field name="slippery" string="Slippery(Hour)"/>
+                                        <field name="rainfall" string="Rainfall(mm)"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="listview_act_delay_ext" model="ir.ui.view">
+            <field name="name">act.delay.tree.ext</field>
+            <field name="model">act.delay</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree delete="0" decoration-success="state == 'complete'">
+                    <field name="kode"/>
+                    <field name="bu_company_id"/>
+                    <field name="activity_id"/>
+                    <field name="date_act"/>
+                    <field name="kontraktor_id"/>
+                    <field name="area_id"/>
+                    <field name="total_rain"/>
+                    <field name="total_slippery"/>
+                    <field name="total_rainfall"/>
+                    <field name="state" widget="badge" decoration-success="state in ('complete')"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_act_weather" model="ir.actions.act_window">
+            <field name="name">Weather</field>
+            <field name="res_model">act.delay</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state', 'in', ('draft', 'complete'))]</field>
+            <field name="context">{}</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('listview_act_delay_ext')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('act_delay_operatioanl_ext')})]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,282 @@
+<odoo>
+    <!-- Header -->
+    <!--  -->
+    <template id='report_purchase_requisition_new'>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <div t-attf-class="header">
+                            <div class="row">
+                                <t t-set="company" t-value="o.company_id"/>
+                                <div class="col-2 mb4">
+                                    <img t-if="company" t-att-src="image_data_uri(company.logo)" style="max-height: 80px;" class="float-left" alt="Logo"/>
+                                </div>
+                                <div class="col-8 text-center" style="font-size:28px; font-weight: bold;">
+                                    <strong>PURCHASE REQUISITION (PR)</strong>
+                                </div>
+                                <div class="col-2 text-center" style="font-size:28px; font-weight: bold;">
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-2 text-center" style="font-size:28px; font-weight: bold;">
+                                </div>
+                                <div class="col-8 text-center" style="font-size:25px; font-weight: bold;">
+                                    <strong>USER INFORMATION (User Dept)</strong>
+                                </div>
+                                <div class="col-2 text-center" style="font-size:28px; font-weight: bold;">
+                                </div>
+                            </div>
+                        </div>
+                        <div t-attf-class="body">
+                            <div class="row" style="font-size:25px; border-top: 2px solid black;border-bottom: 2px solid black;">
+                                <div class="col-4">
+                                    PR NO
+                                </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-60px;" t-field="o.pr_no"/>
+                                </div>
+                                <div class="col-4" style="margin-left:-80px;border-left: 2px solid black;">
+                                    BUDGET (Acc. Dept)
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:25px;">
+                                <div class="col-4">
+                                    Company Name
+                                </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-60px; margin-right:10px;" t-field="o.company_id"/>
+                                </div>
+                                <div class="col-4" style="margin-left:-80px;border-left: 2px solid black;">
+                                    <span style="margin-left:80px;" t-field="o.budget"/>
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:25px;">
+                                <div class="col-4">
+                                        Department
+                                    </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-60px;" t-field="o.department_id"/>
+                                </div>
+                                 <div class="col-4" style="margin-left:-80px;border-left: 2px solid black;">
+                                    <span style="margin-left:80px;" t-field="o.capex"/>
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:25px;">
+                                <div class="col-4">
+                                        Order By (PIC)
+                                    </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-50px;" t-field="o.order_by_id"/>
+                                </div>
+                                <div class="col-4" style="margin-left:-80px; border-left: 2px solid black;">
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:25px;">
+                                <div class="col-4">
+                                    Date Required
+                                </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-60px;" t-field="o.date_request"/>
+                                </div>
+                                <div class="col-4" style="margin-left:-80px; border-left: 2px solid black;">
+                                    Remaks :
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:25px; border-bottom: 2px solid black;">
+                                <div class="col-4">
+                                    Expected Arrive Date
+                                </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-60px;" t-field="o.eta"/>
+                                </div>
+                                <div class="col-4" style="margin-left:-80px; border-left: 2px solid black;">
+                                    <span t-field="o.remaks"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                            </div>
+                            <div class="row" style="font-size:25px;">
+                                <div class="col-4" style="text-center;"></div>
+                                <div class="col-4" style="margin-left:-100px;">
+                                    MOL No.
+                                </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-200px;" t-field="o.ref_mol_no"/>
+                                </div>
+                                <div class="col-4" style="margin-left:-100px;">
+                                    <span style="margin-left:-300px;">CN Unit</span>
+                                </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-500px;" t-field="o.ref_cn_unit"/>
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:25px;">
+                                <div class="col-4" style="text-center;">Reference To</div>
+                                <div class="col-4" style="margin-left:-100px;">
+                                    BL No.
+                                </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-200px;" t-field="o.ref_bl_no"/>
+                                </div>
+                                <div class="col-4" style="margin-left:-100px;">
+                                    <span style="margin-left:-300px;">Model</span>
+                                </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-500px;" t-field="o.ref_model"/>
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:25px; border-bottom: 2px solid black;">
+                                <div class="col-4" style="text-center;"></div>
+                                <div class="col-4" style="margin-left:-100px;">
+                                    Ref Date.
+                                </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-200px;" t-field="o.ref_date"/>
+                                </div>
+                                <div class="col-4" style="margin-left:-100px;">
+                                    <span style="margin-left:-300px;">SMR</span>
+                                </div>
+                                <div class="col-4">
+                                    <span style="margin-left:-500px;" t-field="o.ref_smr"/>
+                                </div>
+                            </div>
+                            <div class="row" style="background-color:#808080; font-size:25px; border-bottom: 2px solid black;">
+                                <div class="col-12" style="text-center;">
+                                    PURCHASE REASON
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:22px; border-bottom: 2px solid black;">
+                                <div class="col-12" style="text-center;">
+                                    <span t-field="o.pr_reason"/>
+                                </div>
+                            </div>
+                            <div class="row" style="background-color:#808080;font-size:25px; border-bottom: 2px solid black;">
+                                <div class="col-12" style="text-center;">
+                                    NOMINATED SUPPLIER
+                                </div>
+                            </div>
+                            <div class="row" style="font-size:22px;">
+                                <div class="col-12" style="text-center;">
+                                    <span t-field="o.supplier"/>
+                                </div>
+                            </div>
+                            <table class="table table-sm o_main_table" style="margin-top:80px;font-size:20px;border-top: 2px solid black;">
+                                <thead>
+                                    <tr>
+                                        <th name="th_no"><strong>No</strong></th>
+                                        <th name="th_item_no"><strong>Item Number</strong></th>
+                                        <th name="th_item_name"><strong>Item Name.</strong></th>
+                                        <th name="th_description"><strong>Description</strong></th>
+                                        <th name="th_qty"><strong>Qty</strong></th>
+                                        <th name="th_uom"><strong>UoM</strong></th>
+                                        <th name="th_price"><strong>Estimate Price</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-value="0" t-set="number"/>
+                                    <t t-foreach="o.line_ids" t-as="line">
+                                        <tr>
+                                            <td id="td_no">
+                                                <t t-set="number" t-value="number+1"/>
+                                                <span t-esc="number"/>
+                                            </td>
+                                            <td id="td_item_no">
+                                                <span t-field="line.item_part_no_id"/>
+                                            </td>
+                                            <td id="td_item_name">
+                                                <span t-field="line.item_name"/>
+                                            </td>
+                                            <td id="td_description">
+                                                <span t-field="line.description"/>
+                                            </td>
+                                            <td id="td_qty">
+                                                <span t-field="line.qty"/>
+                                            </td>
+                                            <td id="td_uom">
+                                                <span t-field="line.price_qty"/>
+                                            </td>
+                                            <td id="td_price">
+                                                <span t-field="line.est_price"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <div id="total" class="row justify-content-end">
+                                <div class="col-4" style="font-size:25px;">
+                                    <table class="table table-sm">
+                                        <tr class="border-black">
+                                            <td name="td_subtotal_label"><strong>Total</strong></td>
+                                            <td class="text-right">
+                                                <span t-field="o.total_price"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" style="background-color:#808080;font-size:25px; border-bottom: 2px solid black; border-top: 2px solid black;">
+                                <div class="col-12 text-center" style="text-center;">
+                                    Approved
+                                </div>
+                            </div>
+                            <div id="approved" class="row">
+                                <div class="col-12 text-center" style="font-size:20px;">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th name="th_user"><strong>User</strong></th>
+                                                <th name="th_ttd"><strong>TTD</strong></th>
+                                                <th name="th_date"><strong>Date</strong></th>
+                                                <th name="th_notes"><strong>Notes</strong></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="o.approval_ids.filtered(lambda line: not line.is_finance)" t-as="line">
+                                                <tr>
+                                                    <td id="td_user">
+                                                        <span t-esc="line.user_id.name"/>
+                                                    </td>
+                                                    <td id="td_ttd">
+                                                        <img t-if="line.digital_signature" class="text-left" t-att-src="image_data_uri(line.digital_signature)" style="max-height: 40px"/>
+                                                        <img t-if="line.upload_signature" class="text-left" t-att-src="image_data_uri(line.upload_signature)" style="max-height: 40px"/>
+                                                    </td>
+                                                    <td id="td_date">
+                                                        <span t-esc="line.approve_date"/>
+                                                    </td>
+                                                    <td id="td_notes">
+                                                        <span t-esc="line.notes"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6" style="text-center;">
+                            </div>
+                        </div>
+                        <div class="footer" style="font-size:15px;float: right;">
+                            <span t-field="o.write_uid"/>
+                            <br/>
+                            <span t-field="o.__last_update"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_print_pr_new" model="ir.actions.report">
+        <field name="name">Print PR</field>
+        <field name="model">mncei.purchase.requisition</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mnc_purchase_request.report_purchase_requisition_new</field>
+        <field name="report_file">mnc_purchase_request.report_purchase_requisition_new</field>
+        <field name="print_report_name">'PR - %s' % (object.pr_no)</field>
+        <field name="binding_model_id" ref="mnc_purchase_request.model_mncei_purchase_requisition"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

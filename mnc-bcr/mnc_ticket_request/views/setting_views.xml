@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo> 
+    <record id="res_config_settings_view_form_ticket" model="ir.ui.view">
+        <field name="name">Ticket Setting</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="General Settings" string="Ticket" data-key="mnc_ticket_request">
+                    <div class="app_settings_custom">
+                        <h2>Settings Times</h2>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <span>
+                                    Auto Reminder Tickets
+                                    <field
+                                        name="duration_remainder"
+                                        class="oe_inline"
+                                    />
+                                    hours.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ticket_config_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="mnc_ticket_request.res_config_settings_view_form_ticket"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'mnc_ticket_request'}</field>
+    </record>
+
+    <menuitem id="ticket_menu_setting_params" name="Settings" action="ticket_config_settings_action" sequence="1" parent="mnc_ticket_request.ticket_menu_conf"/>
+</odoo>

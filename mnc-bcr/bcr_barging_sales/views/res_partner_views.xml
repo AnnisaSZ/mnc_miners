@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="bcr_res_partner_inherit_buyer" model="ir.ui.view">
+            <field name="name">res.partner.inherit.barging</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="bcr_master.bcr_res_partner_inherit01"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='kode_buyer']" position="replace">
+                    <field name="kode_buyer" attrs="{'invisible': [('is_buyer','!=',True)], 'required': [('is_buyer','=',True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='bisnis_unit_id']" position="before">
+                    <field name="is_profit_sharing" attrs="{'invisible': [('is_kontraktor','!=',True)]}"/>
+                    <field name="user_profit_id" attrs="{'invisible': ['|', ('is_profit_sharing','=',False), ('is_kontraktor', '=', False)], 'required': [('is_profit_sharing','=',True)]}"/>
+                    <field name="area_ids" string="PIT" widget="many2many_tags" options="{'no_create_edit': True, 'no_create': True, 'no_open': True}" attrs="{'invisible': [('is_kontraktor','!=',True)], 'required': [('is_kontraktor','=',True)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
