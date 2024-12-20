@@ -125,7 +125,7 @@ class MnceiMiners(http.Controller):
                 if parameter['employee_id']:
                     datas = []
                     employee_id = env['mncei.employee'].sudo().browse(parameter['employee_id'])
-                    bisnis_unit_id = env['master.bisnis.unit'].sudo().search([('bu_company_id', '=', employee_id.company.id)])
+                    bisnis_unit_id = env['master.bisnis.unit'].sudo().search([('bu_company_id', '=', employee_id.company.id)], limit=1)
                     if employee_id:
                         # Check Image
                         if not parameter['photo']:
@@ -139,9 +139,9 @@ class MnceiMiners(http.Controller):
                                 "code": 3,
                                 "desc": "Please check your image"}
                             return result
-                        name = f"{employee_id.nama_lengkap}_{employee_id.department.name}_{bisnis_unit_id.code}"
+                        name_user = f"{employee_id.nama_lengkap} {employee_id.department.name}_{bisnis_unit_id.code}"
                         user_id = request.env['res.users'].sudo().create({
-                            'name': name,
+                            'name': name_user,
                             'login': employee_id.email,
                             'mncei_employee_id': employee_id.id,
                             'password': 'WelcomeToMNC123#',

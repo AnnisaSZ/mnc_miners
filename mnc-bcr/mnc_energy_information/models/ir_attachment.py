@@ -6,7 +6,7 @@ from collections import defaultdict
 class IrAttachment(models.Model):
     _inherit = 'ir.attachment'
 
-    # Override module from base ir.attachment
+    # Overirde
     @api.model
     def check(self, mode, values=None):
         """ Restricts the access to an ir.attachment, according to referred mode """
@@ -14,7 +14,7 @@ class IrAttachment(models.Model):
             return True
         # Always require an internal user (aka, employee) to access to a attachment
         if not self.env.user.has_group('mnc_energy_information.group_ann_user'):
-            if not (self.env.is_admin() or self.env.user.has_group('base.group_user') or self.env.user.has_group('base.group_portal')):
+            if not (self.env.is_admin() or self.env.user.has_group('base.group_user')):
                 raise AccessError(_("Sorry, you are not allowed to access this document."))
         # collect the records to check (by model)
         model_ids = defaultdict(set)            # {model_name: set(ids)}
@@ -23,12 +23,12 @@ class IrAttachment(models.Model):
             self.env['ir.attachment'].flush(['res_model', 'res_id', 'create_uid', 'public', 'res_field'])
             self._cr.execute('SELECT res_model, res_id, create_uid, public, res_field FROM ir_attachment WHERE id IN %s', [tuple(self.ids)])
             for res_model, res_id, create_uid, public, res_field in self._cr.fetchall():
-                if public:
+                if public and mode == 'read':
                     continue
-                # elif not self.env.user.has_group('mnc_energy_information.group_ann_user'):
-                #     if not self.env.is_system() and (res_field or (not res_id and create_uid != self.env.uid)):
-                #         raise AccessError(_("Sorry, you are not allowed to access this document."))
-                elif not (res_model and res_id):
+                if not self.env.user.has_group('mnc_energy_information.group_ann_user'):
+                    if not self.env.is_system() and (res_field or (not res_id and create_uid != self.env.uid)):
+                        raise AccessError(_("Sorry, you are not allowed to access this document."))
+                if not (res_model and res_id):
                     continue
                 model_ids[res_model].add(res_id)
         if values and values.get('res_model') and values.get('res_id'):

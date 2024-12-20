@@ -24,18 +24,10 @@ class MncPrApprovalWizard(models.TransientModel):
     )
     upload_signature_fname = fields.Char(string='Upload Signature Name')
     finance_attachment_fname = fields.Char(string='Finance File Name')
-    finance_uid = fields.Many2one('res.users', "Finance")
-    is_procurement = fields.Boolean('Procurement')
-    # Rejected
     reason_reject = fields.Text("Reason Rejected", store=True)
     uid_reject = fields.Many2one('res.users', "Reason Rejected", store=True, readonly=True)
-    to_user_id = fields.Many2one('res.users', "User", store=True)
-    to_requestor = fields.Boolean('Requestor')
-    type_rejected = fields.Selection([('Requestor', 'Requestor'), ('Approval', 'Approval')], default='Approval', string="To", store=True)
-    user_approval_ids = fields.Many2many(
-        'res.users', 'approval_user_wiz_rel', 'approval_wiz_id', 'user_id',
-        string='Approvals', store=True, copy=False
-    )
+    finance_uid = fields.Many2one('res.users', "Finance")
+    is_procurement = fields.Boolean('Procurement')
 
     def action_approve(self):
         action = {
@@ -54,23 +46,11 @@ class MncPrApprovalWizard(models.TransientModel):
                 ('pr_id', '=', pr_id.id),
             ], limit=1, order='id asc')
             if next_approver:
-                if not next_approver.action_type:
-                    pr_id.write({'approve_uid': next_approver.user_id.id, 'approval_id': next_approver.id, 'user_approval_ids': [(4, self.env.uid)]})
-                    pr_id.send_notif_approve(next_approver)
-                    if next_approver.is_procurement:
-                        pr_id.to_procurement()
-                    return action
-                else:
-                    next_approver = self.env['mncei.purchase.requisition.approval'].search([
-                        ('id', '>', approval_id.id),
-                        ('action_type', '=', 'Reject'),
-                        ('pr_id', '=', pr_id.id),
-                    ], limit=1, order='id asc')
-                    pr_id.write({'approve_uid': next_approver.user_id.id, 'approval_id': next_approver.id, 'user_approval_ids': [(4, self.env.uid)]})
-                    pr_id.send_notif_approve(next_approver)
-                    if next_approver.is_procurement:
-                        pr_id.to_procurement()
-                    return action
+                pr_id.write({'approve_uid': next_approver.user_id.id, 'approval_id': next_approver.id, 'user_approval_ids': [(4, self.env.uid)]})
+                pr_id.send_notif_approve(next_approver)
+                if next_approver.is_procurement:
+                    pr_id.to_procurement()
+                return action
             else:
                 if not self.finance_uid:
                     raise ValidationError(_("Please Input User finance for followup this PR."))
@@ -131,33 +111,12 @@ class MncPrApprovalWizard(models.TransientModel):
         if not self.reason_reject:
             raise ValidationError(_("Tolong tuliskan alasan mengapa PR ini di reject"))
         else:
-            if self.type_rejected == 'Approval':
-                current_approver_id = pr_id.approval_id
-                approval_id = self.env['mncei.purchase.requisition.approval'].search([
-                    ('id', '<', current_approver_id.id),
-                    ('user_id', '=', self.to_user_id.id),
-                    ('pr_id', '=', pr_id.id),
-                ], limit=1, order='id asc')
-                # Set Status Reject Current Approval
-                reason = _('%s (To : %s)') % (self.reason_reject, self.to_user_id.name)
-                current_approver_id.write({
-                    'action_type': 'Reject',
-                    'approve_date': fields.Datetime.now(),
-                    'notes': reason,
-                })
-                # Update in User Re-Approve
-                pr_id.write({
-                    'approval_id': approval_id.id,
-                    'approve_uid': self.to_user_id.id,
-                })
-                pr_id.send_notif_approve(approval_id)
-            elif self.type_rejected == 'Requestor':
-                pr_id.write({
-                    'reason_reject': self.reason_reject,
-                    'state': 'reject',
-                    'uid_reject': self.current_uid.id,
-                    'user_approval_ids': [(4, self.env.uid)]
-                })
+            pr_id.write({
+                'reason_reject': self.reason_reject,
+                'state': 'reject',
+                'uid_reject': self.current_uid.id,
+                'user_approval_ids': [(4, self.env.uid)]
+            })
         return {
             'type': 'ir.actions.client',
             'tag': 'reload',
@@ -167,8 +126,8 @@ class MncPrApprovalWizard(models.TransientModel):
     def finance_data_approval(self, pr_id, finance_uid):
         approval_id = self.env['mncei.purchase.requisition.approval'].create({
             'pr_id': pr_id.id,
-            'user_id': self.env.uid,
-            'email': self.env.user.login,
+            'user_id': finance_uid.id,
+            'email': finance_uid.login,
             'is_finance': True,
         })
         return approval_id
@@ -189,7 +148,7 @@ class MncPrApprovalWizard(models.TransientModel):
         pr_id.approval_id.write(self.prepare_data_approve(finance=True))
         pr_id.write({
             'payment_state': 'cancel',
-            'state': 'approve',
+            'state': 'cancel',
             'finance_approval_ids': [(4, pr_id.approval_id.id)]
         })
         return

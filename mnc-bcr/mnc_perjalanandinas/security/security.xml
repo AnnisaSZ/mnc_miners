@@ -9,10 +9,6 @@
         <field name="name">Configuration</field>
         <field name="category_id" ref="perdin_category_group"/>
     </record>
-    <record id="group_perdin_approval" model="res.groups">
-        <field name="name">Approval</field>
-        <field name="category_id" ref="perdin_category_group"/>
-    </record>
     <record id="group_perdin_mgt" model="res.groups">
         <field name="name">General Affair</field>
         <field name="category_id" ref="perdin_category_group"/>

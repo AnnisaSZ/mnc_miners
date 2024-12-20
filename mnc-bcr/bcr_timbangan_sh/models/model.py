@@ -218,10 +218,6 @@ class TimbanganDataWiz(models.TransientModel):
 
     # ========== API Get New Version ==============
     # BSPC New Version
-    def get_request_bscp_api(self):
-        deldata = self.env['timbangan.vdata'].search([('tanggal', '=', "2024-01-1"), ('bisnis_unit', 'in', ['BSPC'])]).unlink()
-        self.get_action_data_api_bspc_days_v2("2024", "2", "2024-01-1")
-
     def get_action_data_api_bspc_days_v2(self, year, month, date):
         headers = {'Security': _security}
         par_f001 = date

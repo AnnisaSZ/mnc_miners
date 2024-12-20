@@ -13,7 +13,7 @@
                     <button name="action_sign_approve" string="Sign and Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', '|', ('state', 'in', ('draft', 'approve', 'reject')), ('is_approved', '=', False), ('is_hrga', '=', True)]}"/>
                     <!-- -->
                     <button name="open_reject" string="Reject" type="object" attrs="{'invisible': ['|', ('state', 'in', ('draft', 'approve', 'reject')), ('is_approved', '=', False)]}"/>
-                    <button name="set_draft" string="Revise" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'reject')]}"/>
+                    <button name="set_draft" string="Revice" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'reject')]}"/>
                     <field name="state" readonly="True" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="draft,waiting,approve"/>
                 </header>
                 <sheet>
@@ -46,9 +46,9 @@
                             <field name="objective_tr" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve'))]}"/>
                             <label for="is_ikatan_dinas" string="Ikatan Dinas"/>
                             <div>
-                                <field name="is_ikatan_dinas" class="oe_inline" attrs="{'readonly': ['|', ('is_hrga', '=', False), ('state','in', ('approve'))]}"/>
-                                <field name="duration_ikatan_dinas" attrs="{'invisible': [('is_ikatan_dinas', '=', False)], 'readonly': ['|', ('is_hrga', '=', False), ('state','in', ('approve'))]}" class="oe_inline"/>
-                                <span attrs="{'invisible': [('is_ikatan_dinas', '=', False)]}">  Year</span>
+                                <field name="is_ikatan_dinas" class="oe_inline"/>
+                                <field name="duration_ikatan_dinas" attrs="{'invisible': [('is_ikatan_dinas', '=', False)]}" class="oe_inline"/>
+                                <span attrs="{'invisible': [('is_ikatan_dinas', '=', False)]}">Year</span>
                             </div>
                         </group>
                     </group>
@@ -111,8 +111,8 @@
                                     <field name="user_id"/>
                                     <field name="email"/>
                                     <field name="is_email_sent"/>
-                                    <field name="action_type"/>
-                                    <field name="is_current_user" invisible="1" string="Approved"/>
+                                    <field name="action_type" invisible="1"/>
+                                    <field name="is_current_user" string="Approved"/>
                                     <field name="approve_date"/>
                                     <field name="notes"/>
                                     <field name="reject_notes" invisible="1"/>
@@ -212,8 +212,8 @@
     <data>
         <menuitem id="training_menu_root" name="Training Request"/>
         <menuitem id="training_request" name="My Request" action="action_training" parent="training_menu_root"/>
-        <menuitem id="training_menu_approval" name="To Approval" sequence="20" parent="training_menu_root" groups="mnc_training_request.group_training_approval"/>
-        <menuitem id="training_menu_approved" name="Approved List" sequence="40" action="action_training_approved_list" parent="training_menu_root" groups="mnc_training_request.group_training_approval"/>
+        <menuitem id="training_menu_approval" name="To Approval" sequence="20" parent="training_menu_root" groups="mnc_training_request.group_training_admin"/>
+        <menuitem id="training_menu_approved" name="Approved List" sequence="40" action="action_training_approved_list" parent="training_menu_root" groups="mnc_training_request.group_training_admin"/>
         <menuitem id="training_menu_all" name="All Request" sequence="40" action="action_training_all" parent="training_menu_root" groups="mnc_training_request.group_training_ga"/>
 
         <menuitem id="tr_menu_wait_approve" name="Management" sequence="10" action="action_training_req_wait_approval" parent="training_menu_approval"/>

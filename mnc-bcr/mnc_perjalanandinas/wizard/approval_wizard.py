@@ -18,15 +18,8 @@ class MncPerdinApprovalWizard(models.TransientModel):
         string='Current Users', default=lambda self: self.env.user
     )
     upload_signature_fname = fields.Char(string='Upload Signature Name')
-    # Rejected
     reason_reject = fields.Text("Reason Rejected", store=True)
-    to_user_id = fields.Many2one('res.users', "User", store=True)
-    type_rejected = fields.Selection([('Requestor', 'Requestor'), ('Approval', 'Approval')], default='Approval', string="To", store=True)
     uid_reject = fields.Many2one('res.users', "Reason Rejected", store=True, readonly=True)
-    user_approval_ids = fields.Many2many(
-        'res.users', 'approval_user_perdin_wiz_rel', 'approval_perdin_wiz_id', 'user_id',
-        string='Approvals', store=True, copy=False
-    )
 
     def action_approve(self):
         action = {
@@ -45,19 +38,9 @@ class MncPerdinApprovalWizard(models.TransientModel):
                 ('perdin_id', '=', perdin_id.id),
             ], limit=1, order='id asc')
             if next_approver:
-                if not next_approver.action_type:
-                    perdin_id.send_notif_approve(next_approver)
-                    perdin_id.write({'approve_uid': next_approver.user_id.id, 'approval_id': next_approver.id, 'user_approval_ids': [(4, self.env.uid)]})
-                    return action
-                else:
-                    next_approver = self.env['mncei.perdin.approval'].search([
-                        ('id', '>', approval_id.id),
-                        ('action_type', '=', 'Reject'),
-                        ('perdin_id', '=', perdin_id.id),
-                    ], limit=1, order='id asc')
-                    perdin_id.send_notif_approve(next_approver)
-                    perdin_id.write({'approve_uid': next_approver.user_id.id, 'approval_id': next_approver.id, 'user_approval_ids': [(4, self.env.uid)]})
-                    return action
+                perdin_id.send_notif_approve(next_approver)
+                perdin_id.write({'approve_uid': next_approver.user_id.id, 'approval_id': next_approver.id, 'user_approval_ids': [(4, self.env.uid)]})
+                return action
             else:
                 perdin_id.write({'user_approval_ids': [(4, self.env.uid)]})
                 perdin_id.to_approve()
@@ -101,32 +84,11 @@ class MncPerdinApprovalWizard(models.TransientModel):
         if not self.reason_reject:
             raise ValidationError(_("Tolong tuliskan alasan mengapa Dokumen ini di reject"))
         else:
-            if self.type_rejected == 'Approval':
-                current_approver_id = perdin_id.approval_id
-                approval_id = self.env['mncei.perdin.approval'].search([
-                    ('id', '<', current_approver_id.id),
-                    ('user_id', '=', self.to_user_id.id),
-                    ('perdin_id', '=', perdin_id.id),
-                ], limit=1, order='id asc')
-                # Set Status Reject Current Approval
-                reason = _('%s (To : %s)') % (self.reason_reject, self.to_user_id.name)
-                current_approver_id.write({
-                    'action_type': 'Reject',
-                    'approve_date': fields.Datetime.now(),
-                    'notes': reason,
-                })
-                # Update in User Re-Approve
-                perdin_id.write({
-                    'approval_id': approval_id.id,
-                    'approve_uid': self.to_user_id.id,
-                })
-                perdin_id.send_notif_approve(approval_id)
-            elif self.type_rejected == 'Requestor':
-                perdin_id.write({
-                    'reason_reject': self.reason_reject,
-                    'state': 'reject',
-                    'uid_reject': self.current_uid.id
-                })
+            perdin_id.write({
+                'reason_reject': self.reason_reject,
+                'state': 'reject',
+                'uid_reject': self.current_uid.id
+            })
         return {
             'type': 'ir.actions.client',
             'tag': 'reload',

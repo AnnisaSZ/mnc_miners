@@ -19,13 +19,11 @@
     ],
     # always loaded
     'data': [
-        'data/sequence.xml',
         'data/notification_email_template.xml',
         'security/ir.model.access.csv',
         'security/security.xml',
         'report/pr_report.xml',
         'wizard/pr_approval_wizard.xml',
-        'views/assets.xml',
         'views/mnc_pr.xml',
     ],
     # only loaded in demonstration mode

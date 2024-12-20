@@ -124,7 +124,7 @@
         </field>
     </record>
 
-	<menuitem id="scm_menu_root" name="SCM System" groups="mnc_scm.group_scm_user,mnc_scm.group_staff_store,mnc_scm.group_scm" web_icon="mnc_scm,static/description/icon_scm.png"/>
+	<menuitem id="scm_menu_root" name="SCM System" groups="mnc_scm.group_scm_user,mnc_scm.group_staff_store,mnc_scm.group_scm" web_icon="mnc_scm,static/description/icon.png"/>
     <menuitem id="part_request_menu" name="Part Request" action="part_request_view" parent="scm_menu_root"/>
     <menuitem id="order_request_menu" name="Order Request" action="order_request_view" parent="scm_menu_root"/>
     <menuitem id="price_comp_menu" name="Price Comparison" action="price_comp_view" parent="scm_menu_root"  groups="mnc_scm.group_scm_staff,mnc_scm.group_scm_cfo,mnc_scm.group_scm_manager,mnc_scm.group_scm_spv_finance,mnc_scm.group_scm_manager_finance,mnc_scm.group_scm_vp_director"/>

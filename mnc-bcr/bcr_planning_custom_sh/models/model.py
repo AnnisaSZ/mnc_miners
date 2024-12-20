@@ -54,19 +54,13 @@ def cek_date_lock_act(tipe, myid, date_act):
                 end_date = date_act + timedelta(days=int(h_par))
                 # print(timedelta(days=int(h_par)))
                 dt = end_date - date_today
-                print("ZZZZZZZZZZZZZZZZZZ011")
-                print("Parameter", h_par)
-                print("Date Actual", date_act)
-                print("Date End", end_date)
-                print("Today", date_today)
-                print("Total Days end - today", dt.days)
-                # print(int(dt.days))
                 if int(dt.days) >= 0:
                     return False
                 else:
                     return True
     else:
         return True
+
 
 def cek_date_lock_act_message(tipe):
     if tipe == "input":
@@ -89,6 +83,7 @@ def cek_date_lock_act_message(tipe):
         return str(date_lock_par[0].value)
     else:
         return "Not Found Message"
+
 
 # planning inherit
 class InheritPlanningHauling(models.Model):
@@ -208,6 +203,8 @@ class InheritPlanningBarging(models.Model):
                 raise ValidationError("Data tidak dapat di hapus")
             res = super(InheritPlanningBarging, r).unlink()
             return res
+
+
 class InheritPlanningProduction(models.Model):
     _inherit = 'planning.production'
 
@@ -226,9 +223,11 @@ class InheritPlanningProduction(models.Model):
         for record in self:
             if not record.kontraktor_id.is_kontraktor:
                 raise ValidationError('kontraktor is true not found')
+
     @api.onchange('area_id')
     def _onchange_bu_company_id(self):
         self.ensure_one()
+        print("XXXXXXXXXXXXXXXXXXXXXX")
         return {
             'domain':
                 {

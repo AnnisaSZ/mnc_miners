@@ -16,7 +16,7 @@
                 </group>
                 
                 <group string="Notes">
-                    <field name="notes" required="1" nolabel="1"/>
+                    <field name="notes" nolabel="1"/>
                 </group>
                 <footer>
                     <button
@@ -37,12 +37,7 @@
         <field name="model">training.requisition.approval.wizard</field>
         <field name="arch" type="xml">
             <form>
-                <field name="user_approval_ids" widget="many2many_tags" invisible="1"/>
-                <group>
-                    <field name="type_rejected" widget="radio" options="{'horizontal': true}"/>
-                    <field name="to_user_id" required="1" domain="[('id', 'in', user_approval_ids)]" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" attrs="{'invisible': [('type_rejected', '=', 'Requestor')]}"/>
-                </group>
-                <field name="reason_reject" required="1" placeholder="Tuliskan alasan mengapa Training ini direject"/>
+               <field name="reason_reject" placeholder="Tuliskan alasan mengapa TR ini direject"/>
                 <footer>
                     <button
                         name="button_reject"

@@ -10,8 +10,9 @@
                     <button name="action_sign_approve" string="Sign and Approve" type="object" class="oe_highlight" attrs="{'invisible': ['|', ('state', 'in', ('draft', 'approve', 'reject')), ('is_approved', '=', False)]}"/>
                     <button name="open_reject" string="Reject" type="object" attrs="{'invisible': ['|', ('state', 'in', ('draft', 'approve', 'reject')), ('is_approved', '=', False)]}"/>
                     <button name="action_submit" string="Submit" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
-                    <button name="reset_to_draft" string="Revise" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'reject')]}"/>
+                    <button name="reset_to_draft" string="Revice" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'reject')]}"/>
                     <button name="to_cancel" string="Cancel" type="object" attrs="{'invisible': [('state', '!=', 'approve')]}"/>
+                    <!-- <button name="action_declaration" string="Declaration" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'approve')]}"/> -->
                     <field name="state" readonly="True" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="draft,waiting,approve"/>
                 </header>
                 <sheet>
@@ -29,21 +30,19 @@
                     <group>
                         <group string="Data Pemohon">            
                             <field name="perusahaan" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="nama_karyawan" domain="[('state', '=', 'verified')]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="nama_karyawan" domain="[('state', '=', 'verified'), ('company', '=', perusahaan)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="department_id" readonly="1" force_save="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="jabatan_id" readonly="1" force_save="1" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <!-- <field name="one_trip" attrs="{'readonly': [('state', '!=', 'draft')]}"/> -->
-                            <field name="tentative" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         </group>
                         <group string="Tugas dan Tujuan">                            
-                            <field name="tujuan" options="{'no_create_edit': True, 'no_create': True}" context="{'status': 'aktif'}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="tujuan" context="{'status': 'aktif'}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="tugas" context="{'status': 'aktif'}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                        </group>
+                        </group>     
                         <group string="Keberangkatan">
-                            <field name="berangkat" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="berangkat" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         </group>                          
                         <group string="Kembali">
-                            <field name="kembali" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="kembali" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         </group>
                         <group>
                             <group>
@@ -54,11 +53,6 @@
                             <group>
                                 <field name="taksi_berangkat" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="travel_berangkat" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <label for="is_etc_berangkat" string="Dll"/>
-                                <div>
-                                    <field name="is_etc_berangkat" class="oe_inline"/>
-                                    <field name="etc_berangkat" class="oe_inline" attrs="{'invisible': [('is_etc_berangkat', '=', False)], 'required': [('is_etc_berangkat', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
-                                </div>
                             </group>
                         </group>
                         <group>
@@ -70,11 +64,6 @@
                             <group>
                                 <field name="taksi_kembali" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="travel_kembali" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <label for="is_etc_kembali" string="Dll"/>
-                                <div>
-                                    <field name="is_etc_kembali" class="oe_inline"/>
-                                    <field name="etc_kembali" class="oe_inline" attrs="{'invisible': [('is_etc_kembali', '=', False)], 'required': [('is_etc_kembali', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
-                                </div>
                             </group>
                         </group>
                         <group>
@@ -90,7 +79,7 @@
                             <field name="reason_reject" readonly="1"/>
                             <label for="uid_reject" string="Rejected By:"/>
                             <div>
-                                <field name="uid_reject" class="oe_inline"/>
+                            <field name="uid_reject" class="oe_inline"/>
                             </div>
                         </page>
                         <page string="Approval" attrs="{'invisible': [('is_creator', '=', False), ('is_ga_uid', '=', False)]}">
@@ -105,7 +94,6 @@
                                 </group>
                                 <group string="Direksi">
                                     <field name="direksi_id" domain="[('company_ids', 'in', perusahaan)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': ['|', ('is_ga_uid', '=', False), ('state','in', ('approve', 'reject', 'cancel'))]}"/>
-                                    <field name="direksi_optional_id" domain="[('company_ids', 'in', perusahaan)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': ['|', ('is_ga_uid', '=', False), ('state','in', ('approve', 'reject', 'cancel'))]}"/>
                                 </group>
                             </group>
                         </page>
@@ -113,8 +101,8 @@
                             <field name="attachment_ids">
                                 <tree editable="bottom">
                                     <field name="description"/>
-                                    <field name="attach_name" invisible="1"/>
                                     <field name="attach_file" filename='attach_name'/>
+                                    <field name="attach_name" invisible="1"/>
                                 </tree>
                             </field>
                         </page>
@@ -124,8 +112,8 @@
                                     <field name="user_id"/>
                                     <field name="email"/>
                                     <field name="is_email_sent"/>
-                                    <field name="action_type" string="Status"/>
-                                    <field name="is_current_user" string="Approved" invisible="1"/>
+                                    <field name="action_type" invisible="1"/>
+                                    <field name="is_current_user" string="Approved"/>
                                     <field name="approve_date"/>
                                     <field name="notes"/>
                                     <field name="reject_notes" invisible="1"/>
@@ -332,9 +320,9 @@
 
     <menuitem id="perjalanandinas_menu_root" name="Perjalanan Dinas" web_icon="mnc_perjalanandinas,static/description/icon.png"/>
     <menuitem id="perjalanandinas_menu" name="My Request" action="perjalanandinas_view" sequence="1" parent="perjalanandinas_menu_root"/>
+    <menuitem id="wait_approval_perdin_menu" name="To Approve" action="action_waiting_approval" sequence="10" parent="perjalanandinas_menu_root"/>
     <menuitem id="perjalanandinas_ga_menu" name="GA Reviews" action="perjalanandinas_ga_views" groups="mnc_perjalanandinas.group_perdin_mgt" sequence="7" parent="perjalanandinas_menu_root"/>
-    <menuitem id="wait_approval_perdin_menu" name="To Approve" action="action_waiting_approval" sequence="10" parent="perjalanandinas_menu_root" groups="mnc_perjalanandinas.group_perdin_approval"/>
-    <menuitem id="approved_perdin_menu" name="Approved List" action="action_approved_list" sequence="20" parent="perjalanandinas_menu_root" groups="mnc_perjalanandinas.group_perdin_approval"/>
+    <menuitem id="approved_perdin_menu" name="Approved List" action="action_approved_list" sequence="20" parent="perjalanandinas_menu_root"/>
     <!--  -->
     <menuitem id="configuration_menu_root" name="Configuration" parent="perjalanandinas_menu_root" sequence="100" groups="mnc_perjalanandinas.group_perdin_config"/>
     <menuitem id="params_menu" name="Setting Parameter" sequence="1" action="perdin_config_settings_action" parent="configuration_menu_root"/>

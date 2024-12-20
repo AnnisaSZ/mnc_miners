@@ -131,8 +131,8 @@ class MnceiTrainingRequesition(models.Model):
                 head_dept_list = [tr.head_request_id.id, tr.spv_hr_id.id, tr.head_hrga_id.id, tr.accounting_dept_id.id]
                 approval_list = []
                 # Optional Direksi 2
-                # if tr.direksi2_id:
-                #     bod_list.extend((tr.direksi2_id.id))
+                if tr.direksi2_id:
+                    bod_list.append(tr.direksi2_id.id)
                 # Head Dept Create Approval
                 for res_app in head_dept_list:
                     app_id = approval_obj.create(tr.prepare_data_approval(res_app, is_head_dept=True))
@@ -140,9 +140,6 @@ class MnceiTrainingRequesition(models.Model):
                 # BOD Create Approval
                 for bod_id in bod_list:
                     app_id = approval_obj.create(tr.prepare_data_approval(bod_id, is_bod=True))
-                    approval_list.append(app_id.id)
-                if tr.direksi2_id:
-                    app_id = approval_obj.create(tr.prepare_data_approval(tr.direksi2_id.id, is_bod=True))
                     approval_list.append(app_id.id)
                 tr.approval_ids = [(6, 0, approval_list)]
 
@@ -204,10 +201,8 @@ class MnceiTrainingRequesition(models.Model):
         signature_type = self.env.user.choice_signature
         upload_signature = False
         digital_signature = False
-        upload_signature_fname = ''
         if signature_type == 'upload':
             upload_signature = self.env.user.upload_signature
-            upload_signature_fname = self.env.user.upload_signature_fname
             if not upload_signature:
                 raise ValidationError(_("Please add your signature in Click Your name in Top Right > Preference > Signature"))
         elif signature_type == 'draw':
@@ -223,13 +218,7 @@ class MnceiTrainingRequesition(models.Model):
             'view_mode': 'form',
             'res_model': 'training.requisition.approval.wizard',
             'view_id': self.env.ref('mnc_training_request.mncei_tr_approval_wizard_form').id,
-            'context': {
-                'default_choice_signature': signature_type,
-                'default_digital_signature': digital_signature,
-                'default_upload_signature': upload_signature,
-                'default_upload_signature_fname': upload_signature_fname,
-                'default_user_approval_ids': [(6, 0, self.user_approval_ids.ids)]
-            }
+            'context': {'default_choice_signature': signature_type, 'default_digital_signature': digital_signature, 'default_upload_signature': upload_signature}
         }
 
     def open_reject(self):
@@ -240,9 +229,6 @@ class MnceiTrainingRequesition(models.Model):
             'view_mode': 'form',
             'res_model': 'training.requisition.approval.wizard',
             'view_id': self.env.ref('mnc_training_request.reject_tr_view_form').id,
-            'context': {
-                'default_user_approval_ids': [(6, 0, self.user_approval_ids.ids)]
-            },
         }
 
     def set_draft(self):

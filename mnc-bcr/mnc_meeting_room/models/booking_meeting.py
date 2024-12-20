@@ -15,10 +15,6 @@ class MnceiMeeting(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     def _company_ids_domain(self):
-        print("SSSSSSSSSSSSSSSSS")
-        print(fields.Date.today())
-        _logger.info("XXXXXXXXXXXXXXXXXXX")
-        _logger.info(fields.Date.today())
         return [('id', 'in', self.env.user.company_ids.ids)]
 
     name = fields.Char("Name", store=True, required=True, copy=False)
@@ -197,8 +193,6 @@ class MnceiMeeting(models.Model):
             for approval in approver_list:
                 approve_id = self.env['mncei.user.approve.meeting'].create(self.prepare_data_approval(approval))
                 self.send_notification(approve_id)
-            print("SSSSSSSSSSSSSSSSSSS")
-            print(approver_list)
             self.update({
                 'state': 'waiting',
                 'approver_ids': [(6, 0, approver_list)],
@@ -225,7 +219,8 @@ class MnceiMeeting(models.Model):
             else:
                 approver_list = []
                 for room in self.room_id:
-                    approver_list.append(room.ga_uid.id)
+                    for ga_uid in room.ga_uid:
+                        approver_list.append(ga_uid.id)
                 self.update({
                     'approver_ids': [(6, 0, approver_list)],
                     'is_ga': True

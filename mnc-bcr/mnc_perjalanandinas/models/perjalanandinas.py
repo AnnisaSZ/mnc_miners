@@ -13,12 +13,12 @@ class perjalanandinasModels(models.Model):
         sequence = self.env['ir.sequence'].with_company(company).next_by_code('perdin.code')
         return sequence
 
-    # def _company_ids_domain(self):
-    #     return [('id', 'in', self.env.user.company_ids.ids)]
+    def _company_ids_domain(self):
+        return [('id', 'in', self.env.user.company_ids.ids)]
 
     nama_karyawan = fields.Many2one('mncei.employee', string='Nama Karyawan', store=True, size=75, required=True)
-    no_perdin = fields.Char(string='No.', store=True, size=25, default='#', copy=False)
-    perusahaan = fields.Many2one('res.company', string="Perusahaan", store=True, size=75, required=True)
+    no_perdin = fields.Char(string='No.', store=True, size=25, default='/', copy=False)
+    perusahaan = fields.Many2one('res.company', string="Perusahaan", store=True, size=75, domain=_company_ids_domain, required=True)
     department_id = fields.Many2one('mncei.department', string='Department', store=True, required=True)
     jabatan_id = fields.Many2one('mncei.jabatan', string='Jabatan', store=True, required=True)
     tujuan = fields.Many2one('tujuan.module', string="Tujuan", store=True, required=True, domain="[('status', '=', 'aktif')]")
@@ -37,32 +37,26 @@ class perjalanandinasModels(models.Model):
 
     tgl_min_berangkat = fields.Date(string='Min. Tgl Berangkat', store=True)
     # Keberangkatan
-    berangkat = fields.Datetime(string='Tanggal/Waktu', store=True)
+    berangkat = fields.Datetime(string='Tanggal/Waktu', store=True, required=True)
     pesawat_berangkat = fields.Boolean(string='Pesawat', store=True)
     kereta_berangkat = fields.Boolean(string='Kereta', store=True)
     bus_berangkat = fields.Boolean(string='Bus', store=True)
     taksi_berangkat = fields.Boolean(string='Taksi', store=True)
     travel_berangkat = fields.Boolean(string='Travel', store=True)
-    is_etc_berangkat = fields.Boolean(string='Dll', store=True)
-    etc_berangkat = fields.Char(string='Dll', store=True)
 
     # Kepulangan
-    kembali = fields.Datetime(string='Tanggal/Waktu', store=True)
+    kembali = fields.Datetime(string='Tanggal/Waktu', store=True, required=True)
     pesawat_kembali = fields.Boolean(string='Pesawat', store=True)
     kereta_kembali = fields.Boolean(string='Kereta', store=True)
     bus_kembali = fields.Boolean(string='Bus', store=True)
     taksi_kembali = fields.Boolean(string='Taksi', store=True)
     travel_kembali = fields.Boolean(string='Travel', store=True)
-    is_etc_kembali = fields.Boolean(string='Dll', store=True)
-    etc_kembali = fields.Char(string='Dll', store=True)
 
     # Deklarasi
     is_declaration = fields.Boolean('Deklarasi', store=True, tracking=True)
 
     # Add Information
     penginapan = fields.Boolean(string='Penginapan', store=True)
-    one_trip = fields.Boolean(string='One Trip', store=True)
-    tentative = fields.Boolean(string='Tentative', store=True)
     catatan = fields.Text(string='Catatan', size=125, store=True)
     reason_reject = fields.Text("Reason Rejected", store=True)
     uid_reject = fields.Many2one('res.users', "Reason Rejected", store=True, readonly=True)
@@ -75,7 +69,8 @@ class perjalanandinasModels(models.Model):
     hrga_id = fields.Many2one('res.users', string='HR Dept', store=True, required=True)
     head_hrga_id = fields.Many2one('res.users', string='Head HR Dept', store=True, required=True)
     direksi_id = fields.Many2one('res.users', string='Direktur', store=True, required=True)
-    direksi_optional_id = fields.Many2one('res.users', string='Direktur', store=True)
+    approval_ids = fields.One2many('mncei.perdin.approval', 'perdin_id', string="Approval List", compute='add_approval', store=True)
+    approve_uid = fields.Many2one('res.users', string='User Approve', store=True, readonly=True)
     user_approval_ids = fields.Many2many(
         'res.users', 'approval_perdin_user_rel', 'perdin_id', 'user_id',
         string='Approvals', store=True, copy=False
@@ -84,15 +79,12 @@ class perjalanandinasModels(models.Model):
         'res.users', 'ga_perdin_user_rel', 'ga_id', 'perdin_id',
         string='GA Users', compute='_get_ga_users', store=True
     )
-    # User Approval
-    approval_ids = fields.One2many('mncei.perdin.approval', 'perdin_id', string="Approval List", compute='add_approval', store=True)
-    approve_uid = fields.Many2one('res.users', string='User Approve', store=True, readonly=True)
     approval_id = fields.Many2one(
         'mncei.perdin.approval',
         string='Approval', store=True, readonly=True
     )
 
-    @api.depends('pesawat_kembali', 'kereta_kembali', 'bus_kembali', 'taksi_kembali', 'travel_kembali', 'pesawat_berangkat', 'kereta_berangkat', 'bus_berangkat', 'taksi_berangkat', 'travel_berangkat', 'etc_kembali', 'etc_berangkat')
+    @api.depends('pesawat_kembali', 'kereta_kembali', 'bus_kembali', 'taksi_kembali', 'travel_kembali', 'pesawat_berangkat', 'kereta_berangkat', 'bus_berangkat', 'taksi_berangkat', 'travel_berangkat')
     def _get_type_transportation(self):
         for perdin in self:
             trasport = []
@@ -106,10 +98,6 @@ class perjalanandinasModels(models.Model):
                 trasport.append('Taksi')
             if perdin.travel_kembali or perdin.travel_berangkat:
                 trasport.append('Travel')
-            if perdin.etc_berangkat:
-                trasport.append(perdin.etc_berangkat)
-            if perdin.etc_kembali:
-                trasport.append(perdin.etc_kembali)
             # Set Value
             if len(trasport) > 0:
                 perdin.type_transportation = ','.join(trasport)
@@ -121,7 +109,7 @@ class perjalanandinasModels(models.Model):
             groups_ga = self.env.ref('mnc_perjalanandinas.group_perdin_mgt')
             perdin.ga_uids = [(6, 0, groups_ga.users.ids)]
 
-    @api.depends('requestor_id', 'spv_id', 'head_dept_id', 'hrga_id', 'direksi_id', 'direksi_optional_id')
+    @api.depends('requestor_id', 'spv_id', 'head_dept_id', 'hrga_id', 'direksi_id')
     def add_approval(self):
         for perdin in self:
             approval_obj = self.env['mncei.perdin.approval']
@@ -131,8 +119,6 @@ class perjalanandinasModels(models.Model):
                     for approval in perdin.approval_ids.filtered(lambda x: x.is_current_user or x.user_id == self.env.user):
                         approval_list.append(approval._origin.id)
                     apps_list = [perdin.hrga_id.id, perdin.head_hrga_id.id, perdin.direksi_id.id]
-                    if perdin.direksi_optional_id:
-                        apps_list.append(perdin.direksi_optional_id.id)
                     for approval in apps_list:
                         app_id = approval_obj.create(perdin.prepare_data_approval(approval))
                         approval_list.append(app_id.id)
@@ -144,8 +130,6 @@ class perjalanandinasModels(models.Model):
                         apps_list = [perdin.head_dept_id.id, perdin.head_ga_id.id, perdin.hrga_id.id, perdin.head_hrga_id.id, perdin.direksi_id.id]
                         if perdin.spv_id.id:
                             apps_list.insert(0, perdin.spv_id.id)
-                        if perdin.direksi_optional_id:
-                            apps_list.append(perdin.direksi_optional_id.id)
                         for approval in apps_list:
                             app_id = approval_obj.create(perdin.prepare_data_approval(approval))
                             approval_ids.append(app_id.id)
@@ -157,8 +141,6 @@ class perjalanandinasModels(models.Model):
                     apps_list = [perdin.head_dept_id.id, perdin.head_ga_id.id, perdin.hrga_id.id, perdin.head_hrga_id.id, perdin.direksi_id.id]
                     if perdin.spv_id.id:
                         apps_list.insert(0, perdin.spv_id.id)
-                    if perdin.direksi_optional_id:
-                        apps_list.append(perdin.direksi_optional_id.id)
                     for approval in apps_list:
                         app_id = approval_obj.create(perdin.prepare_data_approval(approval))
                         approval_ids.append(app_id.id)
@@ -204,17 +186,13 @@ class perjalanandinasModels(models.Model):
             self.jabatan_id = self.nama_karyawan.jabatan
 
     def action_submit(self):
-        # self._check_declaration()
+        self._check_declaration()
         approval_id = self.approval_ids.sorted(lambda x: x.id)[0]
         mail_template = self.env.ref('mnc_perjalanandinas.notification_perdin_mail_template_approved')
         if approval_id:
             mail_template.send_mail(approval_id.id, force_send=True, notif_layout='mail.mail_notification_light', email_values={'email_to': approval_id.user_id.login})
             approval_id.update({'is_email_sent': True})
-            self.update({
-                'state': 'waiting',
-                'approve_uid': approval_id.user_id.id,
-                'approval_id': approval_id.id
-            })
+            self.update({'state': 'waiting', 'approve_uid': approval_id.user_id.id, 'approval_id': approval_id.id})
         return
 
     def reset_to_draft(self):
@@ -233,10 +211,8 @@ class perjalanandinasModels(models.Model):
         signature_type = self.env.user.choice_signature
         upload_signature = False
         digital_signature = False
-        upload_signature_fname = ''
         if signature_type == 'upload':
             upload_signature = self.env.user.upload_signature
-            upload_signature_fname = self.env.user.upload_signature_fname
             if not upload_signature:
                 raise ValidationError(_("Please add your signature in Click Your name in Top Right > Preference > Signature"))
         elif signature_type == 'draw':
@@ -252,13 +228,7 @@ class perjalanandinasModels(models.Model):
             'view_mode': 'form',
             'res_model': 'perdin.approval.wizard',
             'view_id': self.env.ref('mnc_perjalanandinas.perdin_approval_wizard_form').id,
-            'context': {
-                'default_choice_signature': signature_type,
-                'default_digital_signature': digital_signature,
-                'default_upload_signature': upload_signature,
-                'default_upload_signature_fname': upload_signature_fname,
-                'default_user_approval_ids': [(6, 0, self.user_approval_ids.ids)]
-            }
+            'context': {'default_choice_signature': signature_type, 'default_digital_signature': digital_signature, 'default_upload_signature': upload_signature}
         }
 
     def open_reject(self):
@@ -269,9 +239,6 @@ class perjalanandinasModels(models.Model):
             'view_mode': 'form',
             'res_model': 'perdin.approval.wizard',
             'view_id': self.env.ref('mnc_perjalanandinas.perdin_reject_view_form').id,
-            'context': {
-                'default_user_approval_ids': [(6, 0, self.user_approval_ids.ids)]
-            }
         }
 
     def name_get(self):
@@ -317,14 +284,13 @@ class perjalanandinasModels(models.Model):
             raise ValidationError(_("Keberangkatan harus dibuat minimal H - %s") % (params))
         return res
 
-    @api.constrains('berangkat', 'kembali', 'one_trip')
+    @api.constrains('berangkat', 'kembali')
     def _check_date_departure(self):
         for perdin in self:
             if perdin.berangkat.date() <= fields.Date.today():
                 raise ValidationError(_("Tanggal berangkat harus lebih besar dari hari ini"))
-            if not perdin.one_trip:
-                if perdin.kembali.date() <= perdin.berangkat.date():
-                    raise ValidationError(_("Tanggal kembali harus lebih besar dari tanggal berangkat"))
+            if perdin.kembali.date() <= perdin.berangkat.date():
+                raise ValidationError(_("Tanggal kembali harus lebih besar dari tanggal berangkat"))
 
     def _check_declaration(self):
         perdin_id = self.search([('nama_karyawan', '=', self.nama_karyawan.id), ('id', '!=', self.id)], limit=1, order='id desc')

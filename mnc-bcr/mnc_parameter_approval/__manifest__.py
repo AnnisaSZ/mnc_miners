@@ -16,18 +16,15 @@
         'mnc_purchase_request',
         'mnc_training_request',
         'mnc_meeting_room',
-        'mnc_ticket_request',
     ],
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
         'security/security.xml',
         'views/setting_views.xml',
         'views/perdin_views.xml',
         'views/purchase_request.xml',
         'views/training_views.xml',
         'views/meet_room_views.xml',
-        'wizard/pr_wizard_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -372,7 +372,6 @@ class HRAttendance(models.Model):
     def action_get_transaction_by_location(self, location_id):
         working_time_ids = self.env['resource.calendar'].search([('loc_working_id', '=', location_id)])
         if working_time_ids:
-
             start = '%s 00:00:00' % (fields.Date.today())
             end = '%s 23:00:00' % (fields.Date.today())
             # Loop

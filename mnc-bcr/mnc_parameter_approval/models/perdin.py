@@ -30,29 +30,6 @@ class perjalanandinasModels(models.Model):
     # direksi_dept_params_ids = fields.Many2many(
     #     'mncei.department', 'direksi_dept_perdin_rel', 'params_id', 'direksi_dept_id',
     #     string='Direksi', copy=False)
-    # Setting Approval
-    res_config_approval_id = fields.Many2one('res.config.approval', string="Config Approval", compute='_get_config_approval')
-
-    @api.depends('perusahaan')
-    def _get_config_approval(self):
-        for perdin in self:
-            perdin.res_config_approval_id = False
-            if perdin.perusahaan:
-                config_id = self.env['res.config.approval'].search([('company_id', '=', perdin.perusahaan.id), ('model_type', '=', 'perdin')], limit=1)
-                valid_warning = _("Please input configuration approval in %s") % (perdin.perusahaan.name)
-                if not config_id and perdin.state == 'draft':
-                    raise ValidationError(_(valid_warning))
-                elif config_id:
-                    perdin.res_config_approval_id = config_id.id
-
-    @api.onchange('res_config_approval_id')
-    def set_approval(self):
-        if self.res_config_approval_id:
-            self.head_ga_id = self.res_config_approval_id.ga_id
-            self.hrga_id = self.res_config_approval_id.hr_id
-            self.head_hrga_id = self.res_config_approval_id.head_hrga_id
-            self.direksi_id = self.res_config_approval_id.direksi1_id
-            self.direksi_optional_id = self.res_config_approval_id.direksi2_id
 
     @api.depends('nama_karyawan', 'department_id')
     def _get_params_approval(self):

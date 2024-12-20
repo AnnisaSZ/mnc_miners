@@ -12,13 +12,8 @@
             <field name="category_id" ref="training_category_group"/>
         </record>
 
-        <record id="group_training_approval" model="res.groups">
-            <field name="name">Approval</field>
-            <field name="category_id" ref="training_category_group"/>
-        </record>
-
         <record id="group_training_ga" model="res.groups">
-            <field name="name">See All Request</field>
+            <field name="name">General Affairs</field>
             <field name="category_id" ref="training_category_group"/>
         </record>
 

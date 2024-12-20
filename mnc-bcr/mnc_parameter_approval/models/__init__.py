@@ -1,4 +1,3 @@
-from . import res_config_approval
 from . import params_position
 from . import res_users
 from . import perdin

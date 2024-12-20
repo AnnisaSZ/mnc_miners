@@ -336,7 +336,7 @@
           <xpath expr="//field[@name='volume']" position="replace">
               <label for="volume" string="Volume"/>
               <div class="o_row">
-                  <field name="volume" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}" class="oe_inline"/>
+                  <field name="volume" attrs="{'readonly': [('state', '!=', 'draft')]}" class="oe_inline"/>
                   <field name="item_uom"  force_save="1" class="oe_inline"/>
               </div>
           </xpath>

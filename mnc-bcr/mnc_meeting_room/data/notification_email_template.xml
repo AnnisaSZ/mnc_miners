@@ -110,7 +110,7 @@
                                     <tr><td valign="top" style="font-size: 13px;">
                                         <div>
                                             Dear ${invited_users.name or ''},<br/> <br/>
-                                            You are invited to a meeting ${object.name} From Department ${object.department_id.name},
+                                            You are invited to meeting ${object.name} From Department <strong>${object.department_id.name}</strong>,
                                         </div>
                                     </td></tr>
                                     <!-- <table style="margin-top:0px;margin-bottom:0px;" border="0"> -->

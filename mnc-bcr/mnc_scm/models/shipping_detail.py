@@ -97,12 +97,6 @@ class ShippingDetail(models.Model):
     
     qa_id = fields.Many2one('res.users', string='Quality Assurance', copy=False, domain=qa_domain)
     orf_id = fields.Many2one('order.request', string="ORF", store=True, copy=False)
-    orf_ids = fields.Many2many('order.request', string="ORF List", compute="compute_orf_ids", store=True)
-
-    @api.depends('order_line_ids', 'order_line_ids.orf_id')
-    def compute_orf_ids(self):
-        for rec in self:
-            rec.orf_ids = rec.order_line_ids.mapped('orf_id')
 
     def to_confirm(self):
         for rec in self:

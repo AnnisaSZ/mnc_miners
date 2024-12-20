@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="perdin_approval_wizard_form" model="ir.ui.view">
-        <field name="name">Sign and Approve</field>
+        <field name="name">Sign and Approve PR</field>
         <field name="model">perdin.approval.wizard</field>
         <field name="arch" type="xml">
             <form>
@@ -16,7 +16,7 @@
                 </group>
                 
                 <group string="Notes">
-                    <field name="notes" nolabel="1" required="1"/>
+                    <field name="notes" nolabel="1"/>
                 </group>
                 <footer>
                     <button
@@ -37,12 +37,7 @@
         <field name="model">perdin.approval.wizard</field>
         <field name="arch" type="xml">
             <form>
-               <field name="user_approval_ids" widget="many2many_tags" invisible="1"/>
-                <group>
-                    <field name="type_rejected" widget="radio" options="{'horizontal': true}"/>
-                    <field name="to_user_id" required="1" domain="[('id', 'in', user_approval_ids)]" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}" attrs="{'invisible': [('type_rejected', '=', 'Requestor')]}"/>
-                </group>
-                <field name="reason_reject" required="1" placeholder="Tuliskan alasan mengapa Perdin ini direject"/>
+               <field name="reason_reject" placeholder="Tuliskan alasan mengapa PR ini direject"/>
                 <footer>
                     <button
                         name="button_reject"

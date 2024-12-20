@@ -172,7 +172,7 @@
                             </div>
                             <div class="row" style="font-size:15px;border-bottom: 1px solid black;">
                                 <div class="col-12 text-left" style="text-center;font-weight: bold;">
-                                    Dengan masa ikatan Dinas selama <span t-field="o.duration_ikatan_dinas"/> tahun (diatur tersendiri dalam perjanjian training).
+                                    Dengan masa ikatan Dinas selama 1 tahun (diatur tersendiri dalam perjanjian training).
                                 </div>
                             </div>
                             <div class="row" style="font-size:17px;margin-top:20px">

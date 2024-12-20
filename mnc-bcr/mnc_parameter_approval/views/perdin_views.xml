@@ -8,7 +8,6 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='type_transportation']" position="before">
                     <field name="is_hr_uid" invisible="1"/>
-                    <field name="res_config_approval_id" invisible="1"/>
                     <field name="head_dept_params_ids" widget="many2many_tags" invisible="1"/>
                     <field name="spv_params_ids" widget="many2many_tags" invisible="1"/>
                     <field name="hrga_dept_params_ids" widget="many2many_tags" invisible="1"/>
@@ -22,77 +21,18 @@
                     <group>
                         <group string="Management">
                             <field name="requestor_id" readonly="1" domain="[('company_ids', 'in', perusahaan)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('waiting', 'approve', 'reject', 'cancel'))]}"/>
-                            <field name="spv_id" required="0" domain="[('mncei_dept_id', '=', department_id)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('waiting', 'approve', 'reject', 'cancel'))]}"/>
+                            <field name="spv_id" required="0" domain="[('company_ids', 'in', perusahaan), ('mncei_dept_id', '=', department_id)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('waiting', 'approve', 'reject', 'cancel'))]}"/>
                             <field name="head_dept_id" domain="[('mncei_employee_id', '!=', False), ('mncei_dept_id', '=', department_id)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('waiting', 'approve', 'reject', 'cancel'))]}"/>
-                            <field name="head_ga_id" readonly="1" force_save="1" domain="[('mncei_dept_id', 'in', ga_dept_params_ids)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('waiting', 'approve', 'reject', 'cancel'))]}"/>
-                            <field name="hrga_id" readonly="1" force_save="1" domain="[('mncei_dept_id', 'in', hrga_dept_params_ids)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('approve', 'reject', 'cancel'))]}"/>
-                            <field name="head_hrga_id" readonly="1" force_save="1" domain="[('mncei_dept_id', 'in', hrga_dept_params_ids)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('approve', 'reject', 'cancel'))]}"/>
+                            <field name="head_ga_id" domain="[('company_ids', 'in', perusahaan), ('mncei_dept_id', 'in', ga_dept_params_ids)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('waiting', 'approve', 'reject', 'cancel'))]}"/>
+                            <field name="hrga_id" domain="[('company_ids', 'in', perusahaan), ('mncei_dept_id', 'in', hrga_dept_params_ids)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('approve', 'reject', 'cancel'))]}"/>
+                            <field name="head_hrga_id" domain="[('company_ids', 'in', perusahaan), ('mncei_dept_id', 'in', hrga_dept_params_ids)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('approve', 'reject', 'cancel'))]}"/>
                         </group>
                         <group string="Direksi">
-                            <field name="direksi_id" string="Direksi Operational" readonly="1" force_save="1" domain="[('mncei_dept_id', 'in', direksi_params_ids)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('approve', 'reject', 'cancel'))]}"/>
-                            <field name="direksi_optional_id" domain="[('mncei_dept_id', 'in', direksi_params_ids)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('approve', 'reject', 'cancel'))]}"/>
+                            <field name="direksi_id" domain="[('company_ids', 'in', perusahaan), ('mncei_dept_id', 'in', direksi_params_ids)]" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('state','in', ('approve', 'reject', 'cancel'))]}"/>
                         </group>
                     </group>
                 </xpath>
             </field>
         </record>
-
-        <!-- Approval -->
-        <record id="res_config_approval_perdin_view_form" model="ir.ui.view">
-            <field name="name">res.config.approval.form</field>
-            <field name="model">res.config.approval</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <field name="model_type" invisible="1"/>
-                        <label for="company_id"/>
-                        <h1>
-                            <field name="company_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
-                        </h1>
-                        <group>
-                            <group>
-                                <field name="ga_id" required="1" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                                <field name="hr_id" required="1" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                                <field name="head_hrga_id" required="1" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                            </group>
-                            <group>
-                                <field name="direksi1_id" string="Direksi Operational" required="1" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                                <field name="direksi2_id" string="Direksi" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="res_config_approval_view_tree" model="ir.ui.view">
-            <field name="name">res.config.approval.tree</field>
-            <field name="model">res.config.approval</field>
-            <field name="arch" type="xml">
-                <tree delete="0">
-                    <field name="model_type"/>
-                    <field name="company_id"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="action_perdin_approval" model="ir.actions.act_window">
-            <field name="name">Setting Approval</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.config.approval</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('model_type', '=', 'perdin')]</field>
-            <field name="context">{'delete': 0, 'default_model_type': 'perdin'}</field>
-            <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'tree', 'view_id': ref('res_config_approval_view_tree')}),
-                (0, 0, {'view_mode': 'form', 'view_id': ref('res_config_approval_perdin_view_form')})]"/>
-            <field name="help" type="html">
-                <p>
-                    Add New Setting
-                </p>
-            </field>
-        </record>
-
-        <menuitem id="perdin_menu_set_approval" name="Setting Approval" sequence="0" action="action_perdin_approval" parent="mnc_perjalanandinas.configuration_menu_root"/>
     </data>
 </odoo>

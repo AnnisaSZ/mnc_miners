@@ -7,8 +7,6 @@
             <field name="inherit_id" ref="mnc_purchase_request.purchase_req_view_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='is_ga_uid']" position="before">
-                    <field name="requestor_dept_id" invisible="1"/>
-                    <field name="res_config_approval_id" invisible="1"/>
                     <field name="head_dept_params_ids" widget="many2many_tags" invisible="1"/>
                     <field name="direksi_params_ids" widget="many2many_tags" invisible="1"/>
                     <field name="hrga_dept_params_ids" widget="many2many_tags" invisible="1"/>
@@ -17,98 +15,33 @@
                     <field name="finance_dept_params_ids" widget="many2many_tags" invisible="1"/>
                     <field name="procurement_dept_params_ids" widget="many2many_tags" invisible="1"/>
                 </xpath>
-                <xpath expr="//field[@name='department_id']" position="replace">
-                    <field name="department_id" options="{'no_create_edit': 1, 'no_create': 1, 'no_open': 1}" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}" domain="[('id', '=', requestor_dept_id)]"/>
-                </xpath>
                 <xpath expr="//page[@name='approval']" position="replace">
                     <page string="Approval" name="approval" attrs="{'invisible': [('is_ga_uid', '=', False)]}">
                         <group>
                             <group string="Head Management">
                                 <field name="requestor_id" options="{'no_create': True, 'no_open': True}" readonly="1"/>
                                 <!-- Done -->
-                                <field name="head_request_id" options="{'no_create': True, 'no_open': True}" domain="[('mncei_dept_id', '=', department_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
+                                <field name="head_request_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id), ('mncei_dept_id', '=', department_id)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement'))]}"/>
                                 <!--  -->
-                                <field name="head_ga_id" readonly="1" force_save="1" options="{'no_create': True, 'no_open': True}" domain="[('mncei_dept_id', 'in', ga_dept_params_ids)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement', 'payment'))]}"/>
-                                <field name="head_hrga_id" readonly="1" force_save="1" options="{'no_create': True, 'no_open': True}" domain="[('mncei_dept_id', 'in', hrga_dept_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                <field name="head_ga_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id),  ('mncei_dept_id', 'in', ga_dept_params_ids)]" attrs="{'readonly': [('state','in', ('waiting', 'reject', 'approve', 'procurement'))]}"/>
+                                <field name="head_hrga_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id),  ('mncei_dept_id', 'in', hrga_dept_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement'))]}"/>
                             </group>
                             <group string="Direksi">
-                                <field name="direksi1_id" readonly="1" force_save="1" options="{'no_create': True, 'no_open': True}" domain="[('mncei_dept_id', 'in', direksi_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
-                                <field name="direksi2_id" readonly="1" force_save="1" options="{'no_create': True, 'no_open': True}" domain="[('mncei_dept_id', 'in', direksi_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
-                                <field name="direksi3_id" options="{'no_create': True, 'no_open': True}" domain="[('mncei_dept_id', 'in', direksi_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                <field name="direksi1_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id), ('mncei_dept_id', 'in', direksi_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement'))]}"/>
+                                <field name="direksi2_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id), ('mncei_dept_id', 'in', direksi_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement'))]}"/>
+                                <field name="direksi3_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id), ('mncei_dept_id', 'in', direksi_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement'))]}"/>
                             </group>
                             <group>
-                                <field name="it_id" options="{'no_create': True, 'no_open': True}" domain="[('mncei_dept_id', 'in', it_dept_params_ids)]" attrs="{'readonly': ['|', ('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
-                                <field name="head_finance_id" readonly="1" force_save="1" options="{'no_create': True, 'no_open': True}" domain="[('mncei_dept_id', 'in', finance_dept_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                <field name="it_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id), ('mncei_dept_id', 'in', it_dept_params_ids)]" attrs="{'readonly': ['|', ('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement'))]}"/>
+                                <field name="head_finance_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id), ('mncei_dept_id', 'in', finance_dept_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement'))]}"/>
                             </group>
                             <group string="Procurement">
-                                <field name="procurement_id" readonly="1" force_save="1" options="{'no_create': True, 'no_open': True}" domain="[('mncei_dept_id', 'in', procurement_dept_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement', 'payment'))]}"/>
+                                <field name="procurement_id" options="{'no_create': True, 'no_open': True}" domain="[('company_ids', 'in', company_id), ('mncei_dept_id', 'in', procurement_dept_params_ids)]" attrs="{'readonly': [('is_ga_uid', '=', False), ('state','in', ('reject', 'approve', 'procurement'))]}"/>
                             </group>
                         </group>
                     </page>
                 </xpath>
             </field>
         </record>
-
-        <!-- Approval -->
-        <record id="res_config_approval_pr_view_form" model="ir.ui.view">
-            <field name="name">res.config.approval.form</field>
-            <field name="model">res.config.approval</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <field name="model_type" invisible="1"/>
-                        <label for="company_id"/>
-                        <h1>
-                            <field name="company_id" options="{'no_open': True, 'no_create': True, 'no_create_edit': True}"/>
-                        </h1>
-                        <group>
-                            <group>
-                                <field name="ga_id" required="1" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                                <field name="head_hrga_id" required="1" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                                <field name="head_finance_id" required="1" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                                <field name="procurement_id" required="1" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                            </group>
-                            <group>
-                                <field name="direksi1_id" string="Direksi Operational" required="1" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                                <field name="direksi2_id" string="Direksi Finance" required="1" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                                <field name="direksi3_id" options="{'no_open': True, 'no_create': True, 'no_create': True}"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="res_config_approval_view_tree" model="ir.ui.view">
-            <field name="name">res.config.approval.tree</field>
-            <field name="model">res.config.approval</field>
-            <field name="arch" type="xml">
-                <tree delete="0">
-                    <field name="model_type"/>
-                    <field name="company_id"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="action_pr_approval" model="ir.actions.act_window">
-            <field name="name">Setting Approval</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">res.config.approval</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('model_type', '=', 'purchase_request')]</field>
-            <field name="context">{'delete': 0, 'default_model_type': 'purchase_request'}</field>
-            <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'tree', 'view_id': ref('res_config_approval_view_tree')}),
-                (0, 0, {'view_mode': 'form', 'view_id': ref('res_config_approval_pr_view_form')})]"/>
-            <field name="help" type="html">
-                <p>
-                    Add New Setting
-                </p>
-            </field>
-        </record>
-
-        <!-- Menuitem -->
-        <menuitem id="pr_menu_config" name="Configuration" sequence="100" parent="mnc_purchase_request.pr_menu_root" groups="mnc_purchase_request.group_pr_mgr"/>
-        <menuitem id="pr_menu_set_approval" name="Setting Approval" sequence="10" action="action_pr_approval" parent="pr_menu_config"/>
     </data>
 </odoo>

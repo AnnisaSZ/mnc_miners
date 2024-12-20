@@ -1,8 +1,5 @@
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError, UserError
-import logging
-
-_logger = logging.getLogger(__name__)
+from odoo.exceptions import ValidationError
 
 
 class MnceiPurchaseRequest(models.Model):
@@ -14,7 +11,7 @@ class MnceiPurchaseRequest(models.Model):
         return [('id', 'in', self.env.user.company_ids.ids)]
 
     pr_no = fields.Char(
-        string='PR No.', store=True, required=True, copy=False, default='#'
+        string='PR No.', store=True, required=True, copy=False, default='/'
     )
     company_id = fields.Many2one(
         'res.company',
@@ -43,10 +40,10 @@ class MnceiPurchaseRequest(models.Model):
         ('waiting', 'Waiting Approval'),
         ('procurement', 'Procurement'),
         ('approve', 'Approved'),
-        ('payment', 'Payment'),
+        ('payment', 'In Payment'),
         ('cancel', 'Cancel'),
         ('reject', 'Reject'),
-    ], string='Status', default='draft', store=True, required=True, readonly=True, copy=False, tracking=True)
+    ], string='Status', default='draft', store=True, required=True, copy=False, tracking=True)
     payment_state = fields.Selection([
         ('payment', 'In Payment'),
         ('cancel', 'Cancel'),
@@ -247,11 +244,6 @@ class MnceiPurchaseRequest(models.Model):
 
     def action_sign_approve(self):
         self.ensure_one()
-        # Check GA
-        if self.is_ga_uid:
-            for item_id in self.line_ids:
-                if item_id.est_price <= 0:
-                    raise ValidationError(_("Please Input Price in Item"))
         is_procurement = False
         if self.state == 'procurement':
             is_procurement = True
@@ -259,10 +251,8 @@ class MnceiPurchaseRequest(models.Model):
         signature_type = self.env.user.choice_signature
         upload_signature = False
         digital_signature = False
-        upload_signature_fname = ''
         if signature_type == 'upload':
             upload_signature = self.env.user.upload_signature
-            upload_signature_fname = self.env.user.upload_signature_fname
             if not upload_signature:
                 raise ValidationError(_("Please add your signature in Click Your name in Top Right > Preference > Signature"))
         elif signature_type == 'draw':
@@ -278,15 +268,7 @@ class MnceiPurchaseRequest(models.Model):
             'view_mode': 'form',
             'res_model': 'purchase.requisition.approval.wizard',
             'view_id': self.env.ref('mnc_purchase_request.mncei_pr_approval_wizard_form').id,
-            'context': {
-                'default_is_procurement': is_procurement,
-                'default_company_id': self.company_id.id,
-                'default_choice_signature': signature_type,
-                'default_digital_signature': digital_signature,
-                'default_upload_signature': upload_signature,
-                'default_upload_signature_fname': upload_signature_fname,
-                'default_user_approval_ids': [(6, 0, self.user_approval_ids.ids)]
-            },
+            'context': {'default_is_procurement': is_procurement, 'default_company_id': self.company_id.id, 'default_choice_signature': signature_type, 'default_digital_signature': digital_signature, 'default_upload_signature': upload_signature},
         }
 
     def open_reject(self):
@@ -297,9 +279,6 @@ class MnceiPurchaseRequest(models.Model):
             'view_mode': 'form',
             'res_model': 'purchase.requisition.approval.wizard',
             'view_id': self.env.ref('mnc_purchase_request.reject_view_form').id,
-            'context': {
-                'default_user_approval_ids': [(6, 0, self.user_approval_ids.ids)]
-            },
         }
 
     def to_payment(self):
@@ -322,12 +301,6 @@ class MnceiPurchaseRequest(models.Model):
             'res_model': 'purchase.requisition.approval.wizard',
             'view_id': self.env.ref('mnc_purchase_request.payment_cancel_view_form').id,
         }
-
-    def action_submit(self):
-        self.ensure_one()
-        self.update({
-            'state': ''
-        })
 
     def set_draft(self):
         for line in self.approval_ids:
@@ -361,8 +334,6 @@ class MnceiPurchaseRequest(models.Model):
         return True
 
     def action_approval(self):
-        if len(self.line_ids) == 0:
-            raise ValidationError(_("Please add your item request"))
         approval_uid = self.approval_ids.sorted(lambda x: x.id)[0]
         mail_template = self.env.ref('mnc_purchase_request.notification_purchase_request_mail_template_approved')
         if approval_uid:
@@ -374,12 +345,6 @@ class MnceiPurchaseRequest(models.Model):
     def to_procurement(self):
         self.update({
             'state': 'procurement',
-        })
-        return
-
-    def to_ready_payment(self):
-        self.update({
-            'payment_state': False,
         })
         return
 
@@ -408,12 +373,7 @@ class MnceiPurchaseRequest(models.Model):
                 if pr.eta < pr.date_request:
                     raise ValidationError(_("Expected Date Arrival harus lebih besar dari Date Required"))
 
-    @api.onchange('company_id')
-    def _change_order_employee(self):
-        if self.company_id:
-            self.order_by_id = False
-
-    @api.depends('line_ids', 'line_ids.est_price')
+    @api.depends('line_ids')
     def _compute_total_price(self):
         for pr in self:
             pr.total_price = 0
@@ -439,10 +399,7 @@ class MnceiPurchaseRequest(models.Model):
             if record.head_ga_id == self.env.user:
                 record.is_ga_uid = True
             else:
-                if record.state == 'draft':
-                    record.is_ga_uid = True
-                else:
-                    record.is_ga_uid = False
+                record.is_ga_uid = False
 
     def _compute_is_hr_uid(self):
         for record in self:
@@ -451,42 +408,13 @@ class MnceiPurchaseRequest(models.Model):
             else:
                 record.is_hr_uid = False
 
-    def _compute_is_procurement_uid(self):
-        for record in self:
-            if record.procurement_id == self.env.user:
-                record.is_procurement_uid = True
-            else:
-                record.is_procurement_uid = False
-
     is_creator = fields.Boolean(string="Is Creator", default=True, compute='_compute_is_creator', copy=False)
     is_approved = fields.Boolean(string="Is Approved", default=True, compute='_compute_is_approved', copy=False)
     is_ga_uid = fields.Boolean(string="Is GA User", default=True, compute='_compute_is_ga_uid', copy=False)
-    is_procurement_uid = fields.Boolean(string="Is Procurement User", default=True, compute='_compute_is_procurement_uid', copy=False)
-    is_finance = fields.Boolean(string="Is Finance", default=True, copy=False)
     is_hr_uid = fields.Boolean(string="Is HR User", default=True, compute='_compute_is_hr_uid', copy=False)
 
     def print_pr(self):
         return self.env.ref('mnc_purchase_request.action_print_pr_new').report_action(self)
-
-    def get_bisnis_unit_code(self, company_id):
-        domain = [('bu_company_id', '=', company_id.id)]
-        bu_id = self.env["master.bisnis.unit"].search(domain, limit=1)
-        if bu_id:
-            return bu_id.code
-        else:
-            raise UserError('Bisnis Unit harus diinput di Master Bisnis Unit !')
-
-    # create, sequence
-    @api.model
-    def create(self, vals):
-        res = super(MnceiPurchaseRequest, self).create(vals)
-        seq = self.env['ir.sequence'].next_by_code('purchase.request')
-        seq_code = res.get_bisnis_unit_code(res.company_id)
-        # # Change BUCODE
-        seq = seq.replace('BUCODE', seq_code)
-        # # Replace
-        res.update({"pr_no": seq})
-        return res
 
 
 class MnceiPurchaseRequestLine(models.Model):
@@ -497,15 +425,6 @@ class MnceiPurchaseRequestLine(models.Model):
         'mncei.purchase.requisition',
         string='Request',
     )
-    parent_state = fields.Selection([
-        ('draft', 'Draft'),
-        ('waiting', 'Waiting Approval'),
-        ('procurement', 'Procurement'),
-        ('approve', 'Approved'),
-        ('payment', 'Payment'),
-        ('cancel', 'Cancel'),
-        ('reject', 'Reject'),
-    ], string='Status', related='request_id.state', store=True)
     item_part_no_id = fields.Many2one(
         'asetkategori.module',
         string='Item Part No.', store=True, required=True
@@ -519,22 +438,22 @@ class MnceiPurchaseRequestLine(models.Model):
         string='Item Part No.', store=True
     )
     item_name = fields.Char(
-        string='Item Name', store=True
+        string='Item Name', store=True, required=True
     )
     description = fields.Char(
-        string='Description', store=True
+        string='Description', store=True, required=True
     )
     qty = fields.Integer(
-        string='Qty Request', store=True
+        string='Qty Request', store=True, required=True
     )
     price_qty = fields.Integer(
-        string='Unit Price', store=True
+        string='Unit Price', store=True, required=True
     )
     uom = fields.Char(
         string='UoM', store=True
     )
     est_price = fields.Integer(
-        string='Est. Price', store=True
+        string='Est. Price', store=True, required=True
     )
     other_info = fields.Char(
         string='Other Information', store=True
@@ -546,14 +465,3 @@ class MnceiPurchaseRequestLine(models.Model):
             self.est_price = self.qty * self.price_qty
         else:
             self.est_price = 0
-
-    def action_to_edit(self):
-        return {
-            'name': _("Edit"),
-            'type': 'ir.actions.act_window',
-            'target': 'new',
-            'res_id': self.id,
-            'view_mode': 'form',
-            'res_model': 'mncei.purchase.requisition.line',
-            'view_id': self.env.ref('mnc_purchase_request.purchase_req_view_form_editing').id,
-        }

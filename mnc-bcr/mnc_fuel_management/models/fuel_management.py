@@ -101,7 +101,6 @@ class FuelTruckDistributionLine(models.Model):
     hm_awal = fields.Float('HM Awal', compute="_compute_hm_awal", store=True)
     hm_finals = fields.Float('HM', compute="_compute_hm_final", store=True)
     hm_km = fields.Float('KM', store=True, group_operator=False)
-    standard_high = fields.Float('High', compute="_get_std_high", store=True)
     total_liter = fields.Float('Volume', store=True, required=True)
     is_hm = fields.Boolean('Is HM', related='unit_id.is_hm', store=True)
     is_km = fields.Boolean('Is KM', related='unit_id.is_km', store=True)
@@ -125,36 +124,6 @@ class FuelTruckDistributionLine(models.Model):
         self._compute_hm_awal()
         self._compute_hm_final()
         return
-
-    # @api.model
-    # def get_data_high(self, labels):
-    #     print("MMMMMMMMMMMMMMMMMMMMMMMMMMM")
-    #     print(labels)
-    #     data = []
-    #     for label in labels:
-    #         unit_id = self.env['master.fuel.unit'].search([('kode_unit', '=', label)], limit=1)
-    #         if unit_id:
-    #             for rec in self.env['fuel.distribution.line'].search([('unit_id', '=', unit_id.id)]).mapped('unit_id'):
-    #                 data.append({
-    #                     'unit_id': rec.kode_unit,
-    #                     'high': rec.standard_high,
-    #                 })
-    #         # data.append(('high', rec.standard_high))
-    #     print(data)
-    #     return data
-
-    @api.model
-    def get_data_high(self):
-        print("MMMMMMMMMMMMMMMMMMMMMMMMMMM")
-        data = []
-        for rec in self.env['fuel.distribution.line'].search([]).mapped('unit_id'):
-            data.append({
-                'unit_id': rec.kode_unit,
-                'high': rec.standard_high,
-            })
-            # data.append(('high', rec.standard_high))
-        print(data)
-        return data
 
     @api.depends('hm', 'distribute_date')
     def _compute_hm_awal(self):
@@ -183,14 +152,6 @@ class FuelTruckDistributionLine(models.Model):
                 rec.hm_finals = rec.hm - rec.hm_awal
             else:
                 rec.hm_finals = 0.0
-
-    @api.depends('unit_id')
-    def _get_std_high(self):
-        for rec in self:
-            if rec.unit_id:
-                rec.standard_high = rec.unit_id.standard_high
-            else:
-                rec.standard_high = 0.0
 
     @api.depends('distribute_id', 'state', 'unit_id')
     def _new_calc_total_liter_hours(self):
@@ -222,19 +183,55 @@ class FuelTruckDistributionLine(models.Model):
                     sum_ltr_km = 0.0
                     sum_vol = 0.0
                     sum_hm = 0.0
-                    max_high = 0.0
                     for record in lines:
                         sum_ltr += record.new_total_ltr
                         sum_ltr_km += record.new_total_ltr_km
                         sum_vol += record.total_liter
                         sum_hm += record.hm_finals
-                        max_high = record.standard_high
                     if sum_vol and sum_hm:
                         sum_ltr = sum_vol/sum_hm
                     line['new_total_ltr'] = sum_ltr
                     line['new_total_ltr_km'] = sum_ltr_km
-                    line['standard_high'] = max_high
         return res
+
+    # Revisi CR Fuel Management 08/production/II/IV/2024
+    # @api.depends('distribute_id', 'state', 'unit_id')
+    # def _calc_total_liter_hours(self):
+    #     for line in self:
+    #         line.total_ltr = 0
+    #         line.total_ltr_km = 0
+    #         total = 0
+    #         fuel_total_ids = self.env['fuel.distribution.line'].search([('unit_id', '=', line.unit_id.id), ('id', '<=', line.id)])
+    #         total_volume = sum(line.total_liter for line in fuel_total_ids)
+    #         if line.is_hm:
+    #             total = line.search_and_result('is_hm', total_volume)
+    #             # Set Value
+    #             if total > 0:
+    #                 line.total_ltr = total
+    #         # KM
+    #         if line.is_km:
+    #             result_km = line.search_and_result('is_km', total_volume)
+    #             # Set Value
+    #             if result_km > 0:
+    #                 line.total_ltr_km = result_km
+
+    # Revisi CR Fuel Management 08/production/II/IV/2024
+    # def search_and_result(self, type_unit, total_volume):
+    #     total_ltr = []
+    #     total = 0
+    #     domain = [('unit_id', '=', self.unit_id.id), ('id', '<=', self.id), (type_unit, '=', True)]
+    #     fuel_line_ids = self.env['fuel.distribution.line'].search([('unit_id', '=', self.unit_id.id), ('id', '<=', self.id), (type_unit, '=', True)], order='id asc')
+    #     for line in fuel_line_ids:
+    #         if type_unit == 'is_hm':
+    #             total_ltr.append(line.hm_final)
+    #         else:
+    #             total_ltr.append(line.hm_km)
+    #     min_total = min(total_ltr) or 0
+    #     max_total = max(total_ltr) or 0
+    #     diff_total = (max_total - min_total) or 0
+    #     if diff_total:
+    #         total = total_volume / diff_total
+    #     return total
 
     @api.constrains('shift_time')
     def _check_shift_time(self):
